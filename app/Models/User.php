@@ -7,15 +7,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
-
-    public function role()
-    {
-        return $this->belongsTo(Role::class, 'user_role', 'id'); // 'user_role' in users table relates to 'id' in roles table
-    }
+    use HasApiTokens, HasFactory, Notifiable , HasRoles;
 
     // Optional helper to get the role name directly
     public function getRoleNameAttribute()
@@ -23,10 +19,6 @@ class User extends Authenticatable
         return $this->role ? $this->role->name : 'No role';
     }
 
-    public function profile()
-    {
-        return $this->hasOne(Profile::class);
-    }
 
     /**
      * The attributes that are mass assignable.
@@ -37,7 +29,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'user_role'
+        'profile'
         
     ];
 

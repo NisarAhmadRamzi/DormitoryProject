@@ -3,10 +3,11 @@
 use App\Http\Controllers\backend\AuthController;
 use App\Http\Controllers\backend\ComplaintController;
 use App\Http\Controllers\backend\FeeController;
-use App\Http\Controllers\backend\RoleController;
 use App\Http\Controllers\backend\RoomController;
 use App\Http\Controllers\backend\StudentController;
 use App\Http\Controllers\backend\UserController;
+use App\Http\Controllers\backend\PermissionController;
+use App\Http\Controllers\backend\RoleController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -27,8 +28,10 @@ use Illuminate\Support\Facades\Route;
 //     return $request->user();
 // });
 
-Route::apiResource('roles',RoleController::class);
+
 Route::apiResource('users',UserController::class);
+Route::put('/users/{user}/assign', [UserController::class, 'assign'])->name('users.assign');
+Route::get('test', [UserController::class, 'test']);
 
 // Route::post('login',[AuthController::class, 'login']);
 
@@ -46,5 +49,12 @@ Route::apiResource('rooms', RoomController::class);
 Route::apiResource('students',StudentController::class);
 Route::apiResource('complaints',ComplaintController::class);
 Route::apiResource('fees',FeeController::class);
+
+Route::apiResource('roles',RoleController::class);
+Route::put('/roles/{role}/assign', [RoleController::class, 'assign'])->name('roles.assign');
+
+Route::apiResource('permissions',PermissionController::class);
+
+
 
 
