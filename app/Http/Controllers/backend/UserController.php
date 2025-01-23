@@ -61,26 +61,43 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $id)
+    public function updateUser(Request $request, $id)
     {
         // Validate incoming data
         $fields = $request->validate([
-            'name'=>'required',
-            'email'=>'required|email',
-            'password'=>'required|min:4',
-            'cpassword'=>'required|same:password',
-            'profile' => 'nullable'
+            'name' => 'required',
+            'email' => 'required|email',
+            'password' => 'required|min:4',
+            'cpassword' => 'required|same:password',
+            'profile' => 'nullable|file|mimes:jpg,jpeg,png|max:2048' // Ensure valid file type and size
         ]);
-
+    
+        // Find the user
         $user = User::findOrFail($id);
+    
+        // Delete the old profile picture if a new one is uploaded and the old one exists
+        if ($request->hasFile('profile') && $user->profile) {
+            // Delete the old profile picture from storage
+            Storage::disk('public')->delete($user->profile);
+        }
+    
+        // Update user fields
         $user->name = $request->name;
         $user->email = $request->email;
         $user->password = Hash::make($request->password);
+    
+        // Save the new profile picture if provided
         $file = $request->file('profile');
-        $path = $file ? $file->store('uploads', 'public') : null;
+        $path = $file ? $file->store('uploads', 'public') : $user->profile; // Retain old profile if no new file is provided
         $user->profile = $path;
+    
+        // Save the updated user
         $user->save();
+    
+        // Return the updated user resource
         return UserResource::make($user);
+    }
+    
 
         
 
@@ -102,7 +119,7 @@ class UserController extends Controller
 
         // Return the updated user as a resource
         // return UserResource::make($user);
-    }
+    
 
     /**
      * Remove the specified resource from storage.
