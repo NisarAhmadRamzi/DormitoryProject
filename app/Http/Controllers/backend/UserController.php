@@ -4,6 +4,7 @@ namespace App\Http\Controllers\backend;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\UserResource;
+use App\Http\Resources\UserResourceAssign;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -163,10 +164,11 @@ class UserController extends Controller
         // Assign the role to the user
         $user->roles()->sync([$request->role]);
 
-        return response()->json([
-            'message' => 'Role assigned successfully.',
-            'user' => $user->load('roles'), // Include roles in the response
-        ], 200);
+        // return response()->json([
+        //     'message' => 'Role assigned successfully.',
+        //     'user' => $user->load('roles'), // Include roles in the response
+        // ], 200);
+        return UserResourceAssign::make($user);
     }
 
 
