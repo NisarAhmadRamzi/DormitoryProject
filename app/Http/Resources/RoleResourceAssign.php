@@ -19,6 +19,8 @@ class RoleResourceAssign extends JsonResource
             'name' => $this->name,
             'permissions-id' => $this->permissions->pluck('id'),
             'permissions-name' => $this->permissions->pluck('name'),
+            'created_at' => $this->created_at->diffForHumans(),
+            'updated_at' => $this->updated_at->diffForHumans(),
         ];
     }
 }

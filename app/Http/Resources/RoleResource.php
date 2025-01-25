@@ -16,7 +16,9 @@ class RoleResource extends JsonResource
     {
          return [
             'id'=> $this->id,
-            'name'=>$this->name
+            'name'=>$this->name,
+            'created_at' => $this->created_at->diffForHumans(),
+            'updated_at' => $this->updated_at->diffForHumans(),
         ];
     }
 }

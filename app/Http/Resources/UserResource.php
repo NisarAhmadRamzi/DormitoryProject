@@ -21,6 +21,8 @@ class UserResource extends JsonResource
             'profile' => $this->profile,
             'role_name' => $this->roles->pluck('name')->first(),
             'role_id' => $this->roles->pluck('id')->first(),
+            'created_at' => $this->created_at->diffForHumans(),
+            'updated_at' => $this->updated_at->diffForHumans(),
         ];
     }
 }
