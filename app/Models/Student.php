@@ -99,32 +99,82 @@ class Student extends Model
         return $this->hasMany(Complaint::class);
     }
 
-    // Automatically update room occupancy
+    // Automatically update room occupancy using  Laravel Eloquent Events 
+    // protected static function boot()
+    // {
+    //     parent::boot();
+
+    //     // Increment room occupancy when a student is created
+    //     static::creating(function ($student) {
+    //         if ($student->room_id) {
+    //             $room = Room::find($student->room_id);
+    //             if ($room && $room->current_occupancy < $room->capacity) {
+    //                 $room->increment('current_occupancy');
+                    
+    //             } else {
+    //                 throw new \Exception('Room capacity exceeded or room does not exist.');
+    //             }
+    //         }
+    //     });
+
+    //     // Decrement room occupancy when a student is deleted
+    //     static::deleting(function ($student) {
+    //         if ($student->room_id) {
+    //             $room = Room::find($student->room_id);
+    //             if ($room && $room->current_occupancy > 0) {
+    //                 $room->decrement('current_occupancy');
+    //             }
+    //         }
+    //     });
+    // }
+    //-------------------------------------------------------
+
     protected static function boot()
     {
         parent::boot();
 
-        // Increment room occupancy when a student is created
+        // When a student is added to a room
         static::creating(function ($student) {
-            if ($student->room_id) {
-                $room = Room::find($student->room_id);
-                if ($room && $room->current_occupancy < $room->capacity) {
-                    $room->increment('current_occupancy');
-                } else {
-                    throw new \Exception('Room capacity exceeded or room does not exist.');
+            $room = Room::find($student->room_id);
+        
+            if ($room) {
+                // Check if the room is full
+                if ($room->current_occupancy >= $room->capacity) {
+                    throw new \Exception('The room is already full and cannot accommodate more students.');
+                }
+        
+                // Increment current occupancy
+                $room->increment('current_occupancy');
+        
+                // Update status if room becomes full
+                if ($room->current_occupancy === $room->capacity) {
+                    $room->update(['status' => 'Occupied']);
                 }
             }
         });
+        
 
-        // Decrement room occupancy when a student is deleted
+        // When a student is removed from a room
         static::deleting(function ($student) {
-            if ($student->room_id) {
-                $room = Room::find($student->room_id);
-                if ($room && $room->current_occupancy > 0) {
+            $room = Room::find($student->room_id);
+        
+            if ($room) {
+                // Ensure we don't decrement below zero
+                if ($room->current_occupancy > 0) {
                     $room->decrement('current_occupancy');
                 }
+        
+                // Update status to 'Available' if the room is no longer full
+                if ($room->current_occupancy < $room->capacity) {
+                    $room->update(['status' => 'Available']);
+                }
             }
         });
+        
     }
+
+
+
+
 }
 

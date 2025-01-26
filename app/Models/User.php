@@ -14,10 +14,10 @@ class User extends Authenticatable
     use HasApiTokens, HasFactory, Notifiable , HasRoles;
 
     // Optional helper to get the role name directly
-    public function getRoleNameAttribute()
-    {
-        return $this->role ? $this->role->name : 'No role';
-    }
+    // public function getRoleNameAttribute()
+    // {
+    //     return $this->role ? $this->role->name : 'No role';
+    // }
 
 
     /**
