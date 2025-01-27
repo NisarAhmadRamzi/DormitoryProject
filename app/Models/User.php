@@ -14,11 +14,21 @@ class User extends Authenticatable
     use HasApiTokens, HasFactory, Notifiable , HasRoles;
 
     // Optional helper to get the role name directly
-    public function getRoleNameAttribute()
+    // public function getRoleNameAttribute()
+    // {
+    //     return $this->role ? $this->role->name : 'No role';
+    // }
+    /**
+     * Get the student associated with the user.
+     */
+    // public function student()
+    // {
+    //     return $this->hasOne(Student::class, 'user_id');
+    // }
+    public function student()
     {
-        return $this->role ? $this->role->name : 'No role';
+        return $this->belongsTo(Student::class, 'email', 'email');
     }
-
 
     /**
      * The attributes that are mass assignable.

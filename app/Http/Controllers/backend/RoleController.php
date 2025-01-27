@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\backend;
 
+use App\Http\Resources\RoleResource;
 use Illuminate\Support\Facades\Artisan;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\RoleResourceAssign;
 use Illuminate\Http\Request;
 
 class RoleController extends Controller
@@ -17,13 +19,14 @@ class RoleController extends Controller
     public function index()
     {
         $roles = Role::all();
-        return response()->json(['roles' => $roles], 200);
+        // return response()->json(['roles' => $roles], 200);
+        return RoleResource::collection($roles);
     }
 
-    public function create()
-    {
-        return response()->json(['message' => 'Provide role data to create a new role.'], 200);
-    }
+    // public function create()
+    // {
+    //     return response()->json(['message' => 'Provide role data to create a new role.'], 200);
+    // }
 
     public function store(Request $request)
     {
@@ -33,15 +36,16 @@ class RoleController extends Controller
 
         $role = Role::create(['name' => $request->name]);
 
-        return response()->json(['message' => 'Role created successfully.', 'role' => $role], 201);
+        // return response()->json(['message' => 'Role created successfully.', 'role' => $role], 201);
+        return RoleResource::make($role);
     }
 
-    public function edit($id)
-    {
-        $role = Role::findOrFail($id);
+    // public function edit($id)
+    // {
+    //     $role = Role::findOrFail($id);
 
-        return response()->json(['role' => $role], 200);
-    }
+    //     return response()->json(['role' => $role], 200);
+    // }
 
     public function update(Request $request, $id)
     {
@@ -52,7 +56,8 @@ class RoleController extends Controller
         $role = Role::findOrFail($id);
         $role->update(['name' => $request->name]);
 
-        return response()->json(['message' => 'Role updated successfully.', 'role' => $role], 200);
+        // return response()->json(['message' => 'Role updated successfully.', 'role' => $role], 200);
+        return RoleResource::make($role);
     }
 
     public function destroy($id)
@@ -72,7 +77,7 @@ class RoleController extends Controller
         return response()->json([
             'role' => $role,
             'permissions' => $permissions,
-            'rolePermissions' => $rolePermissions,
+            // 'rolePermissions' => $rolePermissions,
         ], 200);
     }
 
@@ -85,8 +90,10 @@ class RoleController extends Controller
         $role = Role::findOrFail($id);
         $role->permissions()->sync($request->permission);
 
-        Artisan::call('permission:cache-reset');
+        // Artisan::call('permission:cache-reset');
 
-        return response()->json(['message' => 'Permissions updated successfully.'], 200);
+        // return response()->json(['message' => 'Permissions updated successfully.'], 200);
+        return RoleResourceAssign::make($role);
     }
 }
+// 'user' => $user->load('roles'), 

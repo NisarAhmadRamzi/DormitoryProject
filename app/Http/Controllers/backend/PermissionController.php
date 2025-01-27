@@ -5,22 +5,24 @@ namespace App\Http\Controllers\backend;
 use Spatie\Permission\Models\Permission;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Http\Resources\PermissionResource;
 
 class PermissionController extends Controller
 {
     public function index()
     {
         $permissions = Permission::all();
-        return response()->json(['permissions' => $permissions], 200);
+        // return response()->json(['permissions' => $permissions], 200);
+        return PermissionResource::collection($permissions);
     }
 
     /**
      * Create a new permission (information endpoint).
      */
-    public function create()
-    {
-        return response()->json(['message' => 'Provide data to create a new permission.'], 200);
-    }
+    // public function create()
+    // {
+    //     return response()->json(['message' => 'Provide data to create a new permission.'], 200);
+    // }
 
     /**
      * Store a newly created permission in storage.
@@ -33,7 +35,8 @@ class PermissionController extends Controller
 
         $permission = Permission::create($request->only('name'));
 
-        return response()->json(['message' => 'Permission created successfully.', 'permission' => $permission], 201);
+        // return response()->json(['message' => 'Permission created successfully.', 'permission' => $permission], 201);
+        return PermissionResource::make($permission);
     }
 
     /**
@@ -43,18 +46,19 @@ class PermissionController extends Controller
     {
         $permission = Permission::findOrFail($id);
 
-        return response()->json(['permission' => $permission], 200);
+        // return response()->json(['permission' => $permission], 200);
+        return PermissionResource::make($permission);
     }
 
     /**
      * Show the form for editing the specified permission (information endpoint).
      */
-    public function edit(string $id)
-    {
-        $permission = Permission::findOrFail($id);
+    // public function edit(string $id)
+    // {
+    //     $permission = Permission::findOrFail($id);
 
-        return response()->json(['permission' => $permission], 200);
-    }
+    //     return response()->json(['permission' => $permission], 200);
+    // }
 
     /**
      * Update the specified permission in storage.
@@ -69,7 +73,8 @@ class PermissionController extends Controller
 
         $permission->update($request->only('name'));
 
-        return response()->json(['message' => 'Permission updated successfully.', 'permission' => $permission], 200);
+        // return response()->json(['message' => 'Permission updated successfully.', 'permission' => $permission], 200);
+        return PermissionResource::make($permission);
     }
 
     /**

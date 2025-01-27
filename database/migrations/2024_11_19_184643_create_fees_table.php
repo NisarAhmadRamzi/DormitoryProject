@@ -13,12 +13,31 @@ return new class extends Migration
     {
         Schema::create('fees', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('student_id')->constrained('students')->onDelete('cascade');
-            $table->decimal('amount', 10, 2);
-            $table->enum('status', ['Paid', 'Pending'])->default('Pending');
+            $table->unsignedBigInteger('student_id'); // Foreign key to students
+            
+            // Office payment amount, with a default value
+            $table->decimal('office_pay', 10 , 0)->default(1000);
+
+            // Payment status or amount paid: can hold text or numeric values
+            $table->string('office_paid')->default('Not Paid');
+            
+            // Total fee, typically equal to office_pay
+            $table->decimal('total_fee', 10 , 0);
+
+            // Registration date fetched from the students table
+            $table->date('registration_date');
+
+            // Paid date: can hold a specific date or be null
+            $table->date('paid_date')->nullable();
+
+            // Due date: manually settable by the user
             $table->date('due_date');
-            $table->timestamp('paid_at')->nullable(); // Null if not paid
+
+            // Created_at and updated_at timestamps
             $table->timestamps();
+
+            // Foreign key constraint
+            $table->foreign('student_id')->references('id')->on('students')->onDelete('cascade');
         });
     }
 

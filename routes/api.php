@@ -31,7 +31,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::apiResource('users',UserController::class);
 Route::post('/users/updateUsers/{user}',[UserController::class,'updateUser']);
-Route::put('/users/{user}/assign', [UserController::class, 'assign'])->name('users.assign');
+Route::put('/users/{user}/assign', [UserController::class, 'assign'])->name('role.assign');
 Route::get('test', [UserController::class, 'test']);
 
 
@@ -53,7 +53,7 @@ Route::apiResource('complaints',ComplaintController::class);
 Route::apiResource('fees',FeeController::class);
 
 Route::apiResource('roles',RoleController::class);
-Route::put('/roles/{role}/assign', [RoleController::class, 'assign'])->name('roles.assign');
+Route::put('/roles/{role}/assign', [RoleController::class, 'assign'])->name('permissions.assign');
 Route::apiResource('permissions',PermissionController::class);
 
 
