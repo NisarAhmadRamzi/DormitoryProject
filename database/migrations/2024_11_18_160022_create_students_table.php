@@ -16,6 +16,8 @@ return new class extends Migration
             $table->string('name');
             $table->string('f_name');
             $table->string('last_name');
+            $table->string('email')->unique(); // Email must be unique and linked to users
+            $table->string('password'); 
             $table->string('from');
             $table->date('dob');
             $table->integer('id_number');
@@ -24,7 +26,7 @@ return new class extends Migration
             $table->date('registration_date');
             $table->date('registration_deadline');
             $table->enum('gender', ['Male', 'Female', 'Other']);
-            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+            // $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('room_id')->nullable()->constrained('rooms')->onDelete('set null');
             $table->timestamps();
         });

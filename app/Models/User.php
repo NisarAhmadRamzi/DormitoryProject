@@ -18,7 +18,17 @@ class User extends Authenticatable
     // {
     //     return $this->role ? $this->role->name : 'No role';
     // }
-
+    /**
+     * Get the student associated with the user.
+     */
+    // public function student()
+    // {
+    //     return $this->hasOne(Student::class, 'user_id');
+    // }
+    public function student()
+    {
+        return $this->belongsTo(Student::class, 'email', 'email');
+    }
 
     /**
      * The attributes that are mass assignable.

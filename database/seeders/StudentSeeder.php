@@ -22,6 +22,8 @@ class StudentSeeder extends Seeder
             'name' => 'nader',
             'f_name' => 'Hassan',
             'last_name' => 'Tabish',
+            'email' => 'nader@gmail.com',
+            'password' => '123456789',
             'from' => 'Ghazni',
             'dob' => '2000-01-01',
             'id_number' => '123456789',
@@ -30,7 +32,7 @@ class StudentSeeder extends Seeder
             'registration_date' => '2024-01-01',
             'registration_deadline' => '2024-06-06',
             'gender' => 'Male',
-            'user_id' => $user->id,
+            // 'user_id' => $user->id,
             'room_id' => $room->id, // Ensure a room with ID 1 exists in the rooms table
         ]);
     }
