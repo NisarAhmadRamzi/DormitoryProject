@@ -13,11 +13,12 @@ class FeeController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+        public function index()
     {
-        $fees = Fee::with('student')->paginate(10); // Paginate with related student
+        $fees = Fee::with('student')->get(); // Retrieve all fees with related student data
         return FeeResource::collection($fees);
     }
+
 
     /**
      * Store a newly created fee.
@@ -26,12 +27,15 @@ class FeeController extends Controller
     {
         $validated = $request->validate([
             'student_id' => 'required|exists:students,id',
-            'amount' => 'required|numeric|min:0',
-            'status' => 'required|string|in:paid,pending,overdue',
-            'due_date' => 'required|date',
-            'paid_at' => 'nullable|date',
+            'office_pay' => 'required|numeric|min:0', // Payment amount
+            'office_paid' => 'required|string', // Payment status
+            'total_fee' => 'required|numeric|min:0', // Total fee amount
+            'registration_date' => 'required|date', // Registration date
+            'paid_date' => 'nullable|date', // Nullable paid date
+            'due_date' => 'required|date', // Due date
         ]);
 
+        // Create the fee
         $fee = Fee::create($validated);
 
         return new FeeResource($fee);
@@ -42,7 +46,7 @@ class FeeController extends Controller
      */
     public function show(Fee $fee)
     {
-        $fee->load('student');
+        $fee->load('student'); // Load related student data
         return new FeeResource($fee);
     }
 
@@ -53,12 +57,15 @@ class FeeController extends Controller
     {
         $validated = $request->validate([
             'student_id' => 'required|exists:students,id',
-            'amount' => 'required|numeric|min:0',
-            'status' => 'required|string|in:paid,pending,overdue',
-            'due_date' => 'required|date',
-            'paid_at' => 'nullable|date',
+            'office_pay' => 'required|numeric|min:0', // Payment amount
+            'office_paid' => 'required|string', // Payment status
+            'total_fee' => 'required|numeric|min:0', // Total fee amount
+            'registration_date' => 'required|date', // Registration date
+            'paid_date' => 'nullable|date', // Nullable paid date
+            'due_date' => 'required|date', // Due date
         ]);
 
+        // Update the fee record
         $fee->update($validated);
 
         return new FeeResource($fee);
@@ -71,6 +78,6 @@ class FeeController extends Controller
     {
         $fee->delete();
 
-        return response()->json(['message'=>'deleted successfully!!!']);
+        return response()->json(['message' => 'Deleted successfully!']);
     }
 }

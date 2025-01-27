@@ -4,6 +4,7 @@ namespace App\Http\Controllers\backend;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\StudentResource;
+use App\Models\Fee;
 use App\Models\Student;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -47,6 +48,14 @@ class StudentController extends Controller
 
         // Create a new student record
         $student = Student::create($validatedData);
+        Fee::create([
+            'student_id' => $student->id,
+            'office_pay' => 1000,
+            'office_paid' => 'Not Paid',
+            'total_fee' => 1000,
+            'registration_date' => $student->registration_date,
+            'due_date' => now()->addMonths(2), // Example: set due date to 1 month from now
+        ]);
 
         // Return the created student as a resource
         return new StudentResource($student);
@@ -110,6 +119,15 @@ class StudentController extends Controller
             $user->assignRole('student');
         }
     }
+    $fee = $student->fees;
+    if ($fee) {
+        $fee->update([
+            'office_pay' => $request->input('office_pay', $fee->office_pay),
+            'office_paid' => $request->input('office_paid', $fee->office_paid),
+            'total_fee' => $request->input('total_fee', $fee->total_fee),
+            'due_date' => $request->input('due_date', $fee->due_date),
+        ]);
+    }
 
     // Return the updated student as a resource
     return new StudentResource($student);
@@ -119,12 +137,19 @@ class StudentController extends Controller
     /**
      * Remove the specified student from storage.
      */
-    public function destroy(Student $student)
+    public function destroy($id)
     {
-        // Delete the student record
-        $student->delete();
+        $student = Student::find($id); // or your specific retrieval logic
 
-        // Return a success response
-        return response()->json(['message' => 'Student deleted successfully.'], 200);
-    }
+        if ($student) {
+            // Check if a fee record exists for this student
+            if ($student->fees) {
+                $student->fees->delete(); // Delete associated fee
+            }
+        
+            // Delete the student record
+            $student->delete();
+            return response()->json(['message'=>'deleted successfully!!!']);
+        }
+}
 }

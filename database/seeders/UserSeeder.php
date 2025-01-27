@@ -21,7 +21,7 @@ class UserSeeder extends Seeder
         // Fetch roles by name
         $adminRole = Role::where('name', 'admin')->first();
         $secondAdminRole = Role::where('name', 'second-admin')->first();
-        $studentRole = Role::where('name', 'student')->first();
+        // $studentRole = Role::where('name', 'student')->first();
 
         // Creating users and assigning roles
         User::create([
@@ -45,18 +45,18 @@ class UserSeeder extends Seeder
             'profile' => 'uploads/3.jpg'
         ]);
 
-        User::create([
-            'name' => 'nader',
-            'email' => 'nader@gmail.com',
-            'password' => Hash::make('12345678'),
-            'profile' => 'uploads/3.jpg'
-        ]);
+        // User::create([
+        //     'name' => 'nader',
+        //     'email' => 'nader@gmail.com',
+        //     'password' => Hash::make('12345678'),
+        //     'profile' => 'uploads/3.jpg'
+        // ]);
 
         // Assign roles to users
         $adminUser1 = User::find(1); // Replace with your admin user ID
         $adminUser2 = User::find(2);
         $secondAdminUser = User::find(3); // Replace with your editor user ID
-        $studentUser = User::find(4);
+        // $studentUser = User::find(4);
 
         if ($adminUser1) {
             $adminUser1->assignRole($adminRole);
@@ -70,9 +70,9 @@ class UserSeeder extends Seeder
             $secondAdminUser->assignRole($secondAdminRole);
         }
 
-        if ($studentUser) {
-            $studentUser->assignRole($studentRole);
-        }
+        // if ($studentUser) {
+        //     $studentUser->assignRole($studentRole);
+        // }
 
     }
 }

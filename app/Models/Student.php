@@ -98,7 +98,7 @@ class Student extends Model
     // Relationship with Fees (One to Many)
     public function fees()
     {
-        return $this->hasMany(Fee::class);
+        return $this->hasOne(Fee::class); // Cascade delete when student is deleted
     }
 
     // Relationship with Complaints (One to Many)
