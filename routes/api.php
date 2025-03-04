@@ -8,6 +8,7 @@ use App\Http\Controllers\backend\StudentController;
 use App\Http\Controllers\backend\UserController;
 use App\Http\Controllers\backend\PermissionController;
 use App\Http\Controllers\backend\RoleController;
+use App\Http\Controllers\backend\SupportController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -29,8 +30,8 @@ use Illuminate\Support\Facades\Route;
 // });
 
 
-Route::apiResource('users',UserController::class);
-Route::post('/users/updateUsers/{user}',[UserController::class,'updateUser']);
+Route::apiResource('users', UserController::class);
+Route::post('/users/updateUsers/{user}', [UserController::class, 'updateUser']);
 Route::put('/users/{user}/assign', [UserController::class, 'assign'])->name('role.assign');
 Route::get('test', [UserController::class, 'test']);
 
@@ -48,15 +49,13 @@ Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanc
 
 
 Route::apiResource('rooms', RoomController::class);
-Route::apiResource('students',StudentController::class);
-Route::apiResource('complaints',ComplaintController::class);
-Route::apiResource('fees',FeeController::class);
+Route::apiResource('students', StudentController::class);
+Route::apiResource('complaints', ComplaintController::class);
+Route::apiResource('fees', FeeController::class);
 
-Route::apiResource('roles',RoleController::class);
+Route::apiResource('roles', RoleController::class);
 Route::put('/roles/{role}/assign', [RoleController::class, 'assign'])->name('permissions.assign');
-Route::apiResource('permissions',PermissionController::class);
+Route::apiResource('permissions', PermissionController::class);
 
 
-
-
-
+Route::apiResource('supports', SupportController::class);

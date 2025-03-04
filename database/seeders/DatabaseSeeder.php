@@ -21,7 +21,8 @@ class DatabaseSeeder extends Seeder
             PermissionSeeder::class,
             RoomSeeder::class,
             StudentSeeder::class,
-            ComplaintSeeder::class
+            ComplaintSeeder::class,
+            SupportSeeder::class
         ]);
 
         // \App\Models\User::factory(10)->create();

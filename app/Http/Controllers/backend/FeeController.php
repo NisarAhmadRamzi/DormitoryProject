@@ -62,6 +62,31 @@ class FeeController extends Controller
     /**
      * Update the specified fee.
      */
+    // public function update(Request $request, Fee $fee)
+    // {
+    //     $validated = $request->validate([
+    //         'student_id' => 'required|exists:students,id',
+    //         'office_pay' => 'required|numeric|min:0', // Payment amount
+    //         'office_paid' => 'required|string', // Payment status
+    //         'warranty_pay' => 'required|numeric|min:0', // Payment amount
+    //         'warranty_paid' => 'required|string', // Payment status
+    //         'registration_date' => 'required|date', // Registration date
+    //         'paid_date' => 'nullable|date', // Nullable paid date
+    //         'due_date' => 'required|date', // Due date
+    //     ]);
+
+    //     // Extract numeric values from office_paid and warranty_paid (assuming they contain numbers)
+    //     $officePaidAmount = (float) filter_var($validated['office_paid'], FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
+    //     $warrantyPaidAmount = (float) filter_var($validated['warranty_paid'], FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
+
+    //     // Calculate total fee
+    //     $validated['total_fee'] = $officePaidAmount + $warrantyPaidAmount;
+
+    //     // Update the fee record
+    //     $fee->update($validated);
+
+    //     return new FeeResource($fee);
+    // }
     public function update(Request $request, Fee $fee)
     {
         $validated = $request->validate([
@@ -75,18 +100,19 @@ class FeeController extends Controller
             'due_date' => 'required|date', // Due date
         ]);
 
-        // Extract numeric values from office_paid and warranty_paid (assuming they contain numbers)
+        // Extract numeric values from office_paid and warranty_paid
         $officePaidAmount = (float) filter_var($validated['office_paid'], FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
         $warrantyPaidAmount = (float) filter_var($validated['warranty_paid'], FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
 
         // Calculate total fee
         $validated['total_fee'] = $officePaidAmount + $warrantyPaidAmount;
 
-        // Update the fee record
-        $fee->update($validated);
+        // Replace old values with new ones
+        $fee->fill($validated)->save();
 
         return new FeeResource($fee);
     }
+
 
     /**
      * Remove the specified fee.
