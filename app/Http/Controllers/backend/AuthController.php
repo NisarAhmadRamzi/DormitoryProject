@@ -93,21 +93,20 @@ class AuthController extends Controller
 
     // Logout method
     public function logout(Request $request)
-{
-    $user = $request->user();
+    {
+        $user = $request->user();
 
-    // Get the user's role name using the relationship
-    $roleName = $user->role ? strtolower($user->role->name) : 'user';
+        // Get the user's role name using the relationship
+        $roleName = $user->role ? strtolower($user->role->name) : 'user';
 
-    // Delete the user's tokens
-    $user->tokens()->delete();
+        // Delete the user's tokens
+        $user->tokens()->delete();
 
-    // Return a dynamic logout message based on the user's role
-    return response()->json([
-        'message' => "The $roleName was logged out!"
-    ]);
-}
-
+        // Return a dynamic logout message based on the user's role
+        return response()->json([
+            'message' => "The $roleName was logged out!"
+        ]);
+    }
 }
 
 

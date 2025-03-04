@@ -19,7 +19,7 @@ class StudentSeeder extends Seeder
     {
         // Ensure a room exists with the room number 301
         $room = Room::where('room_number', 301)->first();
-    
+
         // Create a new student
         $student1 = Student::create([
             'name' => 'nader',
@@ -37,13 +37,15 @@ class StudentSeeder extends Seeder
             'gender' => 'Male',
             'room_id' => $room->id, // Ensure the room exists
         ]);
-    
+
         // Now that the student is created, create a fee record associated with the student
         Fee::create([
             'student_id' => $student1->id, // Using the student ID from the newly created student
             'office_pay' => 1000,
             'office_paid' => '900', // You can keep this as a string or numeric value as per your requirement
-            'total_fee' => 1000,
+            'warranty_pay' => 1000,
+            'warranty_paid' => '900', // You can keep this as a string or numeric value as per your requirement
+            'total_fee' => 1900,
             'registration_date' => $student1->registration_date, // Use the registration date of the student
             'due_date' => now()->addMonths(2), // Set due date to 2 months from now
         ]);
@@ -66,13 +68,15 @@ class StudentSeeder extends Seeder
             'gender' => 'Male',
             'room_id' => $room->id, // Ensure the room exists
         ]);
-    
+
         // Now that the student is created, create a fee record associated with the student
         Fee::create([
             'student_id' => $student2->id, // Using the student ID from the newly created student
             'office_pay' => 1000,
             'office_paid' => '500', // You can keep this as a string or numeric value as per your requirement
-            'total_fee' => 1000,
+            'warranty_pay' => 1000,
+            'warranty_paid' => '900', // You can keep this as a string or numeric value as per your requirement
+            'total_fee' => 1400,
             'registration_date' => $student2->registration_date, // Use the registration date of the student
             'due_date' => now()->addMonths(2), // Set due date to 2 months from now
         ]);
