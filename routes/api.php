@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\backend\AssetController;
 use App\Http\Controllers\backend\AuthController;
 use App\Http\Controllers\backend\ComplaintController;
 use App\Http\Controllers\backend\FeeController;
@@ -59,3 +60,4 @@ Route::apiResource('permissions', PermissionController::class);
 
 
 Route::apiResource('supports', SupportController::class);
+Route::apiResource('assets', AssetController::class);
