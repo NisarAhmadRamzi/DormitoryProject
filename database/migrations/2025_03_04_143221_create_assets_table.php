@@ -17,7 +17,9 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->integer('total_quantity')->default(0); // Total asset quantity
             $table->integer('total_amount_of_donations')->default(0); // Total cash received from supports
-            $table->integer('total_amount_of_cash')->default(0); // Total cash assets
+            $table->integer('total_amount_of_cash_before_expense')->default(0); // Total cash assets
+            $table->integer('total_amount_of_cash_after_expense')->default(0); // Total cash assets
+
             $table->timestamps();
         });
     }

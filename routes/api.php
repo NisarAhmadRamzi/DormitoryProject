@@ -3,6 +3,7 @@
 use App\Http\Controllers\backend\AssetController;
 use App\Http\Controllers\backend\AuthController;
 use App\Http\Controllers\backend\ComplaintController;
+use App\Http\Controllers\backend\ExpenseController;
 use App\Http\Controllers\backend\FeeController;
 use App\Http\Controllers\backend\RoomController;
 use App\Http\Controllers\backend\StudentController;
@@ -61,3 +62,4 @@ Route::apiResource('permissions', PermissionController::class);
 
 Route::apiResource('supports', SupportController::class);
 Route::apiResource('assets', AssetController::class);
+Route::apiResource('expenses', ExpenseController::class);
