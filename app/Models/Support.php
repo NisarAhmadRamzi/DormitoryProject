@@ -178,52 +178,34 @@ class Support extends Model
     {
         parent::boot();
 
-        // When creating a new record
         static::creating(function ($support) {
             $lastTotal = Support::orderBy('id', 'desc')->value('total_cash_donated') ?? 0;
             $support->total_cash_donated = $lastTotal + $support->cash_quantity;
-            // Refresh the related Asset model
-            if ($support->asset) {
-                $support->asset->refresh();
-            }
-        });
-        // After updating a record
-        static::updated(function ($support) {
-            Support::recalculateTotalsFrom($support->id);
-            // Refresh the model to get the latest data before returning it
-            $support->refresh();
-            if ($support->asset) {
-                $support->asset->refresh();
-            }
         });
 
-        // When deleting a record
+        static::created(function ($support) {
+            Support::recalculateTotalsFrom($support->id);
+            Asset::updateTotalAmountOfDonations(); // Update Asset table
+            Artisan::call('cache:clear');
+        });
+
+        static::updating(function ($support) {
+            Support::recalculateTotalsFrom($support->id);
+        });
+
+        static::updated(function ($support) {
+            Support::recalculateTotalsFrom($support->id);
+            Asset::updateTotalAmountOfDonations(); // Update Asset table
+            Artisan::call('cache:clear');
+        });
+
         static::deleting(function ($support) {
             Support::recalculateTotalsFrom($support->id);
-            if ($support->asset) {
-                $support->asset->refresh();
-            }
         });
 
-        // After deleting a record
         static::deleted(function ($support) {
             Support::recalculateTotalsFrom($support->id);
-            if ($support->asset) {
-                $support->asset->refresh();
-            }
-        });
-        static::created(function ($support) {
-            Asset::recalculateTotalsFrom($support->id);
-            Artisan::call('cache:clear');
-        });
-
-        static::updated(function ($support) {
-            Asset::recalculateTotalsFrom($support->id);
-            Artisan::call('cache:clear');
-        });
-
-        static::deleted(function ($support) {
-            Asset::recalculateTotalsFrom($support->id);
+            Asset::updateTotalAmountOfDonations(); // Update Asset table
             Artisan::call('cache:clear');
         });
     }
@@ -233,17 +215,17 @@ class Support extends Model
      */
     public static function recalculateTotalsFrom($startId)
     {
-        // Get the previous total before the affected record
         $previousTotal = Support::where('id', '<', $startId)->orderBy('id', 'desc')->value('total_cash_donated') ?? 0;
-
-        // Get all records from the affected ID onwards
         $supports = Support::where('id', '>=', $startId)->orderBy('id', 'asc')->get();
 
         foreach ($supports as $support) {
-            $previousTotal += $support->cash_quantity; // Add current record's cash_quantity
+            $previousTotal += $support->cash_quantity;
             $support->total_cash_donated = $previousTotal;
-            $support->saveQuietly(); // Avoid triggering events again
+            $support->saveQuietly();
         }
+
+        // Immediately update total_amount_of_donations in Asset
+        Asset::updateTotalAmountOfDonations();
     }
 }
     // error with its updating------------------------------------------

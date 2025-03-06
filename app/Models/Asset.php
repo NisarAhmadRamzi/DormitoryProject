@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\DB;
 
 // class Asset extends Model
 // {
@@ -115,48 +116,41 @@ class Asset extends Model
             $previousTotalQuantity = Asset::orderBy('id', 'desc')->value('total_quantity') ?? 0;
             $asset->total_quantity = $previousTotalQuantity + $asset->quantity;
 
-            // Fetch latest total_cash_donated from Support
-            $lastTotalCashDonated = Support::orderBy('id', 'desc')->value('total_cash_donated') ?? 0;
-            $asset->total_amount_of_donations = $lastTotalCashDonated;
-
-            // Correct calculation for total_amount_of_cash_before_expense
+            // Ensure we always get the latest total_cash_donated from Support
+            $asset->total_amount_of_donations = Support::orderBy('id', 'desc')->value('total_cash_donated') ?? 0;
             $asset->total_amount_of_cash_before_expense = $asset->total_quantity + $asset->total_amount_of_donations;
 
             if (!$asset->total_amount_of_cash_after_expense) {
                 $asset->total_amount_of_cash_after_expense = $asset->total_amount_of_cash_before_expense;
             }
-            // Clear cache related to assets
             Artisan::call('cache:clear');
-            $asset->refresh();
         });
 
         static::updating(function ($asset) {
             Asset::recalculateTotalsFrom($asset->id);
             Artisan::call('cache:clear');
-            // $asset->refresh();
         });
 
         static::updated(function ($asset) {
             Asset::recalculateTotalsFrom($asset->id);
             Artisan::call('cache:clear');
-            $asset->refresh();
         });
 
         static::deleting(function ($asset) {
             Asset::recalculateTotalsFrom($asset->id);
-            $asset->refresh();
         });
 
         static::deleted(function ($asset) {
             Asset::recalculateTotalsFrom($asset->id);
-            $asset->refresh();
         });
     }
+
+    /**
+     * Recalculates total values for Assets
+     */
     public static function recalculateTotalsFrom($startId)
     {
         $previousTotalQuantity = Asset::where('id', '<', $startId)->orderBy('id', 'desc')->value('total_quantity') ?? 0;
-
-        // Always fetch latest total_cash_donated
         $lastTotalCashDonated = Support::orderBy('id', 'desc')->value('total_cash_donated') ?? 0;
 
         $assets = Asset::where('id', '>=', $startId)->orderBy('id', 'asc')->get();
@@ -168,5 +162,18 @@ class Asset extends Model
             $asset->total_amount_of_cash_before_expense = $asset->total_quantity + $asset->total_amount_of_donations;
             $asset->saveQuietly();
         }
+    }
+
+    /**
+     * Updates total_amount_of_donations in all Asset records
+     */
+    public static function updateTotalAmountOfDonations()
+    {
+        $latestTotalCashDonated = Support::orderBy('id', 'desc')->value('total_cash_donated') ?? 0;
+
+        Asset::query()->update([
+            'total_amount_of_donations' => $latestTotalCashDonated,
+            'total_amount_of_cash_before_expense' => DB::raw('total_quantity + ' . $latestTotalCashDonated),
+        ]);
     }
 }
