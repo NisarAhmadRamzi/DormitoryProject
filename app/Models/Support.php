@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Artisan;
 
 class Support extends Model
 {
@@ -79,6 +80,12 @@ class Support extends Model
         'help_date',
         'total_cash_donated',
     ];
+
+
+    public function asset()
+    {
+        return $this->belongsTo(Asset::class);
+    }
 
     // Boot method to handle automatic cumulative sum calculation
     // protected static function boot()
@@ -175,23 +182,49 @@ class Support extends Model
         static::creating(function ($support) {
             $lastTotal = Support::orderBy('id', 'desc')->value('total_cash_donated') ?? 0;
             $support->total_cash_donated = $lastTotal + $support->cash_quantity;
+            // Refresh the related Asset model
+            if ($support->asset) {
+                $support->asset->refresh();
+            }
         });
-
         // After updating a record
         static::updated(function ($support) {
             Support::recalculateTotalsFrom($support->id);
             // Refresh the model to get the latest data before returning it
             $support->refresh();
+            if ($support->asset) {
+                $support->asset->refresh();
+            }
         });
 
         // When deleting a record
         static::deleting(function ($support) {
             Support::recalculateTotalsFrom($support->id);
+            if ($support->asset) {
+                $support->asset->refresh();
+            }
         });
 
         // After deleting a record
         static::deleted(function ($support) {
             Support::recalculateTotalsFrom($support->id);
+            if ($support->asset) {
+                $support->asset->refresh();
+            }
+        });
+        static::created(function ($support) {
+            Asset::recalculateTotalsFrom($support->id);
+            Artisan::call('cache:clear');
+        });
+
+        static::updated(function ($support) {
+            Asset::recalculateTotalsFrom($support->id);
+            Artisan::call('cache:clear');
+        });
+
+        static::deleted(function ($support) {
+            Asset::recalculateTotalsFrom($support->id);
+            Artisan::call('cache:clear');
         });
     }
 

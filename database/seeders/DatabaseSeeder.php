@@ -23,7 +23,7 @@ class DatabaseSeeder extends Seeder
             // StudentSeeder::class,
             // ComplaintSeeder::class,
             SupportSeeder::class,
-            // AssetSeeder::class,
+            AssetSeeder::class,
             // ExpenseSeeder::class,
         ]);
 
