@@ -13,6 +13,7 @@ class ExpenseController extends Controller
     // Get all expenses
     public function index()
     {
+        Expense::all()->each->save();
         return ExpenseResource::collection(Expense::all());
     }
 

@@ -20,6 +20,7 @@ return new class extends Migration
             $table->date('expense_date'); // Date of expense
 
             // Auto-updating columns from other tables
+            $table->integer('total_expense')->default(0); // Total expense
             $table->integer('total_quantity')->default(0); // From assets table
             $table->integer('total_amount_of_donations')->default(0); // From supports table
             $table->integer('total_amount_of_cash_before_expense')->default(0); // from  Total cash assets

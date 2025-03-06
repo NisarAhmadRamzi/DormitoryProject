@@ -23,13 +23,14 @@ class ExpenseResource extends JsonResource
             'expense_date' => $this->expense_date,
 
             // Tracking cash changes
+            'total_expense' => $this->total_expense,
             'total_quantity' => $this->total_quantity,
             'total_amount_of_donations' => $this->total_amount_of_donations,
-            'total_amount_of_cash_before_expense' => $this->total_amount_of_cash_before_expense,
-            'total_amount_of_cash_aftergit _expense' => $this->total_amount_of_cash_after_expense,
+            'total_amount_of_cash_before_last_expense' => $this->total_amount_of_cash_before_expense,
+            'total_amount_of_cash_after_last_expense' => $this->total_amount_of_cash_after_expense,
 
-            'created_at' => $this->created_at->toDateTimeString(),
-            'updated_at' => $this->updated_at->toDateTimeString(),
+            'created_at' => $this->created_at->diffForHumans(),
+            'updated_at' => $this->updated_at->diffForHumans(),
         ];
     }
 }

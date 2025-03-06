@@ -213,12 +213,80 @@ class Expense extends Model
 {
     use HasFactory;
 
+    // protected $fillable = [
+    //     'type',
+    //     'expense_cash',
+    //     'goods_quantity',
+    //     'description',
+    //     'expense_date',
+    //     'total_expense',
+    //     'total_quantity',
+    //     'total_amount_of_donations',
+    //     'total_amount_of_cash_before_expense',
+    //     'total_amount_of_cash_after_expense',
+    // ];
+
+    // protected static function boot()
+    // {
+    //     parent::boot();
+
+    //     // When creating an expense
+    //     static::creating(function ($expense) {
+    //         $latestAsset = Asset::latest()->first();
+
+    //         if ($latestAsset) {
+    //             // Store the total cash before expense
+    //             $expense->total_amount_of_cash_before_expense = $latestAsset->total_amount_of_cash_after_expense;
+
+    //             // Calculate new cash value after expense
+    //             $expense->total_amount_of_cash_after_expense = $expense->total_amount_of_cash_before_expense - ($expense->expense_cash ?? 0);
+
+    //             // Update the Asset table before saving expense
+    //             $latestAsset->update([
+    //                 'total_amount_of_cash_after_expense' => $expense->total_amount_of_cash_after_expense
+    //             ]);
+    //         }
+    //     });
+
+    //     // When updating an expense
+    //     static::updating(function ($expense) {
+    //         $latestAsset = Asset::latest()->first();
+    //         $oldExpense = self::find($expense->id);
+
+    //         if ($latestAsset && $oldExpense) {
+    //             // Restore the old expense cash amount first
+    //             $latestAsset->increment('total_amount_of_cash_after_expense', $oldExpense->expense_cash ?? 0);
+
+    //             // Recalculate total_amount_of_cash_after_expense
+    //             $expense->total_amount_of_cash_after_expense = $latestAsset->total_amount_of_cash_after_expense - ($expense->expense_cash ?? 0);
+
+    //             // Update Asset table after new deduction
+    //             $latestAsset->update([
+    //                 'total_amount_of_cash_after_expense' => $expense->total_amount_of_cash_after_expense
+    //             ]);
+    //         }
+    //     });
+
+    //     // When deleting an expense, restore the deducted amount
+    //     static::deleting(function ($expense) {
+    //         $latestAsset = Asset::latest()->first();
+
+    //         if ($latestAsset) {
+    //             // Restore the expense amount back to assets table
+    //             $latestAsset->increment('total_amount_of_cash_after_expense', $expense->expense_cash ?? 0);
+    //         }
+    //     });
+    // }
+
+    //-----------------------------------------------------------------
+
     protected $fillable = [
         'type',
         'expense_cash',
         'goods_quantity',
         'description',
         'expense_date',
+        'total_expense',
         'total_quantity',
         'total_amount_of_donations',
         'total_amount_of_cash_before_expense',
@@ -237,15 +305,26 @@ class Expense extends Model
                 // Store the total cash before expense
                 $expense->total_amount_of_cash_before_expense = $latestAsset->total_amount_of_cash_after_expense;
 
-                // Calculate new cash value after expense
-                $expense->total_amount_of_cash_after_expense = $expense->total_amount_of_cash_before_expense - ($expense->expense_cash ?? 0);
+                // Deduct expense cash from total cash
+                $expense->total_amount_of_cash_after_expense = $latestAsset->total_amount_of_cash_after_expense - ($expense->expense_cash ?? 0);
 
-                // Update the Asset table before saving expense
+                // Update the asset table
                 $latestAsset->update([
-                    'total_amount_of_cash_after_expense' => $expense->total_amount_of_cash_after_expense
+                    'total_amount_of_cash_after_expense' => $expense->total_amount_of_cash_after_expense,
                 ]);
             }
+
+            // Calculate total expense including new entry
+            $expense->total_expense = Expense::sum('expense_cash') + ($expense->expense_cash ?? 0);
+
+            // Fetch total quantity from assets table
+            $expense->total_quantity = Asset::sum('quantity');
+
+            // Fetch total amount of donations from supports table
+            $expense->total_amount_of_donations = Support::sum('cash_quantity');
         });
+
+
 
         // When updating an expense
         static::updating(function ($expense) {
@@ -253,25 +332,34 @@ class Expense extends Model
             $oldExpense = self::find($expense->id);
 
             if ($latestAsset && $oldExpense) {
-                // Restore the old expense cash amount first
+                // Restore the old expense amount first
                 $latestAsset->increment('total_amount_of_cash_after_expense', $oldExpense->expense_cash ?? 0);
 
-                // Recalculate total_amount_of_cash_after_expense
+                // Deduct the updated expense cash from total cash
                 $expense->total_amount_of_cash_after_expense = $latestAsset->total_amount_of_cash_after_expense - ($expense->expense_cash ?? 0);
 
-                // Update Asset table after new deduction
+                // Update the asset table
                 $latestAsset->update([
-                    'total_amount_of_cash_after_expense' => $expense->total_amount_of_cash_after_expense
+                    'total_amount_of_cash_after_expense' => $expense->total_amount_of_cash_after_expense,
                 ]);
             }
+
+            // Calculate total expense correctly
+            $expense->total_expense = Expense::sum('expense_cash') - ($oldExpense->expense_cash ?? 0) + ($expense->expense_cash ?? 0);
+
+            // Update total quantity from assets
+            $expense->total_quantity = Asset::sum('quantity');
+
+            // Update total amount of donations from supports
+            $expense->total_amount_of_donations = Support::sum('cash_quantity');
         });
 
-        // When deleting an expense, restore the deducted amount
+        // When deleting an expense
         static::deleting(function ($expense) {
             $latestAsset = Asset::latest()->first();
 
             if ($latestAsset) {
-                // Restore the expense amount back to assets table
+                // Restore the expense amount back to assets
                 $latestAsset->increment('total_amount_of_cash_after_expense', $expense->expense_cash ?? 0);
             }
         });
