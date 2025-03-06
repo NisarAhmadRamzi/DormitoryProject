@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Support;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -25,6 +26,7 @@ class SupportSeeder extends Seeder
                 'help_date' => now(),
                 'created_at' => now(),
                 'updated_at' => now(),
+                'total_cash_donated' => 0,
             ],
             [
                 'type' => 'Books',
@@ -37,7 +39,13 @@ class SupportSeeder extends Seeder
                 'help_date' => now(),
                 'created_at' => now(),
                 'updated_at' => now(),
+                'total_cash_donated' => 0,
             ],
         ]);
+        // Recalculate total_cash_donated for all records
+        Support::recalculateTotalsFrom(1);
+
+        // Re-enable model events
+        Support::setEventDispatcher(app('events'));
     }
 }

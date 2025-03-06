@@ -21,6 +21,8 @@ return new class extends Migration
             $table->string('helper_number');
             $table->string('helper_email')->nullable();
             $table->date('help_date'); // Date of donation
+            //total_cash_donated
+            $table->integer('total_cash_donated')->default(0);
             $table->timestamps();
         });
     }
