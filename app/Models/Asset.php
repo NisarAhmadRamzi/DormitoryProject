@@ -125,6 +125,13 @@ class Asset extends Model
             }
             Artisan::call('cache:clear');
         });
+        static::created(function ($asset) {
+            Asset::recalculateTotalsFrom($asset->id);
+            Expense::updateTotalAmountOfDonations();
+            Expense::updateTotalQuantity();
+            Expense::updateTotalAmountOfCashBeforeExpense();
+            Artisan::call('cache:clear');
+        });
 
         static::updating(function ($asset) {
             Asset::recalculateTotalsFrom($asset->id);
@@ -133,6 +140,9 @@ class Asset extends Model
 
         static::updated(function ($asset) {
             Asset::recalculateTotalsFrom($asset->id);
+            Expense::updateTotalAmountOfDonations();
+            Expense::updateTotalQuantity();
+            Expense::updateTotalAmountOfCashBeforeExpense();
             Artisan::call('cache:clear');
         });
 
@@ -142,6 +152,9 @@ class Asset extends Model
 
         static::deleted(function ($asset) {
             Asset::recalculateTotalsFrom($asset->id);
+            Expense::updateTotalAmountOfDonations();
+            Expense::updateTotalQuantity();
+            Expense::updateTotalAmountOfCashBeforeExpense();
         });
     }
 
@@ -162,6 +175,9 @@ class Asset extends Model
             $asset->total_amount_of_cash_before_expense = $asset->total_quantity + $asset->total_amount_of_donations;
             $asset->saveQuietly();
         }
+        Expense::updateTotalAmountOfDonations();
+        Expense::updateTotalQuantity();
+        Expense::updateTotalAmountOfCashBeforeExpense();
     }
 
     /**

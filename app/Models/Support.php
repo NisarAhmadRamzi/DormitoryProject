@@ -69,23 +69,23 @@ class Support extends Model
 
     //---------------------------------
 
-    protected $fillable = [
-        'type',
-        'details',
-        'goods_quantity',
-        'cash_quantity',
-        'helper_fullname',
-        'helper_number',
-        'helper_email',
-        'help_date',
-        'total_cash_donated',
-    ];
+    // protected $fillable = [
+    //     'type',
+    //     'details',
+    //     'goods_quantity',
+    //     'cash_quantity',
+    //     'helper_fullname',
+    //     'helper_number',
+    //     'helper_email',
+    //     'help_date',
+    //     'total_cash_donated',
+    // ];
 
 
-    public function asset()
-    {
-        return $this->belongsTo(Asset::class);
-    }
+    // public function asset()
+    // {
+    //     return $this->belongsTo(Asset::class);
+    // }
 
     // Boot method to handle automatic cumulative sum calculation
     // protected static function boot()
@@ -173,7 +173,23 @@ class Support extends Model
     //     });
     // }
 
+    protected $fillable = [
+        'type',
+        'details',
+        'goods_quantity',
+        'cash_quantity',
+        'helper_fullname',
+        'helper_number',
+        'helper_email',
+        'help_date',
+        'total_cash_donated',
+    ];
 
+
+    public function asset()
+    {
+        return $this->belongsTo(Asset::class);
+    }
     protected static function boot()
     {
         parent::boot();
@@ -186,6 +202,8 @@ class Support extends Model
         static::created(function ($support) {
             Support::recalculateTotalsFrom($support->id);
             Asset::updateTotalAmountOfDonations(); // Update Asset table
+            Expense::updateTotalAmountOfDonations();
+            Expense::updateTotalAmountOfCashBeforeExpense();
             Artisan::call('cache:clear');
         });
 
@@ -196,6 +214,8 @@ class Support extends Model
         static::updated(function ($support) {
             Support::recalculateTotalsFrom($support->id);
             Asset::updateTotalAmountOfDonations(); // Update Asset table
+            Expense::updateTotalAmountOfDonations();
+            Expense::updateTotalAmountOfCashBeforeExpense();
             Artisan::call('cache:clear');
         });
 
@@ -206,6 +226,8 @@ class Support extends Model
         static::deleted(function ($support) {
             Support::recalculateTotalsFrom($support->id);
             Asset::updateTotalAmountOfDonations(); // Update Asset table
+            Expense::updateTotalAmountOfDonations();
+            Expense::updateTotalAmountOfCashBeforeExpense();
             Artisan::call('cache:clear');
         });
     }
@@ -226,6 +248,8 @@ class Support extends Model
 
         // Immediately update total_amount_of_donations in Asset
         Asset::updateTotalAmountOfDonations();
+        Expense::updateTotalAmountOfDonations();
+        Expense::updateTotalAmountOfCashBeforeExpense();
     }
 }
     // error with its updating------------------------------------------

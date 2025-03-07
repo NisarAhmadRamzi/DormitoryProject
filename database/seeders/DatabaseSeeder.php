@@ -24,7 +24,7 @@ class DatabaseSeeder extends Seeder
             // ComplaintSeeder::class,
             SupportSeeder::class,
             AssetSeeder::class,
-            // ExpenseSeeder::class,
+            ExpenseSeeder::class,
         ]);
 
         // \App\Models\User::factory(10)->create();
