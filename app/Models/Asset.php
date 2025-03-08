@@ -130,6 +130,8 @@ class Asset extends Model
             Expense::updateTotalAmountOfDonations();
             Expense::updateTotalQuantity();
             Expense::updateTotalAmountOfCashBeforeExpense();
+            Expense::updateExpenseTotals(1);
+            Asset::updateTotalAmountOfCashAfterExpense();
             Artisan::call('cache:clear');
         });
 
@@ -143,6 +145,8 @@ class Asset extends Model
             Expense::updateTotalAmountOfDonations();
             Expense::updateTotalQuantity();
             Expense::updateTotalAmountOfCashBeforeExpense();
+            Expense::updateExpenseTotals(1);
+            Asset::updateTotalAmountOfCashAfterExpense();
             Artisan::call('cache:clear');
         });
 
@@ -155,6 +159,8 @@ class Asset extends Model
             Expense::updateTotalAmountOfDonations();
             Expense::updateTotalQuantity();
             Expense::updateTotalAmountOfCashBeforeExpense();
+            Expense::updateExpenseTotals(1);
+            Asset::updateTotalAmountOfCashAfterExpense();
         });
     }
 
@@ -178,6 +184,7 @@ class Asset extends Model
         Expense::updateTotalAmountOfDonations();
         Expense::updateTotalQuantity();
         Expense::updateTotalAmountOfCashBeforeExpense();
+        Expense::updateExpenseTotals(1);
     }
 
     /**
@@ -190,6 +197,14 @@ class Asset extends Model
         Asset::query()->update([
             'total_amount_of_donations' => $latestTotalCashDonated,
             'total_amount_of_cash_before_expense' => DB::raw('total_quantity + ' . $latestTotalCashDonated),
+        ]);
+    }
+    public static function updateTotalAmountOfCashAfterExpense()
+    {
+        $latestTotalAmountOfCashAfterLastExpense = Expense::orderBy('id', 'desc')->value('total_amount_of_cash_after_last_expense') ?? 0;
+
+        Asset::query()->update([
+            'total_amount_of_cash_after_expense' => $latestTotalAmountOfCashAfterLastExpense,
         ]);
     }
 }

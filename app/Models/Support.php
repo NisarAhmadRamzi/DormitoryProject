@@ -204,6 +204,9 @@ class Support extends Model
             Asset::updateTotalAmountOfDonations(); // Update Asset table
             Expense::updateTotalAmountOfDonations();
             Expense::updateTotalAmountOfCashBeforeExpense();
+
+            Expense::updateExpenseTotals(1);
+            Asset::updateTotalAmountOfCashAfterExpense();
             Artisan::call('cache:clear');
         });
 
@@ -216,6 +219,9 @@ class Support extends Model
             Asset::updateTotalAmountOfDonations(); // Update Asset table
             Expense::updateTotalAmountOfDonations();
             Expense::updateTotalAmountOfCashBeforeExpense();
+
+            Expense::updateExpenseTotals(1);
+            Asset::updateTotalAmountOfCashAfterExpense();
             Artisan::call('cache:clear');
         });
 
@@ -228,6 +234,9 @@ class Support extends Model
             Asset::updateTotalAmountOfDonations(); // Update Asset table
             Expense::updateTotalAmountOfDonations();
             Expense::updateTotalAmountOfCashBeforeExpense();
+
+            Expense::updateExpenseTotals(1);
+            Asset::updateTotalAmountOfCashAfterExpense();
             Artisan::call('cache:clear');
         });
     }
@@ -250,6 +259,8 @@ class Support extends Model
         Asset::updateTotalAmountOfDonations();
         Expense::updateTotalAmountOfDonations();
         Expense::updateTotalAmountOfCashBeforeExpense();
+        Expense::updateExpenseTotals(1);
+        Asset::updateTotalAmountOfCashAfterExpense();
     }
 }
     // error with its updating------------------------------------------
