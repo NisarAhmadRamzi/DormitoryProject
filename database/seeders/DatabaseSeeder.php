@@ -27,6 +27,8 @@ class DatabaseSeeder extends Seeder
             ExpenseSeeder::class,
         ]);
 
+        \App\Models\Student::factory(10)->create();
+
         // \App\Models\User::factory(10)->create();
 
         // \App\Models\User::factory()->create([

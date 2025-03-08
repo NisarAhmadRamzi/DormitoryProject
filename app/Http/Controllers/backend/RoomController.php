@@ -50,7 +50,7 @@ class RoomController extends Controller
      */
     public function update(Request $request, Room $room)
     {
-        $validated =$request->validate([
+        $validated = $request->validate([
             'room_number' => 'required|string|max:10',
             'type' => 'required|in:4 people,6 people,8 people',
             'capacity' => 'required|integer',
@@ -70,6 +70,6 @@ class RoomController extends Controller
     public function destroy(Room $room)
     {
         $room->delete();
-        return response()->json(['message'=>'deleted successfully!!!']);
+        return response()->json(['message' => 'deleted successfully!!!']);
     }
 }
