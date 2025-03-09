@@ -11,7 +11,7 @@ use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable , HasRoles;
+    use HasApiTokens, HasFactory, Notifiable, HasRoles;
 
     // Optional helper to get the role name directly
     // public function getRoleNameAttribute()
@@ -39,8 +39,9 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role',
         'profile'
-        
+
     ];
 
     /**

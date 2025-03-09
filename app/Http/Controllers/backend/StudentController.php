@@ -180,10 +180,8 @@ class StudentController extends Controller
 
         return response()->json(['message' => 'Student not found'], 404);
     }
-    // Restore a soft-deleted student
-    /**
-     * Restore a soft-deleted student.
-     */
+
+
     public function restore($id)
     {
         $student = Student::withTrashed()->findOrFail($id);
