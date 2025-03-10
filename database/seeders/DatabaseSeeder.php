@@ -25,6 +25,7 @@ class DatabaseSeeder extends Seeder
             SupportSeeder::class,
             AssetSeeder::class,
             ExpenseSeeder::class,
+            LibrarySeeder::class,
         ]);
 
         // \App\Models\Student::factory(10)->create();
