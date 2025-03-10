@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\backend\AssetController;
 use App\Http\Controllers\backend\AuthController;
+use App\Http\Controllers\backend\BookController;
 use App\Http\Controllers\backend\ComplaintController;
 use App\Http\Controllers\backend\ExpenseController;
 use App\Http\Controllers\backend\FeeController;
@@ -74,4 +75,5 @@ Route::apiResource('assets', AssetController::class);
 Route::apiResource('expenses', ExpenseController::class);
 
 //library routes
-Route::resource('libraries', LibraryController::class);
+Route::apiResource('libraries', LibraryController::class);
+Route::apiResource('books', BookController::class);

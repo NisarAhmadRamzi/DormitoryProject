@@ -12,10 +12,10 @@ class Library extends Model
     protected $fillable = ['name', 'location', 'contact_info'];
 
     // A library has many books
-    // public function books()
-    // {
-    //     return $this->hasMany(Book::class);
-    // }
+    public function books()
+    {
+        return $this->hasMany(Book::class);
+    }
 
     // // A library has many library students
     // public function libraryStudents()
