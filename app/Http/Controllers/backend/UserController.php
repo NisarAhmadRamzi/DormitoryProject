@@ -9,6 +9,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Models\Profile;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Storage;
 use Spatie\Permission\Models\Role;
 
@@ -64,15 +65,15 @@ class UserController extends Controller
         }
 
         // Assign Role Using Spatie (defaults to 'student' if no role is provided)
-        $role = $request->role ?? 'student'; // Default to 'student' if role is not provided
+        // $role = $request->role ?? 'student'; // Default to 'student' if role is not provided
 
-        $user->role = $role; // Store the role name in the users table
+        // $user->role = $role; // Store the role name in the users table
 
         // Save user and role
         $user->save(); // Save user once
 
         // Assign the role using Spatie (for model_has_roles table)
-        $user->assignRole($role);
+        // $user->assignRole($role);
 
         // Return user resource (optional)
         return UserResource::make($user);

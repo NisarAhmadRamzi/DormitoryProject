@@ -18,20 +18,20 @@ class StudentController extends Controller
     public function index()
     {
         // Fetch all students and return them as a resource collection
-        // return StudentResource::collection(Student::all());
-        $students = Student::onlyTrashed()->get();
+        return StudentResource::collection(Student::all());
+        // $students = Student::onlyTrashed()->get();
 
-        if ($students->isEmpty()) {
-            return response()->json([
-                'message' => 'No soft-deleted students found',
-                'data' => []
-            ], 200);
-        }
+        // if ($students->isEmpty()) {
+        //     return response()->json([
+        //         'message' => 'No soft-deleted students found',
+        //         'data' => []
+        //     ], 200);
+        // }
 
-        return response()->json([
-            'message' => 'Trashed students retrieved successfully',
-            'data' => $students
-        ], 200);
+        // return response()->json([
+        //     'message' => 'Trashed students retrieved successfully',
+        //     'data' => $students
+        // ], 200);
     }
 
     /**

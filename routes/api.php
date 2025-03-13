@@ -7,6 +7,7 @@ use App\Http\Controllers\backend\ComplaintController;
 use App\Http\Controllers\backend\ExpenseController;
 use App\Http\Controllers\backend\FeeController;
 use App\Http\Controllers\backend\LibraryController;
+use App\Http\Controllers\backend\LibraryStudentController;
 use App\Http\Controllers\backend\RoomController;
 use App\Http\Controllers\backend\StudentController;
 use App\Http\Controllers\backend\UserController;
@@ -77,3 +78,4 @@ Route::apiResource('expenses', ExpenseController::class);
 //library routes
 Route::apiResource('libraries', LibraryController::class);
 Route::apiResource('books', BookController::class);
+Route::resource('library-students', LibraryStudentController::class);

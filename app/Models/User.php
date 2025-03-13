@@ -29,6 +29,11 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Student::class, 'email', 'email');
     }
+    // Define relationship: One user corresponds to one library student
+    public function libraryStudent()
+    {
+        return $this->hasOne(LibraryStudent::class, 'email', 'email');
+    }
 
     /**
      * The attributes that are mass assignable.
