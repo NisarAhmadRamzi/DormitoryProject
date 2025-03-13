@@ -32,7 +32,7 @@ class User extends Authenticatable
     // Define relationship: One user corresponds to one library student
     public function libraryStudent()
     {
-        return $this->hasOne(LibraryStudent::class, 'email', 'email');
+        return $this->belongsTo(LibraryStudent::class, 'email', 'email');
     }
 
     /**
