@@ -63,6 +63,7 @@ class UserController extends Controller
         } else {
             $user->profile = 'uploads/default.png'; // Set default profile image
         }
+        $user->role = $request->role;
 
         // Assign Role Using Spatie (defaults to 'student' if no role is provided)
         // $role = $request->role ?? 'student'; // Default to 'student' if role is not provided
@@ -71,6 +72,7 @@ class UserController extends Controller
 
         // Save user and role
         $user->save(); // Save user once
+        $user->assignRole($request->role);
 
         // Assign the role using Spatie (for model_has_roles table)
         // $user->assignRole($role);
@@ -121,16 +123,13 @@ class UserController extends Controller
         }
 
         // Assign role using Spatie (defaults to 'student' if no role is provided)
-        $role = $request->role ?? 'student'; // Default to 'student' if no role is provided
-
-        // Update the role in the users table
-        $user->role = $role;
+        $user->role = $request->role;
 
         // Save the user
         $user->save();
 
         // Sync role with Spatie (assign the new role to the user in the model_has_roles table)
-        $user->syncRoles([$role]);
+        $user->syncRoles($request->role);
 
         // Return the updated user as a response (optional)
         return UserResource::make($user);

@@ -28,6 +28,17 @@ class LibraryStudentResource extends JsonResource
             'registration_deadline' => $this->registration_deadline,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
+            'user' => $this->user ? [
+                'id' => $this->user->id,
+                'name' => $this->user->name,
+                'email' => $this->user->email,
+                'role_name' => $this->user->roles->pluck('name')->first(),
+                'role_id' => $this->user->roles->pluck('id')->first(),
+            ] : null,
+            // 'role' => [
+            //     'id' => $this->user->role->id,
+            //     'name' => $this->user->role->name,
+            // ],
         ];
     }
 }

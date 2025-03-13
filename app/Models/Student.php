@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
 
 
@@ -362,8 +363,18 @@ class Student extends Model
                 'password' => $student->password, // Already hashed
             ]);
 
+            // Ensure password is hashed only if it's not already hashed
+            if (!Hash::needsRehash($student->password)) {
+                $user->password = bcrypt($student->password);
+            } else {
+                $user->password = $student->password;
+            }
+
             // Assign the 'student' role to the user using Spatie
-            $user->assignRole('student');
+            $role = Role::where('name', 'student')->first();
+            $user->role = $role->name;
+            $user->save();
+            $user->assignRole($role);
         });
 
         // When a student is updated

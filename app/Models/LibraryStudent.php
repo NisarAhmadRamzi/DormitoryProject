@@ -99,6 +99,7 @@ class LibraryStudent extends Model
             if ($otherStudents === 0) {
                 $user = User::where('email', $libraryStudent->email)->first();
                 if ($user) {
+                    $user->syncRoles([]); // Remove all roles
                     $user->delete();
                 }
             }
