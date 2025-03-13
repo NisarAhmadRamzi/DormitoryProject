@@ -19,7 +19,7 @@ class RoleSeeder extends Seeder
         // Creating roles
         $roles = [
             ['name' => 'admin'],
-            ['name' => 'second-admin'],
+            ['name' => 'second_admin'],
             ['name' => 'student'],
             ['name' => 'library_student']
         ];

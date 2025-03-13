@@ -20,7 +20,7 @@ class UserSeeder extends Seeder
     {
         // Fetch roles by name
         $adminRole = Role::where('name', 'admin')->first();
-        $secondAdminRole = Role::where('name', 'second-admin')->first();
+        $secondAdminRole = Role::where('name', 'second_admin')->first();
         // $studentRole = Role::where('name', 'student')->first();
 
         // Creating users and assigning roles
@@ -28,7 +28,7 @@ class UserSeeder extends Seeder
             'name' => 'ramzi',
             'email' => 'ramzi@gmail.com',
             'password' => Hash::make('12345678'),
-            'role' => 'admin',
+            'role' => $adminRole->name,
             'profile' => 'uploads/1.jpeg',
         ]);
 
@@ -36,7 +36,7 @@ class UserSeeder extends Seeder
             'name' => 'sirath',
             'email' => 'sirath@gmail.com',
             'password' => Hash::make('12345678'),
-            'role' => 'admin',
+            'role' => $adminRole->name,
             'profile' => 'uploads/2.jpg'
         ]);
 
@@ -44,7 +44,7 @@ class UserSeeder extends Seeder
             'name' => 'allama',
             'email' => 'allama@gmail.com',
             'password' => Hash::make('12345678'),
-            'role' => 'admin',
+            'role' => $adminRole->name,
             'profile' => 'uploads/3.jpg'
         ]);
 
@@ -52,7 +52,7 @@ class UserSeeder extends Seeder
             'name' => 'arif',
             'email' => 'arif@gmail.com',
             'password' => Hash::make('12345678'),
-            'role' => 'second-admin',
+            'role' => $secondAdminRole->name,
         ]);
 
         // Assign roles to users

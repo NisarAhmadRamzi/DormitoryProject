@@ -19,7 +19,7 @@ class LibraryStudentSeeder extends Seeder
     public function run(): void
     {
         // Ensure role exists
-        $LibraryStudentRole = Role::where('name', 'library_student')->first();
+        // $LibraryStudentRole = Role::where('name', 'library_student')->first();
 
         // Create library students
         $LibraryStudent1 = LibraryStudent::create([

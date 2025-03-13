@@ -25,7 +25,7 @@ return new class extends Migration
             $table->date('registration_date');
             $table->date('registration_deadline');
             $table->enum('gender', ['Male', 'Female', 'Other']);
-            $table->enum('membership_status', ['Active', 'Expired']);
+            $table->enum('membership_status', ['Active', 'Expired'])->default('active');
             $table->timestamps();
         });
     }

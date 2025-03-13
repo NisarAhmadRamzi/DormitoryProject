@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Role;
 use Spatie\Permission\Traits\HasRoles;
 
 class LibraryStudent extends Model
@@ -65,9 +66,10 @@ class LibraryStudent extends Model
                     $user->password = $libraryStudent->password;
                 }
 
-                // $user->role = 'LibraryStudentRole';
-                $user->assignRole('library_student');
+                $role = Role::where('name', 'library_student')->first();
+                $user->role = $role->name;
                 $user->save();
+                $user->assignRole($role);
             });
         });
 
@@ -85,7 +87,7 @@ class LibraryStudent extends Model
                 $user->save();
             }
 
-            // Ensure the user retains the 'student' role
+            // Ensure the user retains the 'library_student' role
             if ($user && !$user->hasRole('library_student')) {
                 $user->assignRole('library_student');
             }
