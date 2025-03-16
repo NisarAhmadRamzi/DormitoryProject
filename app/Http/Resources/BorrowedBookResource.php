@@ -19,6 +19,10 @@ class BorrowedBookResource extends JsonResource
             'borrow_date' => $this->borrow_date,
             'return_date' => $this->return_date,
             'status' => $this->status,
+            // Dynamically calculated fields
+            'borrowed_books_total_count' => $this->borrowed_books_total_count,
+            'books_total_count' => $this->books_total_count,
+            'books_total_count_after_borrowed' => $this->books_total_count_after_borrowed,
             'created_at' => $this->created_at->diffForHumans(),
             'updated_at' => $this->updated_at->diffForHumans(),
             'book' => [

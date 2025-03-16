@@ -18,6 +18,10 @@ return new class extends Migration
             $table->string('author');
             $table->string('publication_year');
             $table->enum('status', ['Available', 'Borrowed', '100Af fine for delay']);
+
+            $table->integer('books_total_count')->default(1);
+            $table->unsignedInteger('borrowed_books_total_count')->default(0);
+            $table->unsignedInteger('books_total_count_after_borrowed')->default(0);
             $table->timestamps();
         });
     }

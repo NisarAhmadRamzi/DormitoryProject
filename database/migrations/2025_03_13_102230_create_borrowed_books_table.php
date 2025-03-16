@@ -19,6 +19,10 @@ return new class extends Migration
             $table->date('borrow_date');
             $table->date('return_date')->nullable();
             $table->enum('status', ['Borrowed', 'Returned', 'Overdue']);
+
+            $table->unsignedInteger('books_total_count')->default(0);
+            $table->unsignedInteger('borrowed_books_total_count')->default(0);
+            $table->unsignedInteger('books_total_count_after_borrowed')->default(0);
             $table->timestamps();
         });
     }

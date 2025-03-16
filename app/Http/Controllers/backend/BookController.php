@@ -31,6 +31,7 @@ class BookController extends Controller
             'author' => 'required|string|max:255',
             'publication_year' => 'required|date_format:Y',
             'status' => 'required|in:Available,Borrowed',
+            'books_total_count' => 'required|integer|min:1',
         ]);
 
         $book = Book::create($request->all());
@@ -46,6 +47,7 @@ class BookController extends Controller
             'author' => 'required|string|max:255',
             'publication_year' => 'required|date_format:Y',
             'status' => 'required|in:Available,Borrowed',
+            'books_total_count' => 'required|integer|min:1',
         ]);
 
         $book->update($request->all());

@@ -20,6 +20,7 @@ class BookSeeder extends Seeder
             'author' => 'Hafez',
             'publication_year' => '1370',
             'status' => 'Available',
+            'books_total_count' => 2,
         ]);
 
         Book::create([
@@ -28,6 +29,7 @@ class BookSeeder extends Seeder
             'author' => 'Ferdowsi',
             'publication_year' => '1010',
             'status' => 'Available',
+            'books_total_count' => 4,
         ]);
 
         Book::create([
@@ -36,6 +38,7 @@ class BookSeeder extends Seeder
             'author' => 'Attar of Nishapur',
             'publication_year' => '1177',
             'status' => 'Available',
+            'books_total_count' => 5,
         ]);
 
         Book::create([
@@ -44,6 +47,7 @@ class BookSeeder extends Seeder
             'author' => 'Omar Khayyam',
             'publication_year' => '1120',
             'status' => 'Available',
+            'books_total_count' => 3,
         ]);
         Book::create([
             'library_id' => 1, // assuming 1 is the ID for 'Central Library'
@@ -51,6 +55,7 @@ class BookSeeder extends Seeder
             'author' => 'John Doe',
             'publication_year' => '2020',
             'status' => 'Available',
+            'books_total_count' => 2,
         ]);
 
         Book::create([
@@ -59,6 +64,7 @@ class BookSeeder extends Seeder
             'author' => 'Jane Smith',
             'publication_year' => '2021',
             'status' => 'Available',
+            'books_total_count' => 1,
         ]);
     }
 }
