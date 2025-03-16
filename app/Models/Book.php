@@ -18,8 +18,8 @@ class Book extends Model
     }
 
     // A book can be borrowed many times
-    // public function borrowedBooks()
-    // {
-    //     return $this->hasMany(BorrowedBook::class);
-    // }
+    public function borrowedBooks()
+    {
+        return $this->hasMany(BorrowedBook::class);
+    }
 }

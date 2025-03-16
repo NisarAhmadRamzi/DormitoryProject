@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('title');
             $table->string('author');
             $table->string('publication_year');
-            $table->enum('status', ['Available', 'Borrowed']);
+            $table->enum('status', ['Available', 'Borrowed', '100Af fine for delay']);
             $table->timestamps();
         });
     }
