@@ -19,9 +19,11 @@ class FeeResource extends JsonResource
             'student_id' => $this->student_id,
             'office_pay' => $this->office_pay,
             'office_paid' => $this->office_paid,
+            'warranty_pay' => $this->warranty_pay,
+            'warranty_paid' => $this->warranty_paid,
             'total_fee' => $this->total_fee,
-            'registration_date'=> $this->registration_date,
-            'paid_date'=> $this->paid_date,
+            'registration_date' => $this->registration_date,
+            'paid_date' => $this->paid_date,
             'due_date' => $this->due_date,
             'student' => [
                 'id' => $this->student->id,
@@ -50,6 +52,5 @@ class FeeResource extends JsonResource
             'created_at' => $this->created_at->diffForHumans(),
             'updated_at' => $this->updated_at->diffForHumans(),
         ];
-        
     }
 }

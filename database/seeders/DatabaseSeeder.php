@@ -18,11 +18,20 @@ class DatabaseSeeder extends Seeder
         $this->call([
             RoleSeeder::class,
             UserSeeder::class,
-            PermissionSeeder::class,
+            // PermissionSeeder::class,
             RoomSeeder::class,
             StudentSeeder::class,
-            ComplaintSeeder::class
+            // ComplaintSeeder::class,
+            // SupportSeeder::class,
+            // AssetSeeder::class,
+            // ExpenseSeeder::class,
+            LibrarySeeder::class,
+            BookSeeder::class,
+            LibraryStudentSeeder::class,
+            BorrowedBookSeeder::class,
         ]);
+
+        // \App\Models\Student::factory(10)->create();
 
         // \App\Models\User::factory(10)->create();
 

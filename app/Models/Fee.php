@@ -8,10 +8,17 @@ use Illuminate\Database\Eloquent\Model;
 class Fee extends Model
 {
     use HasFactory;
-    
+
     protected $fillable = [
-        'student_id', 'office_pay', 'office_paid', 'total_fee',
-        'registration_date', 'paid_date', 'due_date',
+        'student_id',
+        'office_pay',
+        'office_paid',
+        'warranty_pay',
+        'warranty_paid',
+        'total_fee',
+        'registration_date',
+        'paid_date',
+        'due_date',
     ];
 
     public function student()

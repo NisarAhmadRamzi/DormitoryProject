@@ -17,10 +17,10 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->string('profile')->nullable(); // Add this line for profile
+            $table->enum('role', ['admin', 'second_admin', 'student', 'library_student'])->nullable();
+            $table->string('profile')->default('uploads/default.png'); // Add this line for profile
             $table->rememberToken();
             $table->timestamps();
-            
         });
     }
 

@@ -11,7 +11,7 @@ use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable , HasRoles;
+    use HasApiTokens, HasFactory, Notifiable, HasRoles;
 
     // Optional helper to get the role name directly
     // public function getRoleNameAttribute()
@@ -29,6 +29,11 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Student::class, 'email', 'email');
     }
+    // Define relationship: One user corresponds to one library student
+    public function libraryStudent()
+    {
+        return $this->belongsTo(LibraryStudent::class, 'email', 'email');
+    }
 
     /**
      * The attributes that are mass assignable.
@@ -39,8 +44,9 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role',
         'profile'
-        
+
     ];
 
     /**
