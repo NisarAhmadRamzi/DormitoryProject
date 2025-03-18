@@ -23,7 +23,7 @@ class BookResource extends JsonResource
             'status' => $this->status,
             'books_total_count' => $this->books_total_count,
             'borrowed_books_total_count' => $this->borrowed_books_total_count,
-            'books_total_count_after_borrowed' => $this->books_total_count_after_borrowed,
+            'books_total_count_after_borrowed' => $this->books_total_count - $this->borrowed_books_total_count,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];

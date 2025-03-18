@@ -46,19 +46,23 @@ class BorrowedBook extends Model
         // Auto-update counts when a record is created, updated, or deleted
         static::created(function ($borrowedBook) {
             $borrowedBook->updateCounts();
+            $borrowedBook->updateBookModel();
         });
 
         static::updated(function ($borrowedBook) {
             $borrowedBook->updateCounts();
+            $borrowedBook->updateBookModel();
         });
 
         static::deleted(function ($borrowedBook) {
             $borrowedBook->updateCounts();
+            $borrowedBook->updateBookModel();
         });
     }
 
+
     /**
-     * Update borrowed book counts dynamically.
+     * Dynamically update borrowed book counts.
      */
     public function updateCounts()
     {
@@ -81,33 +85,114 @@ class BorrowedBook extends Model
     }
 
     /**
-     * Dynamically update book status based on borrowed book status.
+     * Synchronize counts to Book model.
+     */
+    public function updateBookModel()
+    {
+        $borrowedCount = BorrowedBook::where('book_id', $this->book_id)->count();
+        $totalBooks = Book::where('id', $this->book_id)->value('books_total_count') ?? 0;
+
+
+        $book = Book::find($this->book_id);
+        if ($book) {
+            $book->updateQuietly([
+                'borrowed_books_total_count' => $borrowedCount,
+            ]);
+        }
+    }
+
+    /**
+     * Dynamically update book status based on borrowed book count.
      */
     public function updateBookStatus()
     {
-        $borrowedCount = BorrowedBook::where('book_id', $this->book_id)
-            ->where('status', 'Borrowed')
-            ->count();
-
         $book = Book::find($this->book_id);
         if (!$book) {
             return;
         }
 
-        if ($this->status === 'Borrowed') {
-            $book->status = 'Borrowed';
-        } elseif ($this->status === 'Returned') {
-            $book->status = $borrowedCount > 0 ? 'Borrowed' : 'Available';
+        $totalBooks = $book->books_total_count;
+        $borrowedCount = BorrowedBook::where('book_id', $this->book_id)
+            ->where('status', 'Borrowed')
+            ->count();
+
+        if ($borrowedCount >= $totalBooks) {
+            $book->status = 'Not Available!!! all books loaned';
         } elseif ($this->status === 'Overdue') {
             $book->status = '100Af fine for delay';
+        } else {
+            $book->status = 'Available';
         }
 
         $book->save();
     }
 
-    /**
-     * Relationship with Book model.
-     */
+
+    // public static function boot()
+    // {
+    //     parent::boot();
+
+    //     // Auto-update counts when a record is created, updated, or deleted
+    //     static::created(function ($borrowedBook) {
+    //         $borrowedBook->updateCounts();
+    //     });
+
+    //     static::updated(function ($borrowedBook) {
+    //         $borrowedBook->updateCounts();
+    //     });
+
+    //     static::deleted(function ($borrowedBook) {
+    //         $borrowedBook->updateCounts();
+    //     });
+    // }
+
+    // /**
+    //  * Update borrowed book counts dynamically.
+    //  */
+    // public function updateCounts()
+    // {
+    //     $borrowedCount = BorrowedBook::where('book_id', $this->book_id)->count();
+    //     $totalBooks = Book::where('id', $this->book_id)->value('books_total_count') ?? 0;
+
+    //     // Ensure borrowed count does not exceed total books
+    //     $borrowedCount = min($borrowedCount, $totalBooks);
+    //     $remainingBooks = max(0, $totalBooks - $borrowedCount);
+
+    //     // Update borrowed book details
+    //     $this->updateQuietly([
+    //         'borrowed_books_total_count' => $borrowedCount,
+    //         'books_total_count' => $totalBooks,
+    //         'books_total_count_after_borrowed' => $remainingBooks
+    //     ]);
+
+    //     // Update the book status
+    //     $this->updateBookStatus();
+    // }
+
+    // /**
+    //  * Dynamically update book status based on borrowed book status.
+    //  */
+    // public function updateBookStatus()
+    // {
+    //     $borrowedCount = BorrowedBook::where('book_id', $this->book_id)
+    //         ->where('status', 'Borrowed')
+    //         ->count();
+
+    //     $book = Book::find($this->book_id);
+    //     if (!$book) {
+    //         return;
+    //     }
+
+    //     if ($this->status === 'Borrowed') {
+    //         $book->status = 'Borrowed';
+    //     } elseif ($this->status === 'Returned') {
+    //         $book->status = $borrowedCount > 0 ? 'Borrowed' : 'Available';
+    //     } elseif ($this->status === 'Overdue') {
+    //         $book->status = '100Af fine for delay';
+    //     }
+
+    //     $book->save();
+    // }
 }
 
 //------------------------------------------------------
