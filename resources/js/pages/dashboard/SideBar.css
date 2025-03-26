@@ -1,0 +1,27 @@
+.dlabnav {
+    background-color: #343a40;
+    width: 250px; /* You can adjust this depending on your preference */
+}
+
+.dlabnav .metismenu li a {
+    color: #fff; /* Set the text color */
+    font-size: 16px; /* Set text size */
+    padding: 10px 15px;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+}
+
+.dlabnav .metismenu li a:hover {
+    background-color: #007bff;
+    color: #fff;
+}
+
+.dlabnav .metismenu li a i {
+    font-size: 20px; /* Icon size */
+    margin-right: 10px;
+}
+
+.dlabnav .metismenu li ul li a {
+    padding-left: 30px; /* Indentation for sub-menu items */
+}

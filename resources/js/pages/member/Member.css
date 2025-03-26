@@ -1,0 +1,37 @@
+.card {
+    border-radius: 10px; /* Rounded corners for the card */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
+.card-body {
+    padding: 2rem; /* Add padding inside the card */
+}
+
+.message a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.message a:hover {
+    text-decoration: underline;
+}
+
+button:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+input:focus,
+button:focus {
+    border-color: #007bff; /* Add a blue border on focus */
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); /* Light blue glow */
+}
+
+.box-shadow1 {
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
+        rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+}
+
+.box-shadow2 {
+    box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
+}

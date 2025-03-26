@@ -1,0 +1,36 @@
+/* Container to hold sidebar and content side by side */
+.main-container {
+    display: flex;
+    height: 100vh; /* Full height of the viewport */
+    margin: 0; /* Ensure no margin around the container */
+    padding: 0; /* Ensure no padding around the container */
+}
+
+/* Sidebar styling */
+.dlabnav {
+    flex: 0 0 250px; /* Sidebar takes up 250px width */
+    height: 110vh; /* Ensure it stretches the full height */
+    overflow-y: auto; /* Enable vertical scrolling for sidebar */
+    position: fixed; /* Make sidebar stick to the left */
+    top: 40px;
+    left: 0;
+    margin: 0; /* Ensure no margin around the sidebar */
+}
+
+/* Content area styling */
+.content-area {
+    /* Push content to the right of the sidebar */
+    flex: 1;
+    padding: 20px;
+    height: 100vh; /* Full height of the viewport */
+    overflow-y: auto; /* Enable scrolling for content */
+    box-sizing: border-box; /* Prevent padding from affecting the layout */
+}
+
+/* Table specific scroll styling */
+.table-responsive {
+    max-height: calc(
+        100vh - 120px
+    ); /* Adjust height to fit inside the content area */
+    overflow-y: auto; /* Scroll for student list only */
+}

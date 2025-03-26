@@ -1,0 +1,18 @@
+.container {
+    height: 100vh; /* Full viewport height */
+    overflow-y: auto; /* Allow vertical scrolling */
+    padding: 20px; /* Padding for aesthetics */
+    box-sizing: border-box; /* Include padding in height calculation */
+    background-color: #f9f9f9; /* Optional: background color for better readability */
+}
+
+.form-group {
+    margin-bottom: 15px; /* Spacing between form fields */
+}
+
+.form-control {
+    width: 100%; /* Full width for input fields */
+    padding: 10px; /* Padding for input fields */
+    border: 1px solid #ccc; /* Border for input fields */
+    border-radius: 4px; /* Rounded corners */
+}

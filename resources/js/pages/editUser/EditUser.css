@@ -1,0 +1,25 @@
+/* Sidebar hover effect */
+.sidebar a {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-radius: 4px;
+    color: #00ff0d;
+    text-decoration: none;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Hover effect for sidebar links */
+.sidebar a:hover {
+    background-color: #a7b1a7; /* Highlight the background on hover */
+    color: #333333; /* Change text color */
+}
+
+/* Change icon color when hovering over sidebar links */
+.sidebar a:hover svg {
+    color: #333333; /* Change icon color to dark gray */
+}
+.table tbody tr:hover {
+    background-color: #a7b1a7; /* Light green-gray color when hovered */
+    cursor: pointer; /* Show pointer cursor to indicate interactivity */
+}

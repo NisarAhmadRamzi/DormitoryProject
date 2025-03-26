@@ -1,0 +1,5 @@
+/* Remove text decoration and outline for buttons in table headers */
+table th button {
+    text-decoration: none !important; /* Remove underline */
+    outline: none !important; /* Remove focus outline */
+}

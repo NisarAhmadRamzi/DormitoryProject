@@ -1,0 +1,22 @@
+.hero {
+    background: url("https://lifestylefortress.com/wp-content/uploads/2024/01/5-3-1024x574.jpg");
+    background-size: cover; /* Ensures the image covers the entire hero section */
+    background-position: center; /* Centers the image */
+    background-repeat: no-repeat; /* Prevents repetition of the image */
+    padding: 100px 0; /* Keeps the padding you originally set */
+}
+
+.features .card {
+    border: none;
+    text-align: center;
+}
+
+.card-title {
+    font-weight: bold;
+}
+
+.price {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #333;
+}
