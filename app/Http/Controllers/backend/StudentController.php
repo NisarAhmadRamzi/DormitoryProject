@@ -60,14 +60,27 @@ class StudentController extends Controller
 
         // Create a new student record
         $student = Student::create($validatedData);
-        Fee::create([
+        $validated = [
             'student_id' => $student->id,
-            'office_pay' => 1000,
-            'office_paid' => 'Not Paid',
-            'total_fee' => 1000,
-            'registration_date' => $student->registration_date,
-            'due_date' => now()->addMonths(2), // Example: set due date to 1 month from now
-        ]);
+            'office_pay' => 1000, // Default office payment
+            'office_paid' => '1000', // Default office payment status
+            'warranty_pay' => 1000, // Default warranty payment
+            'warranty_paid' => 'Not Paid', // Default warranty payment status
+            'registration_date' => $student->registration_date, // Registration date from student record
+            'paid_date' => null, // Nullable paid date (not paid initially)
+            'due_date' => now()->addMonths(6), // Due date set to 2 months from now
+        ];
+
+        // Extract numeric values from office_paid and warranty_paid (assuming they might contain numbers)
+        $officePaidAmount = (float) filter_var($validated['office_paid'], FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
+        $warrantyPaidAmount = (float) filter_var($validated['warranty_paid'], FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
+
+        // Calculate total fee
+        $validated['total_fee'] = $officePaidAmount + $warrantyPaidAmount;
+        // $validated['total_fee'] = $validated['office_pay'] + $validated['warranty_pay'];
+
+        // Create the fee record
+        Fee::create($validated);
 
         // Return the created student as a resource
         return new StudentResource($student);

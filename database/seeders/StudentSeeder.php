@@ -78,7 +78,7 @@ class StudentSeeder extends Seeder
             'warranty_paid' => '900', // You can keep this as a string or numeric value as per your requirement
             'total_fee' => 1400,
             'registration_date' => $student2->registration_date, // Use the registration date of the student
-            'due_date' => now()->addMonths(2), // Set due date to 2 months from now
+            'due_date' => now()->addMonths(6), // Set due date to 2 months from now
         ]);
     }
 }
