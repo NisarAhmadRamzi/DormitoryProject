@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 
 import { SideBar } from "../dashboard/Dashboard";
 import Swal from "sweetalert2";
-import img1 from "../../assets/images/profile/education/mohammad.jpg";
+import img1 from "../../assets/images/profile/education/mohammad.jpg"
 import { useNavigate } from "react-router-dom";
 
 function StudentTable() {
@@ -430,32 +430,8 @@ function StudentTable() {
                                                             </td>
                                                             <td className="p-3">
                                                                 <div className="d-flex">
-                                                                    {/* <button
-                                                                        onClick={() =>
-                                                                            handleEdit(
-                                                                                student
-                                                                                    .student
-                                                                                    ?.id
-                                                                            )
-                                                                        }
-                                                                        className="btn btn-primary shadow btn-xs sharp me-2"
-                                                                    >
-                                                                        <i className="fa fa-pencil-alt"></i>
-                                                                    </button>
-                                                                    <button
-                                                                        onClick={() =>
-                                                                            handleDelete(
-                                                                                student
-                                                                                    .student
-                                                                                    ?.id
-                                                                            )
-                                                                        }
-                                                                        className="btn btn-danger shadow btn-xs sharp"
-                                                                    >
-                                                                        <i className="fa fa-trash"></i>
-                                                                    </button> */}
                                                                                                                                 <button
-                                                                      onClick={() => handleEdit(student.student.id)}
+                                                                  onClick={() => handleEdit(student.student.id)}
                                                                       className="btn btn-primary shadow btn-xs sharp me-1"
                                                                     >
                                                                       <FaPencilAlt /> {/* Replace the pencil icon */}
