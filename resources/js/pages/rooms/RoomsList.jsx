@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from "react";
 import "./RoomsList.css";
+
+import { FaArrowDown, FaArrowUp, FaPencilAlt, FaTrash } from "react-icons/fa"; // Import React Icons for sorting, edit and delete
+import React, { useEffect, useState } from "react";
+
+import { SideBar } from "../../pages/dashboard/Dashboard";
+import Swal from "sweetalert2";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import Swal from "sweetalert2";
-import { SideBar } from "../../pages/dashboard/Dashboard";
-import { FaArrowUp, FaArrowDown } from "react-icons/fa"; // Importing icons for sorting
 
 function RoomsList() {
     const [rooms, setRooms] = useState([]);
@@ -345,7 +347,7 @@ function RoomsList() {
                                                                 }
                                                                 className="btn btn-primary shadow btn-xs sharp me-1"
                                                             >
-                                                                <i className="fa fa-pencil-alt"></i>
+                                                                <FaPencilAlt />
                                                             </button>
                                                             <button
                                                                 onClick={() =>
@@ -355,7 +357,7 @@ function RoomsList() {
                                                                 }
                                                                 className="btn btn-danger shadow btn-xs sharp"
                                                             >
-                                                                <i className="fa fa-trash"></i>
+                                                                <FaTrash />
                                                             </button>
                                                         </td>
                                                     </tr>
@@ -374,3 +376,4 @@ function RoomsList() {
 }
 
 export default RoomsList;
+

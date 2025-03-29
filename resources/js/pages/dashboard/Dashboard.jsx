@@ -1,8 +1,10 @@
 import "bootstrap/dist/css/bootstrap.min.css";
-import React from "react";
 import "./Dashboard.css";
 import "./FeeCollection.css";
+
 import { Link } from "react-router-dom";
+import React from "react";
+
 function Dashboard() {
     return (
         <div className="main-container">

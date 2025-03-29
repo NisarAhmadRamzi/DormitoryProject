@@ -1,9 +1,11 @@
+import { FaChevronDown, FaChevronUp } from "react-icons/fa"; // Import sort icons
+import { FaPencilAlt, FaTrash } from "react-icons/fa";
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+
+import { SideBar } from "../dashboard/Dashboard";
 import Swal from "sweetalert2";
 import img1 from "../../assets/images/profile/education/mohammad.jpg";
-import { SideBar } from "../dashboard/Dashboard";
-import { FaChevronUp, FaChevronDown } from "react-icons/fa"; // Import sort icons
+import { useNavigate } from "react-router-dom";
 
 function StudentTable() {
     const [students, setStudents] = useState([]);
@@ -428,7 +430,7 @@ function StudentTable() {
                                                             </td>
                                                             <td className="p-3">
                                                                 <div className="d-flex">
-                                                                    <button
+                                                                    {/* <button
                                                                         onClick={() =>
                                                                             handleEdit(
                                                                                 student
@@ -451,6 +453,18 @@ function StudentTable() {
                                                                         className="btn btn-danger shadow btn-xs sharp"
                                                                     >
                                                                         <i className="fa fa-trash"></i>
+                                                                    </button> */}
+                                                                                                                                <button
+                                                                      onClick={() => handleEdit(complaint.id)}
+                                                                      className="btn btn-primary shadow btn-xs sharp me-1"
+                                                                    >
+                                                                      <FaPencilAlt /> {/* Replace the pencil icon */}
+                                                                    </button>
+                                                                    <button
+                                                                      onClick={() => handleDelete(complaint.id)}
+                                                                      className="btn btn-danger shadow btn-xs sharp"
+                                                                    >
+                                                                      <FaTrash /> {/* Replace the trash icon */}
                                                                     </button>
                                                                 </div>
                                                             </td>

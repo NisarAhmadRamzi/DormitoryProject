@@ -1,9 +1,11 @@
+import { FaArrowDown, FaArrowUp } from "react-icons/fa"; // Importing icons for sorting
+import { FaPencilAlt, FaTrash } from "react-icons/fa";
 import React, { useEffect, useState } from "react";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
+
 import Swal from "sweetalert2";
+import axios from "axios";
 import img1 from "../../assets/images/profile/education/mohammad.jpg"; // Default profile image
-import { FaArrowUp, FaArrowDown } from "react-icons/fa"; // Importing icons for sorting
+import { useNavigate } from "react-router-dom";
 
 function UsersList() {
     const [users, setUsers] = useState([]); // Store the users data
@@ -233,7 +235,7 @@ function UsersList() {
                                                     </td>
                                                     <td className="p-3">
                                                         <div className="d-flex">
-                                                            <button
+                                                            {/* <button
                                                                 onClick={() =>
                                                                     handleEdit(
                                                                         user.id
@@ -252,7 +254,19 @@ function UsersList() {
                                                                 className="btn btn-danger shadow btn-xs sharp"
                                                             >
                                                                 <i className="fa fa-trash"></i>
-                                                            </button>
+                                                            </button> */}
+                                                        <button
+                                                        onClick={() => handleEdit(complaint.id)}
+                                                        className="btn btn-primary shadow btn-xs sharp me-1"
+                                                        >
+                                                        <FaPencilAlt /> {/* Replace the pencil icon */}
+                                                        </button>
+                                                        <button
+                                                        onClick={() => handleDelete(complaint.id)}
+                                                        className="btn btn-danger shadow btn-xs sharp"
+                                                        >
+                                                        <FaTrash /> {/* Replace the trash icon */}
+                                                        </button>
                                                         </div>
                                                     </td>
                                                 </tr>

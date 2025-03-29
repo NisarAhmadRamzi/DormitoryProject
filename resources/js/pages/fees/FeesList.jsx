@@ -1,9 +1,10 @@
+import { FaArrowDown, FaArrowUp, FaPencilAlt, FaTrash } from "react-icons/fa"; // Importing icons for sorting, edit, and delete
 import React, { useEffect, useState } from "react";
+
+import { SideBar } from "../dashboard/Dashboard";
+import Swal from "sweetalert2";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import Swal from "sweetalert2";
-import { SideBar } from "../dashboard/Dashboard";
-import { FaArrowUp, FaArrowDown } from "react-icons/fa"; // Importing icons for sorting
 
 function FeesList() {
     const [fees, setFees] = useState([]);
@@ -293,17 +294,10 @@ function FeesList() {
                                                         <td>{fee.id}</td>
                                                         <td>
                                                             {fee.student.name}{" "}
-                                                            {
-                                                                fee.student
-                                                                    .last_name
-                                                            }
+                                                            {fee.student.last_name}
                                                         </td>
-                                                        <td>
-                                                            {fee.office_pay}
-                                                        </td>
-                                                        <td>
-                                                            {fee.office_paid}
-                                                        </td>
+                                                        <td>{fee.office_pay}</td>
+                                                        <td>{fee.office_paid}</td>
                                                         <td>{fee.total_fee}</td>
                                                         <td>{fee.due_date}</td>
                                                         <td>
@@ -315,7 +309,7 @@ function FeesList() {
                                                                 }
                                                                 className="btn btn-primary shadow btn-xs sharp me-1"
                                                             >
-                                                                <i className="fa fa-pencil-alt"></i>
+                                                                <FaPencilAlt />
                                                             </button>
                                                             <button
                                                                 onClick={() =>
@@ -325,7 +319,7 @@ function FeesList() {
                                                                 }
                                                                 className="btn btn-danger shadow btn-xs sharp"
                                                             >
-                                                                <i className="fa fa-trash"></i>
+                                                                <FaTrash />
                                                             </button>
                                                         </td>
                                                     </tr>
