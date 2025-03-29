@@ -1,10 +1,17 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+
 import Swal from "sweetalert2";
+import axios from "axios";
 
 function UserEditing() {
-    const [userData, setUserData] = useState({ id: "", name: "", email: "" });
+    const [userData, setUserData] = useState({
+        id: "",
+        name: "",
+        email: "",
+        role: "library_student",
+        profile: null
+    });
     const userId = useParams().userId; // Get userId from URL
     const navigate = useNavigate(); // Use navigate for redirection
 
@@ -23,23 +30,37 @@ function UserEditing() {
         setUserData({
             ...userData,
             [e.target.name]: e.target.value,
-            password: 12345678,
+            password: 12345678, // Retain the password field if required
+        });
+    };
+
+    const handleFileChange = (e) => {
+        setUserData({
+            ...userData,
+            profile: e.target.files[0], // Store the file object
         });
     };
 
     const updateHandler = (e) => {
         e.preventDefault(); // Prevent the default form submission behavior
 
+        // Prepare FormData to send the profile image and other data
+        const formData = new FormData();
+        formData.append("name", userData.name);
+        formData.append("email", userData.email);
+        formData.append("role", userData.role);
+        formData.append("password", 12345678); // Set password as needed
+        formData.append("cpassword", 12345678); // Confirm password
+
+        if (userData.profile) {
+            formData.append("profile", userData.profile); // Append the profile image if present
+        }
+
+        // Send the FormData to the API
         axios
-            .post(`http://127.0.0.1:8000/api/users/updateUsers/${userId}`, {
-                ...userData,
-                password: 12345678,
-                cpassword: 12345678,
-            }) // Pass userData to the POST request
+            .post(`http://127.0.0.1:8000/api/users/updateUsers/${userId}`, formData)
             .then((response) => {
                 console.log("User updated:", response.data);
-
-                // SweetAlert confirmation
                 Swal.fire({
                     title: "Success!",
                     text: "User has been updated.",
@@ -60,7 +81,6 @@ function UserEditing() {
                 });
             });
     };
-    console.log(userData);
 
     return (
         <div>
@@ -84,6 +104,29 @@ function UserEditing() {
                             name="email"
                             value={userData.email}
                             onChange={handleChange}
+                            className="form-control"
+                        />
+                    </div>
+                    <div className="form-group">
+                        <label>Role</label>
+                        <select
+                            name="role"
+                            value={userData.role}
+                            onChange={handleChange}
+                            className="form-control"
+                        >
+                            <option value="admin">Admin</option>
+                            {/* <option value="second_admin">Second Admin</option> */}
+                            <option value="student">Student</option>
+                            {/* <option value="library_student">Library Student</option> */}
+                        </select>
+                    </div>
+                    <div className="form-group">
+                        <label>Profile Image</label>
+                        <input
+                            type="file"
+                            name="profile"
+                            onChange={handleFileChange}
                             className="form-control"
                         />
                     </div>
