@@ -455,13 +455,13 @@ function StudentTable() {
                                                                         <i className="fa fa-trash"></i>
                                                                     </button> */}
                                                                                                                                 <button
-                                                                      onClick={() => handleEdit(complaint.id)}
+                                                                      onClick={() => handleEdit(student.student.id)}
                                                                       className="btn btn-primary shadow btn-xs sharp me-1"
                                                                     >
                                                                       <FaPencilAlt /> {/* Replace the pencil icon */}
                                                                     </button>
                                                                     <button
-                                                                      onClick={() => handleDelete(complaint.id)}
+                                                                      onClick={() => handleDelete(student.student.id)}
                                                                       className="btn btn-danger shadow btn-xs sharp"
                                                                     >
                                                                       <FaTrash /> {/* Replace the trash icon */}
