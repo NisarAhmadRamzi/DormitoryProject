@@ -172,6 +172,27 @@ export function SideBar() {
                             </li>
                         </ul>
                     </li>
+                                        <li>
+                        <a
+                            className="d-flex align-items-center has-arrow"
+                            href="javascript:void()"
+                            aria-expanded="false"
+                        >
+                            <i className="la la-book fs-3 me-3"></i>
+                            <span className="nav-text fs-5">Library</span>
+                        </a>
+                        <ul aria-expanded="false">
+                            <li>
+                                <Link to="/dashboard/libraryStudent">All Library Students</Link>
+                            </li>
+                            <li>
+                                <a href="add-library.html">Add Library</a>
+                            </li>
+                            <li>
+                                <a href="edit-library.html">Edit Library</a>
+                            </li>
+                        </ul>
+                    </li>
                     <li>
                         <a
                             className="d-flex align-items-center has-arrow"

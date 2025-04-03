@@ -5,6 +5,7 @@ import AddNewStudent from "./pages/allStudents/AddNewStudent";
 import AddRoom from "./pages/rooms/AddRoom";
 import Admin from "./pages/admin/Admin";
 import AllLibraries from "./pages/library/AllLibraries";
+import AllLibraryStudent from "./pages/library student/AllLibraryStudent";
 import AllRooms from "./pages/rooms/AllRooms";
 import AllStudents from "./pages/allStudents/AllStudents";
 import AllUsers from "./pages/allUsers/AllUsers";
@@ -67,5 +68,7 @@ export const allRoutes = [
     { path: "/dashboard/library", element: <AllLibraries/> },
     { path: "/dashboard/addLibrary", element: <AddLibrary /> },
     { path: "/dashboard/editLibrary/:libraryId", element: <EditLibrary /> },
-    
+       // Library Student Routes
+
+    { path: "/dashboard/libraryStudent", element: <AllLibraryStudent/> },
 ];
