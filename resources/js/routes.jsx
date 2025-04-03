@@ -3,6 +3,7 @@ import AddFee from "./pages/fees/AddFee";
 import AddLibrary from "./pages/library/AddLibrary";
 import AddNewStudent from "./pages/allStudents/AddNewStudent";
 import AddRoom from "./pages/rooms/AddRoom";
+import AddStudentLibrary from "./pages/library student/AddStudentLibrary";
 import Admin from "./pages/admin/Admin";
 import AllLibraries from "./pages/library/AllLibraries";
 import AllLibraryStudent from "./pages/library student/AllLibraryStudent";
@@ -71,4 +72,5 @@ export const allRoutes = [
        // Library Student Routes
 
     { path: "/dashboard/libraryStudent", element: <AllLibraryStudent/> },
+    { path: "/dashboard/ibraryStudent/addLibraryStudent", element: <AddStudentLibrary /> },
 ];
