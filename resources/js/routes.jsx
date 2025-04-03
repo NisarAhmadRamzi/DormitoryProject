@@ -1,4 +1,5 @@
 import About from "./pages/about/About";
+import AddBook from "./pages/Books/AddBook";
 import AddFee from "./pages/fees/AddFee";
 import AddLibrary from "./pages/library/AddLibrary";
 import AddNewStudent from "./pages/allStudents/AddNewStudent";
@@ -78,4 +79,5 @@ export const allRoutes = [
 
       // Books Routes
     { path: "/dashboard/books", element: <AllBooks/> },
+    { path: "/dashboard/books/addBook", element: <AddBook/> },
 ];
