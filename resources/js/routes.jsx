@@ -1,25 +1,29 @@
-import Home from "./pages/home/Home";
-import Admin from "./pages/admin/Admin";
 import About from "./pages/about/About";
-import Contact from "./pages/contact/Contact";
-import View_Dorm from "./pages/view-dorm/View_Dorm";
-import Member from "./pages/member/Member";
-import Dashboard from "./pages/dashboard/Dashboard";
-import AllStudents from "./pages/allStudents/AllStudents";
-import EditStudent from "./pages/allStudents/EditStudent";
-import AllUsers from "./pages/allUsers/AllUsers";
-import UserForm from "./pages/allUsers/UserForm";
+import AddFee from "./pages/fees/AddFee";
+import AddLibrary from "./pages/library/AddLibrary";
 import AddNewStudent from "./pages/allStudents/AddNewStudent";
-import EditUser from "./pages/allUsers/EditUser";
+import AddRoom from "./pages/rooms/AddRoom";
+import Admin from "./pages/admin/Admin";
+import AllLibraries from "./pages/library/AllLibraries";
+import AllRooms from "./pages/rooms/AllRooms";
+import AllStudents from "./pages/allStudents/AllStudents";
+import AllUsers from "./pages/allUsers/AllUsers";
 import ComplaintsForm from "./components/complaints/ComplaintsForm";
 import ComplaintsList from "./components/complaints/ComplaintsList";
+import Contact from "./pages/contact/Contact";
+import Dashboard from "./pages/dashboard/Dashboard";
 import EditComplaint from "./components/complaints/EditComplaint";
-import AllRooms from "./pages/rooms/AllRooms";
-import AddRoom from "./pages/rooms/AddRoom";
-import Fee from "./pages/fees/Fee";
-import AddFee from "./pages/fees/AddFee";
-import EditRoom from "./pages/rooms/EditRoom";
 import EditFee from "./pages/fees/EditFee";
+import EditLibrary from "./pages/library/EditLibrary";
+import EditRoom from "./pages/rooms/EditRoom";
+import EditStudent from "./pages/allStudents/EditStudent";
+import EditUser from "./pages/allUsers/EditUser";
+import Fee from "./pages/fees/Fee";
+import Home from "./pages/home/Home";
+import LibraryList from "./pages/library/LibraryList";
+import Member from "./pages/member/Member";
+import UserForm from "./pages/allUsers/UserForm";
+import View_Dorm from "./pages/view-dorm/View_Dorm";
 
 export const allRoutes = [
     { path: "/", element: <Home /> },
@@ -59,4 +63,9 @@ export const allRoutes = [
     { path: "/dashboard/fees", element: <Fee /> },
     { path: "/dashboard/addFee", element: <AddFee /> },
     { path: "/dashboard/editFee/:feeId", element: <EditFee /> },
+        // Library Routes
+    { path: "/dashboard/library", element: <AllLibraries/> },
+    { path: "/dashboard/addLibrary", element: <AddLibrary /> },
+    { path: "/dashboard/editLibrary/:libraryId", element: <EditLibrary /> },
+    
 ];

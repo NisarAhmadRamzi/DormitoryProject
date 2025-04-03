@@ -162,7 +162,7 @@ export function SideBar() {
                         </a>
                         <ul aria-expanded="false">
                             <li>
-                                <a href="all-library.html">All Library</a>
+                                <Link to="/dashboard/library">All Library</Link>
                             </li>
                             <li>
                                 <a href="add-library.html">Add Library</a>

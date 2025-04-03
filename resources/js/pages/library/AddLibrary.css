@@ -1,0 +1,12 @@
+/* Custom Styling for Add Room Form */
+.card-body {
+    padding: 20px;
+}
+
+.form-group label {
+    font-weight: bold;
+}
+
+.btn-success {
+    margin-top: 20px;
+}
