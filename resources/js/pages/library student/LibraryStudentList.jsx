@@ -127,7 +127,7 @@ function LibraryStudentList() {
                         </div>
                         <div className="col-sm-6 p-md-0 justify-content-sm-end mt-2 mt-sm-0 d-flex align-items-center">
                             <button
-                                onClick={() => navigate("/dashboard/ibraryStudent/addLibraryStudent")}
+                                onClick={() => navigate("/dashboard/libraryStudent/addLibraryStudent")}
                                 className="btn btn-success ml-auto"
                             >
                                 Add New Student
@@ -381,7 +381,7 @@ function LibraryStudentList() {
                                                             <button
                                                                 onClick={() =>
                                                                     navigate(
-                                                                        `/dashboard/editLibraryStudent/${student.id}`
+                                                                        `/dashboard/libraryStudent/${student.id}`
                                                                     )
                                                                 }
                                                                 className="btn btn-primary shadow btn-xs sharp me-1"

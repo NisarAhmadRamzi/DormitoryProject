@@ -12,9 +12,9 @@ function NewStudentLibrary() {
         email: "",
         address: "",
         phone: "",
-        gender: "", // Ensure this is not empty
-        password: "", // Added password field
-        membership_status: "Active", // Default value for membership status
+        gender: "", 
+        password: "", 
+        membership_status: "Active", 
         registration_date: "",
         registration_deadline: "",
     });

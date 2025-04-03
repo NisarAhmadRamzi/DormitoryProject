@@ -179,7 +179,7 @@ export function SideBar() {
                             aria-expanded="false"
                         >
                             <i className="la la-book fs-3 me-3"></i>
-                            <span className="nav-text fs-5">Library</span>
+                            <span className="nav-text fs-5">Library Student</span>
                         </a>
                         <ul aria-expanded="false">
                             <li>

@@ -17,6 +17,7 @@ import Dashboard from "./pages/dashboard/Dashboard";
 import EditComplaint from "./components/complaints/EditComplaint";
 import EditFee from "./pages/fees/EditFee";
 import EditLibrary from "./pages/library/EditLibrary";
+import EditLibraryStudent from "./pages/library student/EditLibraryStudent";
 import EditRoom from "./pages/rooms/EditRoom";
 import EditStudent from "./pages/allStudents/EditStudent";
 import EditUser from "./pages/allUsers/EditUser";
@@ -70,7 +71,8 @@ export const allRoutes = [
     { path: "/dashboard/addLibrary", element: <AddLibrary /> },
     { path: "/dashboard/editLibrary/:libraryId", element: <EditLibrary /> },
        // Library Student Routes
-
     { path: "/dashboard/libraryStudent", element: <AllLibraryStudent/> },
     { path: "/dashboard/ibraryStudent/addLibraryStudent", element: <AddStudentLibrary /> },
+    // { path: "/dashboard/libraryStudent/:libraryStudentId", element: <EditLibraryStudent/> },
+    { path: "/dashboard/libraryStudent/:libraryStudentId", element: <EditLibraryStudent/> },
 ];
