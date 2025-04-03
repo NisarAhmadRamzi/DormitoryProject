@@ -172,7 +172,7 @@ export function SideBar() {
                             </li>
                         </ul>
                     </li>
-                                        <li>
+                     <li>
                         <a
                             className="d-flex align-items-center has-arrow"
                             href="javascript:void()"
@@ -200,11 +200,11 @@ export function SideBar() {
                             aria-expanded="false"
                         >
                             <i className="la la-users fs-3 me-3"></i>
-                            <span className="nav-text fs-5">Staff</span>
+                            <span className="nav-text fs-5">Books</span>
                         </a>
                         <ul aria-expanded="false">
                             <li>
-                                <a href="all-staff.html">All Staff</a>
+                                <Link to="/dashboard/books">All Books</Link>
                             </li>
                             <li>
                                 <a href="add-staff.html">Add Staff</a>
