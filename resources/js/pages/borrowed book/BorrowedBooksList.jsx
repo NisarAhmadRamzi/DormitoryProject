@@ -14,6 +14,16 @@ function BorrowedBooksList() {
 
   // Fetch borrowed books from the API
   const fetchBorrowedBooks = async () => {
+    // Show loading SweetAlert before fetching data
+    Swal.fire({
+      title: 'Loading...',
+      text: 'Fetching borrowed books...',
+      showConfirmButton: false,
+      didOpen: () => {
+        Swal.showLoading() // Show SweetAlert loading spinner
+      },
+    })
+
     try {
       const response = await axios.get(
         'http://127.0.0.1:8000/api/borrowed-books'
@@ -26,6 +36,8 @@ function BorrowedBooksList() {
       }
     } catch (error) {
       console.error('Error fetching borrowed books data:', error)
+    } finally {
+      Swal.close() // Close SweetAlert after data is fetched
     }
   }
 
