@@ -12,6 +12,7 @@ import UserForm from './pages/allUsers/UserForm'
 import AddBook from './pages/Books/AddBook'
 import AllBooks from './pages/Books/AllBooks'
 import EditBook from './pages/Books/EditBook'
+import AllBorrowedBooks from './pages/borrowed book/AllBorrowedBooks'
 import Contact from './pages/contact/Contact'
 import Dashboard from './pages/dashboard/Dashboard'
 import AddFee from './pages/fees/AddFee'
@@ -87,4 +88,6 @@ export const allRoutes = [
   { path: '/dashboard/books', element: <AllBooks /> },
   { path: '/dashboard/books/addBook', element: <AddBook /> },
   { path: '/dashboard/books/:bookId', element: <EditBook /> },
+  // Borrowed Book Routes
+  { path: '/dashboard/borrowedBooks', element: <AllBorrowedBooks /> },
 ]
