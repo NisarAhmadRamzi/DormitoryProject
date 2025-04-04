@@ -118,7 +118,7 @@ function BorrowedBooksList() {
           <div className="col-sm-6 p-md-0 justify-content-sm-end mt-2 mt-sm-0 d-flex align-items-center">
             <button
               onClick={() =>
-                navigate('/dashboard/borrowed-books/addBorrowedBook')
+                navigate('/dashboard/borrowedBooks/addBorrowedBook')
               }
               className="btn btn-success ml-auto"
             >
