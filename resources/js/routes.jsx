@@ -36,6 +36,8 @@ import Member from './pages/member/Member'
 import AddRoom from './pages/rooms/AddRoom'
 import AllRooms from './pages/rooms/AllRooms'
 import EditRoom from './pages/rooms/EditRoom'
+import AddSupport from './pages/supports/AddSupport'
+import AllSupports from './pages/supports/AllSupports'
 import View_Dorm from './pages/view-dorm/View_Dorm'
 
 export const allRoutes = [
@@ -111,4 +113,8 @@ export const allRoutes = [
   { path: '/dashboard/expenses', element: <AllExpenses /> },
   { path: '/dashboard/expenses/addExpenses', element: <AddExpenses /> },
   { path: '/dashboard/expenses/:expenseId', element: <EditExpense /> },
+
+  // Supports Routes
+  { path: '/dashboard/supports', element: <AllSupports /> },
+  { path: '/dashboard/supports/addSupports', element: <AddSupport /> },
 ]

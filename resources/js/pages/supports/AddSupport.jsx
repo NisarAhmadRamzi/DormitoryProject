@@ -1,18 +1,18 @@
-import AssetEditing from './AssetEditing'
 import React from 'react'
 import { SideBar } from '../dashboard/Dashboard'
+import NewSupport from './NewSupport'
 
-function EditAsset() {
+function AddSupport() {
   return (
     <div className="room-main-container">
       <div className="room-sidebar-container">
         <SideBar />
       </div>
       <div className="room-content-area">
-        <AssetEditing />
+        <NewSupport />
       </div>
     </div>
   )
 }
 
-export default EditAsset
+export default AddSupport

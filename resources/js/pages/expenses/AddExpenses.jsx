@@ -10,7 +10,6 @@ function AddExpenses() {
       </div>
       <div className="room-content-area">
         <NewExpenses />
-        {/* <NewExpenses /> */}
       </div>
     </div>
   )

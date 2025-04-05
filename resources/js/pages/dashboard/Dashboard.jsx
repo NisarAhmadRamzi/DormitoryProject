@@ -266,7 +266,31 @@ export function SideBar() {
               </li>
             </ul>
           </li>
-          {/* The rest of the sidebar items can follow the same pattern */}
+
+          <li>
+            <a
+              className="d-flex align-items-center has-arrow"
+              href="javascript:void()"
+              aria-expanded="false"
+            >
+              <i className="la la-users fs-3 me-3"></i>
+              <span className="nav-text fs-5">Supports</span>
+            </a>
+            <ul aria-expanded="false">
+              <li>
+                <Link to="/dashboard/supports">All Supports</Link>
+              </li>
+              <li>
+                <a href="add-staff.html">Add Book</a>
+              </li>
+              <li>
+                <a href="edit-staff.html">Edit Book</a>
+              </li>
+              <li>
+                <a href="staff-profile.html">Staff Profile</a>
+              </li>
+            </ul>
+          </li>
         </ul>
       </div>
     </div>
