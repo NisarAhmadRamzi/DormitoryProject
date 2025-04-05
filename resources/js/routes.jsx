@@ -9,6 +9,8 @@ import EditStudent from './pages/allStudents/EditStudent'
 import AllUsers from './pages/allUsers/AllUsers'
 import EditUser from './pages/allUsers/EditUser'
 import UserForm from './pages/allUsers/UserForm'
+import AddAsset from './pages/assets/AddAsset'
+import AllAssets from './pages/assets/AllAssets'
 import AddBook from './pages/Books/AddBook'
 import AllBooks from './pages/Books/AllBooks'
 import EditBook from './pages/Books/EditBook'
@@ -95,4 +97,8 @@ export const allRoutes = [
     path: '/dashboard/borrowedBooks/addBorrowedBook',
     element: <AddBorrowedBook />,
   },
+
+  // Assets Routes
+  { path: '/dashboard/assets', element: <AllAssets /> },
+  { path: '/dashboard/assets/addAsset', element: <AddAsset /> },
 ]
