@@ -1,5 +1,6 @@
 import React from 'react'
 import { SideBar } from '../dashboard/Dashboard'
+import NewAsset from './NewAsset'
 
 function AddAsset() {
   return (
@@ -7,7 +8,9 @@ function AddAsset() {
       <div className="room-sidebar-container">
         <SideBar />
       </div>
-      <div className="room-content-area">{/* <AssetsList /> */}</div>
+      <div className="room-content-area">
+        <NewAsset />
+      </div>
     </div>
   )
 }
