@@ -21,6 +21,7 @@ import Contact from './pages/contact/Contact'
 import Dashboard from './pages/dashboard/Dashboard'
 import AddExpenses from './pages/expenses/AddExpenses'
 import AllExpenses from './pages/expenses/AllExpenses'
+import EditExpense from './pages/expenses/EditExpense'
 import AddFee from './pages/fees/AddFee'
 import EditFee from './pages/fees/EditFee'
 import Fee from './pages/fees/Fee'
@@ -109,4 +110,5 @@ export const allRoutes = [
   //Expenses Routes
   { path: '/dashboard/expenses', element: <AllExpenses /> },
   { path: '/dashboard/expenses/addExpenses', element: <AddExpenses /> },
+  { path: '/dashboard/expenses/:expenseId', element: <EditExpense /> },
 ]
