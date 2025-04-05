@@ -11,6 +11,7 @@ import EditUser from './pages/allUsers/EditUser'
 import UserForm from './pages/allUsers/UserForm'
 import AddAsset from './pages/assets/AddAsset'
 import AllAssets from './pages/assets/AllAssets'
+import EditAsset from './pages/assets/EditAsset'
 import AddBook from './pages/Books/AddBook'
 import AllBooks from './pages/Books/AllBooks'
 import EditBook from './pages/Books/EditBook'
@@ -101,4 +102,5 @@ export const allRoutes = [
   // Assets Routes
   { path: '/dashboard/assets', element: <AllAssets /> },
   { path: '/dashboard/assets/addAsset', element: <AddAsset /> },
+  { path: '/dashboard/assets/:assetId', element: <EditAsset /> },
 ]
