@@ -84,6 +84,24 @@ export function SideBar() {
               href="javascript:void()"
               aria-expanded="false"
             >
+              <i className="la la-user fs-3 me-3"></i>
+              <span className="nav-text fs-5">Expenses</span>
+            </a>
+            <ul aria-expanded="false">
+              <li>
+                <Link to="/dashboard/expenses">All Expenses</Link>
+              </li>
+              <li>
+                <a href="professor-profile.html">User Profile</a>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <a
+              className="d-flex align-items-center has-arrow"
+              href="javascript:void()"
+              aria-expanded="false"
+            >
               <i className="la la-users fs-3 me-3"></i>
               <span className="nav-text fs-5">Students</span>
             </a>
