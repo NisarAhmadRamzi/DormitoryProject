@@ -38,6 +38,7 @@ import AllRooms from './pages/rooms/AllRooms'
 import EditRoom from './pages/rooms/EditRoom'
 import AddSupport from './pages/supports/AddSupport'
 import AllSupports from './pages/supports/AllSupports'
+import EditSupport from './pages/supports/EditSupport'
 import View_Dorm from './pages/view-dorm/View_Dorm'
 
 export const allRoutes = [
@@ -51,16 +52,13 @@ export const allRoutes = [
 
   // Users Routes
   { path: '/dashboard/allUsers', element: <AllUsers /> },
-  { path: '/dashboard/allUsers/addUser', element: <UserForm /> }, // New user creation
-  { path: '/dashboard/allUsers/editUser/:userId', element: <EditUser /> }, // Edit user
+  { path: '/dashboard/allUsers/addUser', element: <UserForm /> },
+  { path: '/dashboard/allUsers/editUser/:userId', element: <EditUser /> },
 
   // Student Routes
   { path: '/allStudents', element: <AllStudents /> },
-  {
-    path: '/dashboard/allStudents/addNewStudent',
-    element: <AddNewStudent />,
-  }, // New student creation
-  { path: '/editStudent/:studentId', element: <EditStudent /> }, // Edit student
+  { path: '/dashboard/allStudents/addNewStudent', element: <AddNewStudent /> },
+  { path: '/editStudent/:studentId', element: <EditStudent /> },
 
   // Complaints Routes
   { path: '/dashboard/complaints', element: <ComplaintsList /> },
@@ -74,14 +72,17 @@ export const allRoutes = [
   { path: '/dashboard/rooms', element: <AllRooms /> },
   { path: '/dashboard/addRoom', element: <AddRoom /> },
   { path: '/dashboard/editRoom/:roomId', element: <EditRoom /> },
+
   // Fees Routes
   { path: '/dashboard/fees', element: <Fee /> },
   { path: '/dashboard/addFee', element: <AddFee /> },
   { path: '/dashboard/editFee/:feeId', element: <EditFee /> },
+
   // Library Routes
   { path: '/dashboard/library', element: <AllLibraries /> },
   { path: '/dashboard/addLibrary', element: <AddLibrary /> },
   { path: '/dashboard/editLibrary/:libraryId', element: <EditLibrary /> },
+
   // Library Student Routes
   { path: '/dashboard/libraryStudent', element: <AllLibraryStudent /> },
   {
@@ -97,6 +98,7 @@ export const allRoutes = [
   { path: '/dashboard/books', element: <AllBooks /> },
   { path: '/dashboard/books/addBook', element: <AddBook /> },
   { path: '/dashboard/books/:bookId', element: <EditBook /> },
+
   // Borrowed Book Routes
   { path: '/dashboard/borrowedBooks', element: <AllBorrowedBooks /> },
   {
@@ -109,7 +111,7 @@ export const allRoutes = [
   { path: '/dashboard/assets/addAsset', element: <AddAsset /> },
   { path: '/dashboard/assets/:assetId', element: <EditAsset /> },
 
-  //Expenses Routes
+  // Expenses Routes
   { path: '/dashboard/expenses', element: <AllExpenses /> },
   { path: '/dashboard/expenses/addExpenses', element: <AddExpenses /> },
   { path: '/dashboard/expenses/:expenseId', element: <EditExpense /> },
@@ -117,4 +119,8 @@ export const allRoutes = [
   // Supports Routes
   { path: '/dashboard/supports', element: <AllSupports /> },
   { path: '/dashboard/supports/addSupports', element: <AddSupport /> },
+  {
+    path: '/dashboard/supports/editSupport/:supportId',
+    element: <EditSupport />,
+  }, // New route for editing support
 ]
