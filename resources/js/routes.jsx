@@ -19,6 +19,7 @@ import AddBorrowedBook from './pages/borrowed book/AddBorrowedBook'
 import AllBorrowedBooks from './pages/borrowed book/AllBorrowedBooks'
 import Contact from './pages/contact/Contact'
 import Dashboard from './pages/dashboard/Dashboard'
+import AddExpenses from './pages/expenses/AddExpenses'
 import AllExpenses from './pages/expenses/AllExpenses'
 import AddFee from './pages/fees/AddFee'
 import EditFee from './pages/fees/EditFee'
@@ -107,4 +108,5 @@ export const allRoutes = [
 
   //Expenses Routes
   { path: '/dashboard/expenses', element: <AllExpenses /> },
+  { path: '/dashboard/expenses/addExpenses', element: <AddExpenses /> },
 ]

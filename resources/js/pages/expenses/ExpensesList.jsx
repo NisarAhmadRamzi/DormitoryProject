@@ -120,7 +120,7 @@ function ExpensesList() {
           </div>
           <div className="col-sm-6 p-md-0 justify-content-sm-end mt-2 mt-sm-0 d-flex align-items-center">
             <button
-              onClick={() => navigate('/dashboard/expenses/addExpense')}
+              onClick={() => navigate('/dashboard/expenses/addExpenses')}
               className="btn btn-success ml-auto"
             >
               Add New Expense
