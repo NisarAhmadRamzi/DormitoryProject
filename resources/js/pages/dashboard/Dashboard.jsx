@@ -1,9 +1,22 @@
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './Dashboard.css'
-import './FeeCollection.css'
 
-import React from 'react'
+import { BsCassette, BsCurrencyDollar } from 'react-icons/bs'
+import { LuBookCheck, LuUsers } from 'react-icons/lu'
+import {
+  MdLibraryBooks,
+  MdOutlineMeetingRoom,
+  MdOutlineMoneyOff,
+} from 'react-icons/md'
+import { TfiBook, TfiSupport } from 'react-icons/tfi'
+
+import { AiOutlineMoneyCollect } from 'react-icons/ai'
+import { FaCoins } from 'react-icons/fa6'
+import { IoWarningOutline } from 'react-icons/io5'
+import { PiStudent } from 'react-icons/pi'
 import { Link } from 'react-router-dom'
+//v3
+import React from 'react'
 
 function Dashboard() {
   return (
@@ -34,12 +47,10 @@ export function SideBar() {
               href="javascript:void()"
               aria-expanded="false"
             >
-              <i className="la la-home fs-3 me-3"></i>{' '}
-              {/* fs-3 increases icon size */}
-              <Link to="/dashboard">
-                <span className="nav-text fs-5">Dashboard</span>
-              </Link>
-              {/* fs-5 increases text size */}
+              <LuUsers style={{ fontSize: '2.5rem' }} className="me-3 icon" />
+              <span className="nav-text fs-5">
+                <Link to="/dashboard/allUsers">Users</Link>
+              </span>
             </a>
           </li>
           <li>
@@ -48,17 +59,11 @@ export function SideBar() {
               href="javascript:void()"
               aria-expanded="false"
             >
-              <i className="la la-user fs-3 me-3"></i>
-              <span className="nav-text fs-5">Users</span>
+              <PiStudent style={{ fontSize: '2.5rem' }} className="me-3 icon" />
+              <span className="nav-text fs-5">
+                <Link to="/allStudents">Students</Link>
+              </span>
             </a>
-            <ul aria-expanded="false">
-              <li>
-                <Link to="/dashboard/allUsers">All Users</Link>
-              </li>
-              <li>
-                <a href="professor-profile.html">User Profile</a>
-              </li>
-            </ul>
           </li>
           <li>
             <a
@@ -66,17 +71,14 @@ export function SideBar() {
               href="javascript:void()"
               aria-expanded="false"
             >
-              <i className="la la-user fs-3 me-3"></i>
-              <span className="nav-text fs-5">Assets</span>
+              <BsCassette
+                style={{ fontSize: '2.5rem' }}
+                className="me-3 icon"
+              />
+              <span className="nav-text fs-5">
+                <Link to="/dashboard/assets">Assets</Link>
+              </span>
             </a>
-            <ul aria-expanded="false">
-              <li>
-                <Link to="/dashboard/assets">All Assets</Link>
-              </li>
-              <li>
-                <a href="professor-profile.html">User Profile</a>
-              </li>
-            </ul>
           </li>
           <li>
             <a
@@ -84,17 +86,14 @@ export function SideBar() {
               href="javascript:void()"
               aria-expanded="false"
             >
-              <i className="la la-user fs-3 me-3"></i>
-              <span className="nav-text fs-5">Expenses</span>
+              <AiOutlineMoneyCollect
+                style={{ fontSize: '2.5rem' }}
+                className="me-3 icon"
+              />
+              <span className="nav-text fs-5">
+                <Link to="/dashboard/expenses">Expenses</Link>
+              </span>
             </a>
-            <ul aria-expanded="false">
-              <li>
-                <Link to="/dashboard/expenses">All Expenses</Link>
-              </li>
-              <li>
-                <a href="professor-profile.html">User Profile</a>
-              </li>
-            </ul>
           </li>
           <li>
             <a
@@ -102,17 +101,14 @@ export function SideBar() {
               href="javascript:void()"
               aria-expanded="false"
             >
-              <i className="la la-users fs-3 me-3"></i>
-              <span className="nav-text fs-5">Students</span>
+              <IoWarningOutline
+                style={{ fontSize: '2.5rem' }}
+                className="me-3 icon"
+              />
+              <span className="nav-text fs-5">
+                <Link to="/dashboard/complaints">Complaints</Link>
+              </span>
             </a>
-            <ul aria-expanded="false">
-              <li>
-                <Link to="/allStudents">All Students</Link>
-              </li>
-              <li>
-                <a href="about-student.html">About Students</a>
-              </li>
-            </ul>
           </li>
           <li>
             <a
@@ -120,17 +116,14 @@ export function SideBar() {
               href="javascript:void()"
               aria-expanded="false"
             >
-              <i className="la la-exclamation-triangle fs-3 me-3"></i>
-              <span className="nav-text fs-5">Complaints</span>
+              <MdOutlineMeetingRoom
+                style={{ fontSize: '2.5rem' }}
+                className="me-3 icon"
+              />
+              <span className="nav-text fs-5">
+                <Link to="/dashboard/rooms">Rooms</Link>
+              </span>
             </a>
-            <ul aria-expanded="false">
-              <li>
-                <Link to="/dashboard/complaints">All Complaints</Link>
-              </li>
-              <li>
-                <Link to="/dashboard/addComplaints">Add Complaints</Link>
-              </li>
-            </ul>
           </li>
           <li>
             <a
@@ -138,20 +131,14 @@ export function SideBar() {
               href="javascript:void()"
               aria-expanded="false"
             >
-              <i className="la la-building fs-3 me-3"></i>
-              <span className="nav-text fs-6">Rooms Available</span>
+              <BsCurrencyDollar
+                style={{ fontSize: '2.5rem' }}
+                className="me-3 icon"
+              />
+              <span className="nav-text fs-5">
+                <Link to="/dashboard/fees">Fees</Link>
+              </span>
             </a>
-            <ul aria-expanded="false">
-              <li>
-                <Link to="/dashboard/rooms">All Rooms</Link>
-              </li>
-              <li>
-                <Link to="/dashboard/addRoom">Add Room</Link>
-              </li>
-              <li>
-                <a href="edit-departments.html">Edit Room</a>
-              </li>
-            </ul>
           </li>
           <li>
             <a
@@ -159,21 +146,14 @@ export function SideBar() {
               href="javascript:void()"
               aria-expanded="false"
             >
-              <i className="fa fa-dollar-sign fs-3 me-3"></i> {/* Fee Icon */}
-              <span className="nav-text fs-6">Fees</span>
+              <MdLibraryBooks
+                style={{ fontSize: '2.5rem' }}
+                className="me-3 icon"
+              />
+              <span className="nav-text fs-5">
+                <Link to="/dashboard/library">Library</Link>
+              </span>
             </a>
-
-            <ul aria-expanded="false">
-              <li>
-                <Link to="/dashboard/fees">All Fees</Link>
-              </li>
-              <li>
-                <Link to="/dashboard/addFee">Add Fee</Link>
-              </li>
-              <li>
-                <a href="edit-departments.html">Edit Fee</a>
-              </li>
-            </ul>
           </li>
           <li>
             <a
@@ -181,20 +161,14 @@ export function SideBar() {
               href="javascript:void()"
               aria-expanded="false"
             >
-              <i className="la la-book fs-3 me-3"></i>
-              <span className="nav-text fs-5">Library</span>
+              <TfiSupport
+                style={{ fontSize: '2.5rem' }}
+                className="me-3 icon"
+              />
+              <span className="nav-text fs-5">
+                <Link to="/dashboard/libraryStudent">Library Students</Link>
+              </span>
             </a>
-            <ul aria-expanded="false">
-              <li>
-                <Link to="/dashboard/library">All Library</Link>
-              </li>
-              <li>
-                <a href="add-library.html">Add Library</a>
-              </li>
-              <li>
-                <a href="edit-library.html">Edit Library</a>
-              </li>
-            </ul>
           </li>
           <li>
             <a
@@ -202,20 +176,11 @@ export function SideBar() {
               href="javascript:void()"
               aria-expanded="false"
             >
-              <i className="la la-book fs-3 me-3"></i>
-              <span className="nav-text fs-5">Library Student</span>
+              <TfiBook style={{ fontSize: '2.5rem' }} className="me-3 icon" />
+              <span className="nav-text fs-5">
+                <Link to="/dashboard/books">Books</Link>
+              </span>
             </a>
-            <ul aria-expanded="false">
-              <li>
-                <Link to="/dashboard/libraryStudent">All Library Students</Link>
-              </li>
-              <li>
-                <a href="add-library.html">Add Library</a>
-              </li>
-              <li>
-                <a href="edit-library.html">Edit Library</a>
-              </li>
-            </ul>
           </li>
           <li>
             <a
@@ -223,73 +188,41 @@ export function SideBar() {
               href="javascript:void()"
               aria-expanded="false"
             >
-              <i className="la la-users fs-3 me-3"></i>
-              <span className="nav-text fs-5">Books</span>
+              <LuBookCheck
+                style={{ fontSize: '2.5rem' }}
+                className="me-3 icon"
+              />
+              <span className="nav-text fs-5">
+                <Link to="/dashboard/borrowedBooks">Borrowed Books</Link>
+              </span>
             </a>
-            <ul aria-expanded="false">
-              <li>
-                <Link to="/dashboard/books">All Books</Link>
-              </li>
-              <li>
-                <a href="add-staff.html">Add Book</a>
-              </li>
-              <li>
-                <a href="edit-staff.html">Edit Book</a>
-              </li>
-              <li>
-                <a href="staff-profile.html">Staff Profile</a>
-              </li>
-            </ul>
           </li>
-          {/* borrowed book */}
           <li>
             <a
               className="d-flex align-items-center has-arrow"
               href="javascript:void()"
               aria-expanded="false"
             >
-              <i className="la la-users fs-3 me-3"></i>
-              <span className="nav-text fs-5">Borrowed Books</span>
+              <FaCoins style={{ fontSize: '2.5rem' }} className="me-3 icon" />
+              <span className="nav-text fs-5">
+                <Link to="/dashboard/supports">Supports</Link>
+              </span>
             </a>
-            <ul aria-expanded="false">
-              <li>
-                <Link to="/dashboard/borrowedBooks">All Borrowed Books</Link>
-              </li>
-              <li>
-                <a href="add-staff.html">Add Book</a>
-              </li>
-              <li>
-                <a href="edit-staff.html">Edit Book</a>
-              </li>
-              <li>
-                <a href="staff-profile.html">Staff Profile</a>
-              </li>
-            </ul>
           </li>
-
           <li>
             <a
               className="d-flex align-items-center has-arrow"
               href="javascript:void()"
               aria-expanded="false"
             >
-              <i className="la la-users fs-3 me-3"></i>
-              <span className="nav-text fs-5">Supports</span>
+              <MdOutlineMoneyOff
+                style={{ fontSize: '2.5rem' }}
+                className="me-3 icon"
+              />
+              <span className="nav-text fs-5">
+                <Link to="/dashboard/assets">Supports</Link>
+              </span>
             </a>
-            <ul aria-expanded="false">
-              <li>
-                <Link to="/dashboard/supports">All Supports</Link>
-              </li>
-              <li>
-                <a href="add-staff.html">Add Book</a>
-              </li>
-              <li>
-                <a href="edit-staff.html">Edit Book</a>
-              </li>
-              <li>
-                <a href="staff-profile.html">Staff Profile</a>
-              </li>
-            </ul>
           </li>
         </ul>
       </div>
@@ -300,95 +233,7 @@ export function SideBar() {
 export function Content() {
   return (
     <div className="content-body">
-      <div className="container-fluid">
-        <div className="row">
-          <div className="col-xl-3 col-xxl-3 col-sm-6">
-            <div className="widget-stat card bg-primary overflow-hidden">
-              <div className="card-header">
-                <h3 className="card-title text-white">Total Students</h3>
-                <h5 className="text-white mb-0">
-                  <i className="fa fa-caret-up"></i> 422
-                </h5>
-              </div>
-              <div className="card-body text-center mt-3">
-                <div className="ico-sparkline">
-                  <div id="sparkline12"></div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="col-xl-3 col-xxl-3 col-sm-6">
-            <div className="widget-stat card bg-success overflow-hidden">
-              <div className="card-header">
-                <h3 className="card-title text-white">New Students</h3>
-                <h5 className="text-white mb-0">
-                  <i className="fa fa-caret-up"></i> 357
-                </h5>
-              </div>
-              <div className="card-body text-center mt-4 p-0">
-                <div className="ico-sparkline">
-                  <div id="spark-bar-2"></div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="col-xl-3 col-xxl-3 col-sm-6">
-            <div className="widget-stat card bg-secondary overflow-hidden">
-              <div className="card-header pb-3">
-                <h3 className="card-title text-white">Total Course</h3>
-                <h5 className="text-white mb-0">
-                  <i className="fa fa-caret-up"></i> 547
-                </h5>
-              </div>
-              <div className="card-body p-0 mt-2">
-                <div className="px-4">
-                  <span
-                    className="bar1"
-                    data-peity='{ "fill": ["rgb(0, 0, 128)", "rgb(7, 135, 234)"]}'
-                  >
-                    6,2,8,4,-3,8,1,-3,6,-5,9,2,-8,1,4,8,9,8,2,1
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="col-xl-3 col-xxl-3 col-sm-6">
-            <div className="widget-stat card bg-danger overflow-hidden">
-              <div className="card-header pb-3">
-                <h3 className="card-title text-white">Fees Collection</h3>
-                <h5 className="text-white mb-0">
-                  <i className="fa fa-caret-up"></i> 3280$
-                </h5>
-              </div>
-              <div className="card-body p-0 mt-1">
-                <span className="peity-line-2" data-width="100%">
-                  7,6,8,7,3,8,3,3,6,5,9,2,8
-                </span>
-              </div>
-            </div>
-          </div>
-          <div className="col-xl-6 col-xxl-6 col-sm-6">
-            <div className="card shadow1">
-              <div className="card-header">
-                <h3 className="card-title">Income/Expense Report</h3>
-              </div>
-              <div className="card-body">
-                <canvas id="barChart_2"></canvas>
-              </div>
-            </div>
-          </div>
-          <div className="col-xl-6 col-xxl-6 col-sm-6">
-            <div className="card shadow1">
-              <div className="card-header">
-                <h3 className="card-title">Income/Expense Report</h3>
-              </div>
-              <div className="card-body">
-                <canvas id="areaChart_1"></canvas>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <div className="container-fluid">{/* Your content goes here */}</div>
     </div>
   )
 }
