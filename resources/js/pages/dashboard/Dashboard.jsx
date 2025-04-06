@@ -47,7 +47,7 @@ export function SideBar() {
               href="javascript:void()"
               aria-expanded="false"
             >
-              <LuUsers style={{ fontSize: '2.5rem' }} className="me-3 icon" />
+              <LuUsers size="3x" className="me-3" />
               <span className="nav-text fs-5">
                 <Link to="/dashboard/allUsers">Users</Link>
               </span>
