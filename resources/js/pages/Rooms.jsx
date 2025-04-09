@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react'
 
-import { Button } from 'react-bootstrap'
 import CreateRoomForm from '../features/rooms/CreateRoomForm'
 import RoomTable from '../features/rooms/RoomTable'
 import { getCabins } from '../services/apiCabins'
+import Button from '../ui/Button'
 import Heading from '../ui/Heading'
 import Row from '../ui/Row'
 
@@ -23,7 +23,7 @@ function Rooms() {
         <Button onClick={() => setShowForm((show) => !show)}>
           Add new cabin
         </Button>
-        {showForm && CreateRoomForm}
+        {showForm && <CreateRoomForm />}
       </Row>
     </>
   )
