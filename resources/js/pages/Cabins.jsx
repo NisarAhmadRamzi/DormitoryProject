@@ -10,9 +10,16 @@ function Cabins() {
   }, [])
   return (
     <>
-      <Row type="horizontal">
+      <Row
+        type="horizontal"
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          width: '100%',
+        }}
+      >
         <Heading as="h1">All cabins</Heading>
-        <p style={{ textAlign: 'right' }}>Filter/Sort</p>
+        <p style={{ marginLeft: 'auto' }}>Filter/Sort</p>
       </Row>
       <Row>
         <CabinsTable />
