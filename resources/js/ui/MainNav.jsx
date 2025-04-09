@@ -98,7 +98,7 @@ function MainNav() {
           </StyledNavlink>
         </li>
         <li>
-          <StyledNavlink to="/cabins">
+          <StyledNavlink to="/rooms">
             <IoBedOutline />
             <span>Rooms</span>
           </StyledNavlink>

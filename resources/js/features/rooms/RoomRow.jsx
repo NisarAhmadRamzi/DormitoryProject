@@ -48,7 +48,7 @@ const Discount = styled.div`
   color: var(--color-green-700);
 `
 
-const CabinRow = ({ cabin }) => {
+const RoomRow = ({ cabin }) => {
   const { id, room_number, type, capacity, current_occupancy, price, status } =
     cabin
 
@@ -58,10 +58,10 @@ const CabinRow = ({ cabin }) => {
       <Id>{room_number}</Id>
       <Id>{type}</Id>
       <Id>{capacity}</Id>
-      <Id>{current_occupancy}</Id>
       <Discount>{formatCurrency(price)}</Discount>
+      <button>Delete</button>
     </TableRow>
   )
 }
 
-export default CabinRow
+export default RoomRow

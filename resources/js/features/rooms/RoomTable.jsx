@@ -56,7 +56,7 @@ import { useQuery } from '@tanstack/react-query'
 import styled from 'styled-components'
 import { getCabins } from '../../services/apiCabins'
 import Spinner from '../../ui/Spinner'
-import CabinRow from './CabinRow'
+import RoomRow from './RoomRow'
 
 // Styled components
 const Table = styled.div`
@@ -110,12 +110,11 @@ function CabinsTable() {
         <div>Number</div>
         <div>Type</div>
         <div>Capacity</div>
-        <div>Currently</div>
-        <div>Price</div>
-        {/* <div>Status</div> */}
+        <div>Prices</div>
+        <div>Action</div>
       </TableHeader>
       {cabinsData.map((cabin) => (
-        <CabinRow cabin={cabin} key={cabin.id} />
+        <RoomRow cabin={cabin} key={cabin.id} />
       ))}
     </Table>
   )
