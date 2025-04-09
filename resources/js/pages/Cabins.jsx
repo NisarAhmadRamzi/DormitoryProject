@@ -1,9 +1,8 @@
 import { useEffect } from 'react'
 import CabinsTable from '../features/cabins/CabinTable'
+import { getCabins } from '../services/apiCabins'
 import Heading from '../ui/Heading'
 import Row from '../ui/Row'
-
-// import { getCabins } from '../services/apiCabins'
 
 function Cabins() {
   useEffect(function () {
