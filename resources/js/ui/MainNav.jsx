@@ -1,17 +1,28 @@
-import { HiOutlineHome, HiOutlineHomeModern } from "react-icons/hi2";
+import { IoBedOutline, IoSettingsOutline } from 'react-icons/io5'
+import {
+  PiBookBold,
+  PiCurrencyDollarSimpleBold,
+  PiGraduationCapDuotone,
+  PiGraduationCapLight,
+} from 'react-icons/pi'
 
-import { IoSettingsOutline } from "react-icons/io5";
-import { LuUsers } from "react-icons/lu";
-import { MdOutlineHomeRepairService } from "react-icons/md";
-import { NavLink } from "react-router-dom";
-import { VscAccount } from "react-icons/vsc";
-import styled from "styled-components";
+import { BsCurrencyDollar } from 'react-icons/bs'
+import { HiOutlineHomeModern } from 'react-icons/hi2'
+import { IoWarningOutline } from 'react-icons/io5'
+import { LuUsers } from 'react-icons/lu'
+import { MdOutlineLibraryBooks } from 'react-icons/md'
+import { RxDashboard } from 'react-icons/rx'
+import { TbDatabaseDollar } from 'react-icons/tb'
+import { TfiSupport } from 'react-icons/tfi'
+import { VscAccount } from 'react-icons/vsc'
+import { NavLink } from 'react-router-dom'
+import styled from 'styled-components'
 
 const NavList = styled.ul`
   display: flex;
   flex-direction: column;
   gap: 0.8rem;
-`;
+`
 
 const StyledNavlink = styled(NavLink)`
   &:link,
@@ -50,7 +61,7 @@ const StyledNavlink = styled(NavLink)`
   &.active:visited svg {
     color: var(--color-brand-600);
   }
-`;
+`
 
 function MainNav() {
   return (
@@ -58,20 +69,8 @@ function MainNav() {
       <NavList>
         <li>
           <StyledNavlink to="/dashboard">
-            <HiOutlineHome />
-            <span> Home</span>
-          </StyledNavlink>
-        </li>
-        <li>
-          <StyledNavlink to="/bookins">
-            <HiOutlineHomeModern />
-            <span> Bookings</span>
-          </StyledNavlink>
-        </li>
-        <li>
-          <StyledNavlink to="/cabins">
-            <MdOutlineHomeRepairService />
-            <span> Cabins</span>
+            <RxDashboard />
+            <span>Dashboard</span>
           </StyledNavlink>
         </li>
         <li>
@@ -81,6 +80,72 @@ function MainNav() {
           </StyledNavlink>
         </li>
         <li>
+          <StyledNavlink to="/students">
+            <PiGraduationCapLight />
+            <span>Students</span>
+          </StyledNavlink>
+        </li>
+        <li>
+          <StyledNavlink to="/library">
+            <HiOutlineHomeModern />
+            <span>Library</span>
+          </StyledNavlink>
+        </li>
+        <li>
+          <StyledNavlink to="/library-students">
+            <PiGraduationCapDuotone />
+            <span>Library Students</span>
+          </StyledNavlink>
+        </li>
+        <li>
+          <StyledNavlink to="/rooms">
+            <IoBedOutline />
+            <span>Rooms</span>
+          </StyledNavlink>
+        </li>
+        <li>
+          <StyledNavlink to="/assets">
+            <TbDatabaseDollar />
+            <span>Assets</span>
+          </StyledNavlink>
+        </li>
+        <li>
+          <li>
+            <StyledNavlink to="/fees">
+              <BsCurrencyDollar />
+              <span>Fees</span>
+            </StyledNavlink>
+          </li>
+          <li>
+            <StyledNavlink to="/expenses">
+              <PiCurrencyDollarSimpleBold />
+              <span>Expenses</span>
+            </StyledNavlink>
+          </li>
+          <li>
+            <StyledNavlink to="/supports">
+              <TfiSupport />
+              <span>Supports</span>
+            </StyledNavlink>
+          </li>
+          <li>
+            <StyledNavlink to="/books">
+              <MdOutlineLibraryBooks />
+              <span>Books</span>
+            </StyledNavlink>
+          </li>
+          <li>
+            <StyledNavlink to="/borrwoed- books">
+              <PiBookBold />
+              <span>BorowBooks</span>
+            </StyledNavlink>
+          </li>
+          <li>
+            <StyledNavlink to="/complaints">
+              <IoWarningOutline />
+              <span>Complaints</span>
+            </StyledNavlink>
+          </li>
           <StyledNavlink to="/settings">
             <IoSettingsOutline />
             <span> Settings</span>
@@ -94,6 +159,6 @@ function MainNav() {
         </li>
       </NavList>
     </nav>
-  );
+  )
 }
-export default MainNav;
+export default MainNav
