@@ -3,6 +3,7 @@ import { Navigate, Route, Routes } from 'react-router-dom'
 
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import React from 'react'
+import { Toaster } from 'react-hot-toast'
 import Account from '../pages/Account'
 import Bookings from '../pages/Bookings'
 import Dashboard from '../pages/Dashboard'
@@ -42,6 +43,29 @@ const Main = () => {
         <Route path="login" element={<Login />} />
         <Route path="*" element={<PageNotFound />} />
       </Routes>
+      <Toaster
+        position="top-center"
+        gutter={15}
+        containerStyle={{
+          margin: '8px',
+          marginTop: '30px',
+        }}
+        toastOptions={{
+          success: {
+            duration: 3000,
+          },
+          error: {
+            duration: 5000,
+          },
+          style: {
+            fontSize: '16px',
+            maxWidth: '500px',
+            padding: '20px  24px',
+            backgroundColor: 'var(--color-grey-0)',
+            color: 'var(--color-grey-700)',
+          },
+        }}
+      />
     </QueryClientProvider>
   )
 }

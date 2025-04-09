@@ -1,5 +1,9 @@
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+
 import React from 'react'
+import toast from 'react-hot-toast'
 import styled from 'styled-components'
+import { DeleteRooms } from '../../services/apiCabins'
 import { formatCurrency } from '../../utils/helpers'
 
 const TableRow = styled.div`
@@ -24,12 +28,6 @@ const TableRow = styled.div`
 //   transform: scale(1.5) translateX(-7px);
 // `
 
-// const Cabin = styled.div`
-//   font-size: 1.6rem;
-//   font-weight: 600;
-//   color: var(--color-grey-600);
-//   font-family: 'Sono';
-// `
 const Id = styled.div`
   font-size: 1.6rem;
   font-weight: 600;
@@ -49,17 +47,29 @@ const Discount = styled.div`
 `
 
 const RoomRow = ({ cabin }) => {
-  const { id, room_number, type, capacity, current_occupancy, price, status } =
-    cabin
+  const { id: roomId, room_number, type, capacity, price } = cabin
+  const queryClient = useQueryClient()
+  const { isLoading: isDeleting, mutate } = useMutation({
+    mutationFn: DeleteRooms,
+    onSuccess: () => {
+      toast.success('The room was deleted successfully')
+      queryClient.invalidateQueries({
+        queryKey: ['cabins'],
+      })
+    },
+    onError: (err) => toast.error(err.message || 'Room could not be deleted'), // Fixed error message
+  })
 
   return (
     <TableRow role="row">
-      <Id>{id}</Id>
+      <Id>{roomId}</Id>
       <Id>{room_number}</Id>
       <Id>{type}</Id>
       <Id>{capacity}</Id>
       <Discount>{formatCurrency(price)}</Discount>
-      <button>Delete</button>
+      <button onClick={() => mutate(roomId)} disabled={isDeleting}>
+        Delete
+      </button>
     </TableRow>
   )
 }
