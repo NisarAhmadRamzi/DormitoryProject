@@ -21,15 +21,6 @@ const TableRow = styled.div`
   }
 `
 
-// const Img = styled.img`
-//   display: block;
-//   width: 6.4rem;
-//   aspect-ratio: 3 / 2;
-//   object-fit: cover;
-//   object-position: center;
-//   transform: scale(1.5) translateX(-7px);
-// `
-
 const Id = styled.div`
   font-size: 1.6rem;
   font-weight: 600;
@@ -106,14 +97,6 @@ const RoomRow = ({ cabin }) => {
         <Id>{type}</Id>
         <Id>{capacity}</Id>
         <Discount>{formatCurrency(price)}</Discount>
-        {/* <div>
-          <button onClick={() => setShowForm((show) => !show)}>
-            <HiPencil />
-          </button>
-          <button onClick={() => mutate(roomId)} disabled={isDeleting}>
-            <HiTrash />
-          </button>
-        </div> */}
         <div style={{ display: 'flex', gap: '0.4rem' }}>
           <IconButton onClick={() => setShowForm((show) => !show)}>
             <HiPencil />
