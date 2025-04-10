@@ -1,5 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import React, { useState } from 'react'
+import { HiPencil, HiTrash } from 'react-icons/hi2'
 
 import toast from 'react-hot-toast'
 import styled from 'styled-components'
@@ -36,6 +37,41 @@ const Id = styled.div`
   font-family: 'Sono';
 `
 
+const IconButton = styled.button`
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.4rem;
+  margin-right: 0.8rem;
+
+  svg {
+    width: 2.4rem;
+    height: 2.4rem;
+    color: var(--color-grey-500);
+    transition: color 0.2s ease;
+  }
+
+  &:hover svg {
+    color: var(
+      --color-brand-600
+    ); /* Change this to a theme variable or color you prefer */
+  }
+
+  &:last-child {
+    margin-right: 0;
+  }
+`
+
+const DeleteButton = styled(IconButton)`
+  svg {
+    color: var(--color-red-600);
+  }
+
+  &:hover svg {
+    color: var(--color-red-700);
+  }
+`
+
 const Price = styled.div`
   font-family: 'Sono';
   font-weight: 600;
@@ -70,11 +106,21 @@ const RoomRow = ({ cabin }) => {
         <Id>{type}</Id>
         <Id>{capacity}</Id>
         <Discount>{formatCurrency(price)}</Discount>
-        <div>
-          <button onClick={() => setShowForm((show) => !show)}>Edit</button>
-          <button onClick={() => mutate(roomId)} disabled={isDeleting}>
-            Delete
+        {/* <div>
+          <button onClick={() => setShowForm((show) => !show)}>
+            <HiPencil />
           </button>
+          <button onClick={() => mutate(roomId)} disabled={isDeleting}>
+            <HiTrash />
+          </button>
+        </div> */}
+        <div style={{ display: 'flex', gap: '0.4rem' }}>
+          <IconButton onClick={() => setShowForm((show) => !show)}>
+            <HiPencil />
+          </IconButton>
+          <DeleteButton onClick={() => mutate(roomId)} disabled={isDeleting}>
+            <HiTrash />
+          </DeleteButton>
         </div>
       </TableRow>
       {/* {showForm && <CreateRoomForm roomToEdit={room} />} */}
