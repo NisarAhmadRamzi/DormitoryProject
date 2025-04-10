@@ -8,11 +8,6 @@ import Button from '../../ui/Button'
 import Form from '../../ui/Form'
 import Input from '../../ui/Input'
 
-// import { createRoom } from '../../services/apiCabins'
-
-// import { createRoom } from '../../services/apiCabins'
-
-// Custom styled Select component to match the input styling
 const StyledSelect = styled.select`
   padding: 0.8rem;
   font-size: 1.6rem;
@@ -63,28 +58,14 @@ const Error = styled.span`
   color: var(--color-red-700);
 `
 
-function CreateRoomForm({ roomToEdit = {} }) {
+function CreateRoomForm({ roomToEdit = {}, onCloseModal }) {
   const { id, editId, ...editValues } = roomToEdit
-  // const isEditSession = Boolean(editId)
   const isEditSession = Boolean(roomToEdit.id)
 
   const { register, handleSubmit, reset } = useForm({
     defaultValues: isEditSession ? editValues : {},
   })
   const queryClient = useQueryClient()
-
-  // Set up mutation for creating a room
-  // const { mutate, isLoading } = useMutation({
-  //   mutationFn: createRoom, // Using the createRoom function to send data
-  //   onSuccess: () => {
-  //     toast.success('New room successfully created')
-  //     queryClient.invalidateQueries({
-  //       queryKey: ['cabins'], // Invalidate the "cabins" query to refetch the list of rooms
-  //     })
-  //     reset() // Reset form fields
-  //   },
-  //   onError: (err) => toast.error(err.message),
-  // })
   const { mutate, isLoading } = useMutation({
     mutationFn: (data) =>
       isEditSession ? editRoom(roomToEdit.id, data) : createRoom(data),
@@ -96,6 +77,7 @@ function CreateRoomForm({ roomToEdit = {} }) {
       )
       queryClient.invalidateQueries({ queryKey: ['cabins'] })
       reset()
+      onCloseModal?.()
     },
     onError: (err) => toast.error(err.message),
   })
@@ -108,7 +90,10 @@ function CreateRoomForm({ roomToEdit = {} }) {
   }
 
   return (
-    <Form onSubmit={handleSubmit(onSubmit, onError)}>
+    <Form
+      onSubmit={handleSubmit(onSubmit, onError)}
+      type={onCloseModal ? 'moal' : 'regular'}
+    >
       <FormRow>
         <Label htmlFor="room_number">Room Number</Label>
         <Input
@@ -210,7 +195,11 @@ function CreateRoomForm({ roomToEdit = {} }) {
       </FormRow> */}
 
       <FormRow>
-        <Button variation="secondary" type="reset">
+        <Button
+          variation="secondary"
+          type="reset"
+          onClick={() => onCloseModal?.()}
+        >
           Cancel
         </Button>
         <Button type="submit" disabled={isLoading}>

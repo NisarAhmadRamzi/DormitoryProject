@@ -1,14 +1,13 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 
-import CreateRoomForm from '../features/rooms/CreateRoomForm'
+import AddRoom from '../features/rooms/AddRoom'
 import RoomTable from '../features/rooms/RoomTable'
 import { getCabins } from '../services/apiCabins'
-import Button from '../ui/Button'
 import Heading from '../ui/Heading'
 import Row from '../ui/Row'
 
 function Rooms() {
-  const [showForm, setShowForm] = useState(false)
+  // const [showForm, setShowForm] = useState(false)
   useEffect(function () {
     getCabins().then((data) => console.log(data))
   }, [])
@@ -20,10 +19,11 @@ function Rooms() {
       </Row>
       <Row>
         <RoomTable />
-        <Button onClick={() => setShowForm((show) => !show)}>
+        {/* <Button onClick={() => setShowForm((show) => !show)}>
           Add new cabin
         </Button>
-        {showForm && <CreateRoomForm />}
+        {showForm && <CreateRoomForm />} */}
+        <AddRoom />
       </Row>
     </>
   )
