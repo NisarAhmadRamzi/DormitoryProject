@@ -1,15 +1,9 @@
-import React, {
-  cloneElement,
-  createContext,
-  useContext,
-  useEffect,
-  useRef,
-  useState,
-} from 'react'
+import React, { cloneElement, createContext, useContext, useState } from 'react'
 
 import { createPortal } from 'react-dom'
 import { HiXMark } from 'react-icons/hi2'
 import styled from 'styled-components'
+import { useOuteSideClick } from '../hooks/useOuteSideClick'
 
 const StyledModal = styled.div`
   position: fixed;
@@ -77,20 +71,8 @@ function Open({ children, opensWindowName }) {
   return cloneElement(children, { onClick: () => open(opensWindowName) })
 }
 const Window = ({ children, name }) => {
-  const ref = useRef()
-  const { openName, close } = useContext(ModalContext) // ⬅️ Move this up before useEffect
-
-  useEffect(() => {
-    function handleClick(e) {
-      if (ref.current && !ref.current.contains(e.target)) {
-        close()
-      }
-    }
-
-    document.addEventListener('click', handleClick, true)
-    return () => document.removeEventListener('click', handleClick, true)
-  }, [close])
-
+  const { openName, close } = useContext(ModalContext)
+  const ref = useOuteSideClick(close)
   if (name !== openName) return null
 
   return createPortal(
