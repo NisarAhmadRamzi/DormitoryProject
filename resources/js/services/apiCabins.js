@@ -37,7 +37,7 @@ export async function DeleteRooms(id) {
 
 export async function createRoom(roomData) {
   try {
-    const response = await fetch('http://127.0.0.1:800/api/rooms', {
+    const response = await fetch('http://127.0.0.1:8000/api/rooms', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

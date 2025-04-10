@@ -1,6 +1,4 @@
-import { IoBedOutline, IoSettingsOutline } from 'react-icons/io5'
 import {
-  PiBookBold,
   PiCurrencyDollarSimpleBold,
   PiGraduationCapDuotone,
   PiGraduationCapLight,
@@ -8,9 +6,10 @@ import {
 
 import { BsCurrencyDollar } from 'react-icons/bs'
 import { HiOutlineHomeModern } from 'react-icons/hi2'
-import { IoWarningOutline } from 'react-icons/io5'
+import { IoBedOutline, IoSettingsOutline } from 'react-icons/io5'
 import { LuUsers } from 'react-icons/lu'
 import { MdOutlineLibraryBooks } from 'react-icons/md'
+import { PiWarningLight } from 'react-icons/pi'
 import { RxDashboard } from 'react-icons/rx'
 import { TbDatabaseDollar } from 'react-icons/tb'
 import { TfiSupport } from 'react-icons/tfi'
@@ -134,28 +133,25 @@ function MainNav() {
               <span>Books</span>
             </StyledNavlink>
           </li>
-          <li>
-            <StyledNavlink to="/borrwoed- books">
-              <PiBookBold />
-              <span>BorowBooks</span>
-            </StyledNavlink>
-          </li>
+          {/* Doplicate */}
           <li>
             <StyledNavlink to="/complaints">
-              <IoWarningOutline />
+              <PiWarningLight />
               <span>Complaints</span>
             </StyledNavlink>
           </li>
-          <StyledNavlink to="/settings">
-            <IoSettingsOutline />
-            <span> Settings</span>
-          </StyledNavlink>
-        </li>
-        <li>
-          <StyledNavlink to="/accounts">
-            <VscAccount />
-            <span> Accounts</span>
-          </StyledNavlink>
+          <li>
+            <StyledNavlink to="/settings">
+              <IoSettingsOutline />
+              <span>Settings</span>
+            </StyledNavlink>
+          </li>
+          <li>
+            <StyledNavlink to="/accounts">
+              <VscAccount />
+              <span>Accounts</span>
+            </StyledNavlink>
+          </li>
         </li>
       </NavList>
     </nav>
