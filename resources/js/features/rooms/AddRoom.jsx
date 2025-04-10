@@ -1,35 +1,40 @@
-import { ModalContext, ModalProvider } from '../../ui/Modal'
+// import React from 'react'
+// import Button from '../../ui/Button'
+// import CreateRoomForm from './CreateRoomForm'
+
+// const AddRoom = () => {
+//   return (
+//     <div>
+//       <Modal>
+//         <Modal.Open opens="room-form">
+//           <Button>Add new cabin</Button>
+//         </Modal.Open>
+//         <Modal.Window>
+//           <CreateRoomForm />
+//         </Modal.Window>
+//       </Modal>
+//     </div>
+//   )
+// }
+
+// export default AddRoom
 
 import React from 'react'
 import Button from '../../ui/Button'
+import Modal from '../../ui/Modal' // Now using the default export
 import CreateRoomForm from './CreateRoomForm'
-import CabinsTable from './RoomTable'
 
 const AddRoom = () => {
   return (
-    <ModalProvider>
-      <ModalContext.Consumer>
-        {({ open, close, openName }) => (
-          <>
-            {/* Modal Open/Window for Add Room */}
-            <ModalProvider.Open opensWindowName="room-form">
-              <Button>Add new room</Button>
-            </ModalProvider.Open>
-            <ModalProvider.Window name="room-form">
-              <CreateRoomForm />
-            </ModalProvider.Window>
+    <Modal.Provider>
+      <Modal.Open opensWindowName="room-form">
+        <Button>Add new room</Button>
+      </Modal.Open>
 
-            {/* Modal Open/Window for Show Table */}
-            <ModalProvider.Open opensWindowName="table">
-              <Button>Show table</Button>
-            </ModalProvider.Open>
-            <ModalProvider.Window name="table">
-              <CabinsTable />
-            </ModalProvider.Window>
-          </>
-        )}
-      </ModalContext.Consumer>
-    </ModalProvider>
+      <Modal.Window name="room-form">
+        <CreateRoomForm />
+      </Modal.Window>
+    </Modal.Provider>
   )
 }
 
