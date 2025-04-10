@@ -1,3 +1,4 @@
+import { IoBedOutline, IoSettingsOutline } from 'react-icons/io5'
 import {
   PiCurrencyDollarSimpleBold,
   PiGraduationCapDuotone,
@@ -6,7 +7,6 @@ import {
 
 import { BsCurrencyDollar } from 'react-icons/bs'
 import { HiOutlineHomeModern } from 'react-icons/hi2'
-import { IoBedOutline, IoSettingsOutline } from 'react-icons/io5'
 import { LuUsers } from 'react-icons/lu'
 import { MdOutlineLibraryBooks } from 'react-icons/md'
 import { PiWarningLight } from 'react-icons/pi'
@@ -133,7 +133,6 @@ function MainNav() {
               <span>Books</span>
             </StyledNavlink>
           </li>
-          {/* Doplicate */}
           <li>
             <StyledNavlink to="/complaints">
               <PiWarningLight />

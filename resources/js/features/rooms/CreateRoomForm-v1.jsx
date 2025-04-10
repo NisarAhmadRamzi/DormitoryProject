@@ -1,16 +1,12 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { createRoom, editRoom } from '../../services/apiCabins'
 
 import { useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
 import styled from 'styled-components'
+import { createRoom } from '../../services/apiCabins'
 import Button from '../../ui/Button'
 import Form from '../../ui/Form'
 import Input from '../../ui/Input'
-
-// import { createRoom } from '../../services/apiCabins'
-
-// import { createRoom } from '../../services/apiCabins'
 
 // Custom styled Select component to match the input styling
 const StyledSelect = styled.select`
@@ -63,39 +59,19 @@ const Error = styled.span`
   color: var(--color-red-700);
 `
 
-function CreateRoomForm({ roomToEdit = {} }) {
-  const { id, editId, ...editValues } = roomToEdit
-  // const isEditSession = Boolean(editId)
-  const isEditSession = Boolean(roomToEdit.id)
-
-  const { register, handleSubmit, reset } = useForm({
-    defaultValues: isEditSession ? editValues : {},
-  })
+function CreateRoomForm() {
+  const { register, handleSubmit, reset } = useForm()
   const queryClient = useQueryClient()
 
   // Set up mutation for creating a room
-  // const { mutate, isLoading } = useMutation({
-  //   mutationFn: createRoom, // Using the createRoom function to send data
-  //   onSuccess: () => {
-  //     toast.success('New room successfully created')
-  //     queryClient.invalidateQueries({
-  //       queryKey: ['cabins'], // Invalidate the "cabins" query to refetch the list of rooms
-  //     })
-  //     reset() // Reset form fields
-  //   },
-  //   onError: (err) => toast.error(err.message),
-  // })
   const { mutate, isLoading } = useMutation({
-    mutationFn: (data) =>
-      isEditSession ? editRoom(roomToEdit.id, data) : createRoom(data),
+    mutationFn: createRoom, // Using the createRoom function to send data
     onSuccess: () => {
-      toast.success(
-        isEditSession
-          ? 'Room updated successfully'
-          : 'New room successfully created'
-      )
-      queryClient.invalidateQueries({ queryKey: ['cabins'] })
-      reset()
+      toast.success('New room successfully created')
+      queryClient.invalidateQueries({
+        queryKey: ['cabins'], // Invalidate the "cabins" query to refetch the list of rooms
+      })
+      reset() // Reset form fields
     },
     onError: (err) => toast.error(err.message),
   })
@@ -197,7 +173,7 @@ function CreateRoomForm({ roomToEdit = {} }) {
         </StyledSelect>
       </FormRow>
 
-      {/* <FormRow>
+      <FormRow>
         <Label htmlFor="students">Students</Label>
         <Input
           type="text"
@@ -207,15 +183,14 @@ function CreateRoomForm({ roomToEdit = {} }) {
             required: 'This field is required',
           })}
         />
-      </FormRow> */}
+      </FormRow>
 
       <FormRow>
         <Button variation="secondary" type="reset">
           Cancel
         </Button>
         <Button type="submit" disabled={isLoading}>
-          {/* {isLoading ? 'Adding...' : 'Add Room'} */}
-          {isEditSession ? 'Edit room' : 'Create new room'}
+          {isLoading ? 'Adding...' : 'Add Room'}
         </Button>
       </FormRow>
     </Form>
