@@ -1,44 +1,64 @@
-import styled from "styled-components";
-import Button from "./Button";
-import Heading from "./Heading";
+import styled from 'styled-components'
 
-const StyledConfirmDelete = styled.div`
-  width: 40rem;
+const ConfirmBox = styled.div`
   display: flex;
   flex-direction: column;
+  gap: 2.4rem;
+  font-size: 1.6rem;
+`
+
+const ButtonGroup = styled.div`
+  display: flex;
+  justify-content: flex-end;
   gap: 1.2rem;
+`
 
-  & p {
-    color: var(--color-grey-500);
-    margin-bottom: 1.2rem;
-  }
-
-  & div {
-    display: flex;
-    justify-content: flex-end;
-    gap: 1.2rem;
-  }
-`;
-
-function ConfirmDelete({ resourceName, onConfirm, disabled }) {
+function ConfirmDelete({ onConfirm, onCloseModal }) {
   return (
-    <StyledConfirmDelete>
-      <Heading as="h3">Delete {resourceName}</Heading>
-      <p>
-        Are you sure you want to delete this {resourceName} permanently? This
-        action cannot be undone.
-      </p>
-
-      <div>
-        <Button variation="secondary" disabled={disabled}>
+    <div>
+      <h2 style={{ fontWeight: 'bold' }}>Delete room</h2>
+      <p>Are you sure you want to delete this room?</p>
+      <p>This action can not be undone.</p>
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'flex-end', // aligns buttons to the right
+          gap: '1.5rem',
+          marginTop: '1.5rem',
+        }}
+      >
+        <button
+          onClick={onCloseModal}
+          style={{
+            backgroundColor: '#eee',
+            color: '#333',
+            padding: '0.6rem 1.2rem',
+            border: 'none',
+            borderRadius: '4px',
+            cursor: 'pointer',
+          }}
+        >
           Cancel
-        </Button>
-        <Button variation="danger" disabled={disabled}>
+        </button>
+        <button
+          onClick={() => {
+            onConfirm()
+            onCloseModal()
+          }}
+          style={{
+            backgroundColor: 'red',
+            color: 'white',
+            padding: '0.6rem 1.2rem',
+            border: 'none',
+            borderRadius: '4px',
+            cursor: 'pointer',
+          }}
+        >
           Delete
-        </Button>
+        </button>
       </div>
-    </StyledConfirmDelete>
-  );
+    </div>
+  )
 }
 
-export default ConfirmDelete;
+export default ConfirmDelete

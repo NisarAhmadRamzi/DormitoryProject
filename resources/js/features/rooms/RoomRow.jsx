@@ -5,7 +5,7 @@
 // import toast from 'react-hot-toast'
 // import styled from 'styled-components'
 // import { DeleteRooms } from '../../services/apiCabins'
-// import Modal from '../../ui/Modal' // 🧠 Use the default export
+// import Modal from '../../ui/Modal'
 // import { formatCurrency } from '../../utils/helpers'
 // import CreateRoomForm from './CreateRoomForm'
 
@@ -15,6 +15,7 @@
 //   column-gap: 0.5rem;
 //   align-items: center;
 //   padding: 1.4rem 1rem;
+
 //   &:not(:last-child) {
 //     border-bottom: 1px solid var(--color-grey-100);
 //   }
@@ -27,35 +28,6 @@
 //   font-family: 'Sono';
 // `
 
-// const IconButton = styled.button`
-//   background: none;
-//   border: none;
-//   cursor: pointer;
-//   padding: 0.4rem;
-//   margin-right: 0.8rem;
-//   svg {
-//     width: 2.4rem;
-//     height: 2.4rem;
-//     color: var(--color-grey-500);
-//     transition: color 0.2s ease;
-//   }
-//   &:hover svg {
-//     color: var(--color-brand-600);
-//   }
-//   &:last-child {
-//     margin-right: 0;
-//   }
-// `
-
-// const DeleteButton = styled(IconButton)`
-//   svg {
-//     color: var(--color-red-600);
-//   }
-//   &:hover svg {
-//     color: var(--color-red-700);
-//   }
-// `
-
 // const Discount = styled.div`
 //   font-family: 'Sono';
 //   font-weight: 500;
@@ -64,6 +36,7 @@
 
 // const RoomRow = ({ cabin }) => {
 //   const queryClient = useQueryClient()
+
 //   const { isLoading: isDeleting, mutate } = useMutation({
 //     mutationFn: DeleteRooms,
 //     onSuccess: () => {
@@ -80,17 +53,18 @@
 //       <Id>{cabin.type}</Id>
 //       <Id>{cabin.capacity}</Id>
 //       <Discount>{formatCurrency(cabin.price)}</Discount>
+
 //       <div style={{ display: 'flex', gap: '0.4rem' }}>
 //         <Modal.Open opensWindowName={`edit-${cabin.id}`}>
-//           <IconButton>
+//           <button>
 //             <HiPencil />
-//           </IconButton>
+//           </button>
 //         </Modal.Open>
-//         <DeleteButton onClick={() => mutate(cabin.id)} disabled={isDeleting}>
-//           <HiTrash />
-//         </DeleteButton>
 
-//         {/* One Modal.Window per row, unique name */}
+//         <button onClick={() => mutate(cabin.id)} disabled={isDeleting}>
+//           <HiTrash />
+//         </button>
+
 //         <Modal.Window name={`edit-${cabin.id}`}>
 //           <CreateRoomForm roomToEdit={cabin} />
 //         </Modal.Window>
@@ -101,16 +75,17 @@
 
 // export default RoomRow
 
-import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { HiPencil, HiTrash } from 'react-icons/hi2'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 
-import React from 'react'
-import toast from 'react-hot-toast'
-import styled from 'styled-components'
+import ConfirmDelete from '../../ui/ConfirmDelete' // 👈 Import the confirmation modal
+import CreateRoomForm from './CreateRoomForm'
 import { DeleteRooms } from '../../services/apiCabins'
 import Modal from '../../ui/Modal'
+import React from 'react'
 import { formatCurrency } from '../../utils/helpers'
-import CreateRoomForm from './CreateRoomForm'
+import styled from 'styled-components'
+import toast from 'react-hot-toast'
 
 const TableRow = styled.div`
   display: grid;
@@ -149,6 +124,10 @@ const RoomRow = ({ cabin }) => {
     onError: (err) => toast.error(err.message || 'Room could not be deleted'),
   })
 
+  function handleDeleteConfirm() {
+    mutate(cabin.id)
+  }
+
   return (
     <TableRow role="row">
       <Id>{cabin.id}</Id>
@@ -164,12 +143,20 @@ const RoomRow = ({ cabin }) => {
           </button>
         </Modal.Open>
 
-        <button onClick={() => mutate(cabin.id)} disabled={isDeleting}>
-          <HiTrash />
-        </button>
+        <Modal.Open opensWindowName={`delete-${cabin.id}`}>
+          <button disabled={isDeleting}>
+            <HiTrash />
+          </button>
+        </Modal.Open>
 
+        {/* Edit Room Modal */}
         <Modal.Window name={`edit-${cabin.id}`}>
           <CreateRoomForm roomToEdit={cabin} />
+        </Modal.Window>
+
+        {/* Confirm Delete Modal */}
+        <Modal.Window name={`delete-${cabin.id}`}>
+          <ConfirmDelete onConfirm={handleDeleteConfirm} />
         </Modal.Window>
       </div>
     </TableRow>
