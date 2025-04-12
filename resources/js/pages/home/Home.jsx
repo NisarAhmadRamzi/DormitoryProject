@@ -55,13 +55,6 @@ function Home() {
                 Book a Tour
               </Button>
             </div>
-            <div className="social-proof fs-5 fw-italic">
-              <p>
-                <i className="fas fa-quote-left text-danger"></i> "Best dorm
-                experience I’ve had. Great community and fantastic amenities!" -
-                John D.
-              </p>
-            </div>
           </div>
         </div>
       </section>

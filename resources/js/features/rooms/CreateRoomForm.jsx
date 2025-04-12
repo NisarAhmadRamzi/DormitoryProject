@@ -58,14 +58,174 @@ const Error = styled.span`
   color: var(--color-red-700);
 `
 
+// function CreateRoomForm({ roomToEdit = {}, onCloseModal }) {
+//   const { id, editId, ...editValues } = roomToEdit
+//   const isEditSession = Boolean(roomToEdit.id)
+
+//   const { register, handleSubmit, reset } = useForm({
+//     defaultValues: isEditSession ? editValues : {},
+//   })
+//   const queryClient = useQueryClient()
+//   const { mutate, isLoading } = useMutation({
+//     mutationFn: (data) =>
+//       isEditSession ? editRoom(roomToEdit.id, data) : createRoom(data),
+//     onSuccess: () => {
+//       toast.success(
+//         isEditSession
+//           ? 'Room updated successfully'
+//           : 'New room successfully created'
+//       )
+//       queryClient.invalidateQueries({ queryKey: ['cabins'] })
+//       reset()
+//       onCloseModal?.()
+//     },
+//     onError: (err) => toast.error(err.message),
+//   })
+
+//   const onSubmit = (data) => {
+//     mutate(data)
+//   }
+//   const onError = (err) => {
+//     console.log(err)
+//   }
+
+//   return (
+//     <Form
+//       onSubmit={handleSubmit(onSubmit, onError)}
+//       type={onCloseModal ? 'moal' : 'regular'}
+//     >
+//       <FormRow>
+//         <Label htmlFor="room_number">Room Number</Label>
+//         <Input
+//           type="number"
+//           id="room_number"
+//           defaultValue={301}
+//           {...register('room_number', {
+//             required: 'This field is required',
+//           })}
+//         />
+//       </FormRow>
+
+//       <FormRow>
+//         <Label htmlFor="type">Room Type</Label>
+//         <StyledSelect
+//           id="type"
+//           {...register('type', {
+//             required: 'This field is required',
+//           })}
+//         >
+//           <option value="4 people">4 people</option>
+//           <option value="6 people">6 people</option>
+//           <option value="8 people">8 people</option>
+//         </StyledSelect>
+//       </FormRow>
+
+//       <FormRow>
+//         <Label htmlFor="capacity">Capacity</Label>
+//         <Input
+//           type="number"
+//           id="capacity"
+//           defaultValue={4}
+//           {...register('capacity', {
+//             required: 'This field is required',
+//           })}
+//         />
+//       </FormRow>
+
+//       <FormRow>
+//         <Label htmlFor="current_occupancy">Current Occupancy</Label>
+//         <Input
+//           type="number"
+//           id="current_occupancy"
+//           defaultValue={0}
+//           {...register('current_occupancy', {
+//             required: 'This field is required',
+//           })}
+//         />
+//       </FormRow>
+
+//       <FormRow>
+//         <Label htmlFor="price">Price</Label>
+//         <Input
+//           type="number"
+//           id="price"
+//           defaultValue={0}
+//           {...register('price', {
+//             required: 'This field is required',
+//           })}
+//         />
+//       </FormRow>
+
+//       <FormRow>
+//         <Label htmlFor="status">Status</Label>
+//         <StyledSelect
+//           id="status"
+//           {...register('status', {
+//             required: 'This field is required',
+//           })}
+//         >
+//           <option value="Available">Available</option>
+//           <option value="Occupied">Occupied</option>
+//         </StyledSelect>
+//       </FormRow>
+
+//       <FormRow>
+//         <Label htmlFor="floor">Floor</Label>
+//         <StyledSelect
+//           id="floor"
+//           {...register('floor', {
+//             required: 'This field is required',
+//           })}
+//         >
+//           <option value="Third Floor">Third Floor</option>
+//           <option value="Fourth Floor">Fourth Floor</option>
+//         </StyledSelect>
+//       </FormRow>
+
+//       {/* <FormRow>
+//         <Label htmlFor="students">Students</Label>
+//         <Input
+//           type="text"
+//           id="students"
+//           defaultValue={[]}
+//           {...register('students', {
+//             required: 'This field is required',
+//           })}
+//         />
+//       </FormRow> */}
+
+//       <FormRow>
+//         <Button
+//           variation="secondary"
+//           type="reset"
+//           onClick={() => onCloseModal?.()}
+//         >
+//           Cancel
+//         </Button>
+//         <Button type="submit" disabled={isLoading}>
+//           {/* {isLoading ? 'Adding...' : 'Add Room'} */}
+//           {isEditSession ? 'Edit room' : 'Create new room'}
+//         </Button>
+//       </FormRow>
+//     </Form>
+//   )
+// }
 function CreateRoomForm({ roomToEdit = {}, onCloseModal }) {
   const { id, editId, ...editValues } = roomToEdit
   const isEditSession = Boolean(roomToEdit.id)
 
-  const { register, handleSubmit, reset } = useForm({
+  const {
+    register,
+    handleSubmit,
+    reset,
+    getValues,
+    formState: { errors },
+  } = useForm({
     defaultValues: isEditSession ? editValues : {},
   })
+
   const queryClient = useQueryClient()
+
   const { mutate, isLoading } = useMutation({
     mutationFn: (data) =>
       isEditSession ? editRoom(roomToEdit.id, data) : createRoom(data),
@@ -82,17 +242,13 @@ function CreateRoomForm({ roomToEdit = {}, onCloseModal }) {
     onError: (err) => toast.error(err.message),
   })
 
-  const onSubmit = (data) => {
-    mutate(data)
-  }
-  const onError = (err) => {
-    console.log(err)
-  }
+  const onSubmit = (data) => mutate(data)
+  const onError = (err) => console.log(err)
 
   return (
     <Form
       onSubmit={handleSubmit(onSubmit, onError)}
-      type={onCloseModal ? 'moal' : 'regular'}
+      type={onCloseModal ? 'modal' : 'regular'}
     >
       <FormRow>
         <Label htmlFor="room_number">Room Number</Label>
@@ -102,22 +258,28 @@ function CreateRoomForm({ roomToEdit = {}, onCloseModal }) {
           defaultValue={301}
           {...register('room_number', {
             required: 'This field is required',
+            min: { value: 301, message: 'Room Number should be at least 301' },
+            max: {
+              value: 310,
+              message: 'Room Number cannot be more than is 310',
+            },
           })}
         />
+        {errors?.room_number && <Error>{errors.room_number.message}</Error>}
       </FormRow>
 
       <FormRow>
         <Label htmlFor="type">Room Type</Label>
         <StyledSelect
           id="type"
-          {...register('type', {
-            required: 'This field is required',
-          })}
+          {...register('type', { required: 'This field is required' })}
         >
+          <option value="">-- Select type --</option>
           <option value="4 people">4 people</option>
           <option value="6 people">6 people</option>
           <option value="8 people">8 people</option>
         </StyledSelect>
+        {errors?.type && <Error>{errors.type.message}</Error>}
       </FormRow>
 
       <FormRow>
@@ -128,8 +290,10 @@ function CreateRoomForm({ roomToEdit = {}, onCloseModal }) {
           defaultValue={4}
           {...register('capacity', {
             required: 'This field is required',
+            validate: (value) => value >= 0 || 'Capacity cannot be less than 0',
           })}
         />
+        {errors?.capacity && <Error>{errors.capacity.message}</Error>}
       </FormRow>
 
       <FormRow>
@@ -140,8 +304,13 @@ function CreateRoomForm({ roomToEdit = {}, onCloseModal }) {
           defaultValue={0}
           {...register('current_occupancy', {
             required: 'This field is required',
+            validate: (value) =>
+              value >= 0 || 'Current occupancy cannot be less than 0',
           })}
         />
+        {errors?.current_occupancy && (
+          <Error>{errors.current_occupancy.message}</Error>
+        )}
       </FormRow>
 
       <FormRow>
@@ -152,47 +321,37 @@ function CreateRoomForm({ roomToEdit = {}, onCloseModal }) {
           defaultValue={0}
           {...register('price', {
             required: 'This field is required',
+            validate: (value) => value >= 0 || 'Price cannot be less than 0',
           })}
         />
+        {errors?.price && <Error>{errors.price.message}</Error>}
       </FormRow>
 
       <FormRow>
         <Label htmlFor="status">Status</Label>
         <StyledSelect
           id="status"
-          {...register('status', {
-            required: 'This field is required',
-          })}
+          {...register('status', { required: 'This field is required' })}
         >
+          <option value="">-- Select status --</option>
           <option value="Available">Available</option>
           <option value="Occupied">Occupied</option>
         </StyledSelect>
+        {errors?.status && <Error>{errors.status.message}</Error>}
       </FormRow>
 
       <FormRow>
         <Label htmlFor="floor">Floor</Label>
         <StyledSelect
           id="floor"
-          {...register('floor', {
-            required: 'This field is required',
-          })}
+          {...register('floor', { required: 'This field is required' })}
         >
+          <option value="">-- Select floor --</option>
           <option value="Third Floor">Third Floor</option>
           <option value="Fourth Floor">Fourth Floor</option>
         </StyledSelect>
+        {errors?.floor && <Error>{errors.floor.message}</Error>}
       </FormRow>
-
-      {/* <FormRow>
-        <Label htmlFor="students">Students</Label>
-        <Input
-          type="text"
-          id="students"
-          defaultValue={[]}
-          {...register('students', {
-            required: 'This field is required',
-          })}
-        />
-      </FormRow> */}
 
       <FormRow>
         <Button
@@ -203,7 +362,6 @@ function CreateRoomForm({ roomToEdit = {}, onCloseModal }) {
           Cancel
         </Button>
         <Button type="submit" disabled={isLoading}>
-          {/* {isLoading ? 'Adding...' : 'Add Room'} */}
           {isEditSession ? 'Edit room' : 'Create new room'}
         </Button>
       </FormRow>

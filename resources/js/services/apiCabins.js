@@ -16,6 +16,24 @@ export async function getCabins() {
   }
 }
 
+// export async function DeleteRooms(id) {
+//   try {
+//     const response = await fetch(`http://127.0.0.1:8000/api/rooms/${id}`, {
+//       method: 'DELETE',
+//     })
+
+//     if (!response.ok) {
+//       throw new Error('Failed to delete room')
+//     }
+
+//     const data = await response.json()
+
+//     return data
+//   } catch (error) {
+//     console.error(error)
+//     throw new Error('Room could not be deleted')
+//   }
+// }
 export async function DeleteRooms(id) {
   try {
     const response = await fetch(`http://127.0.0.1:8000/api/rooms/${id}`, {
@@ -26,11 +44,9 @@ export async function DeleteRooms(id) {
       throw new Error('Failed to delete room')
     }
 
-    const data = await response.json()
-
-    return data
+    return await response.json() // Ensure the response is returned
   } catch (error) {
-    console.error(error)
+    console.error('Deletion error:', error)
     throw new Error('Room could not be deleted')
   }
 }

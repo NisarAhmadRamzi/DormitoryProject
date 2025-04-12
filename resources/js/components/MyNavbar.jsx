@@ -35,7 +35,7 @@ function MyNavbar() {
           </Offcanvas.Header>
           <Offcanvas.Body>
             <Nav className="justify-content-center fw-b fs-5 flex-grow-1">
-              {/* Fixing Home link to go to the root path */}
+              {/* Home link is set to navigate to the root path */}
               <Link to="/" className="nav-link ms-5">
                 Home
               </Link>
