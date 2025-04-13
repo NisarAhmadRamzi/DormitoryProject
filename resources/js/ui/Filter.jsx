@@ -1,4 +1,7 @@
-import styled, { css } from "styled-components";
+import styled, { css } from 'styled-components'
+
+import React from 'react'
+import { useSearchParams } from 'react-router-dom'
 
 const StyledFilter = styled.div`
   border: 1px solid var(--color-grey-100);
@@ -8,7 +11,7 @@ const StyledFilter = styled.div`
   padding: 0.4rem;
   display: flex;
   gap: 0.4rem;
-`;
+`
 
 const FilterButton = styled.button`
   background-color: var(--color-grey-0);
@@ -32,4 +35,25 @@ const FilterButton = styled.button`
     background-color: var(--color-brand-600);
     color: var(--color-brand-50);
   }
-`;
+`
+
+const Filter = () => {
+  const [searchParams, setSearchParams] = useSearchParams()
+  function handleClick(value) {
+    searchParams.set('price', value)
+    setSearchParams(searchParams)
+  }
+  return (
+    <StyledFilter>
+      <FilterButton onClick={() => handleClick('all')}>All</FilterButton>
+      <FilterButton onClick={() => handleClick('no-price')}>
+        No prices
+      </FilterButton>
+      <FilterButton onClick={() => handleClick('with-price')}>
+        With price
+      </FilterButton>
+    </StyledFilter>
+  )
+}
+
+export default Filter
