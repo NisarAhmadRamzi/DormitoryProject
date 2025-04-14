@@ -117,9 +117,7 @@ function CabinsTable({ search }) {
     <>
       <Table role="table">
         <TableHeader role="row">
-          <div>
-            <input type="checkbox" />
-          </div>
+          <div>{/* <input type="checkbox" /> */}</div>
           <SortableHeader
             onClick={() => handleSort('room_number')}
             className={sortBy === 'room_number' ? 'active' : ''}
