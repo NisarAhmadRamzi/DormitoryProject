@@ -28,13 +28,13 @@
 
 import { useEffect, useState } from 'react'
 
+import styled from 'styled-components'
 import AddRoom from '../features/rooms/AddRoom'
-import Heading from '../ui/Heading'
 import RoomTable from '../features/rooms/RoomTable'
 import RoomTableOperations from '../features/rooms/RoomTableOperations'
-import Row from '../ui/Row'
 import { getCabins } from '../services/apiCabins'
-import styled from 'styled-components'
+import Heading from '../ui/Heading'
+import Row from '../ui/Row'
 
 // Styled search input
 const SearchInput = styled.input`
@@ -62,14 +62,36 @@ function Rooms() {
 
   return (
     <>
-      <Row type="horizontal">
-        <Heading as="h1">All Rooms</Heading>
+      {/* <Row type="horizontal">
+        <Heading as="h1">Rooms</Heading>
         <OperationsWrapper>
           <SearchInput
             type="text"
             placeholder="Search rooms..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
+            style={{ marginRight: '20px' }}
+          />
+          <RoomTableOperations />
+        </OperationsWrapper>
+      </Row> */}
+      <Row
+        type="horizontal"
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: '600px', // <-- This creates the 10px space between Heading and OperationsWrapper
+        }}
+      >
+        <Heading as="h1">Rooms</Heading>
+
+        <OperationsWrapper>
+          <SearchInput
+            type="text"
+            placeholder="Search rooms..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            style={{ marginRight: '20px' }} // Optional: extra space before RoomTableOperations
           />
           <RoomTableOperations />
         </OperationsWrapper>
