@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { useSearchParams } from 'react-router-dom' // ✅ Added
 import styled from 'styled-components'
 import { getCabins } from '../../services/apiCabins'
+import Pagination from '../../ui/Pagination'
 import Spinner from '../../ui/Spinner'
 import RoomRow from './RoomRow'
 
@@ -152,6 +153,7 @@ function CabinsTable({ search }) {
         {filteredRooms.length === 0 && (
           <div style={{ padding: '1.6rem' }}>No matching cabins found.</div>
         )}
+        <Pagination count={20} />
       </Table>
     </>
   )
