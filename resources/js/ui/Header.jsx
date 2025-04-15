@@ -22,7 +22,8 @@ const Header = ({ onToggleSidebar }) => {
   return (
     <StyledHeader>
       <BurgerButton onClick={onToggleSidebar}>☰</BurgerButton>
-      <h1>Header</h1>
+
+      {/* <h1>Header</h1> */}
     </StyledHeader>
   )
 }
