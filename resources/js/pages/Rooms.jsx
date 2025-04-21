@@ -34,19 +34,6 @@ function Rooms() {
 
   return (
     <>
-      {/* <Row type="horizontal">
-        <Heading as="h1">Rooms</Heading>
-        <OperationsWrapper>
-          <SearchInput
-            type="text"
-            placeholder="Search rooms..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            style={{ marginRight: '20px' }}
-          />
-          <RoomTableOperations />
-        </OperationsWrapper>
-      </Row> */}
       <Row
         type="horizontal"
         style={{
