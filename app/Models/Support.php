@@ -10,11 +10,7 @@ class Support extends Model
 {
     use HasFactory;
 
-    protected $table = 'supports';
 
-    protected $casts = [
-        'help_date' => 'date',
-    ];
 
     // protected $fillable = [
     //     'type',
@@ -173,6 +169,11 @@ class Support extends Model
     //     });
     // }
 
+    protected $table = 'supports';
+
+    protected $casts = [
+        'help_date' => 'date',
+    ];
     protected $fillable = [
         'type',
         'details',
