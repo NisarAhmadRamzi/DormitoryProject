@@ -1,19 +1,20 @@
+// features/libraries/LibraryRow.jsx
+
 import { HiEllipsisVertical, HiEye, HiPencil, HiTrash } from 'react-icons/hi2'
-import React, { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 
 import ConfirmDelete from '../../ui/ConfirmDelete'
-import CreateRoomForm from './CreateRoomForm'
-import { DeleteRooms } from '../../services/apiCabins'
+import CreateLibraryForm from './CreateLibraryForm'
+import LibraryDetails from './LibraryDetails'
 import Modal from '../../ui/Modal'
-import RoomDetails from '../../features/rooms/RoomDetails'
-import { formatCurrency } from '../../utils/helpers'
+import { deleteLibrary } from '../../services/apiLibraries'
 import styled from 'styled-components'
 import toast from 'react-hot-toast'
 
 const TableRow = styled.div`
   display: grid;
-  grid-template-columns: 0.6fr 1.8fr 2.2fr 1fr 1fr 1fr;
+  grid-template-columns: 0.6fr 1.8fr 2.2fr 2fr 1fr;
   column-gap: 0.5rem;
   align-items: center;
   padding: 1.4rem 1rem;
@@ -24,17 +25,10 @@ const TableRow = styled.div`
   }
 `
 
-const Id = styled.div`
-  font-size: 1.6rem;
-  font-weight: 600;
-  color: var(--color-grey-600);
+const Cell = styled.div`
+  font-size: 1.4rem;
+  color: var(--color-grey-700);
   font-family: 'Sono';
-`
-
-const Discount = styled.div`
-  font-family: 'Sono';
-  font-weight: 500;
-  color: var(--color-green-700);
 `
 
 const DropdownWrapper = styled.div`
@@ -48,14 +42,12 @@ const IconButton = styled.button`
   cursor: pointer;
   padding: 0.4rem;
   border-radius: var(--border-radius-sm);
-  transform: translateX(0.8rem);
-  transition: all 0.2s;
 
   &:hover {
     background-color: var(--color-grey-100);
   }
 
-  & svg {
+  svg {
     width: 2.4rem;
     height: 2.4rem;
     color: var(--color-grey-700);
@@ -87,17 +79,15 @@ const DropdownItem = styled.button`
   gap: 1.6rem;
   color: var(--color-grey-700);
   cursor: pointer;
-  transition: background-color 0.2s;
 
   &:hover {
     background-color: var(--color-grey-50);
   }
 
-  & svg {
+  svg {
     width: 1.6rem;
     height: 1.6rem;
     color: var(--color-grey-400);
-    transition: color 0.3s;
   }
 
   &:disabled {
@@ -106,25 +96,23 @@ const DropdownItem = styled.button`
   }
 `
 
-// === Component ===
-
-const RoomRow = ({ cabin }) => {
+function LibraryRow({ library }) {
   const queryClient = useQueryClient()
   const [isOpen, setIsOpen] = useState(false)
   const [dropdownPosition, setDropdownPosition] = useState(null)
   const dropdownRef = useRef()
 
-  const { isLoading: isDeleting, mutate } = useMutation({
-    mutationFn: DeleteRooms,
+  const { mutate, isLoading: isDeleting } = useMutation({
+    mutationFn: deleteLibrary,
     onSuccess: () => {
-      toast.success('The room was deleted successfully')
-      queryClient.invalidateQueries({ queryKey: ['cabins'] })
+      toast.success('Library deleted successfully')
+      queryClient.invalidateQueries(['libraries'])
     },
-    onError: (err) => toast.error(err.message || 'Room could not be deleted'),
+    onError: () => toast.error('Failed to delete library'),
   })
 
   function handleDeleteConfirm() {
-    mutate(cabin.id)
+    mutate(library.id)
   }
 
   function toggleDropdown(e) {
@@ -141,7 +129,6 @@ const RoomRow = ({ cabin }) => {
     setIsOpen(false)
   }
 
-  // ✅ Close dropdown on outside click
   useEffect(() => {
     function handleClickOutside(e) {
       if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
@@ -160,11 +147,10 @@ const RoomRow = ({ cabin }) => {
 
   return (
     <TableRow role="row">
-      <Id>{cabin.id}</Id>
-      <Id>{cabin.room_number}</Id>
-      <Id>{cabin.type}</Id>
-      <Id>{cabin.capacity}</Id>
-      <Discount>{formatCurrency(cabin.price)}</Discount>
+      <Cell>{library.id}</Cell>
+      <Cell>{library.name}</Cell>
+      <Cell>{library.location}</Cell>
+      <Cell>{library.contact_info}</Cell>
 
       <DropdownWrapper ref={dropdownRef}>
         <IconButton onClick={toggleDropdown}>
@@ -172,19 +158,19 @@ const RoomRow = ({ cabin }) => {
         </IconButton>
 
         <DropdownMenu show={isOpen} position={dropdownPosition}>
-          <Modal.Open opensWindowName={`view-${cabin.id}`}>
+          <Modal.Open opensWindowName={`view-${library.id}`}>
             <DropdownItem onClick={closeDropdown}>
               <HiEye /> View
             </DropdownItem>
           </Modal.Open>
 
-          <Modal.Open opensWindowName={`edit-${cabin.id}`}>
+          <Modal.Open opensWindowName={`edit-${library.id}`}>
             <DropdownItem onClick={closeDropdown}>
               <HiPencil /> Edit
             </DropdownItem>
           </Modal.Open>
 
-          <Modal.Open opensWindowName={`delete-${cabin.id}`}>
+          <Modal.Open opensWindowName={`delete-${library.id}`}>
             <DropdownItem onClick={closeDropdown} disabled={isDeleting}>
               <HiTrash /> Delete
             </DropdownItem>
@@ -193,19 +179,19 @@ const RoomRow = ({ cabin }) => {
       </DropdownWrapper>
 
       {/* Modals */}
-      <Modal.Window name={`view-${cabin.id}`}>
-        <RoomDetails room={cabin} />
+      <Modal.Window name={`view-${library.id}`}>
+        <LibraryDetails library={library} />
       </Modal.Window>
 
-      <Modal.Window name={`edit-${cabin.id}`}>
-        <CreateRoomForm roomToEdit={cabin} />
+      <Modal.Window name={`edit-${library.id}`}>
+        <CreateLibraryForm libraryToEdit={library} />
       </Modal.Window>
 
-      <Modal.Window name={`delete-${cabin.id}`}>
+      <Modal.Window name={`delete-${library.id}`}>
         <ConfirmDelete onConfirm={handleDeleteConfirm} />
       </Modal.Window>
     </TableRow>
   )
 }
 
-export default RoomRow
+export default LibraryRow
