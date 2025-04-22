@@ -12,11 +12,29 @@ export async function getLibraries() {
   }
 }
 
+// export async function deleteLibrary(id) {
+//   try {
+//     const res = await fetch(`${BASE_URL}/${id}`, { method: 'DELETE' })
+//     if (!res.ok) throw new Error('Failed to delete library')
+//     return await res.json()
+//   } catch (error) {
+//     console.error(error)
+//     throw new Error('Library could not be deleted')
+//   }
+// }
 export async function deleteLibrary(id) {
   try {
-    const res = await fetch(`${BASE_URL}/${id}`, { method: 'DELETE' })
+    const res = await fetch(`${BASE_URL}/${id}`, {
+      method: 'DELETE',
+    })
+
     if (!res.ok) throw new Error('Failed to delete library')
-    return await res.json()
+
+    // Some APIs return no content (204), so avoid trying to parse JSON
+    if (res.status === 204) return { success: true }
+
+    const data = await res.json().catch(() => null)
+    return data || { success: true }
   } catch (error) {
     console.error(error)
     throw new Error('Library could not be deleted')
