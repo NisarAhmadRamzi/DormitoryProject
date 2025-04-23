@@ -1,28 +1,70 @@
-import Heading from '../ui/Heading'
-import axios from 'axios'
-function Users() {
-  useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const res = await axios.get('http://127.0.0.1:8000/api/users')
-        console.log('Users:', res.data)
-      } catch (error) {
-        console.error('Error fetching users:', error)
-      }
-    }
+import { useEffect, useState } from 'react'
 
-    fetchUsers()
+import styled from 'styled-components'
+import AddUser from '../features/users/AddUser'
+import UsersTable from '../features/users/UsersTable'
+import { getUsers } from '../services/apiUser'
+import Heading from '../ui/Heading'
+import Row from '../ui/Row'
+
+const SearchInput = styled.input`
+  padding: 0.8rem 1.2rem;
+  border: 1px solid var(--color-grey-200);
+  border-radius: 4px;
+  font-size: 1.4rem;
+  max-width: 300px;
+`
+
+const OperationsWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  align-items: center;
+  gap: 2rem;
+`
+
+function Users() {
+  const [search, setSearch] = useState('')
+  const [users, setUsers] = useState([])
+
+  useEffect(() => {
+    getUsers()
+      .then((res) => setUsers(res.data))
+      .catch((err) => console.error('Failed to load users:', err))
   }, [])
-  // Fetch users from the API
-  // const fetchUsers = async () => {
-  //   try {
-  //     const response = await axios.get('http://127.0.0.1:8000/api/users')
-  //     setUsers(response.data.data) // Store the users data in state
-  //   } catch (error) {
-  //     console.error('Error fetching user data:', error)
-  //   }
-  // }
-  return <Heading as="h1">Create a new user</Heading>
+
+  const filteredUsers = users.filter((user) =>
+    user.name.toLowerCase().includes(search.toLowerCase())
+  )
+
+  return (
+    <>
+      <Row
+        type="horizontal"
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+        }}
+      >
+        <Heading as="h1">Users</Heading>
+
+        <OperationsWrapper>
+          <SearchInput
+            type="text"
+            placeholder="Search users..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
+        </OperationsWrapper>
+      </Row>
+
+      <Row>
+        <UsersTable users={filteredUsers} />
+        <AddUser />
+      </Row>
+    </>
+  )
 }
 
 export default Users

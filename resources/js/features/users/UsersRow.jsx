@@ -4,15 +4,21 @@ import { HiEllipsisVertical, HiEye, HiPencil, HiTrash } from 'react-icons/hi2'
 
 import toast from 'react-hot-toast'
 import styled from 'styled-components'
-import { deleteLibrary } from '../../services/apiLibraries'
+import { deleteUser } from '../../services/apiUser'
 import ConfirmDelete from '../../ui/ConfirmDelete'
 import Modal from '../../ui/Modal'
-import CreateLibraryForm from './CreateLibraryForm'
-import LibraryDetails from './LibraryDetails'
+import CreateUserForm from './CreateUserForm'
+import UserDetails from './UserDetails'
+
+// import ConfirmDelete from '../../ui/ConfirmDelete'
+
+
+
+
 
 const TableRow = styled.div`
   display: grid;
-  grid-template-columns: 0.6fr 2fr 2.5fr 2.5fr 0.5fr;
+  grid-template-columns: 0.6fr 2fr 2.5fr 2fr 2fr 0.5fr;
   column-gap: 0.5rem;
   align-items: center;
   padding: 1.4rem 1rem;
@@ -32,6 +38,16 @@ const Id = styled.div`
 const Cell = styled.div`
   font-size: 1.4rem;
   color: var(--color-grey-700);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+`
+
+const ProfileImg = styled.img`
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
 `
 
 const DropdownWrapper = styled.div`
@@ -103,26 +119,26 @@ const DropdownItem = styled.button`
   }
 `
 
-function LibraryRow({ library }) {
+function UserRow({ user }) {
   const queryClient = useQueryClient()
   const [isOpen, setIsOpen] = useState(false)
   const [dropdownPosition, setDropdownPosition] = useState(null)
   const dropdownRef = useRef()
 
   const { isLoading: isDeleting, mutate } = useMutation({
-    mutationFn: deleteLibrary,
+    mutationFn: deleteUser,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['libraries'] })
-      toast.success('Library deleted successfully')
+      queryClient.invalidateQueries({ queryKey: ['users'] })
+      toast.success('User deleted successfully')
     },
     onError: (err) => {
-      console.error('Error during deletion:', err)
-      toast.error(err.message || 'Failed to delete library')
+      console.error('Error deleting user:', err)
+      toast.error(err.message || 'Failed to delete user')
     },
   })
 
   function handleDeleteConfirm() {
-    mutate(library.id)
+    mutate(user.id)
   }
 
   function toggleDropdown(e) {
@@ -155,12 +171,22 @@ function LibraryRow({ library }) {
     }
   }, [isOpen])
 
+  const profileUrl = `http://127.0.0.1:8000/${user.profile}`
+
   return (
     <TableRow role="row">
-      <Id>{library.id}</Id>
-      <Cell>{library.name}</Cell>
-      <Cell>{library.location}</Cell>
-      <Cell>{library.contact_info || '—'}</Cell>
+      <Id>{user.id}</Id>
+      <Cell>
+        <ProfileImg src={profileUrl} alt={user.name} />
+        {user.name}
+      </Cell>
+      <Cell>{user.email}</Cell>
+      <Cell>{user.role_name}</Cell>
+      <Cell>
+        {user.role_name === 'student' && user.student
+          ? `${user.student.from} | ID: ${user.student.id_number}`
+          : '—'}
+      </Cell>
 
       <DropdownWrapper ref={dropdownRef}>
         <IconButton onClick={toggleDropdown}>
@@ -168,19 +194,19 @@ function LibraryRow({ library }) {
         </IconButton>
 
         <DropdownMenu show={isOpen} position={dropdownPosition}>
-          <Modal.Open opensWindowName={`view-${library.id}`}>
+          <Modal.Open opensWindowName={`view-${user.id}`}>
             <DropdownItem onClick={closeDropdown}>
               <HiEye /> View
             </DropdownItem>
           </Modal.Open>
 
-          <Modal.Open opensWindowName={`edit-${library.id}`}>
+          <Modal.Open opensWindowName={`edit-${user.id}`}>
             <DropdownItem onClick={closeDropdown}>
               <HiPencil /> Edit
             </DropdownItem>
           </Modal.Open>
 
-          <Modal.Open opensWindowName={`delete-${library.id}`}>
+          <Modal.Open opensWindowName={`delete-${user.id}`}>
             <DropdownItem onClick={closeDropdown} disabled={isDeleting}>
               <HiTrash /> Delete
             </DropdownItem>
@@ -188,19 +214,19 @@ function LibraryRow({ library }) {
         </DropdownMenu>
       </DropdownWrapper>
 
-      <Modal.Window name={`view-${library.id}`}>
-        <LibraryDetails library={library} />
+      <Modal.Window name={`view-${user.id}`}>
+        <UserDetails user={user} />
       </Modal.Window>
 
-      <Modal.Window name={`edit-${library.id}`}>
-        <CreateLibraryForm libraryToEdit={library} />
+      <Modal.Window name={`edit-${user.id}`}>
+        <CreateUserForm userToEdit={user} />
       </Modal.Window>
 
-      <Modal.Window name={`delete-${library.id}`}>
+      <Modal.Window name={`delete-${user.id}`}>
         <ConfirmDelete onConfirm={handleDeleteConfirm} />
       </Modal.Window>
     </TableRow>
   )
 }
 
-export default LibraryRow
+export default UserRow

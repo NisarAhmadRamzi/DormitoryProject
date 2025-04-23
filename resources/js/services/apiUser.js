@@ -1,61 +1,61 @@
-const BASE_URL = 'http://127.0.0.1:8000/api/libraries'
+const BASE_URL = 'http://127.0.0.1:8000/api/users'
 
-export async function getLibraries() {
+export async function getUsers() {
   try {
     const res = await fetch(BASE_URL)
-    if (!res.ok) throw new Error('Failed to fetch libraries')
+    if (!res.ok) throw new Error('Failed to fetch users')
     const data = await res.json()
     return data
   } catch (error) {
     console.error(error)
-    throw new Error('Libraries could not be fetched')
+    throw new Error('Users could not be fetched')
   }
 }
-export async function deleteLibrary(id) {
+
+export async function deleteUser(id) {
   try {
     const res = await fetch(`${BASE_URL}/${id}`, {
       method: 'DELETE',
     })
 
-    if (!res.ok) throw new Error('Failed to delete library')
+    if (!res.ok) throw new Error('Failed to delete user')
 
-    // Some APIs return no content (204), so avoid trying to parse JSON
     if (res.status === 204) return { success: true }
 
     const data = await res.json().catch(() => null)
     return data || { success: true }
   } catch (error) {
     console.error(error)
-    throw new Error('Library could not be deleted')
+    throw new Error('User could not be deleted')
   }
 }
 
-export async function createLibrary(libraryData) {
+export async function createUser(userData) {
   try {
     const res = await fetch(BASE_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(libraryData),
+      body: JSON.stringify(userData),
     })
-    if (!res.ok) throw new Error('Failed to create library')
+    if (!res.ok) throw new Error('Failed to create user')
     return await res.json()
   } catch (error) {
     console.error(error)
-    throw new Error('Library could not be created')
+    throw new Error('User could not be created')
   }
 }
 
-export async function editLibrary(id, updatedData) {
+export async function editUser(id, updatedData) {
   try {
     const res = await fetch(`${BASE_URL}/${id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(updatedData),
     })
-    if (!res.ok) throw new Error('Failed to update library')
+    if (!res.ok) throw new Error('Failed to update user')
     return await res.json()
   } catch (error) {
     console.error(error)
-    throw new Error('Library could not be updated')
+    throw new Error('User could not be updated')
   }
 }
