@@ -9,13 +9,6 @@ import ConfirmDelete from '../../ui/ConfirmDelete'
 import Modal from '../../ui/Modal'
 import CreateUserForm from './CreateUserForm'
 import UserDetails from './UserDetails'
-
-// import ConfirmDelete from '../../ui/ConfirmDelete'
-
-
-
-
-
 const TableRow = styled.div`
   display: grid;
   grid-template-columns: 0.6fr 2fr 2.5fr 2fr 2fr 0.5fr;

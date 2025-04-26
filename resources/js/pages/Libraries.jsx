@@ -1,17 +1,4 @@
-// import React from 'react'
-
-// const Libraries = () => {
-//   return (
-//     <div>
-//       <h1>Library</h1>
-//     </div>
-//   )
-// }
-
-// export default Libraries
-
 import { useEffect, useState } from 'react'
-
 import styled from 'styled-components'
 import AddLibrary from '../features/libraries/AddLibrary'
 import LibraryTable from '../features/libraries/LibraryTable'
