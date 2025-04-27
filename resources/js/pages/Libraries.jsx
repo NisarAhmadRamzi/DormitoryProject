@@ -1,11 +1,10 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 
-import AddLibrary from '../features/libraries/AddLibrary'
-import Heading from '../ui/Heading'
-import LibraryTable from '../features/libraries/LibraryTable'
-import Row from '../ui/Row'
-import { getLibraries } from '../services/apiLibraries'
 import styled from 'styled-components'
+import AddLibrary from '../features/libraries/AddLibrary'
+import LibraryTable from '../features/libraries/LibraryTable'
+import Heading from '../ui/Heading'
+import Row from '../ui/Row'
 
 // Styled search input
 const SearchInput = styled.input`
@@ -28,9 +27,9 @@ const OperationsWrapper = styled.div`
 function Libraries() {
   const [search, setSearch] = useState('')
 
-  useEffect(() => {
-    getLibraries().then((data) => console.log(data))
-  }, [])
+  // useEffect(() => {
+  //   getLibraries().then((data) => console.log(data))
+  // }, [])
 
   return (
     <>
