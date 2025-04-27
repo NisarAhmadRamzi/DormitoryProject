@@ -23,3 +23,8 @@ Route::get('/{any?}/{slug?}/{id?}', function ($any = null, $slug = null, $id = n
     'slug' => '[a-zA-Z0-9-]+',  // Example regex for 'slug'
     'id' => '[0-9]+'   // Example regex for 'id' (only digits)
 ]);
+
+
+
+// Laravel Route in `routes/api.php`
+Route::get('/rooms', [RoomController::class, 'index']);

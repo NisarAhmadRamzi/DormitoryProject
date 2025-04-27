@@ -1,22 +1,23 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { Route, Routes } from 'react-router-dom'
 
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+import React from 'react'
+import { Toaster } from 'react-hot-toast'
 import Account from '../pages/Account'
-import AppLayout from '../ui/AppLayout'
 import Bookings from '../pages/Bookings'
 import Dashboard from '../pages/Dashboard'
-import GlobleStyles from '../styles/GlobledStyle'
 import Home from '../pages/home/Home'
 import Libraries from '../pages/Libraries'
 import Login from '../pages/Login'
-import { ModalProvider } from '../ui/Modal'
 import PageNotFound from '../pages/PageNotFound'
-import React from 'react'
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import Rooms from '../pages/Rooms'
 import Settings from '../pages/Settings'
-import { Toaster } from 'react-hot-toast'
+import Students from '../pages/Students'
 import Users from '../pages/Users'
+import GlobleStyles from '../styles/GlobledStyle'
+import AppLayout from '../ui/AppLayout'
+import { ModalProvider } from '../ui/Modal'
 
 // Ensure you are importing ModalProvider
 
@@ -44,6 +45,7 @@ const Main = () => {
             <Route path="libraries" element={<Libraries />} />
             <Route path="rooms" element={<Rooms />} />
             <Route path="users" element={<Users />} />
+            <Route path="students" element={<Students />} />
             <Route path="settings" element={<Settings />} />
             <Route path="accounts" element={<Account />} />
           </Route>

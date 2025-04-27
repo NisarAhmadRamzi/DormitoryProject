@@ -1,0 +1,60 @@
+const BASE_URL = 'http://127.0.0.1:8000/api/students'
+
+export async function getStudents() {
+  try {
+    const res = await fetch(BASE_URL)
+    if (!res.ok) throw new Error('Failed to fetch students')
+    const data = await res.json()
+    return data.data // We care about the 'data' array inside the response
+  } catch (error) {
+    console.error(error)
+    throw new Error('Students could not be fetched')
+  }
+}
+
+export async function deleteStudent(id) {
+  try {
+    const res = await fetch(`${BASE_URL}/${id}`, {
+      method: 'DELETE',
+    })
+
+    if (!res.ok) throw new Error('Failed to delete student')
+    if (res.status === 204) return { success: true }
+
+    const data = await res.json().catch(() => null)
+    return data || { success: true }
+  } catch (error) {
+    console.error(error)
+    throw new Error('Student could not be deleted')
+  }
+}
+
+export async function createStudent(studentData) {
+  try {
+    const res = await fetch(BASE_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(studentData),
+    })
+    if (!res.ok) throw new Error('Failed to create student')
+    return await res.json()
+  } catch (error) {
+    console.error(error)
+    throw new Error('Student could not be created')
+  }
+}
+
+export async function editStudent(id, updatedData) {
+  try {
+    const res = await fetch(`${BASE_URL}/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(updatedData),
+    })
+    if (!res.ok) throw new Error('Failed to update student')
+    return await res.json()
+  } catch (error) {
+    console.error(error)
+    throw new Error('Student could not be updated')
+  }
+}

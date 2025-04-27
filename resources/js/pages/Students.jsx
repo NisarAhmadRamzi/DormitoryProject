@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react'
 
-import AddLibrary from '../features/libraries/AddLibrary'
-import Heading from '../ui/Heading'
-import LibraryTable from '../features/libraries/LibraryTable'
-import Row from '../ui/Row'
-import { getLibraries } from '../services/apiLibraries'
 import styled from 'styled-components'
+import AddStudent from '../features/students/AddStudent'
+import StudentTable from '../features/students/StudentTable'
+import { getStudents } from '../services/apiStudents'
+import Heading from '../ui/Heading'
+import Row from '../ui/Row'
 
 // Styled search input
 const SearchInput = styled.input`
@@ -25,11 +25,23 @@ const OperationsWrapper = styled.div`
   gap: 2rem;
 `
 
-function Libraries() {
+function Students() {
   const [search, setSearch] = useState('')
+  const [students, setStudents] = useState([])
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    getLibraries().then((data) => console.log(data))
+    async function fetchStudents() {
+      try {
+        const data = await getStudents()
+        setStudents(data || []) // fallback to empty array
+      } catch (error) {
+        console.error(error)
+      } finally {
+        setLoading(false)
+      }
+    }
+    fetchStudents()
   }, [])
 
   return (
@@ -42,25 +54,25 @@ function Libraries() {
           justifyContent: 'space-between',
         }}
       >
-        <Heading as="h1">Libraries</Heading>
+        <Heading as="h1">Students</Heading>
 
         <OperationsWrapper>
           <SearchInput
             type="text"
-            placeholder="Search libraries..."
+            placeholder="Search students..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
-          {/* <LibraryTableOperations /> */}
+          {/* You can add StudentTableOperations here if you want */}
         </OperationsWrapper>
       </Row>
 
       <Row>
-        <LibraryTable search={search} />
-        <AddLibrary />
+        <StudentTable students={students} search={search} loading={loading} />
+        <AddStudent />
       </Row>
     </>
   )
 }
 
-export default Libraries
+export default Students
