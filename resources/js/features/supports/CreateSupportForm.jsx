@@ -61,8 +61,7 @@ function CreateSupportForm({ supportToEdit = {}, onCloseModal }) {
   const { mutate, isLoading } = useMutation({
     mutationFn: (data) =>
       isEditSession ? editSupport(supportToEdit.id, data) : createSupport(data),
-    onSuccess: (res) => {
-      const support = res.data
+    onSuccess: (support) => {
       toast.success(
         isEditSession
           ? `Support "${support.type}" updated successfully`
@@ -116,22 +115,92 @@ function CreateSupportForm({ supportToEdit = {}, onCloseModal }) {
       </FormRow>
 
       <FormRow>
+        <Label htmlFor="goods_quantity">Goods Quantity</Label>
+        <Input
+          type="number"
+          id="goods_quantity"
+          {...register('goods_quantity', {
+            min: {
+              value: 0,
+              message: 'Goods quantity cannot be negative',
+            },
+          })}
+        />
+        {errors?.goods_quantity && (
+          <Error>{errors.goods_quantity.message}</Error>
+        )}
+      </FormRow>
+
+      <FormRow>
+        <Label htmlFor="cash_quantity">Cash Quantity</Label>
+        <Input
+          type="number"
+          id="cash_quantity"
+          {...register('cash_quantity', {
+            min: {
+              value: 0,
+              message: 'Cash quantity cannot be negative',
+            },
+          })}
+        />
+        {errors?.cash_quantity && <Error>{errors.cash_quantity.message}</Error>}
+      </FormRow>
+
+      <FormRow>
         <Label htmlFor="helper_fullname">Helper Fullname</Label>
         <Input
           type="text"
           id="helper_fullname"
-          {...register('helper_fullname')}
+          {...register('helper_fullname', {
+            required: 'Helper fullname is required',
+          })}
         />
+        {errors?.helper_fullname && (
+          <Error>{errors.helper_fullname.message}</Error>
+        )}
       </FormRow>
 
       <FormRow>
         <Label htmlFor="helper_number">Helper Number</Label>
-        <Input type="text" id="helper_number" {...register('helper_number')} />
+        <Input
+          type="text"
+          id="helper_number"
+          {...register('helper_number', {
+            required: 'Helper number is required',
+            pattern: {
+              value: /^[0-9+\-() ]+$/,
+              message: 'Invalid phone number format',
+            },
+          })}
+        />
+        {errors?.helper_number && <Error>{errors.helper_number.message}</Error>}
       </FormRow>
 
       <FormRow>
         <Label htmlFor="helper_email">Helper Email</Label>
-        <Input type="email" id="helper_email" {...register('helper_email')} />
+        <Input
+          type="email"
+          id="helper_email"
+          {...register('helper_email', {
+            pattern: {
+              value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+              message: 'Invalid email address',
+            },
+          })}
+        />
+        {errors?.helper_email && <Error>{errors.helper_email.message}</Error>}
+      </FormRow>
+
+      <FormRow>
+        <Label htmlFor="help_date">Help Date</Label>
+        <Input
+          type="date"
+          id="help_date"
+          {...register('help_date', {
+            required: 'Help date is required',
+          })}
+        />
+        {errors?.help_date && <Error>{errors.help_date.message}</Error>}
       </FormRow>
 
       <FormRow>
