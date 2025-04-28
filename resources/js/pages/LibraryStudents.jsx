@@ -49,10 +49,10 @@ function LibraryStudents() {
         </OperationsWrapper>
       </Row>
 
-      {/* <Row>
-        <LibraryStudentTable search={search} />
-        <AddLibraryStudent />
-      </Row> */}
+      <Row>
+        {/* <LibraryStudentTable search={search} /> */}
+        {/* <AddLibraryStudent /> */}
+      </Row>
     </>
   )
 }
