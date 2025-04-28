@@ -1,18 +1,18 @@
-import { HiEllipsisVertical, HiEye, HiPencil, HiTrash } from 'react-icons/hi2'
-import React, { useEffect, useRef, useState } from 'react'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
+import React, { useEffect, useRef, useState } from 'react'
+import { HiEllipsisVertical, HiEye, HiPencil, HiTrash } from 'react-icons/hi2'
 
-import ConfirmDelete from '../../ui/ConfirmDelete'
-import CreateLibraryForm from './CreateLibraryForm'
-import LibraryDetails from './LibraryDetails'
-import Modal from '../../ui/Modal'
-import { deleteLibrary } from '../../services/apiLibraries'
-import styled from 'styled-components'
 import toast from 'react-hot-toast'
+import styled from 'styled-components'
+import { deleteExpense } from '../../services/apiExpenses'
+import ConfirmDelete from '../../ui/ConfirmDelete'
+import Modal from '../../ui/Modal'
+import CreateExpensesForm from './CreateExpesesForm'
+import ExpensesDetails from './ExpensesDetails'
 
 const TableRow = styled.div`
   display: grid;
-  grid-template-columns: 0.6fr 2fr 2.5fr 2.5fr 0.5fr;
+  grid-template-columns: 0.6fr 2fr 2fr 2fr 2fr 0.5fr;
   column-gap: 0.5rem;
   align-items: center;
   padding: 1.4rem 1rem;
@@ -103,26 +103,26 @@ const DropdownItem = styled.button`
   }
 `
 
-function LibraryRow({ library }) {
+function ExpenseRow({ expense }) {
   const queryClient = useQueryClient()
   const [isOpen, setIsOpen] = useState(false)
   const [dropdownPosition, setDropdownPosition] = useState(null)
   const dropdownRef = useRef()
 
   const { isLoading: isDeleting, mutate } = useMutation({
-    mutationFn: deleteLibrary,
+    mutationFn: deleteExpense,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['libraries'] })
-      toast.success('Library deleted successfully')
+      queryClient.invalidateQueries({ queryKey: ['expenses'] })
+      toast.success('Expense deleted successfully')
     },
     onError: (err) => {
       console.error('Error during deletion:', err)
-      toast.error(err.message || 'Failed to delete library')
+      toast.error(err.message || 'Failed to delete expense')
     },
   })
 
   function handleDeleteConfirm() {
-    mutate(library.id)
+    mutate(expense.id)
   }
 
   function toggleDropdown(e) {
@@ -157,10 +157,11 @@ function LibraryRow({ library }) {
 
   return (
     <TableRow role="row">
-      <Id>{library.id}</Id>
-      <Cell>{library.name}</Cell>
-      <Cell>{library.location}</Cell>
-      <Cell>{library.contact_info || '—'}</Cell>
+      <Cell>{expense.type}</Cell>
+      <Cell>{expense.expense_cash}</Cell>
+      <Cell>{expense.description || '—'}</Cell>
+      <Cell>{expense.expense_date}</Cell>
+      <Cell>{expense.goods_quantity ?? '—'}</Cell>
 
       <DropdownWrapper ref={dropdownRef}>
         <IconButton onClick={toggleDropdown}>
@@ -168,19 +169,19 @@ function LibraryRow({ library }) {
         </IconButton>
 
         <DropdownMenu show={isOpen} position={dropdownPosition}>
-          <Modal.Open opensWindowName={`view-${library.id}`}>
+          <Modal.Open opensWindowName={`view-${expense.id}`}>
             <DropdownItem onClick={closeDropdown}>
               <HiEye /> View
             </DropdownItem>
           </Modal.Open>
 
-          <Modal.Open opensWindowName={`edit-${library.id}`}>
+          <Modal.Open opensWindowName={`edit-${expense.id}`}>
             <DropdownItem onClick={closeDropdown}>
               <HiPencil /> Edit
             </DropdownItem>
           </Modal.Open>
 
-          <Modal.Open opensWindowName={`delete-${library.id}`}>
+          <Modal.Open opensWindowName={`delete-${expense.id}`}>
             <DropdownItem onClick={closeDropdown} disabled={isDeleting}>
               <HiTrash /> Delete
             </DropdownItem>
@@ -188,19 +189,19 @@ function LibraryRow({ library }) {
         </DropdownMenu>
       </DropdownWrapper>
 
-      <Modal.Window name={`view-${library.id}`}>
-        <LibraryDetails library={library} />
+      <Modal.Window name={`view-${expense.id}`}>
+        <ExpensesDetails expense={expense} />
       </Modal.Window>
 
-      <Modal.Window name={`edit-${library.id}`}>
-        <CreateLibraryForm libraryToEdit={library} />
+      <Modal.Window name={`edit-${expense.id}`}>
+        <CreateExpensesForm expenseToEdit={expense} />
       </Modal.Window>
 
-      <Modal.Window name={`delete-${library.id}`}>
+      <Modal.Window name={`delete-${expense.id}`}>
         <ConfirmDelete onConfirm={handleDeleteConfirm} />
       </Modal.Window>
     </TableRow>
   )
 }
 
-export default LibraryRow
+export default ExpenseRow
