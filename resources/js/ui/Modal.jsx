@@ -110,8 +110,9 @@
 
 import React, { cloneElement, createContext, useContext, useState } from 'react'
 
-import { createPortal } from 'react-dom'
 import { HiXMark } from 'react-icons/hi2'
+import { createPortal } from 'react-dom'
+import { isValidElement } from 'react'
 import styled from 'styled-components'
 import { useOuteSideClick } from '../hooks/useOuteSideClick'
 
@@ -190,6 +191,24 @@ function Open({ children, opensWindowName }) {
   return cloneElement(children, { onClick: () => open(opensWindowName) })
 }
 
+// const Window = ({ children, name }) => {
+//   const { openName, close } = useContext(ModalContext)
+//   const ref = useOuteSideClick(close)
+
+//   if (name !== openName) return null
+
+//   return createPortal(
+//     <Overlay>
+//       <StyledModal ref={ref}>
+//         <Button onClick={close}>
+//           <HiXMark />
+//         </Button>
+//         <div>{cloneElement(children, { onCloseModal: close })}</div>
+//       </StyledModal>
+//     </Overlay>,
+//     document.body
+//   )
+// }
 const Window = ({ children, name }) => {
   const { openName, close } = useContext(ModalContext)
   const ref = useOuteSideClick(close)
@@ -202,7 +221,11 @@ const Window = ({ children, name }) => {
         <Button onClick={close}>
           <HiXMark />
         </Button>
-        <div>{cloneElement(children, { onCloseModal: close })}</div>
+        <div>
+          {isValidElement(children)
+            ? cloneElement(children, { onCloseModal: close })
+            : children}
+        </div>
       </StyledModal>
     </Overlay>,
     document.body
