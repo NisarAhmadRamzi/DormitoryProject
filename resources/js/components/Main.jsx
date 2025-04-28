@@ -9,6 +9,7 @@ import Bookings from '../pages/Bookings'
 import Dashboard from '../pages/Dashboard'
 import Home from '../pages/home/Home'
 import Libraries from '../pages/Libraries'
+import LibraryStudents from '../pages/LibraryStudents'
 import Login from '../pages/Login'
 import PageNotFound from '../pages/PageNotFound'
 import Rooms from '../pages/Rooms'
@@ -43,6 +44,7 @@ const Main = () => {
             <Route path="dashboard" element={<Dashboard />} />
             <Route path="bookings" element={<Bookings />} />
             <Route path="libraries" element={<Libraries />} />
+            <Route path="library-students" element={<LibraryStudents />} />
             <Route path="rooms" element={<Rooms />} />
             <Route path="users" element={<Users />} />
             <Route path="students" element={<Students />} />

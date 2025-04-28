@@ -143,6 +143,43 @@ function CreateStudentForm({ studentToEdit = {}, onCloseModal }) {
           />
           {errors?.f_name && <Error>{errors.f_name.message}</Error>}
         </FormRow>
+        {/* ID Number */}
+        <FormRow>
+          <Label htmlFor="id_number">ID Number</Label>
+          <Input
+            type="number"
+            id="id_number"
+            {...register('id_number', {
+              required: 'ID number is required',
+              minLength: {
+                value: 1,
+                message: 'ID number must have at least 1 digit',
+              },
+              maxLength: {
+                value: 20,
+                message: 'ID number must not exceed 20 digits',
+              },
+            })}
+          />
+          {errors?.id_number && <Error>{errors.id_number.message}</Error>}
+        </FormRow>
+
+        {/* Password */}
+        <FormRow>
+          <Label htmlFor="password">Password</Label>
+          <Input
+            type="password"
+            id="password"
+            {...register('password', {
+              required: !isEditSession ? 'Password is required' : false,
+              minLength: {
+                value: 6,
+                message: 'Password should be at least 6 characters',
+              },
+            })}
+          />
+          {errors?.password && <Error>{errors.password.message}</Error>}
+        </FormRow>
 
         {/* Last Name */}
         <FormRow>

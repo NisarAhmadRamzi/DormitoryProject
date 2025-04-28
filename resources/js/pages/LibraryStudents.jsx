@@ -1,9 +1,10 @@
-import AddLibrary from '../features/libraries/AddLibrary'
-import Heading from '../ui/Heading'
-import LibraryTable from '../features/libraries/LibraryTable'
-import Row from '../ui/Row'
-import styled from 'styled-components'
 import { useState } from 'react'
+import styled from 'styled-components'
+import Heading from '../ui/Heading'
+import Row from '../ui/Row'
+
+// import AddLibraryStudent from '../features/libraries/AddLibraryStudent'
+// import LibraryStudentTable from '../features/libraries/LibraryStudentTable'
 
 // Styled search input
 const SearchInput = styled.input`
@@ -23,8 +24,9 @@ const OperationsWrapper = styled.div`
   gap: 2rem;
 `
 
-function Libraries() {
+function LibraryStudents() {
   const [search, setSearch] = useState('')
+
   return (
     <>
       <Row
@@ -35,24 +37,24 @@ function Libraries() {
           justifyContent: 'space-between',
         }}
       >
-        <Heading as="h1">Libraries</Heading>
+        <Heading as="h1">Library Students</Heading>
 
         <OperationsWrapper>
           <SearchInput
             type="text"
-            placeholder="Search libraries..."
+            placeholder="Search students..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
         </OperationsWrapper>
       </Row>
 
-      <Row>
-        <LibraryTable search={search} />
-        <AddLibrary />
-      </Row>
+      {/* <Row>
+        <LibraryStudentTable search={search} />
+        <AddLibraryStudent />
+      </Row> */}
     </>
   )
 }
 
-export default Libraries
+export default LibraryStudents

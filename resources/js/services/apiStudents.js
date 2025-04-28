@@ -27,6 +27,8 @@ export async function deleteStudent(id) {
 }
 
 export async function createStudent(studentData) {
+  // studentData['id_number'] = 2;
+  // studentData['password'] = 'student'
   try {
     const res = await fetch(BASE_URL, {
       method: 'POST',
