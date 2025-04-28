@@ -5,6 +5,7 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import React from 'react'
 import { Toaster } from 'react-hot-toast'
 import Account from '../pages/Account'
+import Assets from '../pages/Assets'
 import Bookings from '../pages/Bookings'
 import Dashboard from '../pages/Dashboard'
 import Home from '../pages/home/Home'
@@ -46,6 +47,7 @@ const Main = () => {
             <Route path="libraries" element={<Libraries />} />
             <Route path="library-students" element={<LibraryStudents />} />
             <Route path="rooms" element={<Rooms />} />
+            <Route path="assets" element={<Assets />} />
             <Route path="users" element={<Users />} />
             <Route path="students" element={<Students />} />
             <Route path="settings" element={<Settings />} />
