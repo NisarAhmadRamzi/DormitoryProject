@@ -1,10 +1,8 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { Route, Routes } from 'react-router-dom'
 
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
-import React from 'react'
-import { Toaster } from 'react-hot-toast'
 import Account from '../pages/Account'
+import AppLayout from '../ui/AppLayout'
 import Assets from '../pages/Assets'
 import Bookings from '../pages/Bookings'
 import Books from '../pages/Books'
@@ -13,19 +11,21 @@ import Complaints from '../pages/Complaints'
 import Dashboard from '../pages/Dashboard'
 import Expenses from '../pages/Expenses'
 import Fees from '../pages/Fees'
+import GlobleStyles from '../styles/GlobledStyle'
 import Home from '../pages/home/Home'
 import Libraries from '../pages/Libraries'
 import LibraryStudents from '../pages/LibraryStudents'
 import Login from '../pages/Login'
+import { ModalProvider } from '../ui/Modal'
 import PageNotFound from '../pages/PageNotFound'
+import React from 'react'
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import Rooms from '../pages/Rooms'
 import Settings from '../pages/Settings'
 import Students from '../pages/Students'
 import Supports from '../pages/Supports'
+import { Toaster } from 'react-hot-toast'
 import Users from '../pages/Users'
-import GlobleStyles from '../styles/GlobledStyle'
-import AppLayout from '../ui/AppLayout'
-import { ModalProvider } from '../ui/Modal'
 
 // Ensure you are importing ModalProvider
 
@@ -45,7 +45,8 @@ const Main = () => {
         <ReactQueryDevtools initialIsOpen={false} />
         <GlobleStyles />
         <Routes>
-          <Route path="/" element={<Home />} />{' '}
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
           {/* Show Home component at root path */}
           <Route element={<AppLayout />}>
             <Route path="dashboard" element={<Dashboard />} />

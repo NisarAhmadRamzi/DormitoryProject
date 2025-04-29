@@ -34,14 +34,20 @@ function MyNavbar() {
             <Offcanvas.Title id="offcanvasNavbarLabel">Pages</Offcanvas.Title>
           </Offcanvas.Header>
           <Offcanvas.Body>
-            <Nav className="justify-content-center fw-b fs-5 flex-grow-1">
+            <Nav
+              className="justify-content-center fw-b fs-5 flex-grow-1"
+              style={{ alignItems: 'center' }}
+            >
               {/* Home link is set to navigate to the root path */}
-              <Link to="/" className="nav-link ms-5">
+              <Link to="/" className="nav-link ms-5 fs-3 fw-bold">
                 Home
+              </Link>
+              <Link to="/login" className="nav-link ms-5 fs-3 fw-bold">
+                Login
               </Link>
               {/* Dashboard link, fixed to navigate to /dashboard */}
               <Nav.Link
-                className="text-dark px-3 fs-6"
+                className="text-dark px-3 fs-3 fw-bold"
                 as={Link}
                 to="/dashboard"
               >
@@ -50,7 +56,7 @@ function MyNavbar() {
               <NavDropdown
                 title="Menu"
                 id="offcanvasNavbarDropdown"
-                className="ms-5"
+                className="ms-5 fs-3 fw-bold"
               >
                 <NavDropdown.Item href="#action3">menu1</NavDropdown.Item>
                 <NavDropdown.Item href="#action4">menu2</NavDropdown.Item>
