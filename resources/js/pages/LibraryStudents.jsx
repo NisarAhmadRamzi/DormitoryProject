@@ -1,5 +1,7 @@
 import { useState } from 'react'
 import styled from 'styled-components'
+import AddLibraryStudent from '../features/library students/AddLibraryStudent'
+import LibraryStudentsTable from '../features/library students/LibraryStudentTable'
 import Heading from '../ui/Heading'
 import Row from '../ui/Row'
 
@@ -50,8 +52,8 @@ function LibraryStudents() {
       </Row>
 
       <Row>
-        {/* <LibraryStudentTable search={search} /> */}
-        {/* <AddLibraryStudent /> */}
+        <LibraryStudentsTable search={search} />
+        <AddLibraryStudent />
       </Row>
     </>
   )

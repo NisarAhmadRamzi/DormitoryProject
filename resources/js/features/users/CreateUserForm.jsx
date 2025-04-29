@@ -62,8 +62,8 @@ function CreateUserForm({ userToEdit = {}, onCloseModal }) {
       const user = res
       toast.success(
         isEditSession
-          ? `User "${user.name}" updated successfully`
-          : `New user "${user.name}" created successfully`
+          ? 'User updated successfully'
+          : 'New user created successfully'
       )
       queryClient.invalidateQueries({ queryKey: ['users'] })
       reset()
