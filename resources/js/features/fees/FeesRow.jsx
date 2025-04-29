@@ -1,14 +1,14 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { useEffect, useRef, useState } from 'react'
 import { HiEllipsisVertical, HiEye, HiPencil, HiTrash } from 'react-icons/hi2'
+import { useEffect, useRef, useState } from 'react'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 
-import toast from 'react-hot-toast'
-import styled from 'styled-components'
-import { deleteFee } from '../../services/apiFees'
 import ConfirmDelete from '../../ui/ConfirmDelete'
+import CreateFeeForm from './CreateFeeForm'
+import FeeDetails from './FeeDetails'
 import Modal from '../../ui/Modal'
-
-// import { deleteFee } from '../../services/apiFees'
+import { deleteFee } from '../../services/apiFees'
+import styled from 'styled-components'
+import toast from 'react-hot-toast'
 
 const TableRow = styled.div`
   display: grid;
@@ -144,17 +144,33 @@ function FeesRow({ fee }) {
           <HiEllipsisVertical />
         </IconButton>
         <DropdownMenu show={isOpen} position={dropdownPosition}>
-          <DropdownItem onClick={closeDropdown}>
-            <HiEye /> View
-          </DropdownItem>
-          <DropdownItem onClick={closeDropdown}>
-            <HiPencil /> Edit
-          </DropdownItem>
-          <DropdownItem onClick={closeDropdown} disabled={isDeleting}>
-            <HiTrash /> Delete
-          </DropdownItem>
+          <Modal.Open opensWindowName={`view-fee-${fee.id}`}>
+            <DropdownItem onClick={closeDropdown}>
+              <HiEye /> View
+            </DropdownItem>
+          </Modal.Open>
+
+          <Modal.Open opensWindowName={`edit-fee-${fee.id}`}>
+            <DropdownItem onClick={closeDropdown}>
+              <HiPencil /> Edit
+            </DropdownItem>
+          </Modal.Open>
+
+          <Modal.Open opensWindowName={`delete-${fee.id}`}>
+            <DropdownItem onClick={closeDropdown} disabled={isDeleting}>
+              <HiTrash /> Delete
+            </DropdownItem>
+          </Modal.Open>
         </DropdownMenu>
       </DropdownWrapper>
+
+      <Modal.Window name={`view-fee-${fee.id}`}>
+        <FeeDetails fee={fee} />
+      </Modal.Window>
+
+      <Modal.Window name={`edit-fee-${fee.id}`}>
+        <CreateFeeForm feeToEdit={fee} />
+      </Modal.Window>
 
       <Modal.Window name={`delete-${fee.id}`}>
         <ConfirmDelete onConfirm={handleDeleteConfirm} />
