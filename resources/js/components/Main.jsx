@@ -9,6 +9,7 @@ import Assets from '../pages/Assets'
 import Bookings from '../pages/Bookings'
 import Dashboard from '../pages/Dashboard'
 import Expenses from '../pages/Expenses'
+import Fees from '../pages/Fees'
 import Home from '../pages/home/Home'
 import Libraries from '../pages/Libraries'
 import LibraryStudents from '../pages/LibraryStudents'
@@ -50,6 +51,7 @@ const Main = () => {
             <Route path="library-students" element={<LibraryStudents />} />
             <Route path="rooms" element={<Rooms />} />
             <Route path="assets" element={<Assets />} />
+            <Route path="fees" element={<Fees />} />
             <Route path="expenses" element={<Expenses />} />
             <Route path="supports" element={<Supports />} />
             <Route path="users" element={<Users />} />
