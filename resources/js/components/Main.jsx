@@ -7,6 +7,7 @@ import { Toaster } from 'react-hot-toast'
 import Account from '../pages/Account'
 import Assets from '../pages/Assets'
 import Bookings from '../pages/Bookings'
+import Books from '../pages/Books'
 import Dashboard from '../pages/Dashboard'
 import Expenses from '../pages/Expenses'
 import Fees from '../pages/Fees'
@@ -54,6 +55,7 @@ const Main = () => {
             <Route path="fees" element={<Fees />} />
             <Route path="expenses" element={<Expenses />} />
             <Route path="supports" element={<Supports />} />
+            <Route path="books" element={<Books />} />
             <Route path="users" element={<Users />} />
             <Route path="students" element={<Students />} />
             <Route path="settings" element={<Settings />} />

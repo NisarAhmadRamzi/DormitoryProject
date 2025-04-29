@@ -1,13 +1,13 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { createStudent, editStudent } from '../../services/apiStudents'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 
-import React from 'react'
-import { useForm } from 'react-hook-form'
-import toast from 'react-hot-toast'
-import styled from 'styled-components'
 import Button from '../../ui/Button'
 import Form from '../../ui/Form'
 import Input from '../../ui/Input'
+import React from 'react'
+import styled from 'styled-components'
+import toast from 'react-hot-toast'
+import { useForm } from 'react-hook-form'
 
 const FormWrapper = styled.div`
   background-color: var(--color-grey-0);
@@ -266,13 +266,19 @@ function CreateStudentForm({ studentToEdit = {}, onCloseModal }) {
         {/* Gender */}
         <FormRow>
           <Label htmlFor="gender">Gender</Label>
-          <Input
-            type="text"
+          <select
             id="gender"
-            {...register('gender', {
-              required: 'Gender is required',
-            })}
-          />
+            {...register('gender', { required: 'Gender is required' })}
+            style={{
+              padding: '0.8rem',
+              borderRadius: '4px',
+              border: '1px solid var(--color-grey-300)',
+            }}
+          >
+            <option value="">Select Gender</option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+          </select>
           {errors?.gender && <Error>{errors.gender.message}</Error>}
         </FormRow>
 
