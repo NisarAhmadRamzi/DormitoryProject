@@ -59,3 +59,14 @@ export async function editBook(id, updatedData) {
     throw new Error('Book could not be updated')
   }
 }
+
+export async function getBookById(id) {
+  try {
+    const res = await fetch(`${BASE_URL}/${id}`)
+    if (!res.ok) throw new Error('Failed to fetch book')
+    return await res.json()
+  } catch (error) {
+    console.error(error)
+    throw new Error('Book could not be fetched')
+  }
+}

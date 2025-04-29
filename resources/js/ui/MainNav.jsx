@@ -9,12 +9,12 @@ import { BsCurrencyDollar } from 'react-icons/bs'
 import { HiOutlineHomeModern } from 'react-icons/hi2'
 import { LuUsers } from 'react-icons/lu'
 import { MdOutlineLibraryBooks } from 'react-icons/md'
+import { NavLink } from 'react-router-dom'
 import { PiWarningLight } from 'react-icons/pi'
 import { RxDashboard } from 'react-icons/rx'
 import { TbDatabaseDollar } from 'react-icons/tb'
 import { TfiSupport } from 'react-icons/tfi'
 import { VscAccount } from 'react-icons/vsc'
-import { NavLink } from 'react-router-dom'
 import styled from 'styled-components'
 
 const NavList = styled.ul`
@@ -131,6 +131,12 @@ function MainNav() {
             <StyledNavlink to="/books">
               <MdOutlineLibraryBooks />
               <span>Books</span>
+            </StyledNavlink>
+          </li>
+          <li>
+            <StyledNavlink to="/borrowed-books">
+              <MdOutlineLibraryBooks />
+              <span>Borrwed Books</span>
             </StyledNavlink>
           </li>
           <li>
