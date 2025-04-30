@@ -1,11 +1,11 @@
-import { useQuery } from '@tanstack/react-query'
-import { useSearchParams } from 'react-router-dom'
-import styled from 'styled-components'
-import { getBorrowedBooks } from '../../services/apiBorrowedBooks'
+import BorrowedBooksRow from './BorrowedBooksRow'
+import { PAGE_SIZE } from '../../utils/constants'
 import Pagination from '../../ui/Pagination'
 import Spinner from '../../ui/Spinner'
-import { PAGE_SIZE } from '../../utils/constants'
-import BorrowedBooksRow from './BorrowedBooksRow'
+import { getBorrowedBooks } from '../../services/apiBorrowedBooks'
+import styled from 'styled-components'
+import { useQuery } from '@tanstack/react-query'
+import { useSearchParams } from 'react-router-dom'
 
 const Table = styled.div`
   border: 1px solid var(--color-grey-200);
@@ -60,7 +60,6 @@ function BorrowedBooksTable({ search = '' }) {
     <>
       <Table role="table">
         <TableHeader role="row">
-          {/* <div>ID</div> */}
           <div>Student Name</div>
           <div>Book Title</div>
           <div>Borrow Date</div>

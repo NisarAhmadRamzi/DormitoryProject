@@ -12,7 +12,7 @@ import toast from 'react-hot-toast'
 
 const TableRow = styled.div`
   display: grid;
-  grid-template-columns: 0.6fr 2fr 2.5fr 2.5fr 0.5fr;
+  grid-template-columns: 0.6fr 2fr 2fr 2fr 2fr 0.5fr; /* Match header */
   column-gap: 0.5rem;
   align-items: center;
   padding: 1.4rem 1rem;
@@ -157,10 +157,11 @@ function BorrowedBookRow({ borrowedBook }) {
 
   return (
     <TableRow role="row">
-      <Id>{borrowedBook.id}</Id>
-      <Cell>{borrowedBook.book?.title}</Cell>
       <Cell>{borrowedBook.student?.name}</Cell>
+      <Cell>{borrowedBook.book?.title}</Cell>
       <Cell>{borrowedBook.borrow_date}</Cell>
+      <Cell>{borrowedBook.return_date}</Cell>
+      <Cell>{borrowedBook.borrowed_books_total_count}</Cell>
 
       <DropdownWrapper ref={dropdownRef}>
         <IconButton onClick={toggleDropdown}>
