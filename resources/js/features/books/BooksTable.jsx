@@ -1,12 +1,12 @@
-import { useQuery } from '@tanstack/react-query'
-import { useState } from 'react'
-import { useSearchParams } from 'react-router-dom'
-import styled from 'styled-components'
-import { getBooks } from '../../services/apiBooks'
+import BooksRow from './BooksRow'
+import { PAGE_SIZE } from '../../utils/constants'
 import Pagination from '../../ui/Pagination'
 import Spinner from '../../ui/Spinner'
-import { PAGE_SIZE } from '../../utils/constants'
-import BooksRow from './BooksRow'
+import { getBooks } from '../../services/apiBooks'
+import styled from 'styled-components'
+import { useQuery } from '@tanstack/react-query'
+import { useSearchParams } from 'react-router-dom'
+import { useState } from 'react'
 
 const Table = styled.div`
   border: 1px solid var(--color-grey-200);
@@ -16,9 +16,22 @@ const Table = styled.div`
   overflow: hidden;
 `
 
+// const TableHeader = styled.header`
+//   display: grid;
+//   grid-template-columns: 0.6fr 2.5fr 2.5fr 2fr 1.5fr 1fr;
+//   column-gap: 0.5rem;
+//   align-items: center;
+//   background-color: var(--color-grey-50);
+//   border-bottom: 1px solid var(--color-grey-100);
+//   text-transform: uppercase;
+//   letter-spacing: 0.4px;
+//   font-weight: 600;
+//   color: var(--color-grey-600);
+//   padding: 1.6rem 2.4rem;
+// `
 const TableHeader = styled.header`
   display: grid;
-  grid-template-columns: 0.6fr 2.5fr 2.5fr 2fr 1.5fr 1fr;
+  grid-template-columns: 0.6fr 2.5fr 2.5fr 2fr 1.5fr 1fr 1fr;
   column-gap: 0.5rem;
   align-items: center;
   background-color: var(--color-grey-50);
@@ -83,8 +96,9 @@ function BooksTable({ search }) {
           <div>Author</div>
           <div>Year</div>
           <div>Status</div>
-          {/* <div>Count</div> */}
           <div>Action</div>
+          <div></div>{' '}
+          {/* Empty header cell to align with the dropdown in BooksRow */}
         </TableHeader>
 
         {paginatedBooks.map((book) => (
