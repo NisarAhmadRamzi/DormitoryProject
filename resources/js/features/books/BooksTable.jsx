@@ -91,14 +91,13 @@ function BooksTable({ search }) {
     <>
       <Table role="table">
         <TableHeader role="row">
-          <div>ID</div>
+          <div style={{marginLeft : "10px"}}>ID</div>
           <div>Title</div>
           <div>Author</div>
           <div>Year</div>
           <div>Status</div>
           <div>Action</div>
           <div></div>{' '}
-          {/* Empty header cell to align with the dropdown in BooksRow */}
         </TableHeader>
 
         {paginatedBooks.map((book) => (

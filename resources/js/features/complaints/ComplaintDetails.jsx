@@ -1,5 +1,5 @@
-import styled from 'styled-components'
 import Heading from '../../ui/Heading'
+import styled from 'styled-components'
 
 const StyledDetails = styled.div`
   background-color: var(--color-grey-0);
@@ -72,18 +72,18 @@ function ComplaintDetails({ complaint }) {
 
       <DetailRow>
         <Label>Created At</Label>
-        <Value>{new Date(created_at).toLocaleString()}</Value>
+        <Value>{created_at || 'N/A'}</Value>
       </DetailRow>
 
       <DetailRow>
         <Label>Updated At</Label>
-        <Value>{new Date(updated_at).toLocaleString()}</Value>
+        <Value>{updated_at || 'N/A'}</Value>
       </DetailRow>
 
       {resolved_at && (
         <DetailRow>
           <Label>Resolved At</Label>
-          <Value>{new Date(resolved_at).toLocaleString()}</Value>
+          <Value>{resolved_at}</Value>
         </DetailRow>
       )}
     </StyledDetails>

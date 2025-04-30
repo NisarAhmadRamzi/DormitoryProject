@@ -1,5 +1,6 @@
-import styled from 'styled-components'
 import Heading from '../../ui/Heading'
+import { formatDistanceToNow } from 'date-fns'
+import styled from 'styled-components'
 
 const StyledDetails = styled.div`
   background-color: var(--color-grey-0);
@@ -59,12 +60,16 @@ function LibraryDetails({ library }) {
 
       <DetailRow>
         <Label>Created At</Label>
-        <Value>{new Date(created_at).toLocaleString()}</Value>
+        <Value>
+          {formatDistanceToNow(new Date(created_at), { addSuffix: true })}
+        </Value>
       </DetailRow>
 
       <DetailRow>
         <Label>Updated At</Label>
-        <Value>{new Date(updated_at).toLocaleString()}</Value>
+        <Value>
+          {formatDistanceToNow(new Date(updated_at), { addSuffix: true })}
+        </Value>
       </DetailRow>
     </StyledDetails>
   )

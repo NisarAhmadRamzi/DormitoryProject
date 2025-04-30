@@ -157,7 +157,7 @@ function BorrowedBookRow({ borrowedBook }) {
 
   return (
     <TableRow role="row">
-      <Cell>{borrowedBook.student?.name}</Cell>
+      <Cell style={{ textAlign: 'center' }}>{borrowedBook.student?.name}</Cell>
       <Cell>{borrowedBook.book?.title}</Cell>
       <Cell>{borrowedBook.borrow_date}</Cell>
       <Cell>{borrowedBook.return_date}</Cell>

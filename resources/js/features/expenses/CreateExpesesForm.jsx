@@ -1,13 +1,26 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { createExpense, editExpense } from '../../services/apiExpenses'
 
-import React from 'react'
-import { useForm } from 'react-hook-form'
-import toast from 'react-hot-toast'
-import styled from 'styled-components'
+
+import { createExpense, editExpense } from '../../services/apiExpenses'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+
 import Button from '../../ui/Button'
 import Form from '../../ui/Form'
 import Input from '../../ui/Input'
+import React from 'react'
+import styled from 'styled-components'
+import toast from 'react-hot-toast'
+import { useForm } from 'react-hook-form'
+
+const Select = styled.select`
+  padding: 0.8rem 1.2rem;
+  font-size: 1.6rem;
+  border: 1px solid var(--color-grey-300);
+  border-radius: 4px;
+  background-color: var(--color-grey-0);
+  width: 100%;
+  font-family: inherit;
+  color: inherit;
+`
 
 const FormRow = styled.div`
   display: grid;
@@ -89,11 +102,13 @@ function CreateExpensesForm({ expenseToEdit = {}, onCloseModal }) {
     <Form onSubmit={handleSubmit(onSubmit)}>
       <FormRow>
         <Label htmlFor="type">Type</Label>
-        <Input
-          type="text"
+        <Select
           id="type"
           {...register('type', { required: 'Type is required' })}
-        />
+        >
+          <option value="cash">Cash</option>
+          <option value="goods">Goods</option>
+        </Select>
         {errors?.type && <Error>{errors.type.message}</Error>}
       </FormRow>
 

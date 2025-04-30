@@ -1,5 +1,5 @@
-import styled from 'styled-components'
 import Heading from '../../ui/Heading'
+import styled from 'styled-components'
 
 const StyledDetails = styled.div`
   background-color: var(--color-grey-0);
@@ -62,29 +62,27 @@ function BorrowedBookDetails({ borrowedBook }) {
 
       <DetailRow>
         <Label>Borrow Date</Label>
-        <Value>{new Date(borrow_date).toLocaleDateString()}</Value>
+        <Value>{borrow_date || 'N/A'}</Value>
       </DetailRow>
 
       <DetailRow>
         <Label>Return Date</Label>
-        <Value>
-          {return_date ? new Date(return_date).toLocaleDateString() : 'N/A'}
-        </Value>
+        <Value>{return_date || 'N/A'}</Value>
       </DetailRow>
 
       <DetailRow>
         <Label>Status</Label>
-        <Value>{status}</Value>
+        <Value>{status || 'N/A'}</Value>
       </DetailRow>
 
       <DetailRow>
         <Label>Created At</Label>
-        <Value>{new Date(created_at).toLocaleString()}</Value>
+        <Value>{created_at || 'N/A'}</Value> {/* No formatting */}
       </DetailRow>
 
       <DetailRow>
         <Label>Updated At</Label>
-        <Value>{new Date(updated_at).toLocaleString()}</Value>
+        <Value>{updated_at || 'N/A'}</Value> {/* No formatting */}
       </DetailRow>
     </StyledDetails>
   )

@@ -140,7 +140,7 @@ function BooksRow({ book }) {
 
   return (
     <TableRow role="row">
-      <Cell>{book.id}</Cell>
+      <Cell style={{textAlign : "center"}}>{book.id}</Cell>
       <Cell>{book.title}</Cell>
       <Cell>{book.author}</Cell>
       <Cell>{book.publication_year}</Cell>

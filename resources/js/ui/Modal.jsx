@@ -129,8 +129,8 @@ const StyledModal = styled.div`
   transition: all 0.5s;
 
   width: 90%;
-  max-width: 800px;
-  max-height: 90vh;
+  max-width: 850px;
+  max-height: 110vh;
   overflow-y: auto;
 
   display: flex;

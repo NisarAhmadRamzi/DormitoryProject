@@ -1,13 +1,13 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { createBook, editBook } from '../../services/apiBooks'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 
-import React from 'react'
-import { useForm } from 'react-hook-form'
-import toast from 'react-hot-toast'
-import styled from 'styled-components'
 import Button from '../../ui/Button'
 import Form from '../../ui/Form'
 import Input from '../../ui/Input'
+import React from 'react'
+import styled from 'styled-components'
+import toast from 'react-hot-toast'
+import { useForm } from 'react-hook-form'
 
 const FormRow = styled.div`
   display: grid;
@@ -44,6 +44,22 @@ const Error = styled.span`
   color: var(--color-red-700);
 `
 
+const Select = styled.select`
+  font-size: 1.6rem;
+  padding: 0.8rem 1.2rem;
+  border: 1px solid var(--color-grey-300);
+  border-radius: 5px;
+  background-color: var(--color-grey-0);
+  color: var(--color-grey-800);
+  width: 100%;
+
+  &:focus {
+    outline: none;
+    border-color: var(--color-brand-600);
+    box-shadow: 0 0 0 3px var(--color-brand-100);
+  }
+`
+
 function CreateBookForm({ bookToEdit = {}, onCloseModal }) {
   const isEditSession = Boolean(bookToEdit.id)
 
@@ -78,8 +94,15 @@ function CreateBookForm({ bookToEdit = {}, onCloseModal }) {
   })
 
   const onSubmit = (data) => {
-    // Convert publication_year to string format (YYYY)
     data.publication_year = String(data.publication_year)
+
+    // Normalize status capitalization
+    const validStatuses = {
+      available: 'Available',
+      borrowed: 'Borrowed',
+    }
+    data.status = validStatuses[data.status?.toLowerCase()] || data.status
+
     mutate(data)
   }
 
@@ -154,7 +177,7 @@ function CreateBookForm({ bookToEdit = {}, onCloseModal }) {
 
       <FormRow>
         <Label htmlFor="status">Status</Label>
-        <select
+        <Select
           id="status"
           {...register('status', {
             required: 'Status is required',
@@ -165,7 +188,7 @@ function CreateBookForm({ bookToEdit = {}, onCloseModal }) {
           <option value="">-- Select Status --</option>
           <option value="Available">Available</option>
           <option value="Borrowed">Borrowed</option>
-        </select>
+        </Select>
         {errors?.status && <Error>{errors.status.message}</Error>}
       </FormRow>
 

@@ -1,5 +1,7 @@
-import styled from 'styled-components'
+import { formatDistanceToNow, parseISO } from 'date-fns'
+
 import Heading from '../../ui/Heading'
+import styled from 'styled-components'
 
 const StyledDetails = styled.div`
   background-color: var(--color-grey-0);
@@ -32,6 +34,16 @@ const Value = styled.span`
   color: var(--color-grey-800);
   font-size: 1.6rem;
 `
+
+function formatTimeAgo(dateString) {
+  try {
+    const isoString = dateString.replace(' ', 'T')
+    const date = parseISO(isoString)
+    return formatDistanceToNow(date, { addSuffix: true })
+  } catch {
+    return 'Invalid date'
+  }
+}
 
 function BookDetails({ book }) {
   if (!book) return <p>No book data available.</p>
@@ -83,12 +95,12 @@ function BookDetails({ book }) {
 
       <DetailRow>
         <Label>Created At</Label>
-        <Value>{new Date(created_at).toLocaleString()}</Value>
+        <Value>{formatTimeAgo(created_at)}</Value>
       </DetailRow>
 
       <DetailRow>
         <Label>Updated At</Label>
-        <Value>{new Date(updated_at).toLocaleString()}</Value>
+        <Value>{formatTimeAgo(updated_at)}</Value>
       </DetailRow>
     </StyledDetails>
   )
