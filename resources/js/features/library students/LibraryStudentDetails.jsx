@@ -1,5 +1,5 @@
-import styled from 'styled-components'
 import Heading from '../../ui/Heading'
+import styled from 'styled-components'
 
 const StyledDetails = styled.div`
   background-color: var(--color-grey-0);
@@ -36,40 +36,54 @@ const Value = styled.span`
 function LibraryStudentDetails({ student }) {
   if (!student) return <p>No student data available.</p>
 
-  const { name, email, phone, libraryId, created_at, updated_at } = student
-
   return (
     <StyledDetails>
-      <Heading as="h3">Student Details</Heading>
-
+      <Heading as="h3">Library Student Details</Heading>
       <DetailRow>
-        <Label>Name</Label>
-        <Value>{name}</Value>
+        <Label>Full Name</Label>
+        <Value>
+          {student.name} {student.last_name}
+        </Value>
       </DetailRow>
-
       <DetailRow>
         <Label>Email</Label>
-        <Value>{email}</Value>
+        <Value>{student.email}</Value>
       </DetailRow>
-
       <DetailRow>
         <Label>Phone</Label>
-        <Value>{phone || 'N/A'}</Value>
+        <Value>{student.phone}</Value>
       </DetailRow>
-
       <DetailRow>
-        <Label>Library ID</Label>
-        <Value>{libraryId}</Value>
+        <Label>Address</Label>
+        <Value>{student.address}</Value>
       </DetailRow>
-
+      <DetailRow>
+        <Label>Gender</Label>
+        <Value>{student.gender}</Value>
+      </DetailRow>
+      <DetailRow>
+        <Label>Membership Status</Label>
+        <Value>{student.membership_status}</Value>
+      </DetailRow>
+      <DetailRow>
+        <Label>Registration Date</Label>
+        <Value>
+          {new Date(student.registration_date).toLocaleDateString()}
+        </Value>
+      </DetailRow>
+      <DetailRow>
+        <Label>Registration Deadline</Label>
+        <Value>
+          {new Date(student.registration_deadline).toLocaleDateString()}
+        </Value>
+      </DetailRow>
       <DetailRow>
         <Label>Created At</Label>
-        <Value>{new Date(created_at).toLocaleString()}</Value>
+        <Value>{new Date(student.created_at).toLocaleString()}</Value>
       </DetailRow>
-
       <DetailRow>
         <Label>Updated At</Label>
-        <Value>{new Date(updated_at).toLocaleString()}</Value>
+        <Value>{new Date(student.updated_at).toLocaleString()}</Value>
       </DetailRow>
     </StyledDetails>
   )

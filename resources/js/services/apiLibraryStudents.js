@@ -1,5 +1,6 @@
 const BASE_URL = 'http://127.0.0.1:8000/api/library-students'
 
+// GET all library students
 export async function getLibraryStudents() {
   try {
     const res = await fetch(BASE_URL)
@@ -12,6 +13,7 @@ export async function getLibraryStudents() {
   }
 }
 
+// DELETE a library student by ID
 export async function deleteLibraryStudent(id) {
   try {
     const res = await fetch(`${BASE_URL}/${id}`, {
@@ -30,12 +32,13 @@ export async function deleteLibraryStudent(id) {
   }
 }
 
-export async function createLibraryStudent(libraryStudentData) {
+// POST create new library student
+export async function createLibraryStudent(studentData) {
   try {
     const res = await fetch(BASE_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(libraryStudentData),
+      body: JSON.stringify(studentData),
     })
     if (!res.ok) throw new Error('Failed to create library student')
     return await res.json()
@@ -45,6 +48,7 @@ export async function createLibraryStudent(libraryStudentData) {
   }
 }
 
+// PUT update existing library student
 export async function editLibraryStudent(id, updatedData) {
   try {
     const res = await fetch(`${BASE_URL}/${id}`, {
