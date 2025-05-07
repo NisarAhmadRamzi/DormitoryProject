@@ -13,6 +13,7 @@
         "vite": "^5.0.0"
     },
     "dependencies": {
+        "@supabase/supabase-js": "^2.49.4",
         "@tanstack/react-query": "^4.36.1",
         "@tanstack/react-query-devtools": "^4.36.1",
         "bootstrap": "^5.3.3",
