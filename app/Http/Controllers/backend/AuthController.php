@@ -11,8 +11,8 @@ use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
-    // Login method for Admin
-    public function adminLogin(Request $request)
+    // Authentication Logic for Admin and Member (Student)
+    public function login(Request $request)
     {
         // Validate request
         $request->validate([
@@ -23,63 +23,51 @@ class AuthController extends Controller
         // Find user by email
         $user = User::where('email', $request->email)->first();
 
-        // Check if user exists, role is admin, and password is correct
-        if (!$user || $user->user_role != 1 || !Hash::check($request->password, $user->password)) {
-            return response()->json(['message' => 'Invalid credentials or not an admin'], 401);
+        // Check if the user exists and if the password is correct
+        if (!$user || !Hash::check($request->password, $user->password)) {
+            return response()->json(['message' => 'Invalid credentials'], 401);
         }
 
         // Generate token
         $token = $user->createToken($user->name)->plainTextToken;
 
-        return response()->json([
-            'message' => 'Admin logged in successfully',
-            'user' => $user,
-            'token' => $token
-        ]);
-    }
-
-    // Login method for Member
-    public function memberLogin(Request $request)
-    {
-        // Validate request
-        $request->validate([
-            'email' => 'required|email',
-            'password' => 'required',
-        ]);
-
-        // Find user by email
-        $user = User::where('email', $request->email)->first();
-
-        // Check if user exists, role is member, and password is correct
-        if (!$user || $user->user_role != 3 || !Hash::check($request->password, $user->password)) {
-            return response()->json(['message' => 'Invalid credentials or not a member'], 401);
+        // Determine user role and send appropriate response
+        if ($user->role == 'admin') {
+            // Admin login
+            return response()->json([
+                'message' => 'Admin logged in successfully',
+                'user' => $user,
+                'token' => $token
+            ]);
+        } elseif ($user->role == 'student') {
+            // Member (Student) login
+            return response()->json([
+                'message' => 'Student logged in successfully',
+                'user' => $user,
+                'token' => $token
+            ]);
         }
 
-        // Generate token
-        $token = $user->createToken($user->name)->plainTextToken;
-
-        return response()->json([
-            'message' => 'Member logged in successfully',
-            'user' => $user,
-            'token' => $token
-        ]);
+        // Default response in case of unexpected role
+        return response()->json(['message' => 'Unauthorized user role'], 401);
     }
 
     // Register method (Admin and Member Registration)
     public function register(Request $request)
     {
+        // dd($request->all());
         $request->validate([
             'name' => 'required|string',
             'email' => 'required|email|unique:users',
             'password' => 'required|min:6',
-            'user_role' => 'required|in:1,2,3' // Admin (1) or Member (2)
+            // 'role' => 'required|in:admin,second_admin,student' // Admin, Second Admin, or Student
         ]);
 
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => bcrypt($request->password),
-            'user_role' => $request->user_role, // Accept user_role from the request
+            // 'role' => $request->role, // Accept user_role from the request
         ]);
 
         $token = $user->createToken($user->name)->plainTextToken;
@@ -96,8 +84,8 @@ class AuthController extends Controller
     {
         $user = $request->user();
 
-        // Get the user's role name using the relationship
-        $roleName = $user->role ? strtolower($user->role->name) : 'user';
+        // Get the user's role directly
+        $roleName = strtolower($user->role); // Assuming role is a string like 'admin', 'student', etc.
 
         // Delete the user's tokens
         $user->tokens()->delete();
@@ -107,6 +95,65 @@ class AuthController extends Controller
             'message' => "The $roleName was logged out!"
         ]);
     }
+
+
+
+
+    // Login method for Admin
+    // public function adminLogin(Request $request)
+    // {
+    //     // Validate request
+    //     $request->validate([
+    //         'email' => 'required|email',
+    //         'password' => 'required',
+    //     ]);
+
+    //     // Find user by email
+    //     $user = User::where('email', $request->email)->first();
+
+    //     // Check if user exists, role is admin, and password is correct
+    //     if (!$user || $user->user_role != 1 || !Hash::check($request->password, $user->password)) {
+    //         return response()->json(['message' => 'Invalid credentials or not an admin'], 401);
+    //     }
+
+    //     // Generate token
+    //     $token = $user->createToken($user->name)->plainTextToken;
+
+    //     return response()->json([
+    //         'message' => 'Admin logged in successfully',
+    //         'user' => $user,
+    //         'token' => $token
+    //     ]);
+    // }
+
+    // // Login method for Member
+    // public function memberLogin(Request $request)
+    // {
+    //     // Validate request
+    //     $request->validate([
+    //         'email' => 'required|email',
+    //         'password' => 'required',
+    //     ]);
+
+    //     // Find user by email
+    //     $user = User::where('email', $request->email)->first();
+
+    //     // Check if user exists, role is member, and password is correct
+    //     if (!$user || $user->user_role != 3 || !Hash::check($request->password, $user->password)) {
+    //         return response()->json(['message' => 'Invalid credentials or not a member'], 401);
+    //     }
+
+    //     // Generate token
+    //     $token = $user->createToken($user->name)->plainTextToken;
+
+    //     return response()->json([
+    //         'message' => 'Member logged in successfully',
+    //         'user' => $user,
+    //         'token' => $token
+    //     ]);
+    // }
+
+
 }
 
 
