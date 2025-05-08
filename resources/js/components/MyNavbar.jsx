@@ -1,11 +1,11 @@
 import Button from 'react-bootstrap/Button'
 import Container from 'react-bootstrap/Container'
 import Form from 'react-bootstrap/Form'
+import { Link } from 'react-router-dom'
 import Nav from 'react-bootstrap/Nav'
 import NavDropdown from 'react-bootstrap/NavDropdown'
 import Navbar from 'react-bootstrap/Navbar'
 import Offcanvas from 'react-bootstrap/Offcanvas'
-import { Link } from 'react-router-dom'
 
 function MyNavbar() {
   const expand = 'md'
@@ -41,6 +41,9 @@ function MyNavbar() {
               {/* Home link is set to navigate to the root path */}
               <Link to="/" className="nav-link ms-5 fs-3 fw-bold">
                 Home
+              </Link>
+              <Link to="/register" className="nav-link ms-5 fs-3 fw-bold">
+                Register
               </Link>
               <Link to="/login" className="nav-link ms-5 fs-3 fw-bold">
                 Login

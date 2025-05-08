@@ -20,6 +20,8 @@ import { ModalProvider } from '../ui/Modal'
 import PageNotFound from '../pages/PageNotFound'
 import React from 'react'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+import Register from '../ui/Register'
+import RegisterForm from '../pages/home/RegisterForm'
 import Rooms from '../pages/Rooms'
 import Settings from '../pages/Settings'
 import Students from '../pages/Students'
@@ -66,6 +68,7 @@ const Main = () => {
             <Route path="settings" element={<Settings />} />
             <Route path="accounts" element={<Account />} />
           </Route>
+          <Route path="register" element={<RegisterForm />} />
           <Route path="login" element={<Login />} />
           <Route path="*" element={<PageNotFound />} />
         </Routes>
