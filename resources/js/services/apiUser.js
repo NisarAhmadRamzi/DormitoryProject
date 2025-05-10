@@ -12,26 +12,21 @@ export async function getUsers() {
   }
 }
 
-export async function deleteUser(id) {
-  try {
-    const res = await fetch(`${BASE_URL}/${id}`, {
-      method: 'DELETE',
-    })
-
-    if (!res.ok) throw new Error('Failed to delete user')
-
-    if (res.status === 204) return { success: true }
-
-    const data = await res.json().catch(() => null)
-    return data || { success: true }
-  } catch (error) {
-    console.error(error)
-    throw new Error('User could not be deleted')
-  }
-}
-
 import axios from 'axios'
 
+export async function deleteUser(id) {
+  try {
+    const res = await axios.delete(`${BASE_URL}/${id}`, {
+      withCredentials: true, // Important for Sanctum CSRF protection
+    })
+    return res.data // Or just return; if your API returns nothing
+  } catch (error) {
+    console.error(error)
+    throw new Error(
+      error.response?.data?.message || 'User could not be deleted'
+    )
+  }
+}
 export async function createUser(formData) {
   try {
     const res = await axios.post('/api/users', formData, {

@@ -1,5 +1,5 @@
-import styled from 'styled-components'
 import UsersRow from './UsersRow'
+import styled from 'styled-components'
 
 const StyledTable = styled.div`
   width: 100%;
