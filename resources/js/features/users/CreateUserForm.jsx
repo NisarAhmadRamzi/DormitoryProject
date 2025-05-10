@@ -40,6 +40,26 @@ const Error = styled.span`
   color: var(--color-red-700);
 `
 
+const SelectInput = styled.select`
+  font-size: 1.4rem;
+  padding: 1.2rem;
+  border-radius: var(--border-radius-sm);
+  border: 1px solid var(--color-grey-300);
+  width: 100%;
+  color: var(--color-grey-700);
+  background-color: var(--color-grey-0);
+  transition: border-color 0.2s ease-in-out;
+
+  &:focus {
+    border-color: var(--color-primary);
+    outline: none;
+  }
+
+  & option {
+    font-size: 1.4rem;
+  }
+`
+
 function CreateUserForm({ userToEdit = {}, onCloseModal }) {
   const isEditSession = Boolean(userToEdit.id)
   const [profileImage, setProfileImage] = useState(null)
@@ -153,7 +173,7 @@ function CreateUserForm({ userToEdit = {}, onCloseModal }) {
 
       <FormRow>
         <Label htmlFor="role">Role</Label>
-        <select
+        <SelectInput
           id="role"
           {...register('role', {
             required: 'Role is required',
@@ -166,7 +186,7 @@ function CreateUserForm({ userToEdit = {}, onCloseModal }) {
           <option value="admin">Admin</option>
           <option value="second-admin">Second Admin</option>
           <option value="student">Student</option>
-        </select>
+        </SelectInput>
         {errors?.role && <Error>{errors.role.message}</Error>}
       </FormRow>
 

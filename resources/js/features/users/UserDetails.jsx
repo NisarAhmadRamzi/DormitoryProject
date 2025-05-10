@@ -1,28 +1,52 @@
 import Heading from '../../ui/Heading'
 import styled from 'styled-components'
 
-const StyledDetails = styled.div`
+const ModalFrame = styled.div`
   background-color: var(--color-grey-0);
-  padding: 3.2rem;
-  border-radius: 12px;
-  box-shadow: var(--shadow-lg);
+  /* padding: 3.2rem; */
+  border-radius: var(--border-radius-md);
+  /* box-shadow: var(--shadow-lg); */
   display: flex;
   flex-direction: column;
-  gap: 2.4rem;
-  max-width: 800px;
-  margin: 0 auto;
+  /* gap: 2.4rem; */
+  max-width: 40rem;
+  max-height: 80vh;
+  overflow-y: auto;
+  /* margin: 2rem auto; */
 `
 
-const DetailRow = styled.div`
-  display: grid;
-  grid-template-columns: 20rem 1fr;
-  align-items: center;
-  gap: 1.6rem;
+const ProfileSection = styled.div`
+  display: flex;
+  gap: 2.4rem;
+  align-items: flex-start;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid var(--color-grey-100);
 
-  &:not(:last-child) {
-    padding-bottom: 2rem;
-    border-bottom: 1px solid var(--color-grey-100);
+  @media (max-width: 600px) {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
   }
+`
+
+const ProfileImg = styled.img`
+  width: 200px;
+  height: 190px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 2px solid var(--color-grey-200);
+  box-shadow: var(--shadow-sm);
+`
+
+const InfoBlock = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+`
+
+const InfoRow = styled.div`
+  display: flex;
+  flex-direction: column;
 `
 
 const Label = styled.span`
@@ -36,18 +60,20 @@ const Value = styled.span`
   font-size: 1.6rem;
 `
 
-const ProfileWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 2.4rem;
-`
-const ProfileImg = styled.img`
-  width: 200px;
-  height: auto;
-  object-fit: cover;
-  border-radius: 8px; /* optional: soften corners without making it round */
-  border: 2px solid var(--color-grey-200);
-  box-shadow: var(--shadow-sm);
+const DetailRow = styled.div`
+  display: grid;
+  grid-template-columns: 20rem 1fr;
+  align-items: start;
+  gap: 1.6rem;
+  padding: 1.2rem 0;
+
+  &:not(:last-child) {
+    border-bottom: 1px solid var(--color-grey-100);
+  }
+
+  @media (max-width: 600px) {
+    grid-template-columns: 1fr;
+  }
 `
 
 function formatDate(dateStr) {
@@ -70,26 +96,28 @@ function UserDetails({ user }) {
   } = user
 
   return (
-    <StyledDetails>
+    <ModalFrame>
       <Heading as="h3">User Profile</Heading>
-      <DetailRow>
-        <Label>Profile</Label>
-        <ProfileWrapper>
-          <ProfileImg src={`/uploads/${profile}`} alt={`${name}'s profile`} />
-        </ProfileWrapper>
-      </DetailRow>
 
-      <DetailRow>
-        <Label>Email</Label>
-        <Value>{email}</Value>
-      </DetailRow>
-
-      <DetailRow>
-        <Label>Role</Label>
-        <Value>
-          {role_name} <small>(ID: {role_id})</small>
-        </Value>
-      </DetailRow>
+      <ProfileSection>
+        <ProfileImg src={`/uploads/${profile}`} alt={`${name}'s profile`} />
+        <InfoBlock>
+          <InfoRow>
+            <Label>Name</Label>
+            <Value>{name}</Value>
+          </InfoRow>
+          <InfoRow>
+            <Label>Email</Label>
+            <Value>{email}</Value>
+          </InfoRow>
+          <InfoRow>
+            <Label>Role</Label>
+            <Value>
+              {role_name} <small>(ID: {role_id})</small>
+            </Value>
+          </InfoRow>
+        </InfoBlock>
+      </ProfileSection>
 
       {student ? (
         <>
@@ -118,7 +146,7 @@ function UserDetails({ user }) {
         <Label>Last Updated</Label>
         <Value>{formatDate(updated_at)}</Value>
       </DetailRow>
-    </StyledDetails>
+    </ModalFrame>
   )
 }
 

@@ -38,8 +38,8 @@ const Cell = styled.div`
 `
 
 const ProfileImg = styled.img`
-  width: 32px;
-  height: 32px;
+  width: 50px;
+  height: 50px;
   border-radius: 50%;
   object-fit: cover;
 `
@@ -174,9 +174,14 @@ function UserRow({ user }) {
       </Cell>
       <Cell>{user.email}</Cell>
       <Cell>{user.role_name}</Cell>
-      <Cell>
+      {/* <Cell>
         {user.role_name === 'student' && user.student
           ? `Student Name: ${user.student.name}`
+          : '—'}
+      </Cell> */}
+      <Cell>
+        {user.role_name === 'student' && user.student
+          ? `Student ID: ${user.student.id}`
           : '—'}
       </Cell>
 
