@@ -1,13 +1,13 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { createUser, editUser } from '../../services/apiUser'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 
-import { useForm } from 'react-hook-form'
-import toast from 'react-hot-toast'
-import styled from 'styled-components'
 import Button from '../../ui/Button'
 import Form from '../../ui/Form'
 import Input from '../../ui/Input'
+import styled from 'styled-components'
+import toast from 'react-hot-toast'
+import { useForm } from 'react-hook-form'
 
 const FormRow = styled.div`
   display: grid;
@@ -42,6 +42,7 @@ const Error = styled.span`
 
 function CreateUserForm({ userToEdit = {}, onCloseModal }) {
   const isEditSession = Boolean(userToEdit.id)
+  const [profileImage, setProfileImage] = useState(null)
 
   const {
     register,
@@ -56,10 +57,9 @@ function CreateUserForm({ userToEdit = {}, onCloseModal }) {
   const queryClient = useQueryClient()
 
   const { mutate, isLoading } = useMutation({
-    mutationFn: (data) =>
-      isEditSession ? editUser(userToEdit.id, data) : createUser(data),
-    onSuccess: (res) => {
-      const user = res
+    mutationFn: (formData) =>
+      isEditSession ? editUser(userToEdit.id, formData) : createUser(formData),
+    onSuccess: () => {
       toast.success(
         isEditSession
           ? 'User updated successfully'
@@ -74,7 +74,20 @@ function CreateUserForm({ userToEdit = {}, onCloseModal }) {
     },
   })
 
-  const onSubmit = (data) => mutate(data)
+  const onSubmit = (data) => {
+    const formData = new FormData()
+    formData.append('name', data.name)
+    formData.append('email', data.email)
+    formData.append('password', data.password || '')
+    formData.append('cpassword', data.cpassword || '')
+    formData.append('role', data.role)
+
+    if (profileImage) {
+      formData.append('profile', profileImage)
+    }
+
+    mutate(formData)
+  }
 
   useEffect(() => {
     if (isEditSession && userToEdit) {
@@ -155,6 +168,16 @@ function CreateUserForm({ userToEdit = {}, onCloseModal }) {
           <option value="student">Student</option>
         </select>
         {errors?.role && <Error>{errors.role.message}</Error>}
+      </FormRow>
+
+      <FormRow>
+        <Label htmlFor="profile">Profile Image</Label>
+        <Input
+          type="file"
+          id="profile"
+          accept="image/*"
+          onChange={(e) => setProfileImage(e.target.files[0])}
+        />
       </FormRow>
 
       <FormRow>

@@ -624,7 +624,8 @@ function UserRow({ user }) {
     <TableRow role="row">
       <Id>{user.id}</Id>
       <Cell>
-        <ProfileImg src={profileUrl} alt={user.name} />
+        <img src={`/uploads/${user.profile}`} alt="Profile" />
+
         {user.name}
       </Cell>
       <Cell>{user.email}</Cell>

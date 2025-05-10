@@ -30,18 +30,23 @@ export async function deleteUser(id) {
   }
 }
 
-export async function createUser(userData) {
+import axios from 'axios'
+
+export async function createUser(formData) {
   try {
-    const res = await fetch(BASE_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(userData),
+    const res = await axios.post('/api/users', formData, {
+      headers: {
+        Accept: 'application/json',
+      },
+      withCredentials: true, // if using Sanctum
     })
-    if (!res.ok) throw new Error('Failed to create user')
-    return await res.json()
+
+    return res.data
   } catch (error) {
     console.error(error)
-    throw new Error('User could not be created')
+    throw new Error(
+      error.response?.data?.message || 'User could not be created'
+    )
   }
 }
 

@@ -1,5 +1,5 @@
-import styled from 'styled-components'
 import Heading from '../../ui/Heading'
+import styled from 'styled-components'
 
 const StyledDetails = styled.div`
   background-color: var(--color-grey-0);
@@ -58,7 +58,7 @@ function UserDetails({ user }) {
     updated_at,
   } = user
 
-  const profileUrl = `http://127.0.0.1:8000/${profile}`
+  const profileUrl = `http://127.0.0.1:8000/${user.profile}`
 
   // Function to safely parse date
   const parseDate = (dateString) => {
@@ -73,7 +73,7 @@ function UserDetails({ user }) {
       <DetailRow>
         <Label>Profile Image</Label>
         <Value>
-          <ProfileImg src={profileUrl} alt={`${name}'s profile`} />
+          <img src={`/uploads/${user.profile}`} alt="Profile" />
         </Value>
       </DetailRow>
 
