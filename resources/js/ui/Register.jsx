@@ -520,7 +520,7 @@ function Register() {
         setRegister({ name: '', email: '', password: '' })
         localStorage.setItem('token', token)
         setToken(token)
-        navigate('/dashboard') // ✅ Redirect to /rooms
+        navigate('/login')
       })
       .catch((err) => {
         toast.error(err.response?.data?.message || 'Registration failed')
