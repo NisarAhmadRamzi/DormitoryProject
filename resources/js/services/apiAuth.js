@@ -19,3 +19,24 @@ export async function login({ email, password }) {
     )
   }
 }
+
+export async function logout() {
+  const token = localStorage.getItem('token')
+  if (!token) throw new Error('No token found')
+
+  try {
+    await axios.post(
+      'http://127.0.0.1:8000/api/logout',
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    )
+
+    localStorage.removeItem('token')
+  } catch (error) {
+    throw new Error(error.response?.data?.message || 'Logout failed')
+  }
+}
