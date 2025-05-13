@@ -1,11 +1,11 @@
 import Button from 'react-bootstrap/Button'
 import Container from 'react-bootstrap/Container'
 import Form from 'react-bootstrap/Form'
+import { Link } from 'react-router-dom'
 import Nav from 'react-bootstrap/Nav'
 import NavDropdown from 'react-bootstrap/NavDropdown'
 import Navbar from 'react-bootstrap/Navbar'
 import Offcanvas from 'react-bootstrap/Offcanvas'
-import { Link } from 'react-router-dom'
 
 function MyNavbar() {
   const expand = 'md'
@@ -49,13 +49,13 @@ function MyNavbar() {
                 Login
               </Link>
               {/* Dashboard link, fixed to navigate to /dashboard */}
-              <Nav.Link
+              {/* <Nav.Link
                 className="text-dark px-3 fs-3 fw-bold"
                 as={Link}
                 to="/dashboard"
               >
                 Dashboard
-              </Nav.Link>
+              </Nav.Link> */}
               <NavDropdown
                 title="Menu"
                 id="offcanvasNavbarDropdown"

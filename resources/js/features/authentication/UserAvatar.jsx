@@ -1,5 +1,5 @@
-import styled from "styled-components";
-
+import img from '../../images/images.jpg'
+import styled from 'styled-components'
 const StyledUserAvatar = styled.div`
   display: flex;
   gap: 1.2rem;
@@ -7,15 +7,26 @@ const StyledUserAvatar = styled.div`
   font-weight: 500;
   font-size: 1.4rem;
   color: var(--color-grey-600);
-`;
+`
+
 
 const Avatar = styled.img`
   display: block;
-  width: 4rem;
-  width: 3.6rem;
+  width: 5.6rem; // Increased size
   aspect-ratio: 1;
   object-fit: cover;
   object-position: center;
   border-radius: 50%;
   outline: 2px solid var(--color-grey-100);
-`;
+`
+
+const UserAvatar = () => {
+  return (
+    <StyledUserAvatar>
+      <Avatar src={img} />
+      <span>Admin</span>
+    </StyledUserAvatar>
+  )
+}
+
+export default UserAvatar

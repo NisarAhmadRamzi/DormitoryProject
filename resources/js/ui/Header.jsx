@@ -1,46 +1,20 @@
-// import React from 'react'
-// import styled from 'styled-components'
-
-// const StyledHeader = styled.header`
-//   background-color: var(--color-grey-0);
-//   padding: 1.2rem 4.8rem;
-//   border-bottom: 1px solid var(--color-gray-100);
-//   display: flex;
-//   align-items: center;
-//   justify-content: space-between;
-// `
-
-// const BurgerButton = styled.button`
-//   background: none;
-//   border: none;
-//   font-size: 2.4rem;
-//   cursor: pointer;
-//   color: var(--color-grey-800);
-// `
-
-// const Header = ({ onToggleSidebar }) => {
-//   return (
-//     <StyledHeader>
-//       <BurgerButton onClick={onToggleSidebar}>☰</BurgerButton>
-//     </StyledHeader>
-//   )
-// }
-
-// export default Header
 import React, { useState } from 'react'
 
-import Logouts from '../features/authentication/Logouts'
+import HeaderMenu from './HeaderMenu'
+import UserAvatar from '../features/authentication/UserAvatar'
 import styled from 'styled-components'
 
 const StyledHeader = styled.header`
   background-color: var(--color-grey-0);
   padding: 1.2rem 4.8rem;
-  border-bottom: 1px solid var(--color-gray-100);
+  border-bottom: 1px solid var(--color-grey-100);
   display: flex;
-  align-items: center;
+  align-items: center; /* Corrected typo */
   justify-content: space-between;
+  gap: 2.4rem;
   z-index: 3;
 `
+
 
 const BurgerButton = styled.button`
   background: none;
@@ -101,13 +75,13 @@ const Header = ({ onToggleSidebar }) => {
 
   return (
     <StyledHeader>
-      {/* When isOpen is true, add the "open" class for X icon */}
       <BurgerButton onClick={handleClick} className={isOpen ? 'open' : ''}>
         <span></span>
         <span></span>
         <span></span>
       </BurgerButton>
-      <Logouts/>
+      <UserAvatar/>
+      <HeaderMenu/>
     </StyledHeader>
   )
 }
