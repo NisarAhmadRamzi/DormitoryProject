@@ -29,6 +29,7 @@
 // export default Header
 import React, { useState } from 'react'
 
+import Logouts from '../features/authentication/Logouts'
 import styled from 'styled-components'
 
 const StyledHeader = styled.header`
@@ -106,6 +107,7 @@ const Header = ({ onToggleSidebar }) => {
         <span></span>
         <span></span>
       </BurgerButton>
+      <Logouts/>
     </StyledHeader>
   )
 }
