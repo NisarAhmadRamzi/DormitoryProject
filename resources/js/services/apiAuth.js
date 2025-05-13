@@ -1,11 +1,21 @@
-import supabase from './supabase'
+import axios from 'axios'
 
 export async function login({ email, password }) {
-  const { data, error } = await supabase.auth.signInWithPassword({
-    email,
-    password,
-  })
-  if (error) throw new Error(error.message)
-  console.log(data)
-  return data
+  try {
+    const response = await axios.post('http://127.0.0.1:8000/api/login', {
+      email,
+      password,
+    })
+
+    const token = response.data.token
+    if (!token) {
+      throw new Error('No token received')
+    }
+
+    return token
+  } catch (error) {
+    throw new Error(
+      error.response?.data?.message || 'Invalid login credentials'
+    )
+  }
 }
