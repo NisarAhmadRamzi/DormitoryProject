@@ -1,4 +1,4 @@
-import img from '../../images/images.jpg'
+import img from '../../images/prfile.jpg'
 import styled from 'styled-components'
 const StyledUserAvatar = styled.div`
   display: flex;
@@ -8,7 +8,6 @@ const StyledUserAvatar = styled.div`
   font-size: 1.4rem;
   color: var(--color-grey-600);
 `
-
 
 const Avatar = styled.img`
   display: block;

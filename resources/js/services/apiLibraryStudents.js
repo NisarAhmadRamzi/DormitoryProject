@@ -1,65 +1,33 @@
-const BASE_URL = 'http://127.0.0.1:8000/api/library-students'
+// services/apiLibraryStudents.js
 
-// GET all library students
-export async function getLibraryStudents() {
-  try {
-    const res = await fetch(BASE_URL)
-    if (!res.ok) throw new Error('Failed to fetch library students')
-    const data = await res.json()
-    return data
-  } catch (error) {
-    console.error(error)
-    throw new Error('Library students could not be fetched')
-  }
+import axios from 'axios'
+
+const apiClient = axios.create({
+  baseURL: 'http://127.0.0.1:8000/api',
+  withCredentials: true, // Laravel Sanctum requirement
+})
+
+export const getAllLibraryStudents = async () => {
+  const response = await apiClient.get('/library-students')
+  return response.data
 }
 
-// DELETE a library student by ID
-export async function deleteLibraryStudent(id) {
-  try {
-    const res = await fetch(`${BASE_URL}/${id}`, {
-      method: 'DELETE',
-    })
-
-    if (!res.ok) throw new Error('Failed to delete library student')
-
-    if (res.status === 204) return { success: true }
-
-    const data = await res.json().catch(() => null)
-    return data || { success: true }
-  } catch (error) {
-    console.error(error)
-    throw new Error('Library student could not be deleted')
-  }
+export const getLibraryStudentById = async (id) => {
+  const response = await apiClient.get(`/library-students/${id}`)
+  return response.data
 }
 
-// POST create new library student
-export async function createLibraryStudent(studentData) {
-  try {
-    const res = await fetch(BASE_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(studentData),
-    })
-    if (!res.ok) throw new Error('Failed to create library student')
-    return await res.json()
-  } catch (error) {
-    console.error(error)
-    throw new Error('Library student could not be created')
-  }
+export const createLibraryStudent = async (data) => {
+  const response = await apiClient.post('/library-students', data)
+  return response.data
 }
 
-// PUT update existing library student
-export async function editLibraryStudent(id, updatedData) {
-  try {
-    const res = await fetch(`${BASE_URL}/${id}`, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(updatedData),
-    })
-    if (!res.ok) throw new Error('Failed to update library student')
-    return await res.json()
-  } catch (error) {
-    console.error(error)
-    throw new Error('Library student could not be updated')
-  }
+export const editLibraryStudent = async (id, data) => {
+  const response = await apiClient.put(`/library-students/${id}`, data)
+  return response.data
+}
+
+export const deleteLibraryStudent = async (id) => {
+  const response = await apiClient.delete(`/library-students/${id}`)
+  return response.data
 }
