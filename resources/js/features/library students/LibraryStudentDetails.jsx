@@ -1,4 +1,5 @@
 import Heading from '../../ui/Heading'
+import { formatDistanceToNow } from 'date-fns'
 import styled from 'styled-components'
 
 const StyledDetails = styled.div`
@@ -79,11 +80,19 @@ function LibraryStudentDetails({ student }) {
       </DetailRow>
       <DetailRow>
         <Label>Created At</Label>
-        <Value>{new Date(student.created_at).toLocaleString()}</Value>
+        <Value>
+          {formatDistanceToNow(new Date(student.created_at), {
+            addSuffix: true,
+          })}
+        </Value>
       </DetailRow>
       <DetailRow>
         <Label>Updated At</Label>
-        <Value>{new Date(student.updated_at).toLocaleString()}</Value>
+        <Value>
+          {formatDistanceToNow(new Date(student.updated_at), {
+            addSuffix: true,
+          })}
+        </Value>
       </DetailRow>
     </StyledDetails>
   )

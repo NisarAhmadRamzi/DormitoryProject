@@ -1,5 +1,3 @@
-// services/apiLibraryStudents.js
-
 import axios from 'axios'
 
 const apiClient = axios.create({
