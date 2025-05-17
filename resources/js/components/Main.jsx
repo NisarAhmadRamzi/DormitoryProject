@@ -47,20 +47,21 @@ const Main = () => {
         <ReactQueryDevtools initialIsOpen={false} />
         <GlobleStyles />
         <Routes>
+          {/* Public routes */}
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<RegisterForm />} />
 
-          <Route element={<AppLayout />}>
-            <Route
-              path="rooms"
-              element={
-                <ProtectedRoute>
-                  <Rooms />
-                </ProtectedRoute>
-              }
-            />
+          {/* Protected App layout for authenticated users only */}
+          <Route
+            element={
+              <ProtectedRoute>
+                <AppLayout />
+              </ProtectedRoute>
+            }
+          >
             <Route path="dashboard" element={<Dashboard />} />
+            <Route path="rooms" element={<Rooms />} />
             <Route path="bookings" element={<Bookings />} />
             <Route path="libraries" element={<Libraries />} />
             <Route path="library-students" element={<LibraryStudents />} />
@@ -71,20 +72,13 @@ const Main = () => {
             <Route path="books" element={<Books />} />
             <Route path="borrowed-books" element={<BorrowedBooks />} />
             <Route path="users" element={<Users />} />
-            {/* <Route path="students" element={<Students />} /> */}
-            <Route
-              path="students"
-              element={
-                <ProtectedRoute>
-                  <Students />
-                </ProtectedRoute>
-              }
-            />
+            <Route path="students" element={<Students />} />
             <Route path="complaints" element={<Complaints />} />
             <Route path="settings" element={<Settings />} />
             <Route path="accounts" element={<Account />} />
           </Route>
 
+          {/* Catch-all route for 404s */}
           <Route path="*" element={<PageNotFound />} />
         </Routes>
 

@@ -1,10 +1,11 @@
-import { createContext, useEffect, useState } from 'react'
+import { createContext, useContext, useEffect, useState } from 'react'
 
 export const AppContext = createContext()
 
 export default function AppProvider({ children }) {
   const [token, setToken] = useState(localStorage.getItem('token'))
   const [user, setUser] = useState({})
+
   async function getRoom() {
     const res = await fetch('http://127.0.0.1:8000/api/rooms', {
       headers: {
@@ -20,9 +21,15 @@ export default function AppProvider({ children }) {
       getRoom()
     }
   }, [token])
+
   return (
     <AppContext.Provider value={{ token, setToken, user }}>
       {children}
     </AppContext.Provider>
   )
+}
+
+
+export function useAppContext() {
+  return useContext(AppContext)
 }
