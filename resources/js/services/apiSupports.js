@@ -1,12 +1,14 @@
+import axios from 'axios'
+
 const BASE_URL = 'http://127.0.0.1:8000/api/supports'
 
 // Get all supports
 export async function getSupports() {
   try {
-    const res = await fetch(BASE_URL)
-    if (!res.ok) throw new Error('Failed to fetch supports')
-    const data = await res.json()
-    return data
+    const res = await axios.get(BASE_URL, {
+      withCredentials: true,
+    })
+    return res.data
   } catch (error) {
     console.error(error)
     throw new Error('Supports could not be fetched')
@@ -16,16 +18,10 @@ export async function getSupports() {
 // Delete a support by ID
 export async function deleteSupport(id) {
   try {
-    const res = await fetch(`${BASE_URL}/${id}`, {
-      method: 'DELETE',
+    const res = await axios.delete(`${BASE_URL}/${id}`, {
+      withCredentials: true,
     })
-
-    if (!res.ok) throw new Error('Failed to delete support')
-
-    if (res.status === 204) return { success: true }
-
-    const data = await res.json().catch(() => null)
-    return data || { success: true }
+    return res.status === 204 ? { success: true } : res.data
   } catch (error) {
     console.error(error)
     throw new Error('Support could not be deleted')
@@ -35,13 +31,14 @@ export async function deleteSupport(id) {
 // Create a new support
 export async function createSupport(supportData) {
   try {
-    const res = await fetch(BASE_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(supportData),
+    const res = await axios.post(BASE_URL, supportData, {
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+      withCredentials: true,
     })
-    if (!res.ok) throw new Error('Failed to create support')
-    return await res.json()
+    return res.data
   } catch (error) {
     console.error(error)
     throw new Error('Support could not be created')
@@ -51,13 +48,14 @@ export async function createSupport(supportData) {
 // Edit/update an existing support
 export async function editSupport(id, updatedData) {
   try {
-    const res = await fetch(`${BASE_URL}/${id}`, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(updatedData),
+    const res = await axios.put(`${BASE_URL}/${id}`, updatedData, {
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+      withCredentials: true,
     })
-    if (!res.ok) throw new Error('Failed to update support')
-    return await res.json()
+    return res.data
   } catch (error) {
     console.error(error)
     throw new Error('Support could not be updated')

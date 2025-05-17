@@ -1,59 +1,59 @@
+import axios from 'axios'
+
 const BASE_URL = 'http://127.0.0.1:8000/api/complaints'
 
+// Get all complaints
 export async function getComplaints() {
   try {
-    const res = await fetch(BASE_URL)
-    if (!res.ok) throw new Error('Failed to fetch complaints')
-    const data = await res.json()
-    return data
+    const res = await axios.get(BASE_URL, { withCredentials: true })
+    return res.data
   } catch (error) {
     console.error(error)
     throw new Error('Complaints could not be fetched')
   }
 }
 
+// Delete a complaint by ID
 export async function deleteComplaint(id) {
   try {
-    const res = await fetch(`${BASE_URL}/${id}`, {
-      method: 'DELETE',
+    const res = await axios.delete(`${BASE_URL}/${id}`, {
+      withCredentials: true,
     })
-
-    if (!res.ok) throw new Error('Failed to delete complaint')
-
-    if (res.status === 204) return { success: true }
-
-    const data = await res.json().catch(() => null)
-    return data || { success: true }
+    return res.status === 204 ? { success: true } : res.data
   } catch (error) {
     console.error(error)
     throw new Error('Complaint could not be deleted')
   }
 }
 
+// Create a new complaint
 export async function createComplaint(complaintData) {
   try {
-    const res = await fetch(BASE_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(complaintData),
+    const res = await axios.post(BASE_URL, complaintData, {
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+      withCredentials: true,
     })
-    if (!res.ok) throw new Error('Failed to create complaint')
-    return await res.json()
+    return res.data
   } catch (error) {
     console.error(error)
     throw new Error('Complaint could not be created')
   }
 }
 
+// Edit/update an existing complaint
 export async function editComplaint(id, updatedData) {
   try {
-    const res = await fetch(`${BASE_URL}/${id}`, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(updatedData),
+    const res = await axios.put(`${BASE_URL}/${id}`, updatedData, {
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+      withCredentials: true,
     })
-    if (!res.ok) throw new Error('Failed to update complaint')
-    return await res.json()
+    return res.data
   } catch (error) {
     console.error(error)
     throw new Error('Complaint could not be updated')

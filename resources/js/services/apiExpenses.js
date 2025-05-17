@@ -1,59 +1,61 @@
+import axios from 'axios'
+
 const BASE_URL = 'http://127.0.0.1:8000/api/expenses'
 
+// Get all expenses
 export async function getExpenses() {
   try {
-    const res = await fetch(BASE_URL)
-    if (!res.ok) throw new Error('Failed to fetch expenses')
-    const data = await res.json()
-    return data
+    const res = await axios.get(BASE_URL, {
+      withCredentials: true,
+    })
+    return res.data
   } catch (error) {
     console.error(error)
     throw new Error('Expenses could not be fetched')
   }
 }
 
+// Delete an expense
 export async function deleteExpense(id) {
   try {
-    const res = await fetch(`${BASE_URL}/${id}`, {
-      method: 'DELETE',
+    const res = await axios.delete(`${BASE_URL}/${id}`, {
+      withCredentials: true,
     })
-
-    if (!res.ok) throw new Error('Failed to delete expense')
-
-    if (res.status === 204) return { success: true }
-
-    const data = await res.json().catch(() => null)
-    return data || { success: true }
+    return res.status === 204 ? { success: true } : res.data
   } catch (error) {
     console.error(error)
     throw new Error('Expense could not be deleted')
   }
 }
 
+// Create a new expense
 export async function createExpense(expenseData) {
   try {
-    const res = await fetch(BASE_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(expenseData),
+    const res = await axios.post(BASE_URL, expenseData, {
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+      withCredentials: true,
     })
-    if (!res.ok) throw new Error('Failed to create expense')
-    return await res.json()
+    return res.data
   } catch (error) {
     console.error(error)
     throw new Error('Expense could not be created')
   }
 }
 
+// Edit/update an expense
 export async function editExpense(id, updatedData) {
   try {
-    const res = await fetch(`${BASE_URL}/${id}`, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(updatedData),
+    const res = await axios.put(`${BASE_URL}/${id}`, updatedData, {
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+      withCredentials: true,
     })
-    if (!res.ok) throw new Error('Failed to update expense')
-    return await res.json()
+    return res.data
   } catch (error) {
     console.error(error)
     throw new Error('Expense could not be updated')

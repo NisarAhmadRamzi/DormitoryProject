@@ -1,59 +1,59 @@
+import axios from 'axios'
+
 const BASE_URL = 'http://127.0.0.1:8000/api/borrowed-books'
 
+// Get all borrowed books
 export async function getBorrowedBooks() {
   try {
-    const res = await fetch(BASE_URL)
-    if (!res.ok) throw new Error('Failed to fetch borrowed books')
-    const data = await res.json()
-    return data
+    const res = await axios.get(BASE_URL, { withCredentials: true })
+    return res.data
   } catch (error) {
     console.error(error)
     throw new Error('Borrowed books could not be fetched')
   }
 }
 
+// Delete a borrowed book by ID
 export async function deleteBorrowedBook(id) {
   try {
-    const res = await fetch(`${BASE_URL}/${id}`, {
-      method: 'DELETE',
+    const res = await axios.delete(`${BASE_URL}/${id}`, {
+      withCredentials: true,
     })
-
-    if (!res.ok) throw new Error('Failed to delete borrowed book')
-
-    if (res.status === 204) return { success: true }
-
-    const data = await res.json().catch(() => null)
-    return data || { success: true }
+    return res.status === 204 ? { success: true } : res.data
   } catch (error) {
     console.error(error)
     throw new Error('Borrowed book could not be deleted')
   }
 }
 
+// Create a new borrowed book entry
 export async function createBorrowedBook(borrowedBookData) {
   try {
-    const res = await fetch(BASE_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(borrowedBookData),
+    const res = await axios.post(BASE_URL, borrowedBookData, {
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+      withCredentials: true,
     })
-    if (!res.ok) throw new Error('Failed to create borrowed book')
-    return await res.json()
+    return res.data
   } catch (error) {
     console.error(error)
     throw new Error('Borrowed book could not be created')
   }
 }
 
+// Update an existing borrowed book entry
 export async function editBorrowedBook(id, updatedData) {
   try {
-    const res = await fetch(`${BASE_URL}/${id}`, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(updatedData),
+    const res = await axios.put(`${BASE_URL}/${id}`, updatedData, {
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+      withCredentials: true,
     })
-    if (!res.ok) throw new Error('Failed to update borrowed book')
-    return await res.json()
+    return res.data
   } catch (error) {
     console.error(error)
     throw new Error('Borrowed book could not be updated')
