@@ -1,19 +1,12 @@
-// services/apiClient.js
-export function apiFetch(url, options = {}) {
-  const token = localStorage.getItem('token')
+import axios from 'axios'
 
-  return fetch(url, {
-    ...options,
-    headers: {
-      ...(options.headers || {}),
-      Authorization: `Bearer ${token}`,
-      'Content-Type': 'application/json',
-    },
-  }).then(async (res) => {
-    if (!res.ok) {
-      const errorData = await res.json()
-      throw new Error(errorData.message || 'Request failed')
-    }
-    return res.json()
-  })
-}
+const token = localStorage.getItem('token')
+
+const apiClient = axios.create({
+  baseURL: 'http://127.0.0.1:8000/api',
+  headers: {
+    Authorization: `Bearer ${token}`,
+  },
+})
+
+export default apiClient

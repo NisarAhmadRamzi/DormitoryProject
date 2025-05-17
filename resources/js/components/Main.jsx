@@ -47,10 +47,6 @@ const Main = () => {
         <ReactQueryDevtools initialIsOpen={false} />
         <GlobleStyles />
         <Routes>
-          {/* <Route
-            path="/"
-            element={user ? <Navigate to="/rooms" /> : <Home />}
-          /> */}
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<RegisterForm />} />
@@ -75,7 +71,15 @@ const Main = () => {
             <Route path="books" element={<Books />} />
             <Route path="borrowed-books" element={<BorrowedBooks />} />
             <Route path="users" element={<Users />} />
-            <Route path="students" element={<Students />} />
+            {/* <Route path="students" element={<Students />} /> */}
+            <Route
+              path="students"
+              element={
+                <ProtectedRoute>
+                  <Students />
+                </ProtectedRoute>
+              }
+            />
             <Route path="complaints" element={<Complaints />} />
             <Route path="settings" element={<Settings />} />
             <Route path="accounts" element={<Account />} />

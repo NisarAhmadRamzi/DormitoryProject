@@ -6,7 +6,7 @@ export default function AppProvider({ children }) {
   const [token, setToken] = useState(localStorage.getItem('token'))
   const [user, setUser] = useState({})
   async function getRoom() {
-    const res = await fetch('127.0.0.1:8000/api/rooms', {
+    const res = await fetch('http://127.0.0.1:8000/api/rooms', {
       headers: {
         Authorization: `Bearer ${token}`,
       },
