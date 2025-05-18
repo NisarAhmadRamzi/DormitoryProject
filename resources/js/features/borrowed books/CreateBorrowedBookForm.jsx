@@ -1,17 +1,17 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query'
 import {
   createBorrowedBook,
   editBorrowedBook,
 } from '../../services/apiBorrowedBooks'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 
-import React from 'react'
-import { useForm } from 'react-hook-form'
-import toast from 'react-hot-toast'
-import styled from 'styled-components'
 import Button from '../../ui/Button'
 import Form from '../../ui/Form'
 import Input from '../../ui/Input'
+import React from 'react'
 import Select from '../../ui/Select'
+import styled from 'styled-components'
+import toast from 'react-hot-toast'
+import { useForm } from 'react-hook-form'
 
 const FormRow = styled.div`
   display: grid;
@@ -63,7 +63,7 @@ function CreateBorrowedBookForm({ borrowedBookToEdit = {}, onCloseModal }) {
       isEditSession
         ? editBorrowedBook(borrowedBookToEdit.id, data)
         : createBorrowedBook(data),
-    onSuccess: (res) => {
+    onSuccess: () => {
       toast.success(
         isEditSession
           ? `Borrowed book updated successfully`
@@ -74,11 +74,18 @@ function CreateBorrowedBookForm({ borrowedBookToEdit = {}, onCloseModal }) {
       onCloseModal?.()
     },
     onError: (err) => {
-      toast.error(err.response?.data?.message || 'Something went wrong')
+      // Show detailed backend validation errors if available
+      const message = err.response?.data?.errors
+        ? Object.values(err.response.data.errors).flat().join(', ')
+        : err.response?.data?.message || 'Something went wrong'
+      toast.error(message)
     },
   })
 
-  const onSubmit = (data) => mutate(data)
+  const onSubmit = (data) => {
+    // Optionally, you can preprocess data here if needed
+    mutate(data)
+  }
 
   React.useEffect(() => {
     if (isEditSession && borrowedBookToEdit) {
@@ -154,6 +161,7 @@ function CreateBorrowedBookForm({ borrowedBookToEdit = {}, onCloseModal }) {
           variation="secondary"
           type="reset"
           onClick={() => onCloseModal?.()}
+          disabled={isLoading}
         >
           Cancel
         </Button>

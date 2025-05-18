@@ -38,8 +38,13 @@ export async function createBorrowedBook(borrowedBookData) {
     })
     return res.data
   } catch (error) {
-    console.error(error)
-    throw new Error('Borrowed book could not be created')
+    console.error(
+      'Create borrowed book error:',
+      error.response?.data || error.message
+    )
+    throw new Error(
+      error.response?.data?.message || 'Borrowed book could not be created'
+    )
   }
 }
 
@@ -55,7 +60,12 @@ export async function editBorrowedBook(id, updatedData) {
     })
     return res.data
   } catch (error) {
-    console.error(error)
-    throw new Error('Borrowed book could not be updated')
+    console.error(
+      'Edit borrowed book error:',
+      error.response?.data || error.message
+    )
+    throw new Error(
+      error.response?.data?.message || 'Borrowed book could not be updated'
+    )
   }
 }
