@@ -172,7 +172,7 @@ function ComplaintsRow({ complaint }) {
         </DropdownMenu>
       </DropdownWrapper>
 
-      {/* ✅ Use the actual components inside the modals */}
+  
       <Modal.Window name={`view-${complaint.id}`}>
         <ComplaintDetails complaint={complaint} />
       </Modal.Window>

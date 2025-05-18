@@ -44,6 +44,22 @@ const Error = styled.span`
   color: var(--color-red-700);
 `
 
+const Select = styled.select`
+  font-size: 1.6rem;
+  padding: 0.8rem 1.2rem;
+  border: 1px solid var(--color-grey-300);
+  border-radius: 5px;
+  background-color: var(--color-grey-0);
+  color: var(--color-grey-800);
+  width: 100%;
+
+  &:focus {
+    outline: none;
+    border-color: var(--color-brand-600);
+    box-shadow: 0 0 0 3px var(--color-brand-100);
+  }
+`
+
 function CreateComplaintForm({ complaintToEdit = {}, onCloseModal }) {
   const isEditSession = Boolean(complaintToEdit.id)
 
@@ -82,7 +98,7 @@ function CreateComplaintForm({ complaintToEdit = {}, onCloseModal }) {
   const onSubmit = (data) => mutate(data)
 
   React.useEffect(() => {
-    if (isEditSession && complaintToEdit) {
+    if (isEditSession && Object.keys(complaintToEdit).length > 0) {
       reset(complaintToEdit)
     }
   }, [isEditSession, complaintToEdit, reset])
@@ -119,6 +135,22 @@ function CreateComplaintForm({ complaintToEdit = {}, onCloseModal }) {
           })}
         />
         {errors?.description && <Error>{errors.description.message}</Error>}
+      </FormRow>
+
+      <FormRow>
+        <Label htmlFor="status">Status</Label>
+        <Select
+          id="status"
+          {...register('status', {
+            required: 'Status is required',
+          })}
+        >
+          <option value="">-- Select Status --</option>
+          <option value="Pending">Pending</option>
+          <option value="Resolved">Resolved</option>
+          <option value="In Progress">In Progress</option>
+        </Select>
+        {errors?.status && <Error>{errors.status.message}</Error>}
       </FormRow>
 
       <FormRow>
