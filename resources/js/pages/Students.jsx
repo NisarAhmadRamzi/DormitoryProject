@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react'
 
-import styled from 'styled-components'
 import AddStudent from '../features/students/AddStudent'
-import StudentTable from '../features/students/StudentTable'
-import { getStudents } from '../services/apiStudents'
 import Heading from '../ui/Heading'
 import Row from '../ui/Row'
+import StudentTable from '../features/students/StudentTable'
+import { getStudents } from '../services/apiStudents'
+import styled from 'styled-components'
 
 // Styled search input
 const SearchInput = styled.input`
@@ -32,11 +32,15 @@ function Students() {
 
   useEffect(() => {
     async function fetchStudents() {
+      setLoading(true)
       try {
+        // Pass pagination parameters if you want (page, limit)
         const data = await getStudents()
-        setStudents(data || []) // fallback to empty array
+        // Assuming data structure: { data: [...students], meta: {...} }
+        setStudents(data.data || []) // fallback to empty array if undefined
       } catch (error) {
-        console.error(error)
+        console.error('Failed to fetch students:', error)
+        setStudents([])
       } finally {
         setLoading(false)
       }
@@ -63,7 +67,7 @@ function Students() {
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
-          {/* You can add StudentTableOperations here if you want */}
+          {/* Add StudentTableOperations here if needed */}
         </OperationsWrapper>
       </Row>
 

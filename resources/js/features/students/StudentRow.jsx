@@ -1,14 +1,14 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query'
-import React, { useEffect, useRef, useState } from 'react'
 import { HiEllipsisVertical, HiEye, HiPencil, HiTrash } from 'react-icons/hi2'
+import React, { useEffect, useRef, useState } from 'react'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 
-import toast from 'react-hot-toast'
-import styled from 'styled-components'
-import { deleteStudent } from '../../services/apiStudents' // you'll need to create this API function
 import ConfirmDelete from '../../ui/ConfirmDelete'
-import Modal from '../../ui/Modal'
 import CreateStudentForm from './CreateStudentForm'
+import Modal from '../../ui/Modal'
 import StudentDetails from './StudentDetails'
+import { deleteStudent } from '../../services/apiStudents'
+import styled from 'styled-components'
+import toast from 'react-hot-toast'
 
 // import CreateStudentForm from './CreateStudentForm' // you'll need this
 
