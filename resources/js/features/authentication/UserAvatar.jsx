@@ -1,5 +1,5 @@
-import img from '../../images/prfile.jpg'
 import styled from 'styled-components'
+import img from '../../images/prfile.jpg'
 const StyledUserAvatar = styled.div`
   display: flex;
   gap: 1.2rem;

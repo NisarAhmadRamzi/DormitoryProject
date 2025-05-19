@@ -60,6 +60,138 @@ const Select = styled.select`
   }
 `
 
+// function CreateComplaintForm({ complaintToEdit = {}, onCloseModal }) {
+//   const isEditSession = Boolean(complaintToEdit.id)
+
+//   const {
+//     register,
+//     handleSubmit,
+//     reset,
+//     formState: { errors },
+//   } = useForm({
+//     defaultValues: isEditSession
+//       ? {
+//           ...complaintToEdit,
+//           student_id: complaintToEdit.student?.id || '',
+//         }
+//       : {},
+//   })
+
+//   const queryClient = useQueryClient()
+
+//   const { mutate, isLoading } = useMutation({
+//     mutationFn: (data) =>
+//       isEditSession
+//         ? editComplaint(complaintToEdit.id, data)
+//         : createComplaint(data),
+//     onSuccess: (res) => {
+//       const complaint = res.data
+//       toast.success(
+//         isEditSession
+//           ? `Complaint "${complaint.title}" updated successfully`
+//           : `New complaint "${complaint.title}" submitted`
+//       )
+//       queryClient.invalidateQueries({ queryKey: ['complaints'] })
+//       reset()
+//       onCloseModal?.()
+//     },
+//     onError: (err) => {
+//       toast.error(err.message || 'Something went wrong')
+//     },
+//   })
+
+//   const onSubmit = (data) => {
+//     mutate(data)
+//   }
+
+//   React.useEffect(() => {
+//     if (isEditSession && Object.keys(complaintToEdit).length > 0) {
+//       reset({
+//         ...complaintToEdit,
+//         student_id: complaintToEdit.student?.id || '',
+//       })
+//     }
+//   }, [isEditSession, complaintToEdit, reset])
+
+//   return (
+//     <Form onSubmit={handleSubmit(onSubmit)}>
+//       <FormRow>
+//         <Label htmlFor="title">Title</Label>
+//         <Input
+//           type="text"
+//           id="title"
+//           {...register('title', {
+//             required: 'Title is required',
+//             maxLength: {
+//               value: 255,
+//               message: 'Title must be under 255 characters',
+//             },
+//           })}
+//         />
+//         {errors?.title && <Error>{errors.title.message}</Error>}
+//       </FormRow>
+
+//       <FormRow>
+//         <Label htmlFor="description">Description</Label>
+//         <Input
+//           type="text"
+//           id="description"
+//           {...register('description', {
+//             required: 'Description is required',
+//             maxLength: {
+//               value: 1000,
+//               message: 'Description must be under 1000 characters',
+//             },
+//           })}
+//         />
+//         {errors?.description && <Error>{errors.description.message}</Error>}
+//       </FormRow>
+
+//       <FormRow>
+//         <Label htmlFor="status">Status</Label>
+//         <Select
+//           id="status"
+//           {...register('status', {
+//             required: 'Status is required',
+//           })}
+//         >
+//           <option value="">-- Select Status --</option>
+//           <option value="Pending">Pending</option>
+//           <option value="Resolved">Resolved</option>
+//           <option value="In Progress">In Progress</option>
+//         </Select>
+//         {errors?.status && <Error>{errors.status.message}</Error>}
+//       </FormRow>
+
+//       <FormRow>
+//         <Label htmlFor="student_id">Student ID</Label>
+//         <Input
+//           type="number"
+//           id="student_id"
+//           {...register('student_id', {
+//             required: 'Student ID is required',
+//             valueAsNumber: true,
+//             min: { value: 1, message: 'Student ID must be at least 1' },
+//           })}
+//         />
+//         {errors?.student_id && <Error>{errors.student_id.message}</Error>}
+//       </FormRow>
+
+//       <FormRow>
+//         <Button
+//           variation="secondary"
+//           type="reset"
+//           onClick={() => onCloseModal?.()}
+//         >
+//           Cancel
+//         </Button>
+//         <Button type="submit" disabled={isLoading}>
+//           {isEditSession ? 'Edit Complaint' : 'Submit Complaint'}
+//         </Button>
+//       </FormRow>
+//     </Form>
+//   )
+// }
 function CreateComplaintForm({ complaintToEdit = {}, onCloseModal }) {
   const isEditSession = Boolean(complaintToEdit.id)
 
@@ -69,7 +201,15 @@ function CreateComplaintForm({ complaintToEdit = {}, onCloseModal }) {
     reset,
     formState: { errors },
   } = useForm({
-    defaultValues: isEditSession ? complaintToEdit : {},
+    defaultValues: isEditSession
+      ? {
+          status: complaintToEdit.status || '',
+          resolved_at: complaintToEdit.resolved_at || '',
+        }
+      : {
+          title: '',
+          description: '',
+        },
   })
 
   const queryClient = useQueryClient()
@@ -95,63 +235,76 @@ function CreateComplaintForm({ complaintToEdit = {}, onCloseModal }) {
     },
   })
 
-  const onSubmit = (data) => mutate(data)
-
-  React.useEffect(() => {
-    if (isEditSession && Object.keys(complaintToEdit).length > 0) {
-      reset(complaintToEdit)
-    }
-  }, [isEditSession, complaintToEdit, reset])
+  const onSubmit = (data) => {
+    mutate(data)
+  }
 
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
-      <FormRow>
-        <Label htmlFor="title">Title</Label>
-        <Input
-          type="text"
-          id="title"
-          {...register('title', {
-            required: 'Title is required',
-            maxLength: {
-              value: 255,
-              message: 'Title must be under 255 characters',
-            },
-          })}
-        />
-        {errors?.title && <Error>{errors.title.message}</Error>}
-      </FormRow>
+      {!isEditSession && (
+        <>
+          <FormRow>
+            <Label htmlFor="title">Title</Label>
+            <Input
+              type="text"
+              id="title"
+              {...register('title', {
+                required: 'Title is required',
+                maxLength: {
+                  value: 255,
+                  message: 'Title must be under 255 characters',
+                },
+              })}
+            />
+            {errors?.title && <Error>{errors.title.message}</Error>}
+          </FormRow>
 
-      <FormRow>
-        <Label htmlFor="description">Description</Label>
-        <Input
-          type="text"
-          id="description"
-          {...register('description', {
-            required: 'Description is required',
-            maxLength: {
-              value: 1000,
-              message: 'Description must be under 1000 characters',
-            },
-          })}
-        />
-        {errors?.description && <Error>{errors.description.message}</Error>}
-      </FormRow>
+          <FormRow>
+            <Label htmlFor="description">Description</Label>
+            <Input
+              type="text"
+              id="description"
+              {...register('description', {
+                required: 'Description is required',
+                maxLength: {
+                  value: 1000,
+                  message: 'Description must be under 1000 characters',
+                },
+              })}
+            />
+            {errors?.description && <Error>{errors.description.message}</Error>}
+          </FormRow>
+        </>
+      )}
 
-      <FormRow>
-        <Label htmlFor="status">Status</Label>
-        <Select
-          id="status"
-          {...register('status', {
-            required: 'Status is required',
-          })}
-        >
-          <option value="">-- Select Status --</option>
-          <option value="Pending">Pending</option>
-          <option value="Resolved">Resolved</option>
-          <option value="In Progress">In Progress</option>
-        </Select>
-        {errors?.status && <Error>{errors.status.message}</Error>}
-      </FormRow>
+      {isEditSession && (
+        <>
+          <FormRow>
+            <Label htmlFor="status">Status</Label>
+            <Select
+              id="status"
+              {...register('status', {
+                required: 'Status is required',
+              })}
+            >
+              <option value="">-- Select Status --</option>
+              <option value="Pending">Pending</option>
+              <option value="Resolved">Resolved</option>
+              <option value="In Progress">In Progress</option>
+            </Select>
+            {errors?.status && <Error>{errors.status.message}</Error>}
+          </FormRow>
+
+          <FormRow>
+            <Label htmlFor="resolved_at">Resolved At (optional)</Label>
+            <Input
+              type="datetime-local"
+              id="resolved_at"
+              {...register('resolved_at')}
+            />
+          </FormRow>
+        </>
+      )}
 
       <FormRow>
         <Button

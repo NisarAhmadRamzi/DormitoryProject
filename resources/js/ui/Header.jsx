@@ -80,7 +80,6 @@ const Header = ({ onToggleSidebar }) => {
         <span></span>
         <span></span>
       </BurgerButton>
-      <UserAvatar/>
       <HeaderMenu/>
     </StyledHeader>
   )
