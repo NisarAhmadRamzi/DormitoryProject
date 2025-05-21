@@ -1,11 +1,15 @@
-import React from 'react'
 import Filter from '../../ui/Filter'
 
 const RoomTableOperations = () => {
   return (
-    <div>
-      <Filter />
-    </div>
+    <Filter
+      filterField="price"
+      options={[
+        { value: 'all', label: 'All' },
+        { value: 'no-price', label: 'No prices' },
+        { value: 'with-price', label: 'With price' },
+      ]}
+    />
   )
 }
 
