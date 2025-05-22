@@ -1,3 +1,4 @@
+import DurationChart from './DurationChart'
 import SalesChart from './SalesChart'
 import Spinner from '../../ui/Spinner'
 import Stats from './Stats'
@@ -22,7 +23,8 @@ const DashboardLayout = () => {
     <StyledDashboardLayout>
       <Stats bookings={bookings} confirmedStays={confirmedStays} />
       <div>Today's activity</div>
-      <div>Chart stay duration</div>
+      {/* <div>Chart stay duration</div> */}
+      <DurationChart confirmedStays = {confirmedStays}/>
       <SalesChart/>
     </StyledDashboardLayout>
   )
