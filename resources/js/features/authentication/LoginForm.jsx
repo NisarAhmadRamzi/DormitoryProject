@@ -30,6 +30,7 @@ function LoginForm() {
           disabled={isLoading}
         />
       </FormRowVertical>
+
       <FormRowVertical label="Password">
         <Input
           type="password"
@@ -40,6 +41,7 @@ function LoginForm() {
           disabled={isLoading}
         />
       </FormRowVertical>
+
       <FormRowVertical>
         <Button size="large" disabled={isLoading}>
           {!isLoading ? 'Log in' : <SpinnerMini />}
@@ -48,12 +50,20 @@ function LoginForm() {
 
       <FormRowVertical>
         <p>
-          Don't have an account?{' '}
+          Don&apos;t have an account?{' '}
           <Link
             to="/register"
             style={{ color: 'blue', textDecoration: 'underline' }}
           >
             Create account
+          </Link>
+        </p>
+      </FormRowVertical>
+
+      <FormRowVertical>
+        <p>
+          <Link to="/" style={{ color: 'gray', textDecoration: 'underline' }}>
+            ← Back to Home
           </Link>
         </p>
       </FormRowVertical>

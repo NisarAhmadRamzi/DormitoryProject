@@ -1,14 +1,14 @@
-import { HiEllipsisVertical, HiEye, HiPencil, HiTrash } from 'react-icons/hi2'
-import { useEffect, useRef, useState } from 'react'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useEffect, useRef, useState } from 'react'
+import { HiEllipsisVertical, HiEye, HiPencil, HiTrash } from 'react-icons/hi2'
 
-import ConfirmDelete from '../../ui/ConfirmDelete'
-import CreateUserForm from './CreateUserForm'
-import Modal from '../../ui/Modal'
-import UserDetails from './UserDetails'
-import { deleteUser } from '../../services/apiUser'
-import styled from 'styled-components'
 import toast from 'react-hot-toast'
+import styled from 'styled-components'
+import { deleteUser } from '../../services/apiUser'
+import ConfirmDelete from '../../ui/ConfirmDelete'
+import Modal from '../../ui/Modal'
+import CreateUserForm from './CreateUserForm'
+import UserDetails from './UserDetails'
 
 const TableRow = styled.div`
   display: grid;
@@ -168,10 +168,27 @@ function UserRow({ user }) {
   return (
     <TableRow role="row">
       <Id>{user.id}</Id>
-      <Cell>
+      {/* <Cell>
         <ProfileImg src={`/uploads/${user.profile}`} alt="Profile" />
         {user.name}
+      </Cell> */}
+      <Cell>
+        <ProfileImg
+          src={
+            user?.profile
+              ? `/uploads/${user.profile}`
+              : 'https://www.gravatar.com/avatar/?d=mp&f=y'
+          }
+          alt="Profile"
+          onError={(e) => {
+            e.target.onerror = null
+            e.target.src = 'https://www.gravatar.com/avatar/?d=mp&f=y'
+          }}
+        />
+
+        {user.name}
       </Cell>
+
       <Cell>{user.email}</Cell>
       <Cell>{user.role_name}</Cell>
       {/* <Cell>
