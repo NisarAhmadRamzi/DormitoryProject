@@ -1,3 +1,4 @@
+import SalesChart from './SalesChart'
 import Spinner from '../../ui/Spinner'
 import Stats from './Stats'
 import styled from 'styled-components'
@@ -22,7 +23,7 @@ const DashboardLayout = () => {
       <Stats bookings={bookings} confirmedStays={confirmedStays} />
       <div>Today's activity</div>
       <div>Chart stay duration</div>
-      <div>Chart new students</div>
+      <SalesChart/>
     </StyledDashboardLayout>
   )
 }
