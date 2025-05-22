@@ -20,6 +20,16 @@ const TableRow = styled.div`
   &:not(:last-child) {
     border-bottom: 1px solid var(--color-grey-100);
   }
+  transition: background-color 0.2s;
+
+  &:hover {
+    background-color: var(--color-grey-200); /* Light mode hover */
+
+    /* Dark mode hover */
+    @media (prefers-color-scheme: dark) {
+      background-color: var(--color-grey-700); /* Dark mode hover */
+    }
+  }
 `
 
 const Id = styled.div`
@@ -70,6 +80,11 @@ const DropdownMenu = styled.ul`
   top: ${({ position }) => position?.y}px;
   display: ${({ show }) => (show ? 'block' : 'none')};
   min-width: 180px;
+
+  /* Dark mode styles */
+  @media (prefers-color-scheme: dark) {
+    background-color: var(--color-grey-800); /* Dark background */
+  }
 `
 
 const DropdownItem = styled.button`

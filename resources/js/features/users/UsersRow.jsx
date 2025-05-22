@@ -1,14 +1,14 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { useEffect, useRef, useState } from 'react'
 import { HiEllipsisVertical, HiEye, HiPencil, HiTrash } from 'react-icons/hi2'
+import { useEffect, useRef, useState } from 'react'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 
-import toast from 'react-hot-toast'
-import styled from 'styled-components'
-import { deleteUser } from '../../services/apiUser'
 import ConfirmDelete from '../../ui/ConfirmDelete'
-import Modal from '../../ui/Modal'
 import CreateUserForm from './CreateUserForm'
+import Modal from '../../ui/Modal'
 import UserDetails from './UserDetails'
+import { deleteUser } from '../../services/apiUser'
+import styled from 'styled-components'
+import toast from 'react-hot-toast'
 
 const TableRow = styled.div`
   display: grid;
@@ -19,6 +19,17 @@ const TableRow = styled.div`
   position: relative;
   &:not(:last-child) {
     border-bottom: 1px solid var(--color-grey-100);
+  }
+  transition: background-color 0.2s; /* Smooth transition */
+
+  &:hover {
+    background-color: var(--color-grey-200); /* Light mode hover */
+
+    /* For dark mode, you can adjust this accordingly */
+    /* Use a different color if needed */
+    @media (prefers-color-scheme: dark) {
+      background-color: var(--color-grey-700); /* Dark mode hover */
+    }
   }
 `
 
@@ -168,10 +179,6 @@ function UserRow({ user }) {
   return (
     <TableRow role="row">
       <Id>{user.id}</Id>
-      {/* <Cell>
-        <ProfileImg src={`/uploads/${user.profile}`} alt="Profile" />
-        {user.name}
-      </Cell> */}
       <Cell>
         <ProfileImg
           src={
@@ -185,41 +192,30 @@ function UserRow({ user }) {
             e.target.src = 'https://www.gravatar.com/avatar/?d=mp&f=y'
           }}
         />
-
         {user.name}
       </Cell>
-
       <Cell>{user.email}</Cell>
       <Cell>{user.role_name}</Cell>
-      {/* <Cell>
-        {user.role_name === 'student' && user.student
-          ? `Student Name: ${user.student.name}`
-          : '—'}
-      </Cell> */}
       <Cell>
         {user.role_name === 'student' && user.student
           ? `Student ID: ${user.student.id}`
           : '—'}
       </Cell>
-
       <DropdownWrapper ref={dropdownRef}>
         <IconButton onClick={toggleDropdown}>
           <HiEllipsisVertical />
         </IconButton>
-
         <DropdownMenu show={isOpen} position={dropdownPosition}>
           <Modal.Open opensWindowName={`view-${user.id}`}>
             <DropdownItem onClick={closeDropdown}>
               <HiEye /> View
             </DropdownItem>
           </Modal.Open>
-
           <Modal.Open opensWindowName={`edit-${user.id}`}>
             <DropdownItem onClick={closeDropdown}>
               <HiPencil /> Edit
             </DropdownItem>
           </Modal.Open>
-
           <Modal.Open opensWindowName={`delete-${user.id}`}>
             <DropdownItem onClick={closeDropdown} disabled={isDeleting}>
               <HiTrash /> Delete
@@ -227,15 +223,12 @@ function UserRow({ user }) {
           </Modal.Open>
         </DropdownMenu>
       </DropdownWrapper>
-
       <Modal.Window name={`view-${user.id}`}>
         <UserDetails user={user} />
       </Modal.Window>
-
       <Modal.Window name={`edit-${user.id}`}>
         <CreateUserForm userToEdit={user} />
       </Modal.Window>
-
       <Modal.Window name={`delete-${user.id}`}>
         <ConfirmDelete onConfirm={handleDeleteConfirm} />
       </Modal.Window>

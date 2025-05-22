@@ -1,29 +1,42 @@
-import { HiEllipsisVertical, HiEye, HiPencil, HiTrash } from 'react-icons/hi2'
-import React, { useEffect, useRef, useState } from 'react'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useEffect, useRef, useState } from 'react'
+import { HiEllipsisVertical, HiEye, HiPencil, HiTrash } from 'react-icons/hi2'
 
-import BookDetails from './BookDetails'
-import ConfirmDelete from '../../ui/ConfirmDelete'
-import CreateBookForm from './CreateBookForm'
-import Modal from '../../ui/Modal'
-import { deleteBook } from '../../services/apiBooks'
-import styled from 'styled-components'
 import toast from 'react-hot-toast'
+import styled from 'styled-components'
+import { deleteBook } from '../../services/apiBooks'
+import ConfirmDelete from '../../ui/ConfirmDelete'
+import Modal from '../../ui/Modal'
+import BookDetails from './BookDetails'
+import CreateBookForm from './CreateBookForm'
 
 const TableRow = styled.div`
   display: grid;
-  grid-template-columns: 0.6fr 2.5fr 2.5fr 2fr 1.5fr 1fr 1fr;
+  grid-template-columns: 0.6fr 2.5fr 2.5fr 2fr 1.5fr 1fr;
   column-gap: 0.5rem;
   align-items: center;
   padding: 1.4rem 1rem;
+
   &:not(:last-child) {
     border-bottom: 1px solid var(--color-grey-100);
+  }
+
+  transition: background-color 0.2s; /* Smooth transition */
+
+  &:hover {
+    background-color: var(--color-grey-200); /* Light mode hover */
+
+    /* Dark mode hover */
+    @media (prefers-color-scheme: dark) {
+      background-color: var(--color-grey-700); /* Dark mode hover */
+    }
   }
 `
 
 const Cell = styled.div`
   font-size: 1.4rem;
   color: var(--color-grey-700);
+  padding: 0.5rem 0; /* Adjusted padding for better spacing */
 `
 
 const DropdownWrapper = styled.div`
@@ -37,7 +50,7 @@ const IconButton = styled.button`
   cursor: pointer;
   padding: 0.4rem;
   border-radius: var(--border-radius-sm);
-  transition: all 0.2s;
+  transition: background-color 0.2s;
 
   &:hover {
     background-color: var(--color-grey-100);
@@ -140,12 +153,11 @@ function BooksRow({ book }) {
 
   return (
     <TableRow role="row">
-      <Cell style={{textAlign : "center"}}>{book.id}</Cell>
+      <Cell style={{ textAlign: 'center' }}>{book.id}</Cell>
       <Cell>{book.title}</Cell>
       <Cell>{book.author}</Cell>
       <Cell>{book.publication_year}</Cell>
       <Cell>{book.status}</Cell>
-      {/* <Cell>{book.books_total_count}</Cell> */}
 
       <DropdownWrapper ref={dropdownRef}>
         <IconButton onClick={toggleDropdown}>

@@ -1,24 +1,33 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { createRoom, editRoom } from '../../services/apiCabins'
+// export default CreateRoomForm
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 
-import { useForm } from 'react-hook-form'
-import toast from 'react-hot-toast'
-import styled from 'styled-components'
 import Button from '../../ui/Button'
 import Form from '../../ui/Form'
 import Input from '../../ui/Input'
+import styled from 'styled-components'
+import toast from 'react-hot-toast'
+import { useForm } from 'react-hook-form'
 
 const StyledSelect = styled.select`
   padding: 0.8rem;
   font-size: 1.6rem;
-  border: 1px solid var(--color-grey-300);
+  border: 1px solid var(--color-grey-200);
   border-radius: 0.4rem;
   width: 100%;
   outline: none;
-  background-color: #fff;
+  background-color: var(--color-grey-0); /* Light mode background */
+  color: var(--color-grey-700); /* Light mode text color */
 
   &:focus {
     border-color: var(--color-primary);
+  }
+
+  /* Dark mode styles */
+  @media (prefers-color-scheme: dark) {
+    background-color: var(--color-grey-800); /* Dark mode background */
+    color: var(--color-grey-300); /* Dark mode text color */
+    border: 1px solid var(--color-grey-600); /* Dark mode border */
   }
 `
 

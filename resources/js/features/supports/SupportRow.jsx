@@ -1,16 +1,14 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query'
-import React, { useEffect, useRef, useState } from 'react'
 import { HiEllipsisVertical, HiEye, HiPencil, HiTrash } from 'react-icons/hi2'
+import React, { useEffect, useRef, useState } from 'react'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 
-import toast from 'react-hot-toast'
-import styled from 'styled-components'
-import { deleteSupport } from '../../services/apiSupports'
 import ConfirmDelete from '../../ui/ConfirmDelete'
-import Modal from '../../ui/Modal'
 import CreateSupportForm from './CreateSupportForm'
+import Modal from '../../ui/Modal'
 import SupportDetails from './SupportDetails'
-
-// import { deleteSupport } from '../../services/apiSupports'
+import { deleteSupport } from '../../services/apiSupports'
+import styled from 'styled-components'
+import toast from 'react-hot-toast'
 
 const TableRow = styled.div`
   display: grid;
@@ -19,8 +17,20 @@ const TableRow = styled.div`
   align-items: center;
   padding: 1.4rem 1rem;
   position: relative;
+
   &:not(:last-child) {
     border-bottom: 1px solid var(--color-grey-100);
+  }
+
+  transition: background-color 0.2s; /* Smooth transition */
+
+  &:hover {
+    background-color: var(--color-grey-200); /* Light mode hover */
+
+    /* Dark mode hover */
+    @media (prefers-color-scheme: dark) {
+      background-color: var(--color-grey-700); /* Dark mode hover */
+    }
   }
 `
 
@@ -34,6 +44,7 @@ const Id = styled.div`
 const Cell = styled.div`
   font-size: 1.4rem;
   color: var(--color-grey-700);
+  padding: 0.5rem 0; /* Adjusted padding for better spacing */
 `
 
 const DropdownWrapper = styled.div`
@@ -47,8 +58,7 @@ const IconButton = styled.button`
   cursor: pointer;
   padding: 0.4rem;
   border-radius: var(--border-radius-sm);
-  transform: translateX(0.8rem);
-  transition: all 0.2s;
+  transition: background-color 0.2s;
 
   &:hover {
     background-color: var(--color-grey-100);

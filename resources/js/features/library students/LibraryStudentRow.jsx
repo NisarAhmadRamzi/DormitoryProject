@@ -20,6 +20,16 @@ const TableRow = styled.div`
   &:not(:last-child) {
     border-bottom: 1px solid var(--color-grey-100);
   }
+  transition: background-color 0.2s; /* Smooth transition */
+
+  &:hover {
+    background-color: var(--color-grey-200); /* Light mode hover */
+
+    /* For dark mode hover */
+    @media (prefers-color-scheme: dark) {
+      background-color: var(--color-grey-700); /* Dark mode hover */
+    }
+  }
 `
 
 const Cell = styled.div`
