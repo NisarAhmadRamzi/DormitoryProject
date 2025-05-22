@@ -34,7 +34,7 @@ function Home() {
               Modern Rooms. Exclusive Amenities. Prime Location.
             </p>
             <div className="cta-buttons d-flex justify-content-center gap-4 mb-4">
-              <Link to="/member">
+              <Link to="/login">
                 <Button
                   variant="primary"
                   className="px-4 py-3 shadow-lg"
@@ -188,7 +188,7 @@ function Home() {
                     <li>High-speed Wi-Fi</li>
                   </ul>
                   <p className="price">$400 / month</p>
-                  <Link to="/member">
+                  <Link to="/login">
                     <Button variant="primary" className="w-100">
                       Apply Now
                     </Button>
@@ -218,7 +218,7 @@ function Home() {
                     <li>High-speed Wi-Fi</li>
                   </ul>
                   <p className="price">$300 / month per person</p>
-                  <Link to="/member">
+                  <Link to="/login">
                     <Button variant="primary" className="w-100">
                       Apply Now
                     </Button>
@@ -249,7 +249,7 @@ function Home() {
                     <li>High-speed Wi-Fi</li>
                   </ul>
                   <p className="price">$600 / month</p>
-                  <Link to="/member">
+                  <Link to="/login">
                     <Button variant="primary" className="w-100">
                       Apply Now
                     </Button>

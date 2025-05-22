@@ -5,6 +5,7 @@ import Stats from './Stats'
 import styled from 'styled-components'
 import { useRecentBookings } from './useRecentBookings'
 import { useRecentStays } from './useRecentStays'
+import Today from '../check-in-out/TodayActivity'
 
 const StyledDashboardLayout = styled.div`
   display: grid;
@@ -22,8 +23,7 @@ const DashboardLayout = () => {
   return (
     <StyledDashboardLayout>
       <Stats bookings={bookings} confirmedStays={confirmedStays} />
-      <div>Today's activity</div>
-      {/* <div>Chart stay duration</div> */}
+      <Today/>
       <DurationChart confirmedStays = {confirmedStays}/>
       <SalesChart/>
     </StyledDashboardLayout>
