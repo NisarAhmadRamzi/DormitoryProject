@@ -1,14 +1,14 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { useEffect, useRef, useState } from 'react'
 import { HiEllipsisVertical, HiEye, HiPencil, HiTrash } from 'react-icons/hi2'
+import { useEffect, useRef, useState } from 'react'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 
-import toast from 'react-hot-toast'
-import styled from 'styled-components'
-import { deleteBorrowedBook } from '../../services/apiBorrowedBooks'
-import ConfirmDelete from '../../ui/ConfirmDelete'
-import Modal from '../../ui/Modal'
 import BorrowedBookDetails from './BorrowedBookDetails'
+import ConfirmDelete from '../../ui/ConfirmDelete'
 import CreateBorrowedBookForm from './CreateBorrowedBookForm'
+import Modal from '../../ui/Modal'
+import { deleteBorrowedBook } from '../../services/apiBorrowedBooks'
+import styled from 'styled-components'
+import toast from 'react-hot-toast'
 
 const TableRow = styled.div`
   display: grid;
@@ -26,10 +26,12 @@ const TableRow = styled.div`
 
   &:hover {
     background-color: var(--color-grey-200); /* Light mode hover */
+    cursor: pointer;
 
     /* Dark mode hover */
     @media (prefers-color-scheme: dark) {
       background-color: var(--color-grey-700); /* Dark mode hover */
+      cursor: pointer;
     }
   }
 `

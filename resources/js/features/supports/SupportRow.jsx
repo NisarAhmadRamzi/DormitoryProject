@@ -26,10 +26,12 @@ const TableRow = styled.div`
 
   &:hover {
     background-color: var(--color-grey-200); /* Light mode hover */
+    cursor: pointer;
 
     /* Dark mode hover */
     @media (prefers-color-scheme: dark) {
       background-color: var(--color-grey-700); /* Dark mode hover */
+      cursor: pointer;
     }
   }
 `
