@@ -1,14 +1,14 @@
-import { HiEllipsisVertical, HiEye, HiPencil, HiTrash } from 'react-icons/hi2'
-import { useEffect, useRef, useState } from 'react'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useEffect, useRef, useState } from 'react'
+import { HiEllipsisVertical, HiEye, HiPencil, HiTrash } from 'react-icons/hi2'
 
+import toast from 'react-hot-toast'
+import styled from 'styled-components'
+import { deleteFee } from '../../services/apiFees'
 import ConfirmDelete from '../../ui/ConfirmDelete'
+import Modal from '../../ui/Modal'
 import CreateFeeForm from './CreateFeeForm'
 import FeeDetails from './FeeDetails'
-import Modal from '../../ui/Modal'
-import { deleteFee } from '../../services/apiFees'
-import styled from 'styled-components'
-import toast from 'react-hot-toast'
 
 const TableRow = styled.div`
   display: grid;
@@ -19,6 +19,16 @@ const TableRow = styled.div`
   position: relative;
   &:not(:last-child) {
     border-bottom: 1px solid var(--color-grey-100);
+  }
+  transition: background-color 0.2s; /* Smooth transition */
+
+  &:hover {
+    background-color: var(--color-grey-200); /* Light mode hover */
+
+    /* For dark mode hover */
+    @media (prefers-color-scheme: dark) {
+      background-color: var(--color-grey-700); /* Dark mode hover */
+    }
   }
 `
 
