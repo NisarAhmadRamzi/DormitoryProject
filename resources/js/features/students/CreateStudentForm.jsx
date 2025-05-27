@@ -1,34 +1,30 @@
+import { createStudent, editStudent } from '../../services/apiStudents'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { useEffect, useState } from 'react'
-import { createUser, editUser } from '../../services/apiUser'
 
-import { useForm } from 'react-hook-form'
-import toast from 'react-hot-toast'
-import styled from 'styled-components'
 import Button from '../../ui/Button'
 import Form from '../../ui/Form'
 import Input from '../../ui/Input'
+import styled from 'styled-components'
+import toast from 'react-hot-toast'
+import { useEffect } from 'react'
+import { useForm } from 'react-hook-form'
+
+// Updated grid layout for 2 columns
+const FormGrid = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2.4rem;
+  max-height: 70vh;
+  overflow-y: auto;
+  padding-right: 1rem;
+
+  // Ensure modal or container has sufficient padding
+`
 
 const FormRow = styled.div`
-  display: grid;
-  align-items: center;
-  grid-template-columns: 24rem 1fr 1.2fr;
-  gap: 2.4rem;
-  padding: 1.2rem 0;
-  &:first-child {
-    padding-top: 0;
-  }
-  &:last-child {
-    padding-bottom: 0;
-  }
-  &:not(:last-child) {
-    border-bottom: 1px solid var(--color-grey-100);
-  }
-  &:has(button) {
-    display: flex;
-    justify-content: flex-end;
-    gap: 1.2rem;
-  }
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
 `
 
 const Label = styled.label`
@@ -36,7 +32,7 @@ const Label = styled.label`
 `
 
 const Error = styled.span`
-  font-size: 1.4rem;
+  font-size: 1.2rem;
   color: var(--color-red-700);
 `
 
@@ -48,22 +44,15 @@ const SelectInput = styled.select`
   width: 100%;
   color: var(--color-grey-700);
   background-color: var(--color-grey-0);
-  transition: border-color 0.2s ease-in-out;
-
   &:focus {
     border-color: var(--color-primary);
     outline: none;
   }
-
-  & option {
-    font-size: 1.4rem;
-  }
 `
 
-function CreateUserForm({ userToEdit = {}, onCloseModal }) {
-  const isEditSession = Boolean(userToEdit.id)
-  const [profileImage, setProfileImage] = useState(null)
-
+function CreateStudentForm({ studentToEdit = {}, onCloseModal }) {
+  const isEditSession = Boolean(studentToEdit?.id)
+  const queryClient = useQueryClient()
   const {
     register,
     handleSubmit,
@@ -71,151 +60,212 @@ function CreateUserForm({ userToEdit = {}, onCloseModal }) {
     watch,
     formState: { errors },
   } = useForm({
-    defaultValues: isEditSession ? userToEdit : {},
+    defaultValues: isEditSession
+      ? {
+          ...studentToEdit,
+          registration_date: studentToEdit?.registration_date?.split('T')[0],
+          registration_deadline:
+            studentToEdit?.registration_deadline?.split('T')[0],
+          dob: studentToEdit?.dob?.split('T')[0],
+        }
+      : {},
   })
 
-  const queryClient = useQueryClient()
+  useEffect(() => {
+    if (isEditSession) {
+      reset({
+        ...studentToEdit,
+        registration_date: studentToEdit?.registration_date?.split('T')[0],
+        registration_deadline:
+          studentToEdit?.registration_deadline?.split('T')[0],
+        dob: studentToEdit?.dob?.split('T')[0],
+      })
+    }
+  }, [studentToEdit, reset])
 
   const { mutate, isLoading } = useMutation({
-    mutationFn: (formData) =>
-      isEditSession ? editUser(userToEdit.id, formData) : createUser(formData),
+    mutationFn: isEditSession
+      ? (data) => editStudent(studentToEdit.id, data)
+      : createStudent,
     onSuccess: () => {
       toast.success(
-        isEditSession
-          ? 'User updated successfully'
-          : 'New user created successfully'
+        `Student ${isEditSession ? 'updated' : 'created'} successfully`
       )
-      queryClient.invalidateQueries({ queryKey: ['users'] })
-      reset()
+      queryClient.invalidateQueries({ queryKey: ['students'] })
       onCloseModal?.()
-      setProfileImage(null) // clear image after success
+      reset()
     },
-    onError: (err) => {
-      toast.error(err.message || 'Something went wrong')
-    },
+    onError: (err) => toast.error(err.message || 'Something went wrong'),
   })
 
   const onSubmit = (data) => {
-    const formData = new FormData()
-    formData.append('name', data.name)
-    formData.append('email', data.email)
-    formData.append('password', data.password || '')
-    formData.append('cpassword', data.cpassword || '')
-    formData.append('role', data.role)
-
-    if (profileImage) {
-      formData.append('profile', profileImage)
+    if (!isEditSession && !data.password) {
+      toast.error('Password is required for new students')
+      return
     }
-
-    mutate(formData)
+    if (!data.gender) {
+      toast.error('Gender is required')
+      return
+    }
+    mutate(data)
   }
-
-  useEffect(() => {
-    if (isEditSession && userToEdit) {
-      reset(userToEdit)
-    }
-  }, [isEditSession, userToEdit, reset])
 
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
-      <FormRow>
-        <Label htmlFor="name">Name</Label>
-        <Input
-          type="text"
-          id="name"
-          {...register('name', { required: 'Name is required' })}
-        />
-        {errors?.name && <Error>{errors.name.message}</Error>}
-      </FormRow>
+      <FormGrid>
+        <FormRow>
+          <Label htmlFor="name">Name</Label>
+          <Input
+            id="name"
+            {...register('name', { required: 'Name is required' })}
+          />
+          {errors.name && <Error>{errors.name.message}</Error>}
+        </FormRow>
 
-      <FormRow>
-        <Label htmlFor="email">Email</Label>
-        <Input
-          type="email"
-          id="email"
-          {...register('email', {
-            required: 'Email is required',
-            pattern: {
-              value: /^\S+@\S+$/i,
-              message: 'Invalid email format',
-            },
-          })}
-        />
-        {errors?.email && <Error>{errors.email.message}</Error>}
-      </FormRow>
+        <FormRow>
+          <Label htmlFor="f_name">Father's Name</Label>
+          <Input
+            id="f_name"
+            {...register('f_name', { required: "Father's name is required" })}
+          />
+          {errors.f_name && <Error>{errors.f_name.message}</Error>}
+        </FormRow>
 
-      <FormRow>
-        <Label htmlFor="password">Password</Label>
-        <Input
-          type="password"
-          id="password"
-          {...register('password', {
-            minLength: {
-              value: 4,
-              message: 'Password must be at least 4 characters',
-            },
-          })}
-        />
-        {errors?.password && <Error>{errors.password.message}</Error>}
-      </FormRow>
+        <FormRow>
+          <Label htmlFor="last_name">Last Name</Label>
+          <Input
+            id="last_name"
+            {...register('last_name', { required: 'Last name is required' })}
+          />
+          {errors.last_name && <Error>{errors.last_name.message}</Error>}
+        </FormRow>
 
-      <FormRow>
-        <Label htmlFor="cpassword">Confirm Password</Label>
-        <Input
-          type="password"
-          id="cpassword"
-          {...register('cpassword', {
-            validate: (value) =>
-              value === watch('password') || 'Passwords do not match',
-          })}
-        />
-        {errors?.cpassword && <Error>{errors.cpassword.message}</Error>}
-      </FormRow>
+        <FormRow>
+          <Label htmlFor="email">Email</Label>
+          <Input
+            id="email"
+            type="email"
+            {...register('email', { required: 'Email is required' })}
+          />
+          {errors.email && <Error>{errors.email.message}</Error>}
+        </FormRow>
 
-      <FormRow>
-        <Label htmlFor="role">Role</Label>
-        <SelectInput
-          id="role"
-          {...register('role', {
-            required: 'Role is required',
-            validate: (value) =>
-              ['admin', 'second-admin', 'student'].includes(value) ||
-              'Invalid role',
-          })}
-        >
-          <option value="">Select role</option>
-          <option value="admin">Admin</option>
-          <option value="second-admin">Second Admin</option>
-          <option value="student">Student</option>
-        </SelectInput>
-        {errors?.role && <Error>{errors.role.message}</Error>}
-      </FormRow>
+        {!isEditSession && (
+          <FormRow>
+            <Label htmlFor="password">Password</Label>
+            <Input
+              id="password"
+              type="password"
+              {...register('password', { required: 'Password is required' })}
+            />
+            {errors.password && <Error>{errors.password.message}</Error>}
+          </FormRow>
+        )}
 
-      <FormRow>
-        <Label htmlFor="profile">Profile Image</Label>
-        <Input
-          type="file"
-          id="profile"
-          accept="image/*"
-          onChange={(e) => setProfileImage(e.target.files[0])}
-        />
-      </FormRow>
+        <FormRow>
+          <Label htmlFor="from">From</Label>
+          <Input
+            id="from"
+            {...register('from', { required: 'From is required' })}
+          />
+          {errors.from && <Error>{errors.from.message}</Error>}
+        </FormRow>
 
-      <FormRow>
-        <Button
-          variation="secondary"
-          type="reset"
-          onClick={() => onCloseModal?.()}
-          disabled={isLoading}
-        >
-          Cancel
+        <FormRow>
+          <Label htmlFor="dob">Date of Birth</Label>
+          <Input
+            id="dob"
+            type="date"
+            {...register('dob', { required: 'DOB is required' })}
+          />
+          {errors.dob && <Error>{errors.dob.message}</Error>}
+        </FormRow>
+
+        <FormRow>
+          <Label htmlFor="id_number">ID Number</Label>
+          <Input
+            id="id_number"
+            type="number"
+            {...register('id_number', { required: 'ID number is required' })}
+          />
+          {errors.id_number && <Error>{errors.id_number.message}</Error>}
+        </FormRow>
+
+        <FormRow>
+          <Label htmlFor="academic_info">Academic Info</Label>
+          <Input id="academic_info" {...register('academic_info')} />
+        </FormRow>
+
+        <FormRow>
+          <Label htmlFor="registration_date">Registration Date</Label>
+          <Input
+            id="registration_date"
+            type="date"
+            {...register('registration_date', {
+              required: 'Registration date is required',
+            })}
+          />
+          {errors.registration_date && (
+            <Error>{errors.registration_date.message}</Error>
+          )}
+        </FormRow>
+
+        <FormRow>
+          <Label htmlFor="phone">Phone</Label>
+          <Input
+            id="phone"
+            {...register('phone', { required: 'Phone is required' })}
+          />
+          {errors.phone && <Error>{errors.phone.message}</Error>}
+        </FormRow>
+
+        <FormRow>
+          <Label htmlFor="registration_deadline">Registration Deadline</Label>
+          <Input
+            id="registration_deadline"
+            type="date"
+            {...register('registration_deadline', {
+              required: 'Deadline is required',
+            })}
+          />
+          {errors.registration_deadline && (
+            <Error>{errors.registration_deadline.message}</Error>
+          )}
+        </FormRow>
+
+        <FormRow>
+          <Label htmlFor="gender">Gender</Label>
+          <SelectInput
+            id="gender"
+            {...register('gender', { required: 'Gender is required' })}
+          >
+            <option value="">Select</option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+            <option value="Other">Other</option>
+          </SelectInput>
+          {errors.gender && <Error>{errors.gender.message}</Error>}
+        </FormRow>
+      </FormGrid>
+
+      {/* Actions below the form grid */}
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'flex-end',
+          gap: '1.2rem',
+          marginTop: '1.6rem',
+        }}
+      >
+        <Button type="reset" variation="secondary" onClick={() => reset()}>
+          Reset
         </Button>
-        <Button type="submit" disabled={isLoading}>
-          {isEditSession ? 'Edit User' : 'Create User'}
+        <Button disabled={isLoading}>
+          {isEditSession ? 'Update Student' : 'Add Student'}
         </Button>
-      </FormRow>
+      </div>
     </Form>
   )
 }
 
-export default CreateUserForm
+export default CreateStudentForm
