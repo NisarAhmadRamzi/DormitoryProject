@@ -3,65 +3,116 @@
 namespace App\Http\Controllers\backend;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\SupportResouce;
-use App\Models\Support;
+use App\Http\Resources\UserResource;
+use App\Http\Resources\UserResourceAssign;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
+use Spatie\Permission\Models\Role;
 
-
-class SupportController extends Controller
+class UserController extends Controller
 {
-    // List all supports
     public function index()
     {
-        return SupportResouce::collection(Support::all());
+        $users = User::all();
+        return UserResource::collection($users);
     }
 
-    // Store a new support record
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'type' => 'required|string',
-            'details' => 'required|string',
-            'goods_quantity' => 'nullable|integer|min:0',
-            'cash_quantity' => 'nullable|integer|min:0',
-            'helper_fullname' => 'required|string',
-            'helper_number' => 'required|string',
-            'helper_email' => 'nullable|string|email',
-            'help_date' => 'required|date',
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|min:4',
+            'cpassword' => 'required|same:password',
+            'role' => 'nullable|in:admin,second_admin,student',
+            'profile' => 'nullable|file|mimes:jpg,jpeg,png|max:2048'
         ]);
 
-        $support = Support::create($validated);
-        return new SupportResouce($support);
+        $user = new User();
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->password = Hash::make($request->password);
+
+        if ($request->hasFile('profile')) {
+            $path = $request->file('profile')->store('uploads', 'public');
+            $user->profile = $path;
+        } else {
+            $user->profile = 'uploads/default.png';
+        }
+
+        $user->save();
+
+        // Assign role using Spatie
+        $role = $request->role ?? 'student'; // Default to 'student' if not provided
+        $user->assignRole($role);
+
+        return UserResource::make($user);
     }
 
-    // Show a specific support record
-    public function show(Support $support)
+    public function updateUser(Request $request, $id)
     {
-        return new SupportResouce($support);
-    }
-
-    // Update a support record
-    public function update(Request $request, Support $support)
-    {
-        $validated = $request->validate([
-            'type' => 'required|string',
-            'details' => 'required|string',
-            'goods_quantity' => 'nullable|integer|min:0',
-            'cash_quantity' => 'nullable|integer|min:0',
-            'helper_fullname' => 'required|string',
-            'helper_number' => 'required|string',
-            'helper_email' => 'nullable|string|email',
-            'help_date' => 'required|date',
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email,' . $id,
+            'password' => 'nullable|min:4',
+            'cpassword' => 'nullable|same:password',
+            'role' => 'nullable|in:admin,second_admin,student',
+            'profile' => 'nullable|file|mimes:jpg,jpeg,png|max:2048'
         ]);
 
-        $support->update($validated);
-        return new SupportResouce($support);
+        $user = User::findOrFail($id);
+        $user->name = $request->name;
+        $user->email = $request->email;
+
+        if ($request->password) {
+            $user->password = Hash::make($request->password);
+        }
+
+        if ($request->hasFile('profile')) {
+            if ($user->profile && Storage::disk('public')->exists($user->profile)) {
+                Storage::disk('public')->delete($user->profile);
+            }
+            $path = $request->file('profile')->store('uploads', 'public');
+            $user->profile = $path;
+        }
+
+        $user->save();
+
+        // Sync roles if provided
+        if ($request->role) {
+            $user->syncRoles($request->role);
+        }
+
+        return UserResource::make($user);
     }
 
-    // Delete a support record
-    public function destroy(Support $support)
+    public function destroy($id)
     {
-        $support->delete();
-        return response()->json(['message' => 'Support record deleted successfully']);
+        $user = User::findOrFail($id);
+        if ($user->profile) {
+            Storage::disk('public')->delete($user->profile);
+        }
+        $user->delete();
+        return response()->json(['message' => 'User deleted successfully'], 200);
+    }
+
+    public function show($id)
+    {
+        $user = User::findOrFail($id);
+        $roles = Role::all();
+        return response()->json([
+            'user' => $user,
+            'roles' => $roles,
+        ], 200);
+    }
+
+    public function assign(Request $request, $id)
+    {
+        $request->validate(['role' => 'required|exists:roles,id']);
+        $user = User::findOrFail($id);
+        $user->roles()->sync([$request->role]);
+        return UserResourceAssign::make($user);
     }
 }

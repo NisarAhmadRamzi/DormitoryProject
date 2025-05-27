@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react'
 
-import styled from 'styled-components'
 import AddUser from '../features/users/AddUser'
-import UsersTable from '../features/users/UsersTable'
-import { getUsers } from '../services/apiUser'
 import Heading from '../ui/Heading'
 import Row from '../ui/Row'
+import UsersTable from '../features/users/UsersTable'
+import { getUsers } from '../services/apiUser'
+import styled from 'styled-components'
 
 const SearchInput = styled.input`
   padding: 0.8rem 1.2rem;
