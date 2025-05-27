@@ -27,4 +27,4 @@ Route::get('/{any?}/{slug?}/{id?}', function ($any = null, $slug = null, $id = n
 
 
 // Laravel Route in `routes/api.php`
-Route::get('/rooms', [RoomController::class, 'index']);
+// Route::get('/rooms', [RoomController::class, 'index']);
