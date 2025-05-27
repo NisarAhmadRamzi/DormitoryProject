@@ -21,6 +21,8 @@ class LibraryStudentResource extends JsonResource
             'last_name' => $this->last_name,
             'email' => $this->email,
             'address' => $this->address,
+            'id_number' => $this->id_number,
+            'academic_info' => $this->academic_info,
             'phone' => $this->phone,
             'gender' => $this->gender,
             'membership_status' => $this->membership_status,
