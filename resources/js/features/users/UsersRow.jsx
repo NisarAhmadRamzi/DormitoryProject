@@ -1,14 +1,14 @@
-import { HiEllipsisVertical, HiEye, HiPencil, HiTrash } from 'react-icons/hi2'
-import { useEffect, useRef, useState } from 'react'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useEffect, useRef, useState } from 'react'
+import { HiEllipsisVertical, HiEye, HiPencil, HiTrash } from 'react-icons/hi2'
 
-import ConfirmDelete from '../../ui/ConfirmDelete'
-import CreateUserForm from './CreateUserForm'
-import Modal from '../../ui/Modal'
-import UserDetails from './UserDetails'
-import { deleteUser } from '../../services/apiUser'
-import styled from 'styled-components'
 import toast from 'react-hot-toast'
+import styled from 'styled-components'
+import { deleteUser } from '../../services/apiUser'
+import ConfirmDelete from '../../ui/ConfirmDelete'
+import Modal from '../../ui/Modal'
+import CreateUserForm from './CreateUserForm'
+import UserDetails from './UserDetails'
 
 const TableRow = styled.div`
   display: grid;
@@ -198,11 +198,30 @@ function UserRow({ user }) {
       </Cell>
       <Cell>{user.email}</Cell>
       <Cell>{user.role_name}</Cell>
-      <Cell>
+      {/* <Cell>
         {user.role_name === 'student' && user.student
           ? `Student ID: ${user.student.id}`
           : '—'}
+      </Cell> */}
+      <Cell>
+        {user.role_id ? (
+          <div>
+            <strong>Role ID:</strong> {user.role_id}
+          </div>
+        ) : user.role_name === 'student' && user.student ? (
+          <>
+            <div>
+              <strong>Student ID:</strong> {user.student.id_number}
+            </div>
+            <div>
+              <strong>Origin:</strong> {user.student.from}
+            </div>
+          </>
+        ) : (
+          '—'
+        )}
       </Cell>
+
       <DropdownWrapper ref={dropdownRef}>
         <IconButton onClick={toggleDropdown}>
           <HiEllipsisVertical />

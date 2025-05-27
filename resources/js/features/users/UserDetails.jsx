@@ -9,9 +9,10 @@ const ModalFrame = styled.div`
   display: flex;
   flex-direction: column;
   /* gap: 2.4rem; */
-  max-width: 40rem;
+  max-width: 80rem;
   max-height: 80vh;
   overflow-y: auto;
+  align-items: center;
   /* margin: 2rem auto; */
 `
 
