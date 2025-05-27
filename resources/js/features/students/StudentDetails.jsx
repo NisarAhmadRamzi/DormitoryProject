@@ -42,6 +42,7 @@ function StudentDetails({ student }) {
   if (!student) return <p>No student data available.</p>
 
   const {
+    id,
     name,
     email,
     f_name,
@@ -65,6 +66,11 @@ function StudentDetails({ student }) {
       <Heading as="h3">Student Details</Heading>
 
       <DetailsGrid>
+        <DetailItem>
+          <Label>ID</Label>
+          <Value>{id}</Value>
+        </DetailItem>
+
         <DetailItem>
           <Label>Full Name</Label>
           <Value>{`${f_name} ${last_name}`}</Value>

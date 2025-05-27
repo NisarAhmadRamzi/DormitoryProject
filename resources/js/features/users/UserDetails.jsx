@@ -1,5 +1,5 @@
-import Heading from '../../ui/Heading'
 import styled from 'styled-components'
+import Heading from '../../ui/Heading'
 
 const ModalFrame = styled.div`
   background-color: var(--color-grey-0);
@@ -86,6 +86,7 @@ function UserDetails({ user }) {
   if (!user) return <p>No user data available.</p>
 
   const {
+    id,
     name,
     email,
     role_name,
@@ -103,6 +104,11 @@ function UserDetails({ user }) {
       <ProfileSection>
         <ProfileImg src={`/uploads/${profile}`} alt={`${name}'s profile`} />
         <InfoBlock>
+          <InfoRow>
+            <Label>ID</Label>
+            <Value>{id}</Value>
+          </InfoRow>
+
           <InfoRow>
             <Label>Name</Label>
             <Value>{name}</Value>
