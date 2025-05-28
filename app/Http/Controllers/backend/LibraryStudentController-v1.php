@@ -26,13 +26,12 @@ class LibraryStudentController extends Controller
     public function store(Request $request)
     {
         $request->validate([
+            'library_id' => 'required|exists:libraries,id',
             'name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
             'email' => 'required|email|unique:library_students,email',
             'password' => 'required|string|min:8',
             'address' => 'required|string',
-            'id_number' => 'required|string|max:255',
-            'academic_info' => 'nullable|string|max:255',
             'phone' => 'required|string',
             'registration_date' => 'required|date',
             'registration_deadline' => 'required|date',
@@ -40,10 +39,7 @@ class LibraryStudentController extends Controller
             'membership_status' => 'required|in:Active,Expired',
         ]);
 
-        $data = $request->all();
-        $data['library_id'] = 1;  // Force library_id to 1
-
-        $student = LibraryStudent::create($data);
+        $student = LibraryStudent::create($request->all());
         return new LibraryStudentResource($student);
     }
 
@@ -51,13 +47,12 @@ class LibraryStudentController extends Controller
     public function update(Request $request, LibraryStudent $libraryStudent)
     {
         $request->validate([
+            'library_id' => 'required|exists:libraries,id',
             'name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
             'email' => 'required|email|unique:library_students,email,' . $libraryStudent->id,
             'password' => 'nullable|string|min:8',
             'address' => 'required|string',
-            'id_number' => 'required|string|max:255',
-            'academic_info' => 'nullable|string|max:255',
             'phone' => 'required|string',
             'registration_date' => 'required|date',
             'registration_deadline' => 'required|date',
@@ -65,10 +60,7 @@ class LibraryStudentController extends Controller
             'membership_status' => 'required|in:Active,Expired',
         ]);
 
-        $data = $request->all();
-        $data['library_id'] = 1;  // Force library_id to 1
-
-        $libraryStudent->update($data);
+        $libraryStudent->update($request->all());
         return new LibraryStudentResource($libraryStudent);
     }
 
@@ -76,6 +68,6 @@ class LibraryStudentController extends Controller
     public function destroy(LibraryStudent $libraryStudent)
     {
         $libraryStudent->delete();
-        return response()->json(['message' => 'Library student deleted successfully.']);
+        return response()->json(['message' => 'Library Student deleted successfully']);
     }
 }

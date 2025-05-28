@@ -56,6 +56,10 @@ function FeeDetails({ fee }) {
           {student?.name} {student?.last_name}
         </Value>
       </DetailRow>
+      <DetailRow>
+        <Label>Student ID</Label>
+        <Value>{student?.id}</Value>
+      </DetailRow>
 
       <DetailRow>
         <Label>Office Pay</Label>
