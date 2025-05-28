@@ -1,5 +1,5 @@
 import { HiEllipsisVertical, HiEye, HiPencil, HiTrash } from 'react-icons/hi2'
-import React, { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 
 import ConfirmDelete from '../../ui/ConfirmDelete'
@@ -172,7 +172,9 @@ function SupportRow({ support }) {
   return (
     <TableRow role="row">
       <Id>{support.type}</Id>
-      <Cell>{support.details}</Cell>
+      {/* <Cell>{support.details}</Cell> */}
+      <Cell>{support.details.split(' ').slice(0, 4).join(' ')}...</Cell>
+
       <Cell>{support.helper_fullname}</Cell>
       <Cell>{support.helper_number}</Cell>
       <Cell>{support.helper_email || '—'}</Cell>

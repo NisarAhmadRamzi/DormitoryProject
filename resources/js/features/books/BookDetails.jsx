@@ -1,7 +1,7 @@
 import { formatDistanceToNow, parseISO } from 'date-fns'
 
-import Heading from '../../ui/Heading'
 import styled from 'styled-components'
+import Heading from '../../ui/Heading'
 
 const StyledDetails = styled.div`
   background-color: var(--color-grey-0);
@@ -11,28 +11,36 @@ const StyledDetails = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1.6rem;
+  max-height: 80vh;
+  overflow-y: auto;
 `
 
-const DetailRow = styled.div`
+const DetailsGrid = styled.div`
   display: grid;
-  grid-template-columns: 24rem 1fr;
-  align-items: start;
-  gap: 1.6rem;
+  grid-template-columns: repeat(auto-fit, minmax(28rem, 1fr));
+  gap: 2.4rem;
+`
 
-  &:not(:last-child) {
-    padding-bottom: 1.6rem;
-    border-bottom: 1px solid var(--color-grey-100);
-  }
+const DetailItem = styled.div`
+  background-color: var(--color-grey-50);
+  padding: 1.2rem;
+  border-radius: 6px;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
 `
 
 const Label = styled.span`
-  font-weight: 500;
+  font-weight: 600;
   color: var(--color-grey-600);
+  font-size: 1.4rem;
 `
 
 const Value = styled.span`
   color: var(--color-grey-800);
   font-size: 1.6rem;
+  word-break: break-word;
 `
 
 function formatTimeAgo(dateString) {
@@ -49,11 +57,13 @@ function BookDetails({ book }) {
   if (!book) return <p>No book data available.</p>
 
   const {
+    id,
     title,
     author,
     publication_year,
     status,
     books_total_count,
+    borrowed_book_total_count,
     library_id,
     created_at,
     updated_at,
@@ -63,45 +73,57 @@ function BookDetails({ book }) {
     <StyledDetails>
       <Heading as="h3">Book Details</Heading>
 
-      <DetailRow>
-        <Label>Title</Label>
-        <Value>{title}</Value>
-      </DetailRow>
+      <DetailsGrid>
+        <DetailItem>
+          <Label>ID</Label>
+          <Value>{id}</Value>
+        </DetailItem>
 
-      <DetailRow>
-        <Label>Author</Label>
-        <Value>{author}</Value>
-      </DetailRow>
+        <DetailItem>
+          <Label>Title</Label>
+          <Value>{title}</Value>
+        </DetailItem>
 
-      <DetailRow>
-        <Label>Publication Year</Label>
-        <Value>{publication_year}</Value>
-      </DetailRow>
+        <DetailItem>
+          <Label>Author</Label>
+          <Value>{author}</Value>
+        </DetailItem>
 
-      <DetailRow>
-        <Label>Status</Label>
-        <Value>{status}</Value>
-      </DetailRow>
+        <DetailItem>
+          <Label>Publication Year</Label>
+          <Value>{publication_year}</Value>
+        </DetailItem>
 
-      <DetailRow>
-        <Label>Total Copies</Label>
-        <Value>{books_total_count}</Value>
-      </DetailRow>
+        <DetailItem>
+          <Label>Status</Label>
+          <Value>{status}</Value>
+        </DetailItem>
 
-      <DetailRow>
-        <Label>Library ID</Label>
-        <Value>{library_id}</Value>
-      </DetailRow>
+        <DetailItem>
+          <Label>Total Copies</Label>
+          <Value>{books_total_count}</Value>
+        </DetailItem>
 
-      <DetailRow>
-        <Label>Created At</Label>
-        <Value>{formatTimeAgo(created_at)}</Value>
-      </DetailRow>
+        <DetailItem>
+          <Label>Total of Borrowed Book</Label>
+          <Value>{borrowed_book_total_count ?? 'N/A'}</Value>
+        </DetailItem>
 
-      <DetailRow>
-        <Label>Updated At</Label>
-        <Value>{formatTimeAgo(updated_at)}</Value>
-      </DetailRow>
+        <DetailItem>
+          <Label>Library ID</Label>
+          <Value>{library_id}</Value>
+        </DetailItem>
+
+        <DetailItem>
+          <Label>Created At</Label>
+          <Value>{formatTimeAgo(created_at)}</Value>
+        </DetailItem>
+
+        <DetailItem>
+          <Label>Updated At</Label>
+          <Value>{formatTimeAgo(updated_at)}</Value>
+        </DetailItem>
+      </DetailsGrid>
     </StyledDetails>
   )
 }

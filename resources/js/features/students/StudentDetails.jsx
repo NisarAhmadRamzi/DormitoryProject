@@ -72,13 +72,18 @@ function StudentDetails({ student }) {
         </DetailItem>
 
         <DetailItem>
-          <Label>Full Name</Label>
-          <Value>{`${f_name} ${last_name}`}</Value>
+          <Label>Username</Label>
+          <Value>{name}</Value>
         </DetailItem>
 
         <DetailItem>
-          <Label>Username</Label>
-          <Value>{name}</Value>
+          <Label>Father name</Label>
+          <Value>{f_name}</Value>
+        </DetailItem>
+
+        <DetailItem>
+          <Label>Last name</Label>
+          <Value>{last_name}</Value>
         </DetailItem>
 
         <DetailItem>

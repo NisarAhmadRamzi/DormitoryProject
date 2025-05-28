@@ -37,11 +37,16 @@ const Value = styled.span`
 function LibraryDetails({ library }) {
   if (!library) return <p>No library data available.</p>
 
-  const { name, location, contact_info, created_at, updated_at } = library
+  const {id, name, location, contact_info, created_at, updated_at } = library
 
   return (
     <StyledDetails>
       <Heading as="h3">Library Details</Heading>
+
+      <DetailRow>
+        <Label>ID</Label>
+        <Value>{id}</Value>
+      </DetailRow>
 
       <DetailRow>
         <Label>Name</Label>

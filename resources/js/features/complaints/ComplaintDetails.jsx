@@ -1,5 +1,5 @@
-import Heading from '../../ui/Heading'
 import styled from 'styled-components'
+import Heading from '../../ui/Heading'
 
 const StyledDetails = styled.div`
   background-color: var(--color-grey-0);
@@ -37,6 +37,7 @@ function ComplaintDetails({ complaint }) {
   if (!complaint) return <p>No complaint data available.</p>
 
   const {
+    id,
     title,
     description,
     status,
@@ -49,6 +50,11 @@ function ComplaintDetails({ complaint }) {
   return (
     <StyledDetails>
       <Heading as="h3">Complaint Details</Heading>
+
+      <DetailRow>
+        <Label>ID</Label>
+        <Value>{id}</Value>
+      </DetailRow>
 
       <DetailRow>
         <Label>Title</Label>

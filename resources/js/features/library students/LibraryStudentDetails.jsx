@@ -7,31 +7,36 @@ const StyledDetails = styled.div`
   padding: 2.4rem;
   border-radius: 8px;
   box-shadow: var(--shadow-md);
-  display: flex;
-  flex-direction: column;
-  gap: 1.6rem;
+  max-height: 80vh; /* Consistent with StudentDetails */
+  overflow-y: auto; /* Scroll if content overflows */
 `
 
-const DetailRow = styled.div`
+const DetailsGrid = styled.div`
   display: grid;
-  grid-template-columns: 24rem 1fr;
-  align-items: start;
-  gap: 1.6rem;
+  grid-template-columns: repeat(auto-fit, minmax(28rem, 1fr));
+  gap: 2.4rem;
+`
 
-  &:not(:last-child) {
-    padding-bottom: 1.6rem;
-    border-bottom: 1px solid var(--color-grey-100);
-  }
+const DetailItem = styled.div`
+  background-color: var(--color-grey-50);
+  padding: 1.2rem;
+  border-radius: 6px;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
 `
 
 const Label = styled.span`
-  font-weight: 500;
+  font-weight: 600;
   color: var(--color-grey-600);
+  font-size: 1.4rem;
 `
 
 const Value = styled.span`
   color: var(--color-grey-800);
   font-size: 1.6rem;
+  word-break: break-word;
 `
 
 function LibraryStudentDetails({ student }) {
@@ -40,60 +45,91 @@ function LibraryStudentDetails({ student }) {
   return (
     <StyledDetails>
       <Heading as="h3">Library Student Details</Heading>
-      <DetailRow>
-        <Label>Full Name</Label>
-        <Value>
-          {student.name} {student.last_name}
-        </Value>
-      </DetailRow>
-      <DetailRow>
-        <Label>Email</Label>
-        <Value>{student.email}</Value>
-      </DetailRow>
-      <DetailRow>
-        <Label>Phone</Label>
-        <Value>{student.phone}</Value>
-      </DetailRow>
-      <DetailRow>
-        <Label>Address</Label>
-        <Value>{student.address}</Value>
-      </DetailRow>
-      <DetailRow>
-        <Label>Gender</Label>
-        <Value>{student.gender}</Value>
-      </DetailRow>
-      <DetailRow>
-        <Label>Membership Status</Label>
-        <Value>{student.membership_status}</Value>
-      </DetailRow>
-      <DetailRow>
-        <Label>Registration Date</Label>
-        <Value>
-          {new Date(student.registration_date).toLocaleDateString()}
-        </Value>
-      </DetailRow>
-      <DetailRow>
-        <Label>Registration Deadline</Label>
-        <Value>
-          {new Date(student.registration_deadline).toLocaleDateString()}
-        </Value>
-      </DetailRow>
-      <DetailRow>
-        <Label>Created At</Label>
-        <Value>
-          {formatDistanceToNow(new Date(student.created_at), {
-            addSuffix: true,
-          })}
-        </Value>
-      </DetailRow>
-      <DetailRow>
-        <Label>Updated At</Label>
-        <Value>
-          {formatDistanceToNow(new Date(student.updated_at), {
-            addSuffix: true,
-          })}
-        </Value>
-      </DetailRow>
+      <DetailsGrid>
+        <DetailItem>
+          <Label>ID</Label>
+          <Value>{student.id}</Value>
+        </DetailItem>
+
+        <DetailItem>
+          <Label>Library ID</Label>
+          <Value>{student.library_id}</Value>
+        </DetailItem>
+
+        <DetailItem>
+          <Label>Full Name</Label>
+          <Value>
+            {student.name} {student.last_name}
+          </Value>
+        </DetailItem>
+
+        <DetailItem>
+          <Label>Email</Label>
+          <Value>{student.email}</Value>
+        </DetailItem>
+
+        <DetailItem>
+          <Label>Phone</Label>
+          <Value>{student.phone}</Value>
+        </DetailItem>
+
+        <DetailItem>
+          <Label>ID Number</Label>
+          <Value>{student.id_number}</Value>
+        </DetailItem>
+
+        <DetailItem>
+          <Label>Address</Label>
+          <Value>{student.address}</Value>
+        </DetailItem>
+
+        <DetailItem>
+          <Label>Academic Information</Label>
+          <Value>{student.academic_info}</Value>
+        </DetailItem>
+
+        <DetailItem>
+          <Label>Gender</Label>
+          <Value>{student.gender}</Value>
+        </DetailItem>
+
+        <DetailItem>
+          <Label>Membership Status</Label>
+          <Value>{student.membership_status}</Value>
+        </DetailItem>
+
+        <DetailItem>
+          <Label>Registration Date</Label>
+          <Value>
+            {new Date(student.registration_date).toLocaleDateString()}
+          </Value>
+        </DetailItem>
+
+        <DetailItem>
+          <Label>Registration Deadline</Label>
+          <Value>
+            {new Date(student.registration_deadline).toLocaleDateString()}
+          </Value>
+        </DetailItem>
+
+        <DetailItem>
+          <Label>Created At</Label>
+          <Value>
+            {formatDistanceToNow(new Date(student.created_at), {
+              addSuffix: true,
+            })}
+          </Value>
+        </DetailItem>
+
+        <DetailItem>
+          <Label>Updated At</Label>
+          <Value>
+            {formatDistanceToNow(new Date(student.updated_at), {
+              addSuffix: true,
+            })}
+          </Value>
+        </DetailItem>
+      </DetailsGrid>
     </StyledDetails>
   )
 }
