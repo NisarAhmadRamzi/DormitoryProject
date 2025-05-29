@@ -218,8 +218,8 @@
 
 // export default CreateUserForm
 
-//v2
 import { createUser, editUser } from '../../services/apiUser'
+//v2
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 
 import Button from '../../ui/Button'
@@ -247,12 +247,27 @@ const Error = styled.span`
   font-size: 1.4rem;
   color: red;
 `
+
 const SelectInput = styled.select`
   font-size: 1.4rem;
   padding: 1.2rem;
-  border-radius: 4px;
-  border: 1px solid #ccc;
+  border-radius: var(--border-radius-sm); /* Use global border-radius */
+  border: 1px solid var(--color-grey-300); /* Use global grey border */
+  background-color: var(--color-grey-0); /* Background for light mode */
+  color: var(--color-grey-700); /* Text color for light mode */
   width: 100%;
+  transition: background-color 0.3s, color 0.3s, border 0.3s;
+
+  &:focus {
+    outline: 2px solid var(--color-brand-600);
+    outline-offset: -1px;
+  }
+
+  &:disabled {
+    background-color: var(--color-grey-200);
+    color: var(--color-grey-500);
+    cursor: not-allowed;
+  }
 `
 
 function CreateUserForm({ userToEdit = {}, onCloseModal }) {
