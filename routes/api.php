@@ -70,9 +70,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/students/trashed', [StudentController::class, 'trashedStudents'])->name('students.trashed'); // Get only deleted students
     Route::get('/students/all', [StudentController::class, 'allStudents'])->name('students.withtrashed'); // Get all students including deleted
     Route::get('/students/test', [StudentController::class, 'test']);
+
 });
-
-
 Route::apiResource('complaints', ComplaintController::class);
 Route::apiResource('fees', FeeController::class);
 // role and permissions route
@@ -88,3 +87,6 @@ Route::apiResource('libraries', LibraryController::class);
 Route::apiResource('books', BookController::class);
 Route::resource('library-students', LibraryStudentController::class);
 Route::resource('borrowed-books', BorrowedBookController::class);
+
+
+

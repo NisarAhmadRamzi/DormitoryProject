@@ -1,3 +1,5 @@
+import { useEffect, useState } from 'react'
+
 import styled from 'styled-components'
 import { useUser } from '../../context/UserContext'
 
@@ -5,8 +7,12 @@ const StyledUserAvatar = styled.div`
   position: relative;
   display: inline-flex;
   align-items: center;
-  gap: 1rem; /* Space between avatar and name */
+  gap: 1rem;
   cursor: pointer;
+`
+
+const AvatarWrapper = styled.div`
+  position: relative;
 `
 
 const Avatar = styled.img`
@@ -20,6 +26,17 @@ const Avatar = styled.img`
   &:hover {
     outline-color: var(--color-primary-600);
   }
+`
+
+const StatusDot = styled.span`
+  position: absolute;
+  bottom: 0.3rem;
+  right: 0.3rem;
+  width: 1.2rem;
+  height: 1.2rem;
+  border-radius: 50%;
+  background-color: ${(props) => (props.isOnline ? 'green' : 'gray')};
+  border: 2px solid white;
 `
 
 const UserName = styled.span`
@@ -101,16 +118,34 @@ const UserAvatar = () => {
   const userName = user?.name || 'Guest'
   const userRole = user?.role || 'Guest'
 
+  const [isOnline, setIsOnline] = useState(navigator.onLine)
+
+  useEffect(() => {
+    const handleOnline = () => setIsOnline(true)
+    const handleOffline = () => setIsOnline(false)
+
+    window.addEventListener('online', handleOnline)
+    window.addEventListener('offline', handleOffline)
+
+    return () => {
+      window.removeEventListener('online', handleOnline)
+      window.removeEventListener('offline', handleOffline)
+    }
+  }, [])
+
   return (
     <StyledUserAvatar>
-      <Avatar
-        src={avatarSrc}
-        alt="Profile"
-        onError={(e) => {
-          e.target.onerror = null
-          e.target.src = 'https://www.gravatar.com/avatar/?d=mp&f=y'
-        }}
-      />
+      <AvatarWrapper>
+        <Avatar
+          src={avatarSrc}
+          alt="Profile"
+          onError={(e) => {
+            e.target.onerror = null
+            e.target.src = 'https://www.gravatar.com/avatar/?d=mp&f=y'
+          }}
+        />
+        <StatusDot isOnline={isOnline} />
+      </AvatarWrapper>
       <UserName>{userName}</UserName>
 
       <ContextMenu>
@@ -124,7 +159,7 @@ const UserAvatar = () => {
         </li>
         <li>
           <span>Status</span>
-          <strong>Online</strong>
+          <strong>{isOnline ? 'Online' : 'Offline'}</strong>
         </li>
       </ContextMenu>
     </StyledUserAvatar>
