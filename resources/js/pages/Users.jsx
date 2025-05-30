@@ -1,82 +1,11 @@
-// import { useEffect, useState } from 'react'
-
-// import AddUser from '../features/users/AddUser'
-// import Heading from '../ui/Heading'
-// import Row from '../ui/Row'
-// import UsersTable from '../features/users/UsersTable'
-// import { getUsers } from '../services/apiUser'
-// import styled from 'styled-components'
-
-// const SearchInput = styled.input`
-//   padding: 0.8rem 1.2rem;
-//   border: 1px solid var(--color-grey-200);
-//   border-radius: 4px;
-//   font-size: 1.4rem;
-//   max-width: 300px;
-// `
-
-// const OperationsWrapper = styled.div`
-//   display: flex;
-//   justify-content: space-between;
-//   width: 100%;
-//   align-items: center;
-//   gap: 2rem;
-// `
-
-// function Users() {
-//   const [search, setSearch] = useState('')
-//   const [users, setUsers] = useState([])
-
-//   useEffect(() => {
-//     getUsers()
-//       .then((res) => setUsers(res.data))
-//       .catch((err) => console.error('Failed to load users:', err))
-//   }, [])
-
-//   const filteredUsers = users.filter((user) =>
-//     user.name.toLowerCase().includes(search.toLowerCase())
-//   )
-
-//   return (
-//     <>
-//       <Row
-//         type="horizontal"
-//         style={{
-//           display: 'flex',
-//           alignItems: 'center',
-//           justifyContent: 'space-between',
-//         }}
-//       >
-//         <Heading as="h1">Users</Heading>
-
-//         <OperationsWrapper>
-//           <SearchInput
-//             type="text"
-//             placeholder="Search users..."
-//             value={search}
-//             onChange={(e) => setSearch(e.target.value)}
-//           />
-//         </OperationsWrapper>
-//       </Row>
-
-//       <Row>
-//         <UsersTable users={filteredUsers} />
-//         <AddUser />
-//       </Row>
-//     </>
-//   )
-// }
-
-// export default Users
-
-import { useQuery } from '@tanstack/react-query'
-import { useState } from 'react'
-import styled from 'styled-components'
 import AddUser from '../features/users/AddUser'
-import UsersTable from '../features/users/UsersTable'
-import { getUsers } from '../services/apiUser'
 import Heading from '../ui/Heading'
 import Row from '../ui/Row'
+import UsersTable from '../features/users/UsersTable'
+import { getUsers } from '../services/apiUser'
+import styled from 'styled-components'
+import { useQuery } from '@tanstack/react-query'
+import { useState } from 'react'
 const OperationsWrapper = styled.div`
   display: flex;
   justify-content: space-between;

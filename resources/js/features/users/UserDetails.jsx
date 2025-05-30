@@ -1,19 +1,15 @@
-import styled from 'styled-components'
 import Heading from '../../ui/Heading'
+import styled from 'styled-components'
 
 const ModalFrame = styled.div`
   background-color: var(--color-grey-0);
-  /* padding: 3.2rem; */
   border-radius: var(--border-radius-md);
-  /* box-shadow: var(--shadow-lg); */
   display: flex;
   flex-direction: column;
-  /* gap: 2.4rem; */
   max-width: 80rem;
   max-height: 80vh;
   overflow-y: auto;
   align-items: center;
-  /* margin: 2rem auto; */
 `
 
 const ProfileSection = styled.div`
@@ -97,6 +93,11 @@ function UserDetails({ user }) {
     updated_at,
   } = user
 
+  // Assuming gender field exists on student
+  const gender = student?.gender?.toLowerCase()
+  const pronoun =
+    gender === 'male' ? 'He' : gender === 'female' ? 'She' : 'They'
+
   return (
     <ModalFrame>
       <Heading as="h3">User Profile</Heading>
@@ -113,10 +114,12 @@ function UserDetails({ user }) {
             <Label>Name</Label>
             <Value>{name}</Value>
           </InfoRow>
+
           <InfoRow>
             <Label>Email</Label>
             <Value>{email}</Value>
           </InfoRow>
+
           <InfoRow>
             <Label>Role</Label>
             <Value>
@@ -136,11 +139,15 @@ function UserDetails({ user }) {
             <Label>Origin</Label>
             <Value>{student.from}</Value>
           </DetailRow>
+          <DetailRow>
+            <Label>Gender</Label>
+            <Value>{student.gender ?? 'Unknown'}</Value>
+          </DetailRow>
         </>
       ) : (
         <DetailRow>
           <Label>Student Info</Label>
-          <Value>Not available</Value>
+          <Value>{`${pronoun} is not a student.`}</Value>
         </DetailRow>
       )}
 

@@ -16,20 +16,7 @@ const Table = styled.div`
   overflow: hidden;
 `
 
-// const TableHeader = styled.header`
-//   display: grid;
-//   grid-template-columns: 0.6fr 2.5fr 2.5fr 2fr 1.5fr 1fr;
-//   column-gap: 0.5rem;
-//   align-items: center;
-//   background-color: var(--color-grey-50);
-//   border-bottom: 1px solid var(--color-grey-100);
-//   text-transform: uppercase;
-//   letter-spacing: 0.4px;
-//   font-weight: 600;
-//   color: var(--color-grey-600);
-//   padding: 1.6rem 2.4rem;
-// `
-const TableHeader = styled.header`
+const TableHeader = styled.div`
   display: grid;
   grid-template-columns: 0.6fr 2.5fr 2.5fr 2fr 1.5fr 1fr 1fr;
   column-gap: 0.5rem;
@@ -40,7 +27,7 @@ const TableHeader = styled.header`
   letter-spacing: 0.4px;
   font-weight: 600;
   color: var(--color-grey-600);
-  padding: 1.6rem 2.4rem;
+  padding: 1.4rem 2.4rem;
 `
 
 function BooksTable({ search }) {
@@ -88,29 +75,27 @@ function BooksTable({ search }) {
   const paginatedBooks = filteredBooks.slice(start, end)
 
   return (
-    <>
-      <Table role="table">
-        <TableHeader role="row">
-          <div style={{marginLeft : "10px"}}>ID</div>
-          <div>Title</div>
-          <div>Author</div>
-          <div>Year</div>
-          <div>Status</div>
-          <div>Action</div>
-          <div></div>{' '}
-        </TableHeader>
+    <Table role="table">
+      <TableHeader role="row">
+        <div style={{ textAlign: 'center' }}>ID</div>
+        <div>Title</div>
+        <div>Author</div>
+        <div>Year</div>
+        <div>Status</div>
+        <div>Action</div>
+        <div></div>
+      </TableHeader>
 
-        {paginatedBooks.map((book) => (
-          <BooksRow book={book} key={book.id} />
-        ))}
+      {paginatedBooks.map((book) => (
+        <BooksRow key={book.id} book={book} />
+      ))}
 
-        {filteredBooks.length === 0 && (
-          <div style={{ padding: '1.6rem' }}>No matching books found.</div>
-        )}
+      {filteredBooks.length === 0 && (
+        <div style={{ padding: '1.6rem' }}>No matching books found.</div>
+      )}
 
-        <Pagination count={totalItems} />
-      </Table>
-    </>
+      <Pagination count={totalItems} />
+    </Table>
   )
 }
 

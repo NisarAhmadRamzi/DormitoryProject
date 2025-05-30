@@ -1,4 +1,5 @@
 import LibraryStudentRow from './LibraryStudentRow'
+import Spinner from '../../ui/Spinner'
 import { getAllLibraryStudents } from '../../services/apiLibraryStudents'
 import styled from 'styled-components'
 import { useQuery } from '@tanstack/react-query'
@@ -38,7 +39,7 @@ function LibraryStudentsTable() {
 
   const students = data?.data || []
 
-  if (isLoading) return <p>Loading...</p>
+  if (isLoading) return <Spinner/>
   if (error) return <p>Error loading students</p>
 
   return (

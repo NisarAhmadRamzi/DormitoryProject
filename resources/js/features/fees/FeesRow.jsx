@@ -1,21 +1,21 @@
-import { HiEllipsisVertical, HiEye, HiPencil, HiTrash } from 'react-icons/hi2'
-import { useEffect, useRef, useState } from 'react'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useEffect, useRef, useState } from 'react'
+import { HiEllipsisVertical, HiEye, HiPencil, HiTrash } from 'react-icons/hi2'
 
+import toast from 'react-hot-toast'
+import styled from 'styled-components'
+import { deleteFee } from '../../services/apiFees'
 import ConfirmDelete from '../../ui/ConfirmDelete'
+import Modal from '../../ui/Modal'
 import CreateFeeForm from './CreateFeeForm'
 import FeeDetails from './FeeDetails'
-import Modal from '../../ui/Modal'
-import { deleteFee } from '../../services/apiFees'
-import styled from 'styled-components'
-import toast from 'react-hot-toast'
 
 const TableRow = styled.div`
   display: grid;
   grid-template-columns: 0.6fr 2fr 2fr 2fr 2fr 2fr 0.5fr;
   column-gap: 0.5rem;
   align-items: center;
-  padding: 1.4rem 1rem;
+  padding: 1.6rem 2.4rem;
   position: relative;
   &:not(:last-child) {
     border-bottom: 1px solid var(--color-grey-100);

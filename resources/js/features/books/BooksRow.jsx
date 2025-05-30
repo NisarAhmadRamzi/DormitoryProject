@@ -12,25 +12,23 @@ import toast from 'react-hot-toast'
 
 const TableRow = styled.div`
   display: grid;
-  grid-template-columns: 0.6fr 2.5fr 2.5fr 2fr 1.5fr 1fr;
+  grid-template-columns: 0.6fr 2.5fr 2.5fr 2fr 1.5fr 1fr 1fr;
   column-gap: 0.5rem;
   align-items: center;
-  padding: 1.4rem 1rem;
+  padding: 1.4rem 2.4rem;
 
   &:not(:last-child) {
     border-bottom: 1px solid var(--color-grey-100);
   }
 
-  transition: background-color 0.2s; /* Smooth transition */
+  transition: background-color 0.2s;
 
   &:hover {
-    background-color: var(--color-grey-200); /* Light mode hover */
+    background-color: var(--color-grey-200);
     cursor: pointer;
 
-    /* Dark mode hover */
     @media (prefers-color-scheme: dark) {
-      background-color: var(--color-grey-700); /* Dark mode hover */
-      cursor: pointer;
+      background-color: var(--color-grey-700);
     }
   }
 `
@@ -38,7 +36,7 @@ const TableRow = styled.div`
 const Cell = styled.div`
   font-size: 1.4rem;
   color: var(--color-grey-700);
-  padding: 0.5rem 0; /* Adjusted padding for better spacing */
+  padding: 0.5rem 0;
 `
 
 const DropdownWrapper = styled.div`
@@ -160,41 +158,40 @@ function BooksRow({ book }) {
       <Cell>{book.author}</Cell>
       <Cell>{book.publication_year}</Cell>
       <Cell>{book.status}</Cell>
+      <Cell>
+        <DropdownWrapper ref={dropdownRef}>
+          <IconButton onClick={toggleDropdown}>
+            <HiEllipsisVertical />
+          </IconButton>
 
-      <DropdownWrapper ref={dropdownRef}>
-        <IconButton onClick={toggleDropdown}>
-          <HiEllipsisVertical />
-        </IconButton>
+          <DropdownMenu show={isOpen} position={dropdownPosition}>
+            <Modal.Open opensWindowName={`view-${book.id}`}>
+              <DropdownItem onClick={closeDropdown}>
+                <HiEye /> View
+              </DropdownItem>
+            </Modal.Open>
 
-        <DropdownMenu show={isOpen} position={dropdownPosition}>
-          <Modal.Open opensWindowName={`view-${book.id}`}>
-            <DropdownItem onClick={closeDropdown}>
-              <HiEye /> View
-            </DropdownItem>
-          </Modal.Open>
+            <Modal.Open opensWindowName={`edit-${book.id}`}>
+              <DropdownItem onClick={closeDropdown}>
+                <HiPencil /> Edit
+              </DropdownItem>
+            </Modal.Open>
 
-          <Modal.Open opensWindowName={`edit-${book.id}`}>
-            <DropdownItem onClick={closeDropdown}>
-              <HiPencil /> Edit
-            </DropdownItem>
-          </Modal.Open>
-
-          <Modal.Open opensWindowName={`delete-${book.id}`}>
-            <DropdownItem onClick={closeDropdown} disabled={isDeleting}>
-              <HiTrash /> Delete
-            </DropdownItem>
-          </Modal.Open>
-        </DropdownMenu>
-      </DropdownWrapper>
-
+            <Modal.Open opensWindowName={`delete-${book.id}`}>
+              <DropdownItem onClick={closeDropdown} disabled={isDeleting}>
+                <HiTrash /> Delete
+              </DropdownItem>
+            </Modal.Open>
+          </DropdownMenu>
+        </DropdownWrapper>
+      </Cell>
+      <Cell></Cell>
       <Modal.Window name={`view-${book.id}`}>
         <BookDetails book={book} />
       </Modal.Window>
-
       <Modal.Window name={`edit-${book.id}`}>
         <CreateBookForm bookToEdit={book} />
       </Modal.Window>
-
       <Modal.Window name={`delete-${book.id}`}>
         <ConfirmDelete onConfirm={handleDeleteConfirm} />
       </Modal.Window>

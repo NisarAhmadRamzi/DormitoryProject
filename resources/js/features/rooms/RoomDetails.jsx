@@ -1,19 +1,24 @@
-import React from 'react'
 import styled from 'styled-components'
 
 const DetailsContainer = styled.div`
   padding: 3rem;
-  background-color: #fff;
-  border-radius: 8px;
+  background-color: var(
+    --color-grey-0
+  ); /* Uses light/dark mode adaptive color */
+  border-radius: var(--border-radius-md);
   box-shadow: var(--shadow-md);
   max-width: 800px;
   margin: 0 auto;
+  color: var(--color-grey-800); /* Fallback text color for the container */
+
+  /* Optional: smooth transition between light and dark mode */
+  transition: background-color 0.3s, color 0.3s, box-shadow 0.3s;
 `
 
 const Title = styled.h2`
   font-size: 2rem;
   margin-bottom: 2rem;
-  color: var(--color-grey-800);
+  color: var(--color-grey-900); /* Title color adapts to mode */
   text-align: center;
 `
 
@@ -30,12 +35,12 @@ const Grid = styled.div`
 const DetailItem = styled.div`
   font-size: 1.5rem;
   line-height: 1.6;
-  color: var(--color-grey-700);
+  color: var(--color-grey-700); /* Text adapts to mode */
 
   strong {
     display: inline-block;
     min-width: 120px;
-    color: var(--color-grey-900);
+    color: var(--color-grey-900); /* Strong text adapts to mode */
   }
 `
 

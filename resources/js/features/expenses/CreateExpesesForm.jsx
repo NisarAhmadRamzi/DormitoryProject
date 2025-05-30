@@ -1,5 +1,3 @@
-
-
 import { createExpense, editExpense } from '../../services/apiExpenses'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 
@@ -60,13 +58,28 @@ const Error = styled.span`
 function CreateExpensesForm({ expenseToEdit = {}, onCloseModal }) {
   const isEditSession = Boolean(expenseToEdit.id)
 
+  // 🛠️ Process default values to handle number/null values
+  const processedExpenseToEdit = isEditSession
+    ? {
+        ...expenseToEdit,
+        expense_cash:
+          expenseToEdit.expense_cash != null
+            ? String(expenseToEdit.expense_cash)
+            : '',
+        goods_quantity:
+          expenseToEdit.goods_quantity != null
+            ? String(expenseToEdit.goods_quantity)
+            : '',
+      }
+    : {}
+
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
   } = useForm({
-    defaultValues: isEditSession ? expenseToEdit : {},
+    defaultValues: processedExpenseToEdit,
   })
 
   const queryClient = useQueryClient()
@@ -94,7 +107,7 @@ function CreateExpensesForm({ expenseToEdit = {}, onCloseModal }) {
 
   React.useEffect(() => {
     if (isEditSession && expenseToEdit) {
-      reset(expenseToEdit)
+      reset(processedExpenseToEdit)
     }
   }, [isEditSession, expenseToEdit, reset])
 
