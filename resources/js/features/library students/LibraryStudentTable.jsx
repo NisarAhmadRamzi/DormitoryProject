@@ -1,8 +1,9 @@
-import LibraryStudentRow from './LibraryStudentRow'
-import Spinner from '../../ui/Spinner'
-import { getAllLibraryStudents } from '../../services/apiLibraryStudents'
-import styled from 'styled-components'
 import { useQuery } from '@tanstack/react-query'
+import { useState } from 'react'
+import styled from 'styled-components'
+import { getAllLibraryStudents } from '../../services/apiLibraryStudents'
+import Spinner from '../../ui/Spinner'
+import LibraryStudentRow from './LibraryStudentRow'
 
 const Table = styled.div`
   border: 1px solid var(--color-grey-200);
@@ -26,8 +27,26 @@ const TableHeader = styled.header`
   padding: 1.6rem 2.4rem;
 `
 
+const SortableHeader = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  cursor: pointer;
+  user-select: none;
+
+  .icon {
+    font-size: 1.2rem;
+    color: var(--color-grey-500);
+  }
+
+  &.active .icon {
+    color: var(--color-grey-900);
+    font-weight: bold;
+  }
+`
+
 const TableBody = styled.div`
-  max-height: 400px; /* Optional for scrolling */
+  max-height: 400px;
   overflow-y: auto;
 `
 
@@ -37,19 +56,69 @@ function LibraryStudentsTable() {
     queryFn: getAllLibraryStudents,
   })
 
-  const students = data?.data || []
+  const [sortBy, setSortBy] = useState(null)
+  const [sortOrder, setSortOrder] = useState('asc')
 
-  if (isLoading) return <Spinner/>
+  function handleSort(column) {
+    if (sortBy === column) {
+      setSortOrder((prev) => (prev === 'asc' ? 'desc' : 'asc'))
+    } else {
+      setSortBy(column)
+      setSortOrder('asc')
+    }
+  }
+
+  const renderSortIcon = (column) => {
+    if (sortBy === column) return sortOrder === 'asc' ? '↑' : '↓'
+    return '↑↓'
+  }
+
+  let students = data?.data || []
+
+  if (sortBy) {
+    students = [...students].sort((a, b) => {
+      let aVal = a[sortBy]
+      let bVal = b[sortBy]
+      if (typeof aVal === 'string') aVal = aVal.toLowerCase()
+      if (typeof bVal === 'string') bVal = bVal.toLowerCase()
+
+      if (aVal > bVal) return sortOrder === 'asc' ? 1 : -1
+      if (aVal < bVal) return sortOrder === 'asc' ? -1 : 1
+      return 0
+    })
+  }
+
+  if (isLoading) return <Spinner />
   if (error) return <p>Error loading students</p>
 
   return (
     <Table>
       <TableHeader>
         <div>ID</div>
-        <div>Name</div>
-        <div>Email</div>
-        <div>Phone</div>
-        <div>Address</div>
+        <SortableHeader
+          onClick={() => handleSort('name')}
+          className={sortBy === 'name' ? 'active' : ''}
+        >
+          Name <span className="icon">{renderSortIcon('name')}</span>
+        </SortableHeader>
+        <SortableHeader
+          onClick={() => handleSort('email')}
+          className={sortBy === 'email' ? 'active' : ''}
+        >
+          Email <span className="icon">{renderSortIcon('email')}</span>
+        </SortableHeader>
+        <SortableHeader
+          onClick={() => handleSort('phone')}
+          className={sortBy === 'phone' ? 'active' : ''}
+        >
+          Phone <span className="icon">{renderSortIcon('phone')}</span>
+        </SortableHeader>
+        <SortableHeader
+          onClick={() => handleSort('address')}
+          className={sortBy === 'address' ? 'active' : ''}
+        >
+          Address <span className="icon">{renderSortIcon('address')}</span>
+        </SortableHeader>
         <div>Actions</div>
       </TableHeader>
       <TableBody>

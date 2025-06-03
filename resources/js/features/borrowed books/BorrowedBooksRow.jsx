@@ -15,7 +15,7 @@ const TableRow = styled.div`
   grid-template-columns: 0.6fr 2fr 2fr 2fr 2fr 0.5fr; /* Match header */
   column-gap: 0.5rem;
   align-items: center;
-  padding: 1.4rem 1rem;
+  padding: 1.6rem 2.4rem;
   position: relative;
 
   &:not(:last-child) {

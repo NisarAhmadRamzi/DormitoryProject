@@ -1,12 +1,12 @@
-import BooksRow from './BooksRow'
-import { PAGE_SIZE } from '../../utils/constants'
+import { useQuery } from '@tanstack/react-query'
+import { useState } from 'react'
+import { useSearchParams } from 'react-router-dom'
+import styled from 'styled-components'
+import { getBooks } from '../../services/apiBooks'
 import Pagination from '../../ui/Pagination'
 import Spinner from '../../ui/Spinner'
-import { getBooks } from '../../services/apiBooks'
-import styled from 'styled-components'
-import { useQuery } from '@tanstack/react-query'
-import { useSearchParams } from 'react-router-dom'
-import { useState } from 'react'
+import { PAGE_SIZE } from '../../utils/constants'
+import BooksRow from './BooksRow'
 
 const Table = styled.div`
   border: 1px solid var(--color-grey-200);
@@ -30,7 +30,25 @@ const TableHeader = styled.div`
   padding: 1.4rem 2.4rem;
 `
 
-function BooksTable({ search }) {
+const SortableHeader = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  cursor: pointer;
+  user-select: none;
+
+  .icon {
+    font-size: 1.2rem;
+    color: var(--color-grey-500);
+  }
+
+  &.active .icon {
+    color: var(--color-grey-900);
+    font-weight: bold;
+  }
+`
+
+function BooksTable({ search = '' }) {
   const [searchParams] = useSearchParams()
   const currentPage = Number(searchParams.get('page')) || 1
 
@@ -47,6 +65,7 @@ function BooksTable({ search }) {
 
   let filteredBooks = data?.data || []
 
+  // 1) FILTER by search string:
   if (search.trim() !== '') {
     filteredBooks = filteredBooks.filter((book) => {
       const searchString =
@@ -55,11 +74,13 @@ function BooksTable({ search }) {
     })
   }
 
+  // 2) SORT if needed:
   if (sortBy) {
     filteredBooks = [...filteredBooks].sort((a, b) => {
       let aVal = a[sortBy]
       let bVal = b[sortBy]
 
+      // "publication_year" is a number; title/author are strings
       if (typeof aVal === 'string') aVal = aVal.toLowerCase()
       if (typeof bVal === 'string') bVal = bVal.toLowerCase()
 
@@ -69,19 +90,79 @@ function BooksTable({ search }) {
     })
   }
 
+  // 3) PAGINATE:
   const totalItems = filteredBooks.length
   const start = (currentPage - 1) * PAGE_SIZE
   const end = start + PAGE_SIZE
   const paginatedBooks = filteredBooks.slice(start, end)
 
+  // Toggle sort column/direction
+  function handleSort(column) {
+    if (sortBy === column) {
+      setSortOrder((prev) => (prev === 'asc' ? 'desc' : 'asc'))
+    } else {
+      setSortBy(column)
+      setSortOrder('asc')
+    }
+  }
+
+  // Show ↑ when ascending, ↓ when descending, else ↑↓
+  const renderSortIcon = (column) => {
+    if (sortBy === column) {
+      return sortOrder === 'asc' ? '↑' : '↓'
+    }
+    return '↑↓'
+  }
+
   return (
     <Table role="table">
       <TableHeader role="row">
-        <div style={{ textAlign: 'center' }}>ID</div>
-        <div>Title</div>
-        <div>Author</div>
-        <div>Year</div>
-        <div>Status</div>
+        {/* ID */}
+        <SortableHeader
+          onClick={() => handleSort('id')}
+          className={sortBy === 'id' ? 'active' : ''}
+        >
+          <div style={{ textAlign: 'center' }}>ID</div>
+          <span className="icon">{renderSortIcon('id')}</span>
+        </SortableHeader>
+
+        {/* Title */}
+        <SortableHeader
+          onClick={() => handleSort('title')}
+          className={sortBy === 'title' ? 'active' : ''}
+        >
+          <div>Title</div>
+          <span className="icon">{renderSortIcon('title')}</span>
+        </SortableHeader>
+
+        {/* Author */}
+        <SortableHeader
+          onClick={() => handleSort('author')}
+          className={sortBy === 'author' ? 'active' : ''}
+        >
+          <div>Author</div>
+          <span className="icon">{renderSortIcon('author')}</span>
+        </SortableHeader>
+
+        {/* Year (publication_year) */}
+        <SortableHeader
+          onClick={() => handleSort('publication_year')}
+          className={sortBy === 'publication_year' ? 'active' : ''}
+        >
+          <div>Year</div>
+          <span className="icon">{renderSortIcon('publication_year')}</span>
+        </SortableHeader>
+
+        {/* Status */}
+        <SortableHeader
+          onClick={() => handleSort('status')}
+          className={sortBy === 'status' ? 'active' : ''}
+        >
+          <div>Status</div>
+          <span className="icon">{renderSortIcon('status')}</span>
+        </SortableHeader>
+
+        {/* "Action" column is not sortable */}
         <div>Action</div>
         <div></div>
       </TableHeader>
