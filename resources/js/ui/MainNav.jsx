@@ -35,16 +35,20 @@ const StyledNavlink = styled(NavLink)`
     font-weight: 500;
     padding: 1.2rem 2.4rem;
     transition: all 0.3s;
+    border-left: 4px solid transparent; /* reserve space for border */
   }
 
-  /* This works because react-router places the active class on the active NavLink */
+  /* hover, active, and active class states */
   &:hover,
   &:active,
   &.active:link,
   &.active:visited {
     color: var(--color-grey-800);
-    background-color: var(--color-grey-50);
+    background-color: var(--color-grey-200);
     border-radius: var(--border-radius-sm);
+
+    /* Add beautiful left border */
+    border-left-color: var(--color-brand-600);
   }
 
   & svg {

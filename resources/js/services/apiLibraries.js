@@ -1,63 +1,39 @@
 import axios from 'axios'
 
-const BASE_URL = 'http://127.0.0.1:8000/api/libraries'
+const API_URL = 'http://127.0.0.1:8000/api/libraries'
 
-// Get all libraries
-export async function getLibraries() {
-  try {
-    const res = await axios.get(BASE_URL, {
-      withCredentials: true,
-    })
-    return res.data
-  } catch (error) {
-    console.error(error)
-    throw new Error('Libraries could not be fetched')
-  }
+const axiosConfig = () => ({
+  headers: {
+    Authorization: `Bearer ${localStorage.getItem('token')}`,
+    'Content-Type': 'application/json',
+    Accept: 'application/json',
+  },
+  withCredentials: true,
+})
+
+// Get students
+export async function getLibraries({ page = 1, limit = 10 } = {}) {
+  const res = await axios.get(
+    `${API_URL}?page=${page}&limit=${limit}`,
+    axiosConfig()
+  )
+  return res.data
 }
 
-// Delete a library
-export async function deleteLibrary(id) {
-  try {
-    const res = await axios.delete(`${BASE_URL}/${id}`, {
-      withCredentials: true,
-    })
-    return res.status === 204 ? { success: true } : res.data
-  } catch (error) {
-    console.error(error)
-    throw new Error('Library could not be deleted')
-  }
-}
-
-// Create a new library
+// Create student
 export async function createLibrary(libraryData) {
-  try {
-    const res = await axios.post(BASE_URL, libraryData, {
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-      },
-      withCredentials: true,
-    })
-    return res.data
-  } catch (error) {
-    console.error(error)
-    throw new Error('Library could not be created')
-  }
+  const res = await axios.post(API_URL, libraryData, axiosConfig())
+  return res.data
 }
 
-// Edit/update a library
+// Edit student
 export async function editLibrary(id, updatedData) {
-  try {
-    const res = await axios.put(`${BASE_URL}/${id}`, updatedData, {
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-      },
-      withCredentials: true,
-    })
-    return res.data
-  } catch (error) {
-    console.error(error)
-    throw new Error('Library could not be updated')
-  }
+  const res = await axios.put(`${API_URL}/${id}`, updatedData, axiosConfig())
+  return res.data
+}
+
+// Delete student
+export async function deleteLibrary(id) {
+  const res = await axios.delete(`${API_URL}/${id}`, axiosConfig())
+  return res.data
 }

@@ -35,13 +35,6 @@ use Illuminate\Support\Facades\Route;
 //     return $request->user();
 // });
 
-// user routes
-Route::apiResource('users', UserController::class);
-Route::post('/users/updateUsers/{user}', [UserController::class, 'updateUser']);
-Route::put('/users/{user}/assign', [UserController::class, 'assign'])->name('role.assign');
-Route::get('test', [UserController::class, 'test']);
-
-
 // Route::post('login', [AuthController::class, 'login']);
 
 // Route::middleware('auth:sanctum')->group(function () {
@@ -61,6 +54,12 @@ Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanc
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('rooms', RoomController::class);
+
+    // user routes
+Route::apiResource('users', UserController::class);
+Route::post('/users/updateUsers/{user}', [UserController::class, 'updateUser']);
+Route::put('/users/{user}/assign', [UserController::class, 'assign'])->name('role.assign');
+Route::get('test', [UserController::class, 'test']);
     // student routes
     Route::apiResource('students', StudentController::class);
     Route::delete('/students/{id}', [StudentController::class, 'destroy'])->name('students.destroy');
@@ -70,23 +69,24 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/students/trashed', [StudentController::class, 'trashedStudents'])->name('students.trashed'); // Get only deleted students
     Route::get('/students/all', [StudentController::class, 'allStudents'])->name('students.withtrashed'); // Get all students including deleted
     Route::get('/students/test', [StudentController::class, 'test']);
+    // all other routes
 
+    Route::apiResource('complaints', ComplaintController::class);
+    Route::apiResource('fees', FeeController::class);
+    // role and permissions route
+    Route::apiResource('roles', RoleController::class);
+    Route::put('/roles/{role}/assign', [RoleController::class, 'assign'])->name('permissions.assign');
+    Route::apiResource('permissions', PermissionController::class);
+    // calculation routes
+    Route::apiResource('supports', SupportController::class);
+    Route::apiResource('assets', AssetController::class);
+    Route::apiResource('expenses', ExpenseController::class);
+    // library routes
+    Route::apiResource('libraries', LibraryController::class);
+    Route::apiResource('books', BookController::class);
+    Route::resource('library-students', LibraryStudentController::class);
+    Route::resource('borrowed-books', BorrowedBookController::class);
 });
-Route::apiResource('complaints', ComplaintController::class);
-Route::apiResource('fees', FeeController::class);
-// role and permissions route
-Route::apiResource('roles', RoleController::class);
-Route::put('/roles/{role}/assign', [RoleController::class, 'assign'])->name('permissions.assign');
-Route::apiResource('permissions', PermissionController::class);
-// calculation routes
-Route::apiResource('supports', SupportController::class);
-Route::apiResource('assets', AssetController::class);
-Route::apiResource('expenses', ExpenseController::class);
-// library routes
-Route::apiResource('libraries', LibraryController::class);
-Route::apiResource('books', BookController::class);
-Route::resource('library-students', LibraryStudentController::class);
-Route::resource('borrowed-books', BorrowedBookController::class);
 
 
 

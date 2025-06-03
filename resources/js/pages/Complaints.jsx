@@ -1,9 +1,9 @@
-import { useState } from 'react'
-import styled from 'styled-components'
 import AddComplaints from '../features/complaints/AddComplaints'
 import ComplaintsTable from '../features/complaints/ComplaintsTable'
 import Heading from '../ui/Heading'
 import Row from '../ui/Row'
+import styled from 'styled-components'
+import { useState } from 'react'
 
 // Styled search input
 const SearchInput = styled.input`

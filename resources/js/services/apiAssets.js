@@ -1,63 +1,49 @@
 import axios from 'axios'
 
-const BASE_URL = 'http://127.0.0.1:8000/api/assets'
+const API_URL = 'http://127.0.0.1:8000/api/assets'
 
-// Get all assets
-export async function getAssets() {
-  try {
-    const res = await axios.get(BASE_URL, {
-      withCredentials: true,
-    })
-    return res.data
-  } catch (error) {
-    console.error(error)
-    throw new Error('Assets could not be fetched')
-  }
+// Helper to create axios config based on data type
+const axiosConfig = (isFormData = false) => ({
+  headers: {
+    Authorization: `Bearer ${localStorage.getItem('token')}`,
+    // Only set Content-Type if NOT form data; let browser set boundary for multipart/form-data
+    ...(isFormData ? {} : { 'Content-Type': 'application/json' }),
+    Accept: 'application/json',
+  },
+  // Include credentials if you are using cookie-based auth (Sanctum)
+  // If using Bearer token only, you can omit this or keep true if backend expects it
+  withCredentials: true,
+})
+
+// Get assets with pagination
+export async function getAssets({ page = 1, limit = 10 } = {}) {
+  const res = await axios.get(
+    `${API_URL}?page=${page}&limit=${limit}`,
+    axiosConfig()
+  )
+  return res.data
 }
 
-// Delete an asset
-export async function deleteAsset(id) {
-  try {
-    const res = await axios.delete(`${BASE_URL}/${id}`, {
-      withCredentials: true,
-    })
-    return res.status === 204 ? { success: true } : res.data
-  } catch (error) {
-    console.error(error)
-    throw new Error('Asset could not be deleted')
-  }
-}
-
-// Create a new asset
+// Create asset - supports JSON or FormData
 export async function createAsset(assetData) {
-  try {
-    const res = await axios.post(BASE_URL, assetData, {
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-      },
-      withCredentials: true,
-    })
-    return res.data
-  } catch (error) {
-    console.error(error)
-    throw new Error('Asset could not be created')
-  }
+  const isFormData = assetData instanceof FormData
+  const res = await axios.post(API_URL, assetData, axiosConfig(isFormData))
+  return res.data
 }
 
-// Edit/update an asset
+// Edit asset - supports JSON or FormData
 export async function editAsset(id, updatedData) {
-  try {
-    const res = await axios.put(`${BASE_URL}/${id}`, updatedData, {
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-      },
-      withCredentials: true,
-    })
-    return res.data
-  } catch (error) {
-    console.error(error)
-    throw new Error('Asset could not be updated')
-  }
+  const isFormData = updatedData instanceof FormData
+  const res = await axios.put(
+    `${API_URL}/${id}`,
+    updatedData,
+    axiosConfig(isFormData)
+  )
+  return res.data
+}
+
+// Delete asset
+export async function deleteAsset(id) {
+  const res = await axios.delete(`${API_URL}/${id}`, axiosConfig())
+  return res.data
 }

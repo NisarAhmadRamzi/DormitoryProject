@@ -1,14 +1,14 @@
-import { HiEllipsisVertical, HiEye, HiPencil, HiTrash } from 'react-icons/hi2'
-import { useEffect, useRef, useState } from 'react'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useEffect, useRef, useState } from 'react'
+import { HiEllipsisVertical, HiEye, HiPencil, HiTrash } from 'react-icons/hi2'
 
+import toast from 'react-hot-toast'
+import styled from 'styled-components'
+import { deleteLibrary } from '../../services/apiLibraries'
 import ConfirmDelete from '../../ui/ConfirmDelete'
+import Modal from '../../ui/Modal'
 import CreateLibraryForm from './CreateLibraryForm'
 import LibraryDetails from './LibraryDetails'
-import Modal from '../../ui/Modal'
-import { deleteLibrary } from '../../services/apiLibraries'
-import styled from 'styled-components'
-import toast from 'react-hot-toast'
 
 const TableRow = styled.div`
   display: grid;
@@ -216,3 +216,81 @@ function LibraryRow({ library }) {
 }
 
 export default LibraryRow
+
+//v2
+// import { Box, IconButton, Menu, MenuItem } from '@mui/material'
+// import { HiEllipsisVertical, HiEye, HiPencil, HiTrash } from 'react-icons/hi2'
+// import { useMutation, useQueryClient } from '@tanstack/react-query'
+
+// import ConfirmDelete from '../../ui/ConfirmDelete'
+// import CreateLibraryForm from './CreateLibraryForm'
+// import LibraryDetails from './LibraryDetails'
+// import Modal from '../../ui/Modal'
+// import { deleteLibrary } from '../../services/apiLibraries'
+// import toast from 'react-hot-toast'
+// import { useState } from 'react'
+
+// function ActionsCell({ library }) {
+//   const queryClient = useQueryClient()
+//   const [anchorEl, setAnchorEl] = useState(null)
+
+//   const { mutate } = useMutation({
+//     mutationFn: deleteLibrary,
+//     onSuccess: () => {
+//       queryClient.invalidateQueries({ queryKey: ['libraries'] })
+//       toast.success('Library deleted successfully')
+//     },
+//     onError: (err) => {
+//       toast.error(err.message || 'Failed to delete library')
+//     },
+//   })
+
+//   const handleDelete = () => {
+//     mutate(library.id)
+//     handleClose()
+//   }
+
+//   const handleClick = (event) => setAnchorEl(event.currentTarget)
+//   const handleClose = () => setAnchorEl(null)
+
+//   return (
+//     <Box>
+//       <IconButton onClick={handleClick}>
+//         <HiEllipsisVertical />
+//       </IconButton>
+//       <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleClose}>
+//         <MenuItem onClick={handleClose}>
+//           <Modal.Open opensWindowName={`view-${library.id}`}>
+//             <Box display="flex" alignItems="center" gap={1}>
+//               <HiEye /> View
+//             </Box>
+//           </Modal.Open>
+//         </MenuItem>
+//         <MenuItem onClick={handleClose}>
+//           <Modal.Open opensWindowName={`edit-${library.id}`}>
+//             <Box display="flex" alignItems="center" gap={1}>
+//               <HiPencil /> Edit
+//             </Box>
+//           </Modal.Open>
+//         </MenuItem>
+//         <MenuItem onClick={handleDelete}>
+//           <HiTrash /> Delete
+//         </MenuItem>
+//       </Menu>
+
+//       <Modal.Window name={`view-${library.id}`}>
+//         <LibraryDetails library={library} />
+//       </Modal.Window>
+
+//       <Modal.Window name={`edit-${library.id}`}>
+//         <CreateLibraryForm libraryToEdit={library} />
+//       </Modal.Window>
+
+//       <Modal.Window name={`delete-${library.id}`}>
+//         <ConfirmDelete onConfirm={handleDelete} />
+//       </Modal.Window>
+//     </Box>
+//   )
+// }
+
+// export default ActionsCell

@@ -1,12 +1,12 @@
-import { useQuery } from '@tanstack/react-query'
-import { useState } from 'react'
-import { useSearchParams } from 'react-router-dom'
-import styled from 'styled-components'
-import { getCabins } from '../../services/apiCabins'
-import Pagination from '../../ui/Pagination'
-import Spinner from '../../ui/Spinner'
 import { PAGE_SIZE } from '../../utils/constants'
+import Pagination from '../../ui/Pagination'
 import RoomRow from './RoomRow'
+import Spinner from '../../ui/Spinner'
+import { getCabins } from '../../services/apiCabins'
+import styled from 'styled-components'
+import { useQuery } from '@tanstack/react-query'
+import { useSearchParams } from 'react-router-dom'
+import { useState } from 'react'
 
 const Table = styled.div`
   border: 1px solid var(--color-grey-200);

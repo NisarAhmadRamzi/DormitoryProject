@@ -1,15 +1,15 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { useEffect, useRef, useState } from 'react'
 import { HiEllipsisVertical, HiEye, HiPencil, HiTrash } from 'react-icons/hi2'
+import { useEffect, useRef, useState } from 'react'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 
-import toast from 'react-hot-toast'
-import styled from 'styled-components'
+import ConfirmDelete from '../../ui/ConfirmDelete'
+import CreateRoomForm from './CreateRoomForm'
+import Modal from '../../ui/Modal'
 import RoomDetails from '../../features/rooms/RoomDetails'
 import { deleteRoom } from '../../services/apiCabins'
-import ConfirmDelete from '../../ui/ConfirmDelete'
-import Modal from '../../ui/Modal'
 import { formatCurrency } from '../../utils/helpers'
-import CreateRoomForm from './CreateRoomForm'
+import styled from 'styled-components'
+import toast from 'react-hot-toast'
 
 const TableRow = styled.div`
   display: grid;

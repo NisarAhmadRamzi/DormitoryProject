@@ -1,12 +1,12 @@
-import { useQuery } from '@tanstack/react-query'
-import { useState } from 'react'
-import { useSearchParams } from 'react-router-dom'
-import styled from 'styled-components'
-import { getLibraries } from '../../services/apiLibraries'
+import LibraryRow from './LibraryRow'
+import { PAGE_SIZE } from '../../utils/constants'
 import Pagination from '../../ui/Pagination'
 import Spinner from '../../ui/Spinner'
-import { PAGE_SIZE } from '../../utils/constants'
-import LibraryRow from './LibraryRow'
+import { getLibraries } from '../../services/apiLibraries'
+import styled from 'styled-components'
+import { useQuery } from '@tanstack/react-query'
+import { useSearchParams } from 'react-router-dom'
+import { useState } from 'react'
 
 const Table = styled.div`
   border: 1px solid var(--color-grey-200);
@@ -48,7 +48,7 @@ const SortableHeader = styled.div`
   }
 `
 
-function LibraryTable({ search }) {
+function LibraryTable({ search = '' }) {
   const [searchParams] = useSearchParams()
   const currentPage = Number(searchParams.get('page')) || 1
 
@@ -65,8 +65,8 @@ function LibraryTable({ search }) {
 
   let filteredLibraries = data?.data || []
 
-  // Search functionality
-  if (search.trim() !== '') {
+  // Safe search functionality
+  if (typeof search === 'string' && search.trim() !== '') {
     filteredLibraries = filteredLibraries.filter((library) => {
       const searchString =
         `${library.id} ${library.name} ${library.location} ${library.contact_info}`.toLowerCase()
@@ -153,3 +153,99 @@ function LibraryTable({ search }) {
 }
 
 export default LibraryTable
+
+//v2
+
+// import { Box, Stack } from '@mui/material'
+// import {
+//   MRT_GlobalFilterTextField,
+//   MRT_ToggleFiltersButton,
+//   MaterialReactTable,
+//   useMaterialReactTable,
+// } from 'material-react-table'
+
+// import ActionsCell from './LibraryRow'
+// import Spinner from '../../ui/Spinner'
+// import { getLibraries } from '../../services/apiLibraries'
+// import { useMemo } from 'react'
+// import { useQuery } from '@tanstack/react-query'
+
+// function LibraryTable({ search }) {
+//   const { isLoading, data, error } = useQuery({
+//     queryKey: ['libraries'],
+//     queryFn: getLibraries,
+//   })
+
+//   const libraries = data?.data || []
+
+//   // Define table columns
+//   const columns = useMemo(
+//     () => [
+//       {
+//         accessorKey: 'id',
+//         header: 'ID',
+//         size: 50,
+//       },
+//       {
+//         accessorKey: 'name',
+//         header: 'Name',
+//       },
+//       {
+//         accessorKey: 'location',
+//         header: 'Location',
+//       },
+//       {
+//         accessorKey: 'contact_info',
+//         header: 'Contact Info',
+//         Cell: ({ cell }) => cell.getValue() || '—',
+//       },
+//       {
+//         id: 'actions',
+//         header: 'Actions',
+//         Cell: ({ row }) => <ActionsCell library={row.original} />,
+//         enableSorting: false,
+//         enableColumnFilter: false,
+//       },
+//     ],
+//     []
+//   )
+
+//   // Set up table instance
+//   const table = useMaterialReactTable({
+//     columns,
+//     data: libraries,
+//     initialState: {
+//       pagination: { pageSize: 10, pageIndex: 0 },
+//       sorting: [{ id: 'name', desc: false }],
+//     },
+//     enableSorting: true,
+//     enableColumnFilters: true,
+//     enableGlobalFilter: true,
+//     globalFilterFn: 'contains',
+//   })
+
+//   if (isLoading) return <Spinner />
+//   if (error) return <div>Error loading libraries!</div>
+
+//   // Optional: filter libraries by `search` prop
+//   const filteredData = search
+//     ? libraries.filter((library) =>
+//         `${library.id} ${library.name} ${library.location} ${library.contact_info}`
+//           .toLowerCase()
+//           .includes(search.toLowerCase())
+//       )
+//     : libraries
+
+//   return (
+//     <Box>
+//       <Stack direction="row" spacing={2} mb={2}>
+//         <MRT_GlobalFilterTextField table={table} />
+//         <MRT_ToggleFiltersButton table={table} />
+//       </Stack>
+
+//       <MaterialReactTable table={table} data={filteredData} />
+//     </Box>
+//   )
+// }
+
+// export default LibraryTable

@@ -2,18 +2,19 @@ import axios from 'axios'
 
 const BASE_URL = 'http://127.0.0.1:8000/api/fees'
 
-const jsonConfig = {
+const axiosConfig = () => ({
   headers: {
+    Authorization: `Bearer ${localStorage.getItem('token')}`,
     'Content-Type': 'application/json',
     Accept: 'application/json',
   },
   withCredentials: true,
-}
+})
 
 // Get all fees
 export async function getFees() {
   try {
-    const res = await axios.get(BASE_URL, { withCredentials: true })
+    const res = await axios.get(BASE_URL, axiosConfig())
     return res.data
   } catch (error) {
     console.error(error.response?.data || error.message)
@@ -26,9 +27,7 @@ export async function getFees() {
 // Delete a fee
 export async function deleteFee(id) {
   try {
-    const res = await axios.delete(`${BASE_URL}/${id}`, {
-      withCredentials: true,
-    })
+    const res = await axios.delete(`${BASE_URL}/${id}`, axiosConfig())
     return res.status === 204 ? { success: true } : res.data
   } catch (error) {
     console.error(error.response?.data || error.message)
@@ -39,7 +38,7 @@ export async function deleteFee(id) {
 // Create a new fee
 export async function createFee(feeData) {
   try {
-    const res = await axios.post(BASE_URL, feeData, jsonConfig)
+    const res = await axios.post(BASE_URL, feeData, axiosConfig())
     return res.data
   } catch (error) {
     console.error(error.response?.data || error.message)
@@ -50,7 +49,7 @@ export async function createFee(feeData) {
 // Edit/update a fee
 export async function editFee(id, updatedData) {
   try {
-    const res = await axios.put(`${BASE_URL}/${id}`, updatedData, jsonConfig)
+    const res = await axios.put(`${BASE_URL}/${id}`, updatedData, axiosConfig())
     return res.data
   } catch (error) {
     console.error(error.response?.data || error.message)
