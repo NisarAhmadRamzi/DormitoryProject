@@ -1,14 +1,14 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { useEffect, useRef, useState } from 'react'
 import { HiEllipsisVertical, HiEye, HiPencil, HiTrash } from 'react-icons/hi2'
+import { useEffect, useRef, useState } from 'react'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 
-import toast from 'react-hot-toast'
-import styled from 'styled-components'
-import { deleteLibrary } from '../../services/apiLibraries'
 import ConfirmDelete from '../../ui/ConfirmDelete'
-import Modal from '../../ui/Modal'
 import CreateLibraryForm from './CreateLibraryForm'
 import LibraryDetails from './LibraryDetails'
+import Modal from '../../ui/Modal'
+import { deleteLibrary } from '../../services/apiLibraries'
+import styled from 'styled-components'
+import toast from 'react-hot-toast'
 
 const TableRow = styled.div`
   display: grid;
@@ -207,9 +207,12 @@ function LibraryRow({ library }) {
       <Modal.Window name={`edit-${library.id}`}>
         <CreateLibraryForm libraryToEdit={library} />
       </Modal.Window>
-
       <Modal.Window name={`delete-${library.id}`}>
-        <ConfirmDelete onConfirm={handleDeleteConfirm} />
+        <ConfirmDelete
+          onConfirm={handleDeleteConfirm}
+          resourceName="library"
+          itemLabel={library.name}
+        />
       </Modal.Window>
     </TableRow>
   )

@@ -1,14 +1,14 @@
-import { HiEllipsisVertical, HiEye, HiPencil, HiTrash } from 'react-icons/hi2'
-import { useEffect, useRef, useState } from 'react'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useEffect, useRef, useState } from 'react'
+import { HiEllipsisVertical, HiEye, HiPencil, HiTrash } from 'react-icons/hi2'
 
-import ComplaintDetails from './ComplaintDetails'
-import ConfirmDelete from '../../ui/ConfirmDelete'
-import CreateComplaintForm from './CreateComplaintForm'
-import Modal from '../../ui/Modal'
-import { deleteComplaint } from '../../services/apiComplaints'
-import styled from 'styled-components'
 import toast from 'react-hot-toast'
+import styled from 'styled-components'
+import { deleteComplaint } from '../../services/apiComplaints'
+import ConfirmDelete from '../../ui/ConfirmDelete'
+import Modal from '../../ui/Modal'
+import ComplaintDetails from './ComplaintDetails'
+import CreateComplaintForm from './CreateComplaintForm'
 
 const TableRow = styled.div`
   display: grid;
@@ -194,9 +194,12 @@ function ComplaintsRow({ complaint }) {
       <Modal.Window name={`edit-${complaint.id}`}>
         <CreateComplaintForm complaintToEdit={complaint} />
       </Modal.Window>
-
       <Modal.Window name={`delete-${complaint.id}`}>
-        <ConfirmDelete onConfirm={handleDeleteConfirm} />
+        <ConfirmDelete
+          onConfirm={handleDeleteConfirm}
+          resourceName="complaint"
+          itemLabel={complaint.name}
+        />
       </Modal.Window>
     </TableRow>
   )

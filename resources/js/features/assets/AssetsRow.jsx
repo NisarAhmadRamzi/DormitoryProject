@@ -1,14 +1,14 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { useEffect, useRef, useState } from 'react'
 import { HiEllipsisVertical, HiEye, HiPencil, HiTrash } from 'react-icons/hi2'
+import { useEffect, useRef, useState } from 'react'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 
-import toast from 'react-hot-toast'
-import styled from 'styled-components'
-import { deleteAsset } from '../../services/apiAssets' // delete asset API
-import ConfirmDelete from '../../ui/ConfirmDelete'
-import Modal from '../../ui/Modal'
 import AssetsDetails from './AssetsDetails'
+import ConfirmDelete from '../../ui/ConfirmDelete'
 import CreateAssetsForm from './CreateAssetsForm'
+import Modal from '../../ui/Modal'
+import { deleteAsset } from '../../services/apiAssets' // delete asset API
+import styled from 'styled-components'
+import toast from 'react-hot-toast'
 
 const TableRow = styled.div`
   display: grid;
@@ -213,9 +213,12 @@ function AssetsRow({ asset }) {
       <Modal.Window name={`edit-${asset.id}`}>
         <CreateAssetsForm assetToEdit={asset} />
       </Modal.Window>
-
       <Modal.Window name={`delete-${asset.id}`}>
-        <ConfirmDelete onConfirm={handleDeleteConfirm} />
+        <ConfirmDelete
+          onConfirm={handleDeleteConfirm}
+          resourceName="asset"
+          itemLabel={asset.name}
+        />
       </Modal.Window>
     </TableRow>
   )

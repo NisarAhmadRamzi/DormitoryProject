@@ -193,7 +193,11 @@ function BooksRow({ book }) {
         <CreateBookForm bookToEdit={book} />
       </Modal.Window>
       <Modal.Window name={`delete-${book.id}`}>
-        <ConfirmDelete onConfirm={handleDeleteConfirm} />
+        <ConfirmDelete
+          onConfirm={handleDeleteConfirm}
+          resourceName="book"
+          itemLabel={book.name}
+        />
       </Modal.Window>
     </TableRow>
   )

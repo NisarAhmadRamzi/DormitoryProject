@@ -197,9 +197,12 @@ function BorrowedBookRow({ borrowedBook }) {
       <Modal.Window name={`edit-${borrowedBook.id}`}>
         <CreateBorrowedBookForm borrowedBookToEdit={borrowedBook} />
       </Modal.Window>
-
       <Modal.Window name={`delete-${borrowedBook.id}`}>
-        <ConfirmDelete onConfirm={handleDeleteConfirm} />
+        <ConfirmDelete
+          onConfirm={handleDeleteConfirm}
+          resourceName="borrowedBook"
+          itemLabel={borrowedBook.name}
+        />
       </Modal.Window>
     </TableRow>
   )

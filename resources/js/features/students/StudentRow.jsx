@@ -208,9 +208,12 @@ function StudentRow({ student }) {
       <Modal.Window name={`edit-${student.id}`}>
         <CreateStudentForm studentToEdit={student} />
       </Modal.Window>
-
       <Modal.Window name={`delete-${student.id}`}>
-        <ConfirmDelete onConfirm={handleDeleteConfirm} />
+        <ConfirmDelete
+          onConfirm={handleDeleteConfirm}
+          resourceName="student"
+          itemLabel={student.name}
+        />
       </Modal.Window>
     </TableRow>
   )

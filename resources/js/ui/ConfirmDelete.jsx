@@ -13,51 +13,62 @@ const ButtonGroup = styled.div`
   gap: 1.2rem;
 `
 
-function ConfirmDelete({ onConfirm, onCloseModal }) {
+const Button = styled.button`
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1.4rem;
+`
+
+const CancelButton = styled(Button)`
+  background-color: #eee;
+  color: #333;
+`
+
+const DeleteButton = styled(Button)`
+  background-color: red;
+  color: white;
+`
+
+function ConfirmDelete({
+  resourceName = 'item',
+  message = `Are you sure you want to delete this ${resourceName}?`,
+  subMessage = 'This action cannot be undone.',
+  onConfirm,
+  onCloseModal,
+  itemLabel, // ✅ Add this prop
+}) {
   return (
-    <div>
-      <h2 style={{ fontWeight: 'bold' }}>Delete room</h2>
-      <p>Are you sure you want to delete this room?</p>
-      <p>This action can not be undone.</p>
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'flex-end', // aligns buttons to the right
-          gap: '1.5rem',
-          marginTop: '1.5rem',
-        }}
-      >
-        <button
-          onClick={onCloseModal}
+    <ConfirmBox>
+      <h2 style={{ fontWeight: 'bold' }}>Delete {resourceName}</h2>
+      <p>
+        Are you sure you want to delete{' '}
+        <span
           style={{
-            backgroundColor: '#eee',
-            color: '#333',
-            padding: '0.6rem 1.2rem',
-            border: 'none',
-            borderRadius: '4px',
-            cursor: 'pointer',
+            fontSize: '20px',
+            fontWeight: 'bold',
+            color: 'var(--color-red-700)',
           }}
         >
-          Cancel
-        </button>
-        <button
+          {itemLabel || `this ${resourceName}`}
+        </span>
+        ?
+      </p>
+
+      <p>{subMessage}</p>
+      <ButtonGroup>
+        <CancelButton onClick={onCloseModal}>Cancel</CancelButton>
+        <DeleteButton
           onClick={() => {
             onConfirm()
             onCloseModal()
           }}
-          style={{
-            backgroundColor: 'red',
-            color: 'white',
-            padding: '0.6rem 1.2rem',
-            border: 'none',
-            borderRadius: '4px',
-            cursor: 'pointer',
-          }}
         >
           Delete
-        </button>
-      </div>
-    </div>
+        </DeleteButton>
+      </ButtonGroup>
+    </ConfirmBox>
   )
 }
 

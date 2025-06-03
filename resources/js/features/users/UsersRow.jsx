@@ -1,14 +1,14 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { useEffect, useRef, useState } from 'react'
 import { HiEllipsisVertical, HiEye, HiPencil, HiTrash } from 'react-icons/hi2'
+import { useEffect, useRef, useState } from 'react'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 
-import toast from 'react-hot-toast'
-import styled from 'styled-components'
-import { deleteUser } from '../../services/apiUser'
 import ConfirmDelete from '../../ui/ConfirmDelete'
-import Modal from '../../ui/Modal'
 import CreateUserForm from './CreateUserForm'
+import Modal from '../../ui/Modal'
 import UserDetails from './UserDetails'
+import { deleteUser } from '../../services/apiUser'
+import styled from 'styled-components'
+import toast from 'react-hot-toast'
 
 const TableRow = styled.div`
   display: grid;
@@ -251,7 +251,11 @@ function UsersRow({ user }) {
         <CreateUserForm userToEdit={user} />
       </Modal.Window>
       <Modal.Window name={`delete-${user.id}`}>
-        <ConfirmDelete onConfirm={handleDeleteConfirm} />
+        <ConfirmDelete
+          onConfirm={handleDeleteConfirm}
+          resourceName="user"
+          itemLabel={user.name}
+        />
       </Modal.Window>
     </TableRow>
   )

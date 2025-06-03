@@ -212,9 +212,12 @@ function SupportRow({ support }) {
       <Modal.Window name={`edit-${support.id}`}>
         <CreateSupportForm supportToEdit={support} />
       </Modal.Window>
-
       <Modal.Window name={`delete-${support.id}`}>
-        <ConfirmDelete onConfirm={handleDeleteConfirm} />
+        <ConfirmDelete
+          onConfirm={handleDeleteConfirm}
+          resourceName="support"
+          itemLabel={support.name}
+        />
       </Modal.Window>
     </TableRow>
   )

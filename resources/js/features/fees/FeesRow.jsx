@@ -183,9 +183,12 @@ function FeesRow({ fee }) {
       <Modal.Window name={`edit-fee-${fee.id}`}>
         <CreateFeeForm feeToEdit={fee} />
       </Modal.Window>
-
       <Modal.Window name={`delete-${fee.id}`}>
-        <ConfirmDelete onConfirm={handleDeleteConfirm} />
+        <ConfirmDelete
+          onConfirm={handleDeleteConfirm}
+          resourceName="fee"
+          itemLabel={fee.name}
+        />
       </Modal.Window>
     </TableRow>
   )

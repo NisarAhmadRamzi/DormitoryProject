@@ -1,14 +1,14 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { useEffect, useRef, useState } from 'react'
 import { HiEllipsisVertical, HiEye, HiPencil, HiTrash } from 'react-icons/hi2'
+import { useEffect, useRef, useState } from 'react'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 
-import toast from 'react-hot-toast'
-import styled from 'styled-components'
-import { deleteExpense } from '../../services/apiExpenses'
 import ConfirmDelete from '../../ui/ConfirmDelete'
-import Modal from '../../ui/Modal'
 import CreateExpensesForm from './CreateExpesesForm'
 import ExpensesDetails from './ExpensesDetails'
+import Modal from '../../ui/Modal'
+import { deleteExpense } from '../../services/apiExpenses'
+import styled from 'styled-components'
+import toast from 'react-hot-toast'
 
 const TableRow = styled.div`
   display: grid;
@@ -203,9 +203,12 @@ function ExpenseRow({ expense }) {
       <Modal.Window name={`edit-${expense.id}`}>
         <CreateExpensesForm expenseToEdit={expense} />
       </Modal.Window>
-
       <Modal.Window name={`delete-${expense.id}`}>
-        <ConfirmDelete onConfirm={handleDeleteConfirm} />
+        <ConfirmDelete
+          onConfirm={handleDeleteConfirm}
+          resourceName="expense"
+          itemLabel={expense.name}
+        />
       </Modal.Window>
     </TableRow>
   )

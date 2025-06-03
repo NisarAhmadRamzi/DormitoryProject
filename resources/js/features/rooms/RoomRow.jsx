@@ -212,9 +212,12 @@ const RoomRow = ({ cabin }) => {
       <Modal.Window name={`edit-${cabin.id}`}>
         <CreateRoomForm roomToEdit={cabin} />
       </Modal.Window>
-
       <Modal.Window name={`delete-${cabin.id}`}>
-        <ConfirmDelete onConfirm={handleDeleteConfirm} />
+        <ConfirmDelete
+          onConfirm={handleDeleteConfirm}
+          resourceName="cabin"
+          itemLabel={cabin.name}
+        />
       </Modal.Window>
     </TableRow>
   )
