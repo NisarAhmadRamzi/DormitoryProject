@@ -12,7 +12,7 @@ const Table = styled.div`
 `
 const TableHeader = styled.header`
   display: grid;
-  grid-template-columns: 0.6fr 2fr 2fr 2fr 1fr; // <-- Match this exactly with TableRow
+  grid-template-columns: 1.4fr 2fr 2fr 2fr 1fr; // <-- Match this exactly with TableRow
   align-items: center;
   background-color: var(--color-grey-50);
   padding: 1.4rem 1rem;
@@ -41,7 +41,7 @@ function RoleTable({ search = '' }) {
     <Table role="table">
       <TableHeader role="row">
         <div>ID</div>
-        <div style={{marginLeft : "100px"}}>Name</div>
+        <div>Name</div>
         <div>Created At</div>
         <div>Updated At</div>
         <div>Actions</div>

@@ -1,4 +1,5 @@
 import { IoBedOutline, IoSettingsOutline } from 'react-icons/io5'
+import { LuBadgeCheck, LuUsers } from 'react-icons/lu'
 import {
   PiCurrencyDollarSimpleBold,
   PiGraduationCapDuotone,
@@ -7,7 +8,6 @@ import {
 
 import { BsCurrencyDollar } from 'react-icons/bs'
 import { HiOutlineHomeModern } from 'react-icons/hi2'
-import { LuUsers } from 'react-icons/lu'
 import { MdOutlineLibraryBooks } from 'react-icons/md'
 import { PiWarningLight } from 'react-icons/pi'
 import { RxDashboard } from 'react-icons/rx'
@@ -84,7 +84,7 @@ function MainNav() {
         </li>
         <li>
           <StyledNavlink to="/roles">
-            <LuUsers />
+            <LuBadgeCheck />
             <span>Roles</span>
           </StyledNavlink>
         </li>

@@ -1,11 +1,11 @@
-import { createRole, editRole } from '../../services/apiRoles'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { createRole, editRole } from '../../services/apiRoles'
 
-import Button from '../../ui/Button'
-import styled from 'styled-components'
-import toast from 'react-hot-toast'
 import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
+import toast from 'react-hot-toast'
+import styled from 'styled-components'
+import Button from '../../ui/Button'
 
 const Form = styled.form`
   display: flex;
@@ -17,10 +17,28 @@ const Label = styled.label`
   font-weight: 500;
 `
 
+// const Input = styled.input`
+//   padding: 0.8rem;
+//   border: 1px solid var(--color-grey-300);
+//   border-radius: 4px;
+// `
 const Input = styled.input`
   padding: 0.8rem;
   border: 1px solid var(--color-grey-300);
   border-radius: 4px;
+  background-color: var(--color-grey-0);
+  color: var(--color-grey-700);
+  transition: background-color 0.3s, color 0.3s, border 0.3s;
+
+  &:focus {
+    border-color: var(--color-brand-600);
+    outline: none;
+  }
+
+  &:disabled {
+    background-color: var(--color-grey-200);
+    color: var(--color-grey-500);
+  }
 `
 
 function CreateRoleForm({ roleToEdit = {}, onCloseModal }) {
