@@ -1,20 +1,20 @@
 import Button from '../../ui/Button'
-import CreateRoomForm from './CreateRoomForm'
 import Modal from '../../ui/Modal'
-import React from 'react'
+import CreateRoleForm from './CreateRoleForm'
 
-const AddRoom = () => {
+const AddRole = () => {
   return (
     <Modal.Provider>
       <Modal.Open opensWindowName="room-form">
-        <Button>Add new room</Button>
+        <Button>Add new role</Button>
       </Modal.Open>
 
       <Modal.Window name="room-form">
-        <CreateRoomForm />
+        {/* <CreateRoomForm /> */}
+        <CreateRoleForm />
       </Modal.Window>
     </Modal.Provider>
   )
 }
 
-export default AddRoom
+export default AddRole
