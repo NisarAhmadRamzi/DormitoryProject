@@ -1,14 +1,14 @@
-import { HiEllipsisVertical, HiEye, HiPencil, HiTrash } from 'react-icons/hi2'
-import { useEffect, useRef, useState } from 'react'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useEffect, useRef, useState } from 'react'
+import { HiEllipsisVertical, HiEye, HiPencil, HiTrash } from 'react-icons/hi2'
 
+import toast from 'react-hot-toast'
+import styled from 'styled-components'
+import { deleteExpense } from '../../services/apiExpenses'
 import ConfirmDelete from '../../ui/ConfirmDelete'
+import Modal from '../../ui/Modal'
 import CreateExpensesForm from './CreateExpesesForm'
 import ExpensesDetails from './ExpensesDetails'
-import Modal from '../../ui/Modal'
-import { deleteExpense } from '../../services/apiExpenses'
-import styled from 'styled-components'
-import toast from 'react-hot-toast'
 
 const TableRow = styled.div`
   display: grid;
@@ -92,21 +92,8 @@ const DropdownItem = styled.button`
   color: var(--color-grey-700);
   cursor: pointer;
   transition: background-color 0.2s;
-
   &:hover {
     background-color: var(--color-grey-50);
-  }
-
-  & svg {
-    width: 1.6rem;
-    height: 1.6rem;
-    color: var(--color-grey-400);
-    transition: color 0.3s;
-  }
-
-  &:disabled {
-    cursor: not-allowed;
-    opacity: 0.6;
   }
 `
 

@@ -1,14 +1,14 @@
-import { HiEllipsisVertical, HiEye, HiPencil, HiTrash } from 'react-icons/hi2'
-import { useEffect, useRef, useState } from 'react'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useEffect, useRef, useState } from 'react'
+import { HiEllipsisVertical, HiEye, HiPencil, HiTrash } from 'react-icons/hi2'
 
-import BorrowedBookDetails from './BorrowedBookDetails'
-import ConfirmDelete from '../../ui/ConfirmDelete'
-import CreateBorrowedBookForm from './CreateBorrowedBookForm'
-import Modal from '../../ui/Modal'
-import { deleteBorrowedBook } from '../../services/apiBorrowedBooks'
-import styled from 'styled-components'
 import toast from 'react-hot-toast'
+import styled from 'styled-components'
+import { deleteBorrowedBook } from '../../services/apiBorrowedBooks'
+import ConfirmDelete from '../../ui/ConfirmDelete'
+import Modal from '../../ui/Modal'
+import BorrowedBookDetails from './BorrowedBookDetails'
+import CreateBorrowedBookForm from './CreateBorrowedBookForm'
 
 const TableRow = styled.div`
   display: grid;
@@ -92,15 +92,8 @@ const DropdownItem = styled.button`
   color: var(--color-grey-700);
   cursor: pointer;
   transition: background-color 0.2s;
-
   &:hover {
     background-color: var(--color-grey-50);
-  }
-
-  & svg {
-    width: 1.6rem;
-    height: 1.6rem;
-    color: var(--color-grey-400);
   }
 `
 

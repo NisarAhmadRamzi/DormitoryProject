@@ -1,15 +1,15 @@
-import { HiEllipsisVertical, HiEye, HiPencil, HiTrash } from 'react-icons/hi2'
-import { useEffect, useRef, useState } from 'react'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useEffect, useRef, useState } from 'react'
+import { HiEllipsisVertical, HiEye, HiPencil, HiTrash } from 'react-icons/hi2'
 
-import ConfirmDelete from '../../ui/ConfirmDelete'
-import CreateRoomForm from './CreateRoomForm'
-import Modal from '../../ui/Modal'
+import toast from 'react-hot-toast'
+import styled from 'styled-components'
 import RoomDetails from '../../features/rooms/RoomDetails'
 import { deleteRoom } from '../../services/apiCabins'
+import ConfirmDelete from '../../ui/ConfirmDelete'
+import Modal from '../../ui/Modal'
 import { formatCurrency } from '../../utils/helpers'
-import styled from 'styled-components'
-import toast from 'react-hot-toast'
+import CreateRoomForm from './CreateRoomForm'
 
 const TableRow = styled.div`
   display: grid;
@@ -100,21 +100,8 @@ const DropdownItem = styled.button`
   color: var(--color-grey-700);
   cursor: pointer;
   transition: background-color 0.2s;
-
   &:hover {
     background-color: var(--color-grey-50);
-  }
-
-  & svg {
-    width: 1.6rem;
-    height: 1.6rem;
-    color: var(--color-grey-400);
-    transition: color 0.3s;
-  }
-
-  &:disabled {
-    cursor: not-allowed;
-    opacity: 0.6;
   }
 `
 

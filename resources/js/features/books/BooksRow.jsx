@@ -1,14 +1,14 @@
-import { HiEllipsisVertical, HiEye, HiPencil, HiTrash } from 'react-icons/hi2'
-import { useEffect, useRef, useState } from 'react'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useEffect, useRef, useState } from 'react'
+import { HiEllipsisVertical, HiEye, HiPencil, HiTrash } from 'react-icons/hi2'
 
-import BookDetails from './BookDetails'
-import ConfirmDelete from '../../ui/ConfirmDelete'
-import CreateBookForm from './CreateBookForm'
-import Modal from '../../ui/Modal'
-import { deleteBook } from '../../services/apiBooks'
-import styled from 'styled-components'
 import toast from 'react-hot-toast'
+import styled from 'styled-components'
+import { deleteBook } from '../../services/apiBooks'
+import ConfirmDelete from '../../ui/ConfirmDelete'
+import Modal from '../../ui/Modal'
+import BookDetails from './BookDetails'
+import CreateBookForm from './CreateBookForm'
 
 const TableRow = styled.div`
   display: grid;
@@ -75,7 +75,6 @@ const DropdownMenu = styled.ul`
   display: ${({ show }) => (show ? 'block' : 'none')};
   min-width: 180px;
 `
-
 const DropdownItem = styled.button`
   width: 100%;
   background: none;
@@ -88,18 +87,11 @@ const DropdownItem = styled.button`
   gap: 1.6rem;
   color: var(--color-grey-700);
   cursor: pointer;
-
+  transition: background-color 0.2s;
   &:hover {
     background-color: var(--color-grey-50);
   }
-
-  & svg {
-    width: 1.6rem;
-    height: 1.6rem;
-    color: var(--color-grey-400);
-  }
 `
-
 function BooksRow({ book }) {
   const queryClient = useQueryClient()
   const [isOpen, setIsOpen] = useState(false)

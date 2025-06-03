@@ -99,7 +99,6 @@ const DropdownItem = styled.button`
   color: var(--color-grey-700);
   cursor: pointer;
   transition: background-color 0.2s;
-
   &:hover {
     background-color: var(--color-grey-50);
   }

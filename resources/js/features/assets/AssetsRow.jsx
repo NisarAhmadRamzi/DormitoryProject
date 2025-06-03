@@ -1,14 +1,14 @@
-import { HiEllipsisVertical, HiEye, HiPencil, HiTrash } from 'react-icons/hi2'
-import { useEffect, useRef, useState } from 'react'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useEffect, useRef, useState } from 'react'
+import { HiEllipsisVertical, HiEye, HiPencil, HiTrash } from 'react-icons/hi2'
 
-import AssetsDetails from './AssetsDetails'
-import ConfirmDelete from '../../ui/ConfirmDelete'
-import CreateAssetsForm from './CreateAssetsForm'
-import Modal from '../../ui/Modal'
-import { deleteAsset } from '../../services/apiAssets' // delete asset API
-import styled from 'styled-components'
 import toast from 'react-hot-toast'
+import styled from 'styled-components'
+import { deleteAsset } from '../../services/apiAssets' // delete asset API
+import ConfirmDelete from '../../ui/ConfirmDelete'
+import Modal from '../../ui/Modal'
+import AssetsDetails from './AssetsDetails'
+import CreateAssetsForm from './CreateAssetsForm'
 
 const TableRow = styled.div`
   display: grid;
@@ -102,21 +102,8 @@ const DropdownItem = styled.button`
   color: var(--color-grey-700);
   cursor: pointer;
   transition: background-color 0.2s;
-
   &:hover {
     background-color: var(--color-grey-50);
-  }
-
-  & svg {
-    width: 1.6rem;
-    height: 1.6rem;
-    color: var(--color-grey-400);
-    transition: color 0.3s;
-  }
-
-  &:disabled {
-    cursor: not-allowed;
-    opacity: 0.6;
   }
 `
 
