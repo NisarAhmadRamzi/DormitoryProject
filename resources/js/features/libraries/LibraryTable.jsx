@@ -1,12 +1,12 @@
-import LibraryRow from './LibraryRow'
-import { PAGE_SIZE } from '../../utils/constants'
+import { useQuery } from '@tanstack/react-query'
+import { useState } from 'react'
+import { useSearchParams } from 'react-router-dom'
+import styled from 'styled-components'
+import { getLibraries } from '../../services/apiLibraries'
 import Pagination from '../../ui/Pagination'
 import Spinner from '../../ui/Spinner'
-import { getLibraries } from '../../services/apiLibraries'
-import styled from 'styled-components'
-import { useQuery } from '@tanstack/react-query'
-import { useSearchParams } from 'react-router-dom'
-import { useState } from 'react'
+import { PAGE_SIZE } from '../../utils/constants'
+import LibraryRow from './LibraryRow'
 
 const Table = styled.div`
   border: 1px solid var(--color-grey-200);
@@ -65,7 +65,6 @@ function LibraryTable({ search = '' }) {
 
   let filteredLibraries = data?.data || []
 
-  // Safe search functionality
   if (typeof search === 'string' && search.trim() !== '') {
     filteredLibraries = filteredLibraries.filter((library) => {
       const searchString =
@@ -74,12 +73,10 @@ function LibraryTable({ search = '' }) {
     })
   }
 
-  // Sort functionality
   if (sortBy) {
     filteredLibraries = [...filteredLibraries].sort((a, b) => {
       let aVal = a[sortBy]
       let bVal = b[sortBy]
-
       if (typeof aVal === 'string') aVal = aVal.toLowerCase()
       if (typeof bVal === 'string') bVal = bVal.toLowerCase()
 
@@ -89,7 +86,6 @@ function LibraryTable({ search = '' }) {
     })
   }
 
-  // Pagination logic (frontend)
   const totalItems = filteredLibraries.length
   const start = (currentPage - 1) * PAGE_SIZE
   const end = start + PAGE_SIZE
@@ -105,9 +101,7 @@ function LibraryTable({ search = '' }) {
   }
 
   const renderSortIcon = (column) => {
-    if (sortBy === column) {
-      return sortOrder === 'asc' ? '↑' : '↓'
-    }
+    if (sortBy === column) return sortOrder === 'asc' ? '↑' : '↓'
     return '↑↓'
   }
 
@@ -132,14 +126,14 @@ function LibraryTable({ search = '' }) {
             onClick={() => handleSort('contact_info')}
             className={sortBy === 'contact_info' ? 'active' : ''}
           >
-            Contact Info{' '}
+            Contact{' '}
             <span className="icon">{renderSortIcon('contact_info')}</span>
           </SortableHeader>
           <div>Action</div>
         </TableHeader>
 
         {paginatedLibraries.map((library) => (
-          <LibraryRow library={library} key={library.id} />
+          <LibraryRow key={library.id} library={library} />
         ))}
 
         {filteredLibraries.length === 0 && (
