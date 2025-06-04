@@ -7,12 +7,13 @@ import Input from '../../ui/Input'
 import { Link } from 'react-router-dom'
 import SpinnerMini from '../../ui/SpinnerMini'
 import styled from 'styled-components'
+import { toast } from 'react-hot-toast'
 import { useLogin } from './useLogin'
 import { useState } from 'react'
 
 const PasswordContainer = styled.div`
   display: flex;
-  gap: 1rem; /* Space between password fields */
+  gap: 1rem;
 `
 
 function LoginForm() {
@@ -23,7 +24,15 @@ function LoginForm() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
   const [errors, setErrors] = useState({})
 
-  const { login, isLoading } = useLogin()
+  // Reset function to clear inputs on error
+  const resetInputs = () => {
+    setEmail('')
+    setPassword('')
+    setConfirmPassword('')
+  }
+
+  // Pass resetInputs callback to useLogin
+  const { login, isLoading } = useLogin({ onErrorReset: resetInputs })
 
   function handleSubmit(e) {
     e.preventDefault()
