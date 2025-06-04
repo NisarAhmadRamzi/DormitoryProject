@@ -1,17 +1,19 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 
+import ConfirmDelete from '../../ui/ConfirmDelete'
 import CreateRoleForm from './CreateRoleForm'
+import Modal from '../../ui/Modal'
 import { deleteRole } from '../../services/apiRoles'
 import styled from 'styled-components'
 import toast from 'react-hot-toast'
 
 const TableRow = styled.div`
   display: grid;
-  grid-template-columns: 0.6fr 2fr 2fr 2fr 1fr; // <-- Exact same as TableHeader
+  grid-template-columns: 0.6fr 2fr 2fr 2fr 1fr;
   padding: 1.4rem 1rem;
   align-items: center;
   justify-content: center;
-  border-top: 1px solid var(--color-grey-200); // Optional: helps visually separate rows
+  border-top: 1px solid var(--color-grey-200);
 `
 
 const DeleteButton = styled.button`
@@ -32,7 +34,7 @@ const DeleteButton = styled.button`
 function RoleRow({ role }) {
   const queryClient = useQueryClient()
 
-  const { mutate: deleteMutate } = useMutation({
+  const { mutate: deleteMutate, isLoading: isDeleting } = useMutation({
     mutationFn: deleteRole,
     onSuccess: () => {
       queryClient.invalidateQueries(['roles'])
@@ -43,7 +45,7 @@ function RoleRow({ role }) {
     },
   })
 
-  const handleDelete = () => {
+  const handleDeleteConfirm = () => {
     deleteMutate(role.id)
   }
 
@@ -53,7 +55,21 @@ function RoleRow({ role }) {
       <div>{role.name}</div>
       <div>{role.created_at}</div>
       <div>{role.updated_at}</div>
-      <DeleteButton onClick={handleDelete}>Delete Role</DeleteButton>
+
+      <div>
+        <Modal.Open opensWindowName={`delete-role-${role.id}`}>
+          <DeleteButton disabled={isDeleting}>Delete Role</DeleteButton>
+        </Modal.Open>
+
+        <Modal.Window name={`delete-role-${role.id}`}>
+          <ConfirmDelete
+            onConfirm={handleDeleteConfirm}
+            resourceName="role"
+            itemLabel={role.name}
+          />
+        </Modal.Window>
+      </div>
+
       <CreateRoleForm roleToEdit={role} />
     </TableRow>
   )
