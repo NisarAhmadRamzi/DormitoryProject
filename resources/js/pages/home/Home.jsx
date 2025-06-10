@@ -1,265 +1,492 @@
-import { Button, Card, Col, Container, Row } from 'react-bootstrap'
+import './Home.css'
 
-import { Link } from 'react-router-dom'
+import {
+  FaBed,
+  FaDumbbell,
+  FaShieldAlt,
+  FaUsers,
+  FaUtensils,
+  FaWifi,
+} from 'react-icons/fa'
+
+import CountUp from 'react-countup'
+import { FaXTwitter } from 'react-icons/fa6'
+import Footer from '../../components/Footer'
 import MyNavbar from '../../components/MyNavbar'
+import hero from '../../../../public/hero7.webp'
+import { useInView } from 'react-intersection-observer'
 
 function Home() {
+  const { ref, inView } = useInView({ triggerOnce: true })
   return (
     <>
-      <MyNavbar />
-      <section
-        className="hero d-flex align-items-center justify-content-center text-center text-white position-relative"
-        style={{
-          backgroundImage:
-            'url(https://png.pngtree.com/background/20240112/original/pngtree-sleek-and-sophisticated-modern-dark-living-room-with-luxury-interior-and-picture-image_7226270.jpg)',
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          height: '100vh',
-        }}
-      >
-        {/* Overlay for Darkening the Background */}
-        <div
-          className="overlay position-absolute top-0 start-0 w-100 h-100"
+      <div>
+        <MyNavbar />
+        {/* HERO SECTION */}
+        <section
+          id="home"
+          className="hero-section"
           style={{
-            backgroundColor: 'rgba(0, 0, 0, 0.4)', // Adjust opacity for darker overlay
+            backgroundImage: `url(${hero})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            height: '100vh',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            textAlign: 'center',
           }}
-        ></div>
+        >
+          <div className="container">
+            <div className="row"></div>
+          </div>
+        </section>
+        {/* About */}
+        <section id="about">
+          <h1 style={{ color: 'black', textAlign: 'center' }}>
+            About our dormitory
+          </h1>
+          <div className="container">
+            <div className="row justify-content-center align-items-center">
+              {/* Left Content */}
+              <div className="col-lg-5 py-5">
+                <div className="row">
+                  <div className="col-12">
+                    <div className="info-box">
+                      <FaWifi
+                        style={{ width: '50px', height: '50px', color: 'blue' }}
+                      />
+                      <div className="ms-4">
+                        <h5>High-Speed Wi-Fi</h5>
+                        <p>
+                          Reliable internet throughout the dormitory for all
+                          residents.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
 
-        <div className="hero-container container position-relative z-index-2">
-          <div className="hero-text">
-            <h1 className="display-3 fw-bold mb-3">
-              Your Comfortable Home Away from Home
-            </h1>
-            <p className="subheadline fs-4 fw-light mb-4">
-              Modern Rooms. Exclusive Amenities. Prime Location.
+                  <div className="col-12 mt-4">
+                    <div className="info-box">
+                      <FaUtensils
+                        style={{ width: '50px', height: '50px', color: 'blue' }}
+                      />
+                      <div className="ms-4">
+                        <h5>Meal Services</h5>
+                        <p>
+                          Nutritious daily meals prepared with student health in
+                          mind.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="col-12 mt-4">
+                    <div className="info-box">
+                      <FaBed
+                        style={{ width: '50px', height: '50px', color: 'blue' }}
+                      />
+                      <div className="ms-4">
+                        <h5>Comfortable Rooms</h5>
+                        <p>
+                          Furnished rooms with essential amenities for studying
+                          and resting.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Right Image */}
+              <div className="col-lg-5">
+                <img
+                  src="img/about.png"
+                  alt="About Dormitory"
+                  className="img-fluid"
+                />
+              </div>
+            </div>
+          </div>
+        </section>
+        {/* MILESTONE */}
+        <section id="milestone" ref={ref}>
+          <div className="container">
+            <div className="row text-center justify-content-center gy-4">
+              <div className="col-lg-2 col-sm-6">
+                <h1 className="display-4">
+                  {inView && <CountUp end={900} duration={2} separator="," />}+
+                </h1>
+                <p className="mb-0">Current Residents</p>
+              </div>
+              <div className="col-lg-2 col-sm-6">
+                <h1 className="display-4">
+                  {inView && (
+                    <CountUp end={4500} duration={2.5} separator="," />
+                  )}
+                </h1>
+                <p className="mb-0">Total Nights Booked</p>
+              </div>
+              <div className="col-lg-2 col-sm-6">
+                <h1 className="display-4">
+                  {inView && <CountUp end={190} duration={1.5} />}
+                </h1>
+                <p className="mb-0">Rooms Available</p>
+              </div>
+              <div className="col-lg-2 col-sm-6">
+                <h1 className="display-4">
+                  {inView && <CountUp end={3800} duration={2} separator="," />}
+                </h1>
+                <p className="mb-0">Guests Hosted</p>
+              </div>
+            </div>
+          </div>
+        </section>
+        <div className="row g-4" id="facilities">
+          <div className="intro">
+            <h1>Our Facilities</h1>
+            <p className="mx-auto text-dark">
+              Contrary to popular belief, Lorem Ipsum is not simply random text.
+              It has roots in a piece of classical Latin literature from 45 BC,
+              making it over 2000 years old
             </p>
-            <div className="cta-buttons d-flex justify-content-center gap-4 mb-4">
-              <Link to="/login">
-                <Button
-                  variant="primary"
-                  className="px-4 py-3 shadow-lg"
-                  style={{
-                    borderRadius: '50px', // Rounded button corners
-                  }}
-                >
-                  Apply Now
-                </Button>
-              </Link>
-              <Button
-                href="#tour"
-                className="btn btn-outline-light px-4 py-3 shadow-lg"
-                style={{
-                  borderRadius: '50px', // Rounded button corners
-                }}
-              >
-                Book a Tour
-              </Button>
+          </div>
+          <div className="col-lg-4 col-md-6">
+            <div className="service text-center">
+              <FaBed size={48} className="mb-3" style={{ color: 'blue' }} />
+              <h5>Comfortable Rooms</h5>
+              <p>
+                Spacious, well-furnished rooms designed for a relaxing stay.
+              </p>
+            </div>
+          </div>
+
+          <div className="col-lg-4 col-md-6">
+            <div className="service text-center">
+              <FaWifi size={48} className="mb-3" style={{ color: 'blue' }} />
+              <h5>High-Speed Wi-Fi</h5>
+              <p>
+                Reliable internet access throughout the dormitory to keep you
+                connected.
+              </p>
+            </div>
+          </div>
+
+          <div className="col-lg-4 col-md-6">
+            <div className="service text-center">
+              <FaDumbbell
+                size={48}
+                className="mb-3"
+                style={{ color: 'blue' }}
+              />
+              <h5>Fitness Center</h5>
+              <p>
+                Fully equipped gym to maintain your fitness routine on campus.
+              </p>
+            </div>
+          </div>
+
+          <div className="col-lg-4 col-md-6">
+            <div className="service text-center">
+              <FaUtensils
+                size={48}
+                className="mb-3"
+                style={{ color: 'blue' }}
+              />
+              <h5>Dining Hall</h5>
+              <p>Healthy and delicious meals served daily for all residents.</p>
+            </div>
+          </div>
+
+          <div className="col-lg-4 col-md-6">
+            <div className="service text-center">
+              <FaUsers size={48} className="mb-3" style={{ color: 'blue' }} />
+              <h5>Community Events</h5>
+              <p>
+                Regular social activities to build friendships and a vibrant
+                community.
+              </p>
+            </div>
+          </div>
+
+          <div className="col-lg-4 col-md-6">
+            <div className="service text-center">
+              <FaShieldAlt
+                size={48}
+                className="mb-3"
+                style={{ color: 'blue' }}
+              />
+              <h5>24/7 Security</h5>
+              <p>Round-the-clock safety measures to ensure peace of mind.</p>
             </div>
           </div>
         </div>
-      </section>
-
-      {/* About Section */}
-      <section id="about" className="about-section py-5">
-        <Container>
-          <div className="text-center mb-5">
-            <h2 className="display-4 text-primary">About Our Dormitory</h2>
-            <p className="lead text-muted">
-              Your Comfortable Home Away from Home
-            </p>
+        <section id="rooms">
+          <div className="container">
+            <div className="row">
+              <div className="col-12">
+                <div className="intro">
+                  <h1>Available Dormitory Rooms</h1>
+                  <p className="mx-auto text-dark">
+                    Choose from our range of comfortable rooms equipped with all
+                    the essentials for a pleasant stay.
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div className="row">
+              <div className="col-md-4">
+                <article className="room-card my-3">
+                  <img src="img/project5.jpg" alt="Dorm Room 1" />
+                  <div className="content">
+                    <h5 className="text-dark">Single Room</h5>
+                    <p className="text-dark">
+                      Cozy single room with private bathroom, desk, and
+                      wardrobe.
+                    </p>
+                    <ul>
+                      <li>Price: $350/month</li>
+                      <li>Wi-Fi included</li>
+                      <li>24/7 Security</li>
+                    </ul>
+                    <a href="#" className="btn btn-primary mx-4 my-3">
+                      Book Now
+                    </a>
+                  </div>
+                </article>
+              </div>
+              <div className="col-md-4">
+                <article className="room-card my-3">
+                  <img src="img/project4.jpg" alt="Dorm Room 2" />
+                  <div className="content">
+                    <h5 className="text-dark">Double Room</h5>
+                    <p className="text-dark">
+                      Spacious double room suitable for two residents, shared
+                      bathroom.
+                    </p>
+                    <ul>
+                      <li>Price: $600/month</li>
+                      <li>Wi-Fi included</li>
+                      <li>Common lounge access</li>
+                    </ul>
+                    <a href="#" className="btn btn-primary mx-4 my-3">
+                      Book Now
+                    </a>
+                  </div>
+                </article>
+              </div>
+              <div className="col-md-4">
+                <article className="room-card my-3">
+                  <img src="img/project2.jpg" alt="Dorm Room 3" />
+                  <div className="content">
+                    <h5 className="text-dark">Suite Room</h5>
+                    <p className="text-dark">
+                      Luxury suite with private bathroom, kitchenette, and study
+                      area.
+                    </p>
+                    <ul>
+                      <li>Price: $900/month</li>
+                      <li>Wi-Fi included</li>
+                      <li>Private balcony</li>
+                    </ul>
+                    <a href="#" className="btn btn-primary mx-4 my-3">
+                      Book Now
+                    </a>
+                  </div>
+                </article>
+              </div>
+            </div>
           </div>
-          <Row className="mb-5">
-            <Col md={6}>
-              <h3 className="text-success">Why Choose Us?</h3>
-              <p>
-                Our dormitory offers a modern and secure living space for
-                students. Located near the campus with easy access to
-                transportation, we provide fully furnished private and shared
-                rooms. Enjoy high-speed internet, top-notch amenities, and a
-                vibrant community. Whether you're looking for peace and quiet or
-                social interaction, we have something for everyone.
-              </p>
-            </Col>
-            <Col md={6}>
-              <img
-                src="https://png.pngtree.com/thumb_back/fh260/background/20230711/pngtree-contemporary-dorm-room-3d-render-of-grey-wall-yellow-bookcase-twin-image_3834185.jpg"
-                alt="Dormitory Image"
-                className="img-fluid rounded shadow-sm"
-              />
-            </Col>
-          </Row>
-
-          {/* Highlight Features */}
-          <Row>
-            <Col md={4}>
-              <Card className="shadow-sm mb-4">
-                <Card.Body>
-                  <h5 className="text-primary">Security</h5>
-                  <p>
-                    24/7 surveillance, keycard access, and on-site security for
-                    your peace of mind.
+        </section>
+        {/* staff */}
+        <section id="staff">
+          <div className="container">
+            <div className="row">
+              <div className="col-12">
+                <div className="intro">
+                  <h1>Dormitory staff</h1>
+                  <p className="mx-auto text-dark">
+                    Contrary to popular belief, Lorem Ipsum is not simply random
+                    text. It has roots in a piece of classical Latin literature
+                    from 45 BC, making it over 2000 years old
                   </p>
-                </Card.Body>
-              </Card>
-            </Col>
-            <Col md={4}>
-              <Card className="shadow-sm mb-4">
-                <Card.Body>
-                  <h5 className="text-primary">High-Speed Internet</h5>
-                  <p>
-                    Stay connected with high-speed Wi-Fi in your room and common
-                    areas.
-                  </p>
-                </Card.Body>
-              </Card>
-            </Col>
-            <Col md={4}>
-              <Card className="shadow-sm mb-4">
-                <Card.Body>
-                  <h5 className="text-primary">Private & Shared Rooms</h5>
-                  <p>
-                    Choose between private or shared rooms, both fully furnished
-                    for comfort.
-                  </p>
-                </Card.Body>
-              </Card>
-            </Col>
-          </Row>
-
-          <Row>
-            <Col md={4}>
-              <Card className="shadow-sm mb-4">
-                <Card.Body>
-                  <h5 className="text-primary">Utilities & Amenities</h5>
-                  <p>
-                    On-site laundry, dining areas, study lounges, and more to
-                    make your life easier.
-                  </p>
-                </Card.Body>
-              </Card>
-            </Col>
-            <Col md={4}>
-              <Card className="shadow-sm mb-4">
-                <Card.Body>
-                  <h5 className="text-primary">Prime Location</h5>
-                  <p>
-                    Located close to the campus and public transport, making
-                    commuting a breeze.
-                  </p>
-                </Card.Body>
-              </Card>
-            </Col>
-          </Row>
-        </Container>
-      </section>
-
-      {/* Available Rooms Section */}
-      <section id="available-rooms" className="available-rooms py-5">
-        <Container>
-          <div className="text-center mb-5">
-            <h2 className="display-4 text-primary">
-              Available Rooms & Pricing
-            </h2>
-            <p className="lead text-muted">
-              Find the perfect room for your needs at affordable prices.
-            </p>
+                </div>
+              </div>
+            </div>
+            <div className="row justify-content-center">
+              <div className="col-lg-4 col-md-8">
+                <div className="team-member">
+                  <div className="image">
+                    <img src="img/team_1.jpg" alt />
+                    <div className="social-icons">
+                      <a href="#">
+                        <i className="bx bxl-facebook" />
+                      </a>
+                      <a href="#">
+                        <FaXTwitter />
+                      </a>
+                      <a href="#">
+                        <i className="bx bxl-instagram" />
+                      </a>
+                      <a href="#">
+                        <i className="bx bxl-pinterest" />
+                      </a>
+                    </div>
+                    <div className="overlay" />
+                  </div>
+                  <h5 className="text-dark">Allama</h5>
+                  <p className="text-dark">Fanos administrator</p>
+                </div>
+              </div>
+              <div className="col-lg-4 col-md-8">
+                <div className="team-member">
+                  <div className="image">
+                    <img src="img/team_2.jpg" alt />
+                    <div className="social-icons">
+                      <a href="#">
+                        <i className="bx bxl-facebook" />
+                      </a>
+                      <a href="#">
+                        <FaXTwitter />
+                      </a>
+                      <a href="#">
+                        <i className="bx bxl-instagram" />
+                      </a>
+                      <a href="#">
+                        <i className="bx bxl-pinterest" />
+                      </a>
+                    </div>
+                    <div className="overlay" />
+                  </div>
+                  <h5 className="text-dark">Ali Karimi</h5>
+                  <p className="text-dark">Financial Officer</p>
+                </div>
+              </div>
+              <div className="col-lg-4 col-md-8">
+                <div className="team-member">
+                  <div className="image">
+                    <img src="img/team_3.jpg" alt />
+                    <div className="social-icons">
+                      <a href="#">
+                        <i className="bx bxl-facebook" />
+                      </a>
+                      <a href="#">
+                        <FaXTwitter />
+                      </a>
+                      <a href="#">
+                        <i className="bx bxl-instagram" />
+                      </a>
+                      <a href="#">
+                        <i className="bx bxl-pinterest" />
+                      </a>
+                    </div>
+                    <div className="overlay" />
+                  </div>
+                  <h5 className="text-dark">Dawood Rahimi</h5>
+                  <p className="text-dark">Reporter</p>
+                </div>
+              </div>
+            </div>
           </div>
-
-          {/* Room Types and Pricing */}
-          <Row>
-            {/* Single Room */}
-            <Col md={4} sm={6} className="mb-4">
-              <Card className="room-card shadow-sm">
-                <Card.Img
-                  variant="top"
-                  src="https://img.freepik.com/premium-photo/living-room-modern-apartment-with-two-identical-sofas-opposite-each-other_974732-5779.jpg"
-                  alt="Single Room"
-                  className="card-img"
-                />
-                <Card.Body>
-                  <Card.Title>Single Room</Card.Title>
-                  <Card.Text>
-                    A private room for one with all the essentials you need.
-                  </Card.Text>
-                  <ul>
-                    <li>Bed size: Full</li>
-                    <li>Furniture: Desk, chair, wardrobe</li>
-                    <li>Air Conditioning</li>
-                    <li>High-speed Wi-Fi</li>
-                  </ul>
-                  <p className="price">$400 / month</p>
-                  <Link to="/login">
-                    <Button variant="primary" className="w-100">
-                      Apply Now
-                    </Button>
-                  </Link>
-                </Card.Body>
-              </Card>
-            </Col>
-
-            {/* Shared Room */}
-            <Col md={4} sm={6} className="mb-4">
-              <Card className="room-card shadow-sm">
-                <Card.Img
-                  variant="top"
-                  src="https://img.freepik.com/premium-photo/black-contemporary-loft-living-room-interior-mock-up-featuring-sofa-accessories_872147-4035.jpg"
-                  alt="Shared Room"
-                  className="card-img"
-                />
-                <Card.Body>
-                  <Card.Title>Shared Room</Card.Title>
-                  <Card.Text>
-                    Share a spacious room with one or more roommates.
-                  </Card.Text>
-                  <ul>
-                    <li>Bed size: Twin</li>
-                    <li>Furniture: Desk, chair, wardrobe</li>
-                    <li>Air Conditioning</li>
-                    <li>High-speed Wi-Fi</li>
-                  </ul>
-                  <p className="price">$300 / month per person</p>
-                  <Link to="/login">
-                    <Button variant="primary" className="w-100">
-                      Apply Now
-                    </Button>
-                  </Link>
-                </Card.Body>
-              </Card>
-            </Col>
-
-            {/* Suite Room */}
-            <Col md={4} sm={6} className="mb-4">
-              <Card className="room-card shadow-sm">
-                <Card.Img
-                  variant="top"
-                  src="https://www.shutterstock.com/image-illustration/corner-view-on-dark-living-260nw-2197571973.jpg"
-                  alt="Suite Room"
-                  className="card-img"
-                />
-                <Card.Body>
-                  <Card.Title>Suite Room</Card.Title>
-                  <Card.Text>
-                    A luxurious private suite with extra space and premium
-                    amenities.
-                  </Card.Text>
-                  <ul>
-                    <li>Bed size: King</li>
-                    <li>Furniture: Desk, chair, wardrobe, sofa</li>
-                    <li>Air Conditioning</li>
-                    <li>High-speed Wi-Fi</li>
-                  </ul>
-                  <p className="price">$600 / month</p>
-                  <Link to="/login">
-                    <Button variant="primary" className="w-100">
-                      Apply Now
-                    </Button>
-                  </Link>
-                </Card.Body>
-              </Card>
-            </Col>
-          </Row>
-        </Container>
-      </section>
+        </section>
+        <Footer />
+        {/* Modal */}
+        <div
+          className="modal fade"
+          id="exampleModal"
+          tabIndex={-1}
+          aria-labelledby="exampleModalLabel"
+          aria-hidden="true"
+        >
+          <div className="modal-dialog modal-dialog-centered modal-xl">
+            <div className="modal-content">
+              <div className="modal-body p-0">
+                <div className="container-fluid">
+                  <div className="row gy-4">
+                    <div
+                      className="col-lg-4 col-sm-12 bg-cover"
+                      style={{
+                        backgroundImage: 'url(img/c2.jpg)',
+                        minHeight: 300,
+                      }}
+                    >
+                      <div></div>
+                    </div>
+                    <div className="col-lg-8">
+                      <form className="p-lg-5 col-12 row g-3">
+                        <div>
+                          <h1>Get in touch</h1>
+                          <p>
+                            Fell free to contact us and we will get back to you
+                            as soon as possible
+                          </p>
+                        </div>
+                        <div className="col-lg-6">
+                          <label htmlFor="userName" className="form-label">
+                            First name
+                          </label>
+                          <input
+                            type="text"
+                            className="form-control"
+                            placeholder="Jon"
+                            id="userName"
+                            aria-describedby="emailHelp"
+                          />
+                        </div>
+                        <div className="col-lg-6">
+                          <label htmlFor="userName" className="form-label">
+                            Last name
+                          </label>
+                          <input
+                            type="text"
+                            className="form-control"
+                            placeholder="Doe"
+                            id="userName"
+                            aria-describedby="emailHelp"
+                          />
+                        </div>
+                        <div className="col-12">
+                          <label htmlFor="userName" className="form-label">
+                            Email address
+                          </label>
+                          <input
+                            type="email"
+                            className="form-control"
+                            placeholder="Johndoe@example.com"
+                            id="userName"
+                            aria-describedby="emailHelp"
+                          />
+                        </div>
+                        <div className="col-12">
+                          <label
+                            htmlFor="exampleInputEmail1"
+                            className="form-label"
+                          >
+                            Enter Message
+                          </label>
+                          <textarea
+                            name
+                            placeholder="This is looking great and nice."
+                            className="form-control"
+                            id
+                            rows={4}
+                            defaultValue={''}
+                          />
+                        </div>
+                        <div className="col-12">
+                          <button type="submit" className="btn btn-brand">
+                            Send Message
+                          </button>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </>
   )
 }

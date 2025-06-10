@@ -16,7 +16,7 @@ const LoginLayout = styled.main`
 function Login() {
   return (
     <>
-      {/* <MyNavbar /> */}
+      <MyNavbar />
       <LoginLayout>
         <Heading as="h4">Login to your account</Heading>
         <LoginForm />

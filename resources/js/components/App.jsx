@@ -1,10 +1,11 @@
 import 'bootstrap/dist/css/bootstrap.min.css'
+import 'bootstrap/dist/js/bootstrap.bundle.min.js' // includes Popper
 
-import AppProvider from '../context/AppContext'
-import { BrowserRouter } from 'react-router-dom'
-import Main from './Main'
 import React from 'react'
 import ReactDOM from 'react-dom/client'
+import { BrowserRouter } from 'react-router-dom'
+import AppProvider from '../context/AppContext'
+import Main from './Main'
 
 const container = document.getElementById('app')
 const root = ReactDOM.createRoot(container)

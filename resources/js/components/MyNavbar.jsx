@@ -1,51 +1,75 @@
-import Container from 'react-bootstrap/Container'
-import Nav from 'react-bootstrap/Nav'
-import Navbar from 'react-bootstrap/Navbar'
-import Offcanvas from 'react-bootstrap/Offcanvas'
-import { Link } from 'react-router-dom'
+import { NavLink, useLocation } from 'react-router-dom' // Correct imports
 
-function MyNavbar() {
-  const expand = 'md'
+const MyNavbar = () => {
+  const location = useLocation()
+
+  const isLoginPage = location.pathname === '/login'
+
   return (
-    <Navbar
-      key={expand}
-      expand={expand}
-      className="bg-body-tertiary"
-      style={{
-        position: 'sticky',
-        top: 0, // Ensures it sticks to the top of the viewport
-        zIndex: 1000, // Ensures the navbar stays on top of other content
-      }}
-    >
-      <Container>
-        <Navbar.Brand href="#" style={{ fontWeight: 'bold' }}>
-          Dormitory
-        </Navbar.Brand>
-        <Navbar.Toggle aria-controls="offcanvasNavbar" />
-        <Navbar.Offcanvas
-          id="offcanvasNavbar"
-          aria-labelledby="offcanvasNavbarLabel"
-          placement="end"
+    <nav className="navbar navbar-expand-lg navbar-light bg-white sticky-top">
+      <div className="container">
+        <a className="navbar-brand" href="#">
+          Fanos Dormitory<span className="dot">.</span>
+        </a>
+        <button
+          className="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
         >
-          <Offcanvas.Header closeButton>
-            <Offcanvas.Title id="offcanvasNavbarLabel">Pages</Offcanvas.Title>
-          </Offcanvas.Header>
-          <Offcanvas.Body>
-            <Nav
-              className="justify-content-center fw-b fs-5 flex-grow-1"
-              style={{ alignItems: 'center' }}
-            >
-              <Link to="/" className="nav-link ms-5 fs-3 fw-bold">
+          <span className="navbar-toggler-icon" />
+        </button>
+        <div className="collapse navbar-collapse" id="navbarNav">
+          <ul className="navbar-nav mx-auto d-flex justify-content-center">
+            <li className="nav-item">
+              <NavLink to="/" className="nav-link" end>
                 Home
-              </Link>
-              <Link to="/login" className="nav-link ms-5 fs-3 fw-bold">
+              </NavLink>
+            </li>
+            <li className="nav-item">
+              <a className="nav-link" href="#about">
+                About
+              </a>
+            </li>
+            <li className="nav-item">
+              <a className="nav-link" href="#facilities">
+                Facilities
+              </a>
+            </li>
+            <li className="nav-item">
+              <a className="nav-link" href="#rooms">
+                Rooms
+              </a>
+            </li>
+            <li className="nav-item">
+              <a className="nav-link" href="#staff">
+                Staff
+              </a>
+            </li>
+            <li className="nav-item">
+              <NavLink className="nav-link" to="/login">
                 Login
-              </Link>
-            </Nav>
-          </Offcanvas.Body>
-        </Navbar.Offcanvas>
-      </Container>
-    </Navbar>
+              </NavLink>
+            </li>
+          </ul>
+
+          {/* Show Contact button only if NOT on login page */}
+          {!isLoginPage && (
+            <a
+              href="#"
+              data-bs-toggle="modal"
+              data-bs-target="#exampleModal"
+              className="btn btn-brand ms-lg-3"
+            >
+              Contact
+            </a>
+          )}
+        </div>
+      </div>
+    </nav>
   )
 }
 
