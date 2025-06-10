@@ -1,12 +1,10 @@
-import React, { useState } from 'react'
-
 import HeaderMenu from './HeaderMenu'
-import UserAvatar from '../features/authentication/UserAvatar'
 import styled from 'styled-components'
+import { useState } from 'react'
 
 const StyledHeader = styled.header`
   background-color: var(--color-grey-0);
-  padding: 1.2rem 4.8rem;
+  padding: 5px 4.8rem;
   border-bottom: 1px solid var(--color-grey-100);
   display: flex;
   align-items: center; /* Corrected typo */
@@ -14,7 +12,6 @@ const StyledHeader = styled.header`
   gap: 2.4rem;
   z-index: 3;
 `
-
 
 const BurgerButton = styled.button`
   background: none;
@@ -80,7 +77,7 @@ const Header = ({ onToggleSidebar }) => {
         <span></span>
         <span></span>
       </BurgerButton>
-      <HeaderMenu/>
+      <HeaderMenu />
     </StyledHeader>
   )
 }
