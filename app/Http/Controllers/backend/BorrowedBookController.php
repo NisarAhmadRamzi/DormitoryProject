@@ -7,9 +7,20 @@ use App\Http\Resources\BorrowedBookResource;
 use App\Models\Book;
 use App\Models\BorrowedBook;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Artisan;
 
 class BorrowedBookController extends Controller
 {
+    public function __construct()
+    {
+        Artisan::call('permission:cache-reset');
+        $this->middleware('permission:all borrowed books')->only(['index']);
+        $this->middleware('permission:view borrowed book')->only(['show']);
+        $this->middleware('permission:create borrowed book')->only(['store']);
+        $this->middleware('permission:edit borrowed book')->only(['update']);
+        $this->middleware('permission:delete borrowed book')->only(['destroy']);
+    }
+
     public function index()
     {
 

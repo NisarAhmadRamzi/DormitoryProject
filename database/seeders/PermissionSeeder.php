@@ -9,49 +9,244 @@ use Spatie\Permission\Models\Permission;
 
 class PermissionSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
-        Permission::create(['name' => 'user view']);
-        Permission::create(['name' => 'user create']);  
-        Permission::create(['name' => 'user update']);
-        Permission::create(['name' => 'user delete']);
-        
-        Permission::create(['name' => 'student view']);
-        Permission::create(['name' => 'student create']);
-        Permission::create(['name' => 'student update']);
-        Permission::create(['name' => 'student delete']);
+        // حذف کش قبلی
+        // app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
 
-        Permission::create(['name' => 'room view']);
-        Permission::create(['name' => 'room create']);
-        Permission::create(['name' => 'room update']);
-        Permission::create(['name' => 'room delete']);
+        // Create permissions
+        $permissions = [
+            'all users',
+            'view user',
+            'create user',
+            'edit user',
+            'delete user',
+            'assign user role',
 
-        Permission::create(['name' => 'role view']);
-        Permission::create(['name' => 'role create']);
-        Permission::create(['name' => 'role update']);
-        Permission::create(['name' => 'role delete']);
+            'all students',
+            'view student',
+            'create student',
+            'edit student',
+            'delete student',
+            'restore student',
 
-        Permission::create(['name' => 'profile view']);
-        Permission::create(['name' => 'profile create']);
-        Permission::create(['name' => 'profile update']);
-        Permission::create(['name' => 'profile delete']);
+            'all rooms',
+            'view room',
+            'create room',
+            'edit room',
+            'delete room',
 
-        Permission::create(['name' => 'permission view']);
-        Permission::create(['name' => 'permission create']);
-        Permission::create(['name' => 'permission update']);
-        Permission::create(['name' => 'permission delete']);
+            'all roles',
+            'view role',
+            'create role',
+            'edit role',
+            'delete role',
+            'assign role permissions',
 
-        Permission::create(['name' => 'fee view']);
-        Permission::create(['name' => 'fee create']);
-        Permission::create(['name' => 'fee update']);
-        Permission::create(['name' => 'fee delete']);
+            'all permissions',
+            'view permission',
+            'create permission',
+            'edit permission',
+            'delete permission',
 
-        Permission::create(['name' => 'complaint view']);
-        Permission::create(['name' => 'complaint create']);
-        Permission::create(['name' => 'complaint update']);
-        Permission::create(['name' => 'complaint delete']);
+            'all library students',
+            'view library student',
+            'create library student',
+            'edit library student',
+            'delete library student',
+
+            'all libraries',
+            'view library',
+            'create library',
+            'edit library',
+            'delete library',
+
+            'all fees',
+            'view fee',
+            'create fee',
+            'edit fee',
+            'delete fee',
+
+            'all assets',
+            'view asset',
+            'create asset',
+            'edit asset',
+            'delete asset',
+
+            'all supports',
+            'view support',
+            'create support',
+            'edit support',
+            'delete support',
+
+            'all expenses',
+            'view expense',
+            'create expense',
+            'edit expense',
+            'delete expense',
+
+            'all complaints',
+            'view complaint',
+            'create complaint',
+            'edit complaint',
+            'delete complaint',
+
+            'all borrowed books',
+            'view borrowed book',
+            'create borrowed book',
+            'edit borrowed book',
+            'delete borrowed book',
+
+            'all books',
+            'view book',
+            'create book',
+            'edit book',
+            'delete book',
+        ];
+
+        foreach ($permissions as $permission) {
+            \Spatie\Permission\Models\Permission::firstOrCreate(['name' => $permission]);
         }
+        // Assign permissions to roles
+        $adminRole = \Spatie\Permission\Models\Role::findByName('admin');
+        $adminRole->givePermissionTo($permissions);
+
+        $second_admin = \Spatie\Permission\Models\Role::findByName('second_admin');
+        $second_admin->givePermissionTo([
+            'all users',
+            'view user',
+
+            'all students',
+            'view student',
+
+            'all rooms',
+            'view room',
+
+            'all roles',
+            'view role',
+
+            'all permissions',
+            'view permission',
+
+            'all library students',
+            'view library student',
+
+            'all libraries',
+            'view library',
+
+            'all fees',
+            'view fee',
+            'create fee',
+            'edit fee',
+            'delete fee',
+
+            'all assets',
+            'view asset',
+            'create asset',
+            'edit asset',
+            'delete asset',
+
+            'all supports',
+            'view support',
+            'create support',
+            'edit support',
+            'delete support',
+
+            'all expenses',
+            'view expense',
+            'create expense',
+            'edit expense',
+            'delete expense',
+
+
+            'all complaints',
+            'view complaint',
+
+            'all borrowed books',
+            'view borrowed book',
+
+            'all books',
+            'view book',
+
+        ]);
+
+        $student = \Spatie\Permission\Models\Role::findByName('student');
+        $student->givePermissionTo([
+            'all students',
+            'view student',
+
+            'all rooms',
+            'view room',
+
+            'view fee',
+
+            'view complaint',
+            'create complaint',
+            'delete complaint',
+
+            'all borrowed books',
+            'view borrowed book',
+
+            'all books',
+            'view book',
+
+        ]);
+
+        $library_admin = \Spatie\Permission\Models\Role::findByName('library_admin');
+        $library_admin->givePermissionTo([
+            'all users',
+            'view user',
+            'create user',
+            'edit user',
+            'delete user',
+
+            'all library students',
+            'view library student',
+            'create library student',
+            'edit library student',
+            'delete library student',
+
+            'all libraries',
+            'view library',
+
+            'all complaints',
+            'view complaint',
+            'create complaint',
+            'edit complaint',
+            'delete complaint',
+
+            'all borrowed books',
+            'view borrowed book',
+            'create borrowed book',
+            'edit borrowed book',
+            'delete borrowed book',
+
+            'all books',
+            'view book',
+            'create book',
+            'edit book',
+            'delete book',
+
+        ]);
+
+        $library_student = \Spatie\Permission\Models\Role::findByName('library_student');
+        // Assign permissions to library student role
+        $library_student->givePermissionTo([
+            'view user',
+
+            'view library student',
+
+            'view library',
+
+            'view complaint',
+            'create complaint',
+            'delete complaint',
+
+            'all borrowed books',
+            'view borrowed book',
+
+            'all books',
+            'view book',
+        ]);
+    }
 }

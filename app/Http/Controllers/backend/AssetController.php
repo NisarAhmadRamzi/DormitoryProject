@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\AssetResource;
 use App\Models\Asset;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Artisan;
 
 class AssetController extends Controller
 {
@@ -55,6 +56,15 @@ class AssetController extends Controller
 
 
 
+    public function __construct()
+    {
+        Artisan::call('permission:cache-reset');
+        $this->middleware('permission:all assets')->only(['index']);
+        $this->middleware('permission:view asset')->only(['show']);
+        $this->middleware('permission:create asset')->only(['store']);
+        $this->middleware('permission:edit asset')->only(['update']);
+        $this->middleware('permission:delete asset')->only(['destroy']);
+    }
 
 
     // Get all assets

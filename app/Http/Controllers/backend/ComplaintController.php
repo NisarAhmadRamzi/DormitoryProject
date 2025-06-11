@@ -7,9 +7,20 @@ use App\Http\Resources\ComplaintResource;
 use App\Models\Complaint;
 use App\Models\Student;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Artisan;
 
 class ComplaintController extends Controller
 {
+    public function __construct()
+    {
+        Artisan::call('permission:cache-reset');
+        $this->middleware('permission:all complaints')->only(['index']);
+        $this->middleware('permission:view complaint')->only(['show']);
+        $this->middleware('permission:create complaint')->only(['store']);
+        $this->middleware('permission:edit complaint')->only(['update']);
+        $this->middleware('permission:delete complaint')->only(['destroy']);
+    }
+
     /**
      * Display a listing of the complaints.
      */

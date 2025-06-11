@@ -13,6 +13,16 @@ use Illuminate\Http\Request;
 
 class RoleController extends Controller
 {
+    public function __construct()
+    {
+        Artisan::call('permission:cache-reset');
+        $this->middleware('permission:all roles')->only(['index']);
+        $this->middleware('permission:view role')->only(['show']);
+        $this->middleware('permission:create role')->only(['store']);
+        $this->middleware('permission:edit role')->only(['update']);
+        $this->middleware('permission:assign role permissions')->only(['assign']);
+        $this->middleware('permission:delete role')->only(['destroy']);
+    }
     /**
      * Display a listing of the resource.
      */

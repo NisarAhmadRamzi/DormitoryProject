@@ -8,10 +8,21 @@ use App\Models\Fee;
 use App\Models\Student;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
 
 class StudentController extends Controller
 {
+    public function __construct()
+    {
+        Artisan::call('permission:cache-reset');
+        $this->middleware('permission:all students')->only(['index', 'allStudents', 'trashedStudents', 'trashedStudent']);
+        $this->middleware('permission:view student')->only(['show']);
+        $this->middleware('permission:create student')->only(['create', 'store']);
+        $this->middleware('permission:edit student')->only(['edit', 'update']);
+        $this->middleware('permission:delete student')->only(['destroy', 'forceDelete']);
+        $this->middleware('permission:restore student')->only(['restore']);
+    }
     /**
      * Display a listing of the resource.
      */

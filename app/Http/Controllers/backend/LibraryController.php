@@ -6,9 +6,20 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\LibraryResource;
 use App\Models\Library;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Artisan;
 
 class LibraryController extends Controller
-{ // Get all libraries
+{
+    public function __construct()
+    {
+        Artisan::call('permission:cache-reset');
+        $this->middleware('permission:all libraries')->only(['index']);
+        $this->middleware('permission:view library')->only(['show']);
+        $this->middleware('permission:create library')->only(['store']);
+        $this->middleware('permission:edit library')->only(['update']);
+        $this->middleware('permission:delete library')->only(['destroy']);
+    }
+    // Get all libraries
     public function index()
     {
         $libraries = Library::all();

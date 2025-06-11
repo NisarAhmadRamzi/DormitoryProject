@@ -15,6 +15,16 @@ use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
+    public function __construct()
+    {
+        Artisan::call('permission:cache-reset');
+        $this->middleware('permission:all users')->only(['index']);
+        $this->middleware('permission:view user')->only(['show']);
+        $this->middleware('permission:create user')->only(['create', 'store']);
+        $this->middleware('permission:edit user')->only(['edit', 'update', 'updateUser']);
+        $this->middleware('permission:delete user')->only(['destroy']);
+        $this->middleware('permission:assign user role')->only(['assign']);
+    }
     /**
      * Display a listing of the resource.
      */
