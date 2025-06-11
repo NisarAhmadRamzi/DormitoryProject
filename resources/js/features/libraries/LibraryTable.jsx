@@ -1,19 +1,58 @@
+import { RxCaretLeft, RxCaretRight } from 'react-icons/rx'
+
 import { useQuery } from '@tanstack/react-query'
 import { useState } from 'react'
+import { FiSearch } from 'react-icons/fi'
 import { useSearchParams } from 'react-router-dom'
 import styled from 'styled-components'
 import { getLibraries } from '../../services/apiLibraries'
-import Pagination from '../../ui/Pagination'
 import Spinner from '../../ui/Spinner'
-import { PAGE_SIZE } from '../../utils/constants'
 import LibraryRow from './LibraryRow'
 
+// Styled Components
 const Table = styled.div`
   border: 1px solid var(--color-grey-200);
   font-size: 1.4rem;
   background-color: var(--color-grey-0);
   border-radius: 7px;
   overflow: hidden;
+`
+
+const TopBarWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.6rem 2.4rem 0 0rem;
+  gap: 2rem;
+  flex-wrap: wrap;
+`
+
+const SearchWrapper = styled.div`
+  display: flex;
+  align-items: center;
+`
+
+const SearchInputContainer = styled.div`
+  position: relative;
+  width: 300px;
+
+  svg {
+    position: absolute;
+    top: 50%;
+    left: 90%;
+    transform: translateY(-50%);
+    color: var(--color-grey-900);
+    font-size: 1.4rem;
+    pointer-events: none;
+  }
+
+  input {
+    font-size: 1.4rem;
+    padding: 0.6rem 1rem 0.6rem 2.8rem;
+    border: 1px solid var(--color-grey-300);
+    border-radius: 4px;
+    width: 100%;
+  }
 `
 
 const TableHeader = styled.header`
@@ -48,28 +87,85 @@ const SortableHeader = styled.div`
   }
 `
 
-function LibraryTable({ search = '' }) {
-  const [searchParams] = useSearchParams()
+const PaginationWrapper = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  padding: 1.6rem;
+  border-top: 1px solid var(--color-grey-100);
+  background-color: var(--color-grey-0);
+  font-size: 1.4rem;
+  gap: 2rem;
+`
+
+const PageInfo = styled.div`
+  font-weight: 500;
+`
+
+const RowsPerPage = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+
+  select {
+    padding: 0.4rem 0.8rem;
+    font-size: 1.4rem;
+    border: 1px solid var(--color-grey-300);
+    border-radius: 6px;
+    background-color: white;
+  }
+`
+
+const NavButtons = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+
+  button {
+    padding: 0.4rem 0.8rem;
+    font-size: 2rem;
+    background-color: white;
+    border: 1px solid var(--color-grey-300);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+
+    &:hover:not(:disabled) {
+      background-color: var(--color-grey-100);
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+`
+
+// Component
+function LibraryTable() {
+  const [searchParams, setSearchParams] = useSearchParams()
   const currentPage = Number(searchParams.get('page')) || 1
+  const [rowsPerPage, setRowsPerPage] = useState(10)
+  const [sortBy, setSortBy] = useState(null)
+  const [sortOrder, setSortOrder] = useState('asc')
+  const [searchText, setSearchText] = useState('')
 
   const { isLoading, data, error } = useQuery({
     queryKey: ['libraries'],
     queryFn: getLibraries,
   })
 
-  const [sortBy, setSortBy] = useState(null)
-  const [sortOrder, setSortOrder] = useState('asc')
-
   if (isLoading) return <Spinner />
   if (error) return <div>Error loading libraries!</div>
 
   let filteredLibraries = data?.data || []
 
-  if (typeof search === 'string' && search.trim() !== '') {
+  if (searchText.trim() !== '') {
     filteredLibraries = filteredLibraries.filter((library) => {
       const searchString =
         `${library.id} ${library.name} ${library.location} ${library.contact_info}`.toLowerCase()
-      return searchString.includes(search.toLowerCase())
+      return searchString.includes(searchText.toLowerCase())
     })
   }
 
@@ -87,8 +183,9 @@ function LibraryTable({ search = '' }) {
   }
 
   const totalItems = filteredLibraries.length
-  const start = (currentPage - 1) * PAGE_SIZE
-  const end = start + PAGE_SIZE
+  const totalPages = Math.ceil(totalItems / rowsPerPage)
+  const start = (currentPage - 1) * rowsPerPage
+  const end = start + rowsPerPage
   const paginatedLibraries = filteredLibraries.slice(start, end)
 
   function handleSort(column) {
@@ -100,13 +197,37 @@ function LibraryTable({ search = '' }) {
     }
   }
 
-  const renderSortIcon = (column) => {
+  function renderSortIcon(column) {
     if (sortBy === column) return sortOrder === 'asc' ? '↑' : '↓'
     return '↑↓'
   }
 
+  function handlePageChange(newPage) {
+    setSearchParams({ page: newPage })
+  }
+
+  function handleRowsPerPageChange(e) {
+    const newSize = Number(e.target.value)
+    setRowsPerPage(newSize)
+    setSearchParams({ page: 1 })
+  }
+
   return (
     <>
+      <TopBarWrapper>
+        <SearchWrapper>
+          <SearchInputContainer>
+            <FiSearch />
+            <input
+              type="text"
+              placeholder="Search libraries..."
+              value={searchText}
+              onChange={(e) => setSearchText(e.target.value)}
+            />
+          </SearchInputContainer>
+        </SearchWrapper>
+      </TopBarWrapper>
+
       <Table role="table">
         <TableHeader role="row">
           <div></div>
@@ -140,7 +261,38 @@ function LibraryTable({ search = '' }) {
           <div style={{ padding: '1.6rem' }}>No matching libraries found.</div>
         )}
 
-        <Pagination count={totalItems} />
+        <PaginationWrapper>
+          <PageInfo>
+            Page {currentPage} of {totalPages}
+          </PageInfo>
+
+          <RowsPerPage>
+            Rows per page:{' '}
+            <select value={rowsPerPage} onChange={handleRowsPerPageChange}>
+              <option value={5}>5</option>
+              <option value={10}>10</option>
+              <option value={25}>25</option>
+              <option value={50}>50</option>
+            </select>
+          </RowsPerPage>
+
+          <NavButtons>
+            <button
+              onClick={() => handlePageChange(Math.max(1, currentPage - 1))}
+              disabled={currentPage === 1}
+            >
+              <RxCaretLeft />
+            </button>
+            <button
+              onClick={() =>
+                handlePageChange(Math.min(totalPages, currentPage + 1))
+              }
+              disabled={currentPage === totalPages}
+            >
+              <RxCaretRight />
+            </button>
+          </NavButtons>
+        </PaginationWrapper>
       </Table>
     </>
   )
@@ -148,7 +300,7 @@ function LibraryTable({ search = '' }) {
 
 export default LibraryTable
 
-//v2
+// root version
 
 // import { Box, Stack } from '@mui/material'
 // import {

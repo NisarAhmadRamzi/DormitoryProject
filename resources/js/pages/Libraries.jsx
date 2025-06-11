@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import styled from 'styled-components'
 import AddLibrary from '../features/libraries/AddLibrary'
 import LibraryTable from '../features/libraries/LibraryTable'
@@ -22,33 +21,14 @@ const OperationsWrapper = styled.div`
 `
 
 function Libraries() {
-  const [search, setSearch] = useState('')
-
   return (
     <>
-      <Row
-        type="horizontal"
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-        }}
-      >
-        <Heading as="h1">Libraries</Heading>
-
-        <OperationsWrapper>
-          <SearchInput
-            type="text"
-            placeholder="Search libraries..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-          />
-          <AddLibrary />
-        </OperationsWrapper>
-      </Row>
-
       <Row>
-        <LibraryTable search={search} />
+        <Heading as="h1" style={{ textAlign: 'center' }}>
+          Libraries
+        </Heading>
+        <LibraryTable />
+        <AddLibrary />
       </Row>
     </>
   )
