@@ -6,9 +6,20 @@ use Spatie\Permission\Models\Permission;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Resources\PermissionResource;
+use Illuminate\Support\Facades\Artisan;
 
 class PermissionController extends Controller
 {
+
+    public function __construct()
+    {
+        Artisan::call('permission:cache-reset');
+        $this->middleware('permission:all permissions')->only(['index']);
+        $this->middleware('permission:view permission')->only(['show']);
+        $this->middleware('permission:create permission')->only(['store']);
+        $this->middleware('permission:edit permission')->only(['update']);
+        $this->middleware('permission:delete permission')->only(['destroy']);
+    }
     public function index()
     {
         $permissions = Permission::all();

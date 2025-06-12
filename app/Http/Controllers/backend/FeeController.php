@@ -6,10 +6,20 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\FeeResource;
 use App\Models\Fee;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Artisan;
 
 class FeeController extends Controller
 {
+    public function __construct()
+    {
+        Artisan::call('permission:cache-reset');
+        $this->middleware('permission:all fees')->only(['index']);
+        $this->middleware('permission:view fee')->only(['show']);
+        $this->middleware('permission:create fee')->only(['store']);
+        $this->middleware('permission:edit fee')->only(['update']);
+        $this->middleware('permission:delete fee')->only(['destroy']);
+    }
+
     /**
      * Display a listing of the resource.
      */

@@ -11,8 +11,10 @@ import { useNavigate } from 'react-router-dom'
 
 const StyledHeaderMenu = styled.ul`
   display: flex;
-  gap: 3rem; /* Increased spacing between icons */
+  align-items: center;
+  gap: 3rem; 
   position: relative;
+  
 `
 
 const LanguageWrapper = styled.div`

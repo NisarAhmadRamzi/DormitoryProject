@@ -6,9 +6,20 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\ExpenseResource;
 use App\Models\Expense;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Artisan;
 
 class ExpenseController extends Controller
 {
+    public function __construct()
+    {
+        Artisan::call('permission:cache-reset');
+        $this->middleware('permission:all expenses')->only(['index']);
+        $this->middleware('permission:view expense')->only(['show']);
+        $this->middleware('permission:create expense')->only(['store']);
+        $this->middleware('permission:edit expense')->only(['update']);
+        $this->middleware('permission:delete expense')->only(['destroy']);
+    }
+
     // Store a new expense and update asset values
     // Get all expenses
     public function index()

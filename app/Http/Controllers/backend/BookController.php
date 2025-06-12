@@ -6,9 +6,20 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\BookResource;
 use App\Models\Book;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Artisan;
 
 class BookController extends Controller
 {
+    public function __construct()
+    {
+        Artisan::call('permission:cache-reset');
+        $this->middleware('permission:all books')->only(['index']);
+        $this->middleware('permission:view book')->only(['show']);
+        $this->middleware('permission:create book')->only(['store']);
+        $this->middleware('permission:edit book')->only(['update']);
+        $this->middleware('permission:delete book')->only(['destroy']);
+    }
+
     // Get all books
     public function index()
     {

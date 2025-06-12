@@ -1,34 +1,31 @@
+<<<<<<< HEAD
 import styled from 'styled-components'
 import AddLibrary from '../features/libraries/AddLibrary'
 import LibraryTable from '../features/libraries/LibraryTable'
+=======
+>>>>>>> fffccedc1909da34b379a33916755cec06894013
 import Heading from '../ui/Heading'
+import LibraryTable from '../features/libraries/LibraryTable'
 import Row from '../ui/Row'
-
-const SearchInput = styled.input`
-  padding: 0.8rem 1.2rem;
-  border: 1px solid var(--color-grey-200);
-  border-radius: 4px;
-  font-size: 1.4rem;
-  max-width: 300px;
-`
-
-const OperationsWrapper = styled.div`
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  align-items: center;
-  gap: 2rem;
-`
+import styled from 'styled-components'
 
 function Libraries() {
   return (
     <>
+<<<<<<< HEAD
       <Row>
         <Heading as="h1" style={{ textAlign: 'center' }}>
           Libraries
         </Heading>
         <LibraryTable />
         <AddLibrary />
+=======
+      <Heading as="h1" style={{ marginBottom: '5px' }}>
+        Libraries
+      </Heading>
+      <Row>
+        <LibraryTable />
+>>>>>>> fffccedc1909da34b379a33916755cec06894013
       </Row>
     </>
   )
