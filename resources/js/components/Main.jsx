@@ -19,6 +19,7 @@ import LibraryStudents from '../pages/LibraryStudents'
 import Login from '../pages/Login'
 import { ModalProvider } from '../ui/Modal'
 import PageNotFound from '../pages/PageNotFound'
+import Permissions from '../pages/Permissions'
 import ProtectedRoute from './ProtectedRoute'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import RegisterForm from '../pages/home/RegisterForm'
@@ -63,6 +64,7 @@ const Main = () => {
               >
                 <Route path="dashboard" element={<Dashboard />} />
                 <Route path="roles" element={<Roles />} />
+                <Route path="permissions" element={<Permissions />} />
                 <Route path="rooms" element={<Rooms />} />
                 <Route path="bookings" element={<Bookings />} />
                 <Route path="libraries" element={<Libraries />} />
