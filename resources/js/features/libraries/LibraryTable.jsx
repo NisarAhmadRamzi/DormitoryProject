@@ -1,13 +1,13 @@
 import { RxCaretLeft, RxCaretRight } from 'react-icons/rx'
 
-import { useQuery } from '@tanstack/react-query'
-import { useState } from 'react'
 import { FiSearch } from 'react-icons/fi'
-import { useSearchParams } from 'react-router-dom'
-import styled from 'styled-components'
-import { getLibraries } from '../../services/apiLibraries'
-import Spinner from '../../ui/Spinner'
 import LibraryRow from './LibraryRow'
+import Spinner from '../../ui/Spinner'
+import { getLibraries } from '../../services/apiLibraries'
+import styled from 'styled-components'
+import { useQuery } from '@tanstack/react-query'
+import { useSearchParams } from 'react-router-dom'
+import { useState } from 'react'
 
 // Styled Components
 const Table = styled.div`
@@ -89,7 +89,6 @@ const SortableHeader = styled.div`
 
 const PaginationWrapper = styled.div`
   display: flex;
-<<<<<<< HEAD
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
@@ -108,40 +107,17 @@ const RowsPerPage = styled.div`
   display: flex;
   align-items: center;
   gap: 0.8rem;
-=======
-  justify-content: space-between;
-  align-items: center;
-  padding: 1.2rem 2.4rem;
-  border-top: 1px solid var(--color-grey-100);
-  background-color: var(--color-grey-0);
-  font-size: 1.4rem;
-`
-
-const PageInfo = styled.div`
-  flex: 1;
-  text-align: left;
-`
-
-const RowsPerPage = styled.div`
-  flex: 1;
-  text-align: center;
->>>>>>> fffccedc1909da34b379a33916755cec06894013
 
   select {
     padding: 0.4rem 0.8rem;
     font-size: 1.4rem;
     border: 1px solid var(--color-grey-300);
-<<<<<<< HEAD
     border-radius: 6px;
     background-color: white;
-=======
-    border-radius: 4px;
->>>>>>> fffccedc1909da34b379a33916755cec06894013
   }
 `
 
 const NavButtons = styled.div`
-<<<<<<< HEAD
   display: flex;
   align-items: center;
   gap: 1rem;
@@ -158,19 +134,6 @@ const NavButtons = styled.div`
     &:hover:not(:disabled) {
       background-color: var(--color-grey-100);
     }
-=======
-  flex: 1;
-  text-align: right;
-
-  button {
-    margin-left: 0.8rem;
-    padding: 0.4rem 1rem;
-    font-size: 3rem;
-    border: none;
-    background-color: white;
-    border-radius: 4px;
-    cursor: pointer;
->>>>>>> fffccedc1909da34b379a33916755cec06894013
 
     &:disabled {
       opacity: 0.5;
@@ -179,38 +142,6 @@ const NavButtons = styled.div`
   }
 `
 
-<<<<<<< HEAD
-=======
-const SearchWrapper = styled.div`
-  display: flex;
-  justify-content: flex-start;
-  padding: 1.2rem 2.4rem;
-`
-
-const SearchInputContainer = styled.div`
-  position: relative;
-  width: 300px;
-
-  svg {
-    position: absolute;
-    top: 50%;
-    left: 90%;
-    transform: translateY(-50%);
-    color: var(--color-grey-900);
-    font-size: 1.4rem;
-    pointer-events: none;
-  }
-
-  input {
-    font-size: 1.4rem;
-    padding: 0.6rem 1rem 0.6rem 2.8rem; /* padding left for icon */
-    border: 1px solid var(--color-grey-300);
-    border-radius: 4px;
-    width: 100%;
-  }
-`
-
->>>>>>> fffccedc1909da34b379a33916755cec06894013
 // Component
 function LibraryTable() {
   const [searchParams, setSearchParams] = useSearchParams()
@@ -278,16 +209,11 @@ function LibraryTable() {
   function handleRowsPerPageChange(e) {
     const newSize = Number(e.target.value)
     setRowsPerPage(newSize)
-<<<<<<< HEAD
     setSearchParams({ page: 1 })
-=======
-    setSearchParams({ page: 1 }) // reset to page 1
->>>>>>> fffccedc1909da34b379a33916755cec06894013
   }
 
   return (
     <>
-<<<<<<< HEAD
       <TopBarWrapper>
         <SearchWrapper>
           <SearchInputContainer>
@@ -301,19 +227,6 @@ function LibraryTable() {
           </SearchInputContainer>
         </SearchWrapper>
       </TopBarWrapper>
-=======
-      <SearchWrapper>
-        <SearchInputContainer>
-          <FiSearch />
-          <input
-            type="text"
-            placeholder="Search libraries..."
-            value={searchText}
-            onChange={(e) => setSearchText(e.target.value)}
-          />
-        </SearchInputContainer>
-      </SearchWrapper>
->>>>>>> fffccedc1909da34b379a33916755cec06894013
 
       <Table role="table">
         <TableHeader role="row">
