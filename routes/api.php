@@ -13,6 +13,7 @@ use App\Http\Controllers\backend\RoomController;
 use App\Http\Controllers\backend\StudentController;
 use App\Http\Controllers\backend\UserController;
 use App\Http\Controllers\backend\PermissionController;
+use App\Http\Controllers\backend\ProfileController;
 use App\Http\Controllers\backend\RoleController;
 use App\Http\Controllers\backend\SupportController;
 use Illuminate\Http\Request;
@@ -56,10 +57,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('rooms', RoomController::class);
 
     // user routes
-Route::apiResource('users', UserController::class);
-Route::post('/users/updateUsers/{user}', [UserController::class, 'updateUser']);
-Route::put('/users/{user}/assign', [UserController::class, 'assign'])->name('role.assign');
-Route::get('test', [UserController::class, 'test']);
+    Route::apiResource('users', UserController::class);
+    Route::post('/users/updateUsers/{user}', [UserController::class, 'updateUser']);
+    Route::put('/users/{user}/assign', [UserController::class, 'assign'])->name('role.assign');
+    Route::get('test', [UserController::class, 'test']);
     // student routes
     Route::apiResource('students', StudentController::class);
     Route::delete('/students/{id}', [StudentController::class, 'destroy'])->name('students.destroy');
@@ -86,7 +87,10 @@ Route::get('test', [UserController::class, 'test']);
     Route::apiResource('books', BookController::class);
     Route::resource('library-students', LibraryStudentController::class);
     Route::resource('borrowed-books', BorrowedBookController::class);
+
+
+    Route::get('/profile', [ProfileController::class, 'show']);
+    Route::post('/profile', [ProfileController::class, 'update']);
+    Route::delete('/profile/photo', [ProfileController::class, 'deletePhoto']);
+    Route::put('/profile/password', [ProfileController::class, 'updatePassword']);
 });
-
-
-

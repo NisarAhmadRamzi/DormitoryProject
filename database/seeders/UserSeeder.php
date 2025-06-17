@@ -53,6 +53,7 @@ class UserSeeder extends Seeder
             'email' => 'arif@gmail.com',
             'password' => Hash::make('12345678'),
             'role' => $secondAdminRole->name,
+            'profile' => 'uploads/4.jpg'
         ]);
 
         // Assign roles to users
