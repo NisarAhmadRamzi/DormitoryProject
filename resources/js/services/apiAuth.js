@@ -15,7 +15,7 @@ export async function login({ email, password }) {
       throw new Error('No token received')
     }
 
-    return token
+    return { token, user }
   } catch (error) {
     throw new Error(
       error.response?.data?.message || 'Invalid login credentials'

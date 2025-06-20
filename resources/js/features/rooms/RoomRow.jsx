@@ -1,15 +1,16 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { useEffect, useRef, useState } from 'react'
 import { HiEllipsisVertical, HiEye, HiPencil, HiTrash } from 'react-icons/hi2'
+import { useEffect, useRef, useState } from 'react'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 
-import toast from 'react-hot-toast'
-import styled from 'styled-components'
+import ConfirmDelete from '../../ui/ConfirmDelete'
+import CreateRoomForm from './CreateRoomForm'
+import Modal from '../../ui/Modal'
 import RoomDetails from '../../features/rooms/RoomDetails'
 import { deleteRoom } from '../../services/apiCabins'
-import ConfirmDelete from '../../ui/ConfirmDelete'
-import Modal from '../../ui/Modal'
 import { formatCurrency } from '../../utils/helpers'
-import CreateRoomForm from './CreateRoomForm'
+import styled from 'styled-components'
+import toast from 'react-hot-toast'
+import { useUser } from '../../context/UserContext'
 
 const TableRow = styled.div`
   display: grid;
@@ -108,6 +109,8 @@ const DropdownItem = styled.button`
 // === Component ===
 
 const RoomRow = ({ cabin }) => {
+  const { user } = useUser()
+  const role = user?.role
   const queryClient = useQueryClient()
   const [isOpen, setIsOpen] = useState(false)
   const [dropdownPosition, setDropdownPosition] = useState(null)
@@ -177,17 +180,20 @@ const RoomRow = ({ cabin }) => {
             </DropdownItem>
           </Modal.Open>
 
-          <Modal.Open opensWindowName={`edit-${cabin.id}`}>
-            <DropdownItem onClick={closeDropdown}>
-              <HiPencil /> Edit
-            </DropdownItem>
-          </Modal.Open>
-
-          <Modal.Open opensWindowName={`delete-${cabin.id}`}>
-            <DropdownItem onClick={closeDropdown} disabled={isDeleting}>
-              <HiTrash /> Delete
-            </DropdownItem>
-          </Modal.Open>
+          {role !== 'student' && (
+            <Modal.Open opensWindowName={`edit-${cabin.id}`}>
+              <DropdownItem onClick={closeDropdown}>
+                <HiPencil /> Edit
+              </DropdownItem>
+            </Modal.Open>
+          )}
+          {role !== 'student' && (
+            <Modal.Open opensWindowName={`delete-${cabin.id}`}>
+              <DropdownItem onClick={closeDropdown} disabled={isDeleting}>
+                <HiTrash /> Delete
+              </DropdownItem>
+            </Modal.Open>
+          )}
         </DropdownMenu>
       </DropdownWrapper>
 

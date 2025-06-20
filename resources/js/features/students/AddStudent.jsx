@@ -1,9 +1,15 @@
-import React from 'react'
 import Button from '../../ui/Button'
-import Modal from '../../ui/Modal' // Now using the default export
 import CreateStudentForm from './CreateStudentForm'
+import Modal from '../../ui/Modal'
+import { useUser } from '../../context/UserContext'
 
 const AddStudent = () => {
+  const { user } = useUser()
+  const role = user?.role
+
+  // Do not render the button for students
+  if (role === 'student') return null
+
   return (
     <Modal.Provider>
       <Modal.Open opensWindowName="room-form">

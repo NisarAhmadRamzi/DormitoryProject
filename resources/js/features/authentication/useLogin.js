@@ -11,12 +11,18 @@ export function useLogin({ onErrorReset } = {}) {
 
   const { mutate: login, isLoading } = useMutation({
     mutationFn: ({ email, password }) => loginApi({ email, password }),
-    onSuccess: (token) => {
+    onSuccess: ({ token, user }) => {
       localStorage.setItem('token', token)
+      localStorage.setItem('user', JSON.stringify(user)) // ✅ save user
       setToken(token)
-      localStorage.setItem('loginSuccess', 'true')
-      window.location.href = '/dashboard'
+
+      // ✅ Navigate based on role
+      if (user.role === 'admin') window.location.href = '/dashboard'
+      else if (user.role === 'student') window.location.href = '/rooms'
+      else if (user.role === 'second_admin') navigate('/dashboard')
+      else navigate('/')
     },
+
     onError: (err) => {
       console.log('ERROR', err)
       toast.error('Provided email or password are incorrect')

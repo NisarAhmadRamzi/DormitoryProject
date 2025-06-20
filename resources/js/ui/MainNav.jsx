@@ -7,18 +7,19 @@ import {
   PiWarningLight,
 } from 'react-icons/pi'
 
-import { useState } from 'react'
 import { BsCurrencyDollar } from 'react-icons/bs'
 import { HiOutlineHomeModern } from 'react-icons/hi2'
 import { IoIosArrowForward } from 'react-icons/io' // <-- import arrow here
 import { IoKeyOutline } from 'react-icons/io5'
 import { MdOutlineLibraryBooks } from 'react-icons/md'
+import { NavLink } from 'react-router-dom'
 import { RxDashboard } from 'react-icons/rx'
 import { TbDatabaseDollar } from 'react-icons/tb'
 import { TfiSupport } from 'react-icons/tfi'
 import { VscAccount } from 'react-icons/vsc'
-import { NavLink } from 'react-router-dom'
 import styled from 'styled-components'
+import { useState } from 'react'
+import { useUser } from '../context/UserContext'
 
 const NavList = styled.ul`
   display: flex;
@@ -119,6 +120,8 @@ const StyledNavlink = styled(NavLink)`
 
 function MainNav() {
   const [openCategory, setOpenCategory] = useState('')
+  const { user } = useUser()
+  const role = user?.role
 
   const toggleCategory = (category) => {
     setOpenCategory(openCategory === category ? '' : category)
@@ -134,12 +137,14 @@ function MainNav() {
             <ArrowIcon open={openCategory === 'general'} />
           </CategoryHeader>
           <SubMenu open={openCategory === 'general'}>
-            <li>
-              <StyledNavlink to="/dashboard">
-                <RxDashboard />
-                <span>Dashboard</span>
-              </StyledNavlink>
-            </li>
+            {role !== 'student' && (
+              <li>
+                <StyledNavlink to="/dashboard">
+                  <RxDashboard />
+                  <span>Dashboard</span>
+                </StyledNavlink>
+              </li>
+            )}
             <li>
               <StyledNavlink to="/settings">
                 <IoSettingsOutline />
@@ -162,24 +167,31 @@ function MainNav() {
             <ArrowIcon open={openCategory === 'users'} />
           </CategoryHeader>
           <SubMenu open={openCategory === 'users'}>
-            <li>
-              <StyledNavlink to="/users">
-                <LuUsers />
-                <span>Users</span>
-              </StyledNavlink>
-            </li>
-            <li>
-              <StyledNavlink to="/roles">
-                <LuBadgeCheck />
-                <span>Roles</span>
-              </StyledNavlink>
-            </li>
-            <li>
-              <StyledNavlink to="/permissions">
-                <IoKeyOutline />
-                <span>Permissions</span>
-              </StyledNavlink>
-            </li>
+            {role !== 'student' && (
+              <li>
+                <StyledNavlink to="/users">
+                  <LuUsers />
+                  <span>Users</span>
+                </StyledNavlink>
+              </li>
+            )}
+            {role !== 'student' && (
+              <li>
+                <StyledNavlink to="/roles">
+                  <LuBadgeCheck />
+                  <span>Roles</span>
+                </StyledNavlink>
+              </li>
+            )}
+
+            {role !== 'student' && (
+              <li>
+                <StyledNavlink to="/permissions">
+                  <IoKeyOutline />
+                  <span>Permissions</span>
+                </StyledNavlink>
+              </li>
+            )}
             <li>
               <StyledNavlink to="/students">
                 <PiGraduationCapLight />
@@ -202,18 +214,23 @@ function MainNav() {
                 <span>Rooms</span>
               </StyledNavlink>
             </li>
-            <li>
-              <StyledNavlink to="/assets">
-                <TbDatabaseDollar />
-                <span>Assets</span>
-              </StyledNavlink>
-            </li>
-            <li>
-              <StyledNavlink to="/complaints">
-                <PiWarningLight />
-                <span>Complaints</span>
-              </StyledNavlink>
-            </li>
+
+            {role !== 'student' && (
+              <li>
+                <StyledNavlink to="/assets">
+                  <TbDatabaseDollar />
+                  <span>Assets</span>
+                </StyledNavlink>
+              </li>
+            )}
+            {role !== 'student' && (
+              <li>
+                <StyledNavlink to="/complaints">
+                  <PiWarningLight />
+                  <span>Complaints</span>
+                </StyledNavlink>
+              </li>
+            )}
           </SubMenu>
         </Category>
 
@@ -224,18 +241,23 @@ function MainNav() {
             <ArrowIcon open={openCategory === 'library'} />
           </CategoryHeader>
           <SubMenu open={openCategory === 'library'}>
-            <li>
-              <StyledNavlink to="/libraries">
-                <HiOutlineHomeModern />
-                <span>Library</span>
-              </StyledNavlink>
-            </li>
-            <li>
-              <StyledNavlink to="/library-students">
-                <PiGraduationCapDuotone />
-                <span>Library Students</span>
-              </StyledNavlink>
-            </li>
+            {role !== 'student' && (
+              <li>
+                <StyledNavlink to="/libraries">
+                  <HiOutlineHomeModern />
+                  <span>Library</span>
+                </StyledNavlink>
+              </li>
+            )}
+
+            {role !== 'student' && (
+              <li>
+                <StyledNavlink to="/library-students">
+                  <PiGraduationCapDuotone />
+                  <span>Library Students</span>
+                </StyledNavlink>
+              </li>
+            )}
             <li>
               <StyledNavlink to="/books">
                 <MdOutlineLibraryBooks />
@@ -252,32 +274,34 @@ function MainNav() {
         </Category>
 
         {/* Finance */}
-        <Category>
-          <CategoryHeader onClick={() => toggleCategory('finance')}>
-            Finance
-            <ArrowIcon open={openCategory === 'finance'} />
-          </CategoryHeader>
-          <SubMenu open={openCategory === 'finance'}>
-            <li>
-              <StyledNavlink to="/fees">
-                <BsCurrencyDollar />
-                <span>Fees</span>
-              </StyledNavlink>
-            </li>
-            <li>
-              <StyledNavlink to="/expenses">
-                <PiCurrencyDollarSimpleBold />
-                <span>Expenses</span>
-              </StyledNavlink>
-            </li>
-            <li>
-              <StyledNavlink to="/supports">
-                <TfiSupport />
-                <span>Supports</span>
-              </StyledNavlink>
-            </li>
-          </SubMenu>
-        </Category>
+        {role !== 'student' && (
+          <Category>
+            <CategoryHeader onClick={() => toggleCategory('finance')}>
+              Finance
+              <ArrowIcon open={openCategory === 'finance'} />
+            </CategoryHeader>
+            <SubMenu open={openCategory === 'finance'}>
+              <li>
+                <StyledNavlink to="/fees">
+                  <BsCurrencyDollar />
+                  <span>Fees</span>
+                </StyledNavlink>
+              </li>
+              <li>
+                <StyledNavlink to="/expenses">
+                  <PiCurrencyDollarSimpleBold />
+                  <span>Expenses</span>
+                </StyledNavlink>
+              </li>
+              <li>
+                <StyledNavlink to="/supports">
+                  <TfiSupport />
+                  <span>Supports</span>
+                </StyledNavlink>
+              </li>
+            </SubMenu>
+          </Category>
+        )}
       </NavList>
     </nav>
   )

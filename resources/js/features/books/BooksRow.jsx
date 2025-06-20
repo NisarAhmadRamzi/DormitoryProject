@@ -1,14 +1,15 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { useEffect, useRef, useState } from 'react'
 import { HiEllipsisVertical, HiEye, HiPencil, HiTrash } from 'react-icons/hi2'
+import { useEffect, useRef, useState } from 'react'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 
-import toast from 'react-hot-toast'
-import styled from 'styled-components'
-import { deleteBook } from '../../services/apiBooks'
-import ConfirmDelete from '../../ui/ConfirmDelete'
-import Modal from '../../ui/Modal'
 import BookDetails from './BookDetails'
+import ConfirmDelete from '../../ui/ConfirmDelete'
 import CreateBookForm from './CreateBookForm'
+import Modal from '../../ui/Modal'
+import { deleteBook } from '../../services/apiBooks'
+import styled from 'styled-components'
+import toast from 'react-hot-toast'
+import { useUser } from '../../context/UserContext'
 
 const TableRow = styled.div`
   display: grid;
@@ -93,6 +94,8 @@ const DropdownItem = styled.button`
   }
 `
 function BooksRow({ book }) {
+    const { user } = useUser()
+    const role = user?.role
   const queryClient = useQueryClient()
   const [isOpen, setIsOpen] = useState(false)
   const [dropdownPosition, setDropdownPosition] = useState(null)
@@ -162,18 +165,20 @@ function BooksRow({ book }) {
                 <HiEye /> View
               </DropdownItem>
             </Modal.Open>
-
-            <Modal.Open opensWindowName={`edit-${book.id}`}>
-              <DropdownItem onClick={closeDropdown}>
-                <HiPencil /> Edit
-              </DropdownItem>
-            </Modal.Open>
-
-            <Modal.Open opensWindowName={`delete-${book.id}`}>
-              <DropdownItem onClick={closeDropdown} disabled={isDeleting}>
-                <HiTrash /> Delete
-              </DropdownItem>
-            </Modal.Open>
+            {role !== 'student' && (
+              <Modal.Open opensWindowName={`edit-${book.id}`}>
+                <DropdownItem onClick={closeDropdown}>
+                  <HiPencil /> Edit
+                </DropdownItem>
+              </Modal.Open>
+            )}
+            {role !== 'student' && (
+              <Modal.Open opensWindowName={`delete-${book.id}`}>
+                <DropdownItem onClick={closeDropdown} disabled={isDeleting}>
+                  <HiTrash /> Delete
+                </DropdownItem>
+              </Modal.Open>
+            )}
           </DropdownMenu>
         </DropdownWrapper>
       </Cell>
