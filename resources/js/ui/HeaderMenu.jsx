@@ -1,31 +1,32 @@
 import { useEffect, useRef, useState } from 'react'
 
+import { AiOutlineSetting } from 'react-icons/ai'
+import { LiaExpandSolid } from 'react-icons/lia'
+import { MdOutlineLanguage } from 'react-icons/md'
+import { useNavigate } from 'react-router-dom'
+import styled from 'styled-components'
+import Logouts from '../features/authentication/Logouts'
+import UserAvatar from '../features/authentication/UserAvatar'
 import ButtonIcon from './ButtonIcon'
 import DarkModeToggle from './DarkModeToggle'
-import { LiaExpandSolid } from 'react-icons/lia'
-import Logouts from '../features/authentication/Logouts'
-import { MdOutlineLanguage } from 'react-icons/md'
-import UserAvatar from '../features/authentication/UserAvatar'
-import styled from 'styled-components'
-import { useNavigate } from 'react-router-dom'
 
 const StyledHeaderMenu = styled.ul`
   display: flex;
   align-items: center;
-  gap: 3rem; 
-  position: relative;
-  
-`
-
-const LanguageWrapper = styled.div`
+  gap: 3rem;
   position: relative;
 `
 
-const LanguageMenu = styled.ul`
+const DropdownWrapper = styled.div`
+  position: relative;
+`
+
+const DropdownMenu = styled.ul`
   position: absolute;
   right: 0;
-  top: 3.4rem;
+  top: 100%;
   background-color: var(--color-grey-0);
+  border: 1px solid lightgray;
   border-radius: var(--border-radius-md);
   box-shadow: var(--shadow-md);
   padding: 0.4rem 0;
@@ -33,7 +34,7 @@ const LanguageMenu = styled.ul`
   min-width: 200px;
 `
 
-const LanguageItem = styled.button`
+const DropdownItem = styled.button`
   background: none;
   border: none;
   width: 100%;
@@ -52,10 +53,8 @@ const LanguageItem = styled.button`
   }
 
   img {
-    width: 20px;
-    height: 20px;
-    object-fit: cover;
-    border-radius: 50%;
+    width: 24px;
+    height: auto;
   }
 `
 
@@ -67,12 +66,12 @@ const languages = [
   },
   {
     code: 'ps',
-    name: 'Pashto',
+    name: 'پښتو',
     flag: 'https://flagcdn.com/af.svg',
   },
   {
     code: 'fa',
-    name: 'Dari',
+    name: 'دری',
     flag: 'https://flagcdn.com/af.svg',
   },
 ]
@@ -80,44 +79,36 @@ const languages = [
 const HeaderMenu = () => {
   const navigate = useNavigate()
   const [langMenuOpen, setLangMenuOpen] = useState(false)
+  const [userMenuOpen, setUserMenuOpen] = useState(false)
   const langRef = useRef()
+  const userRef = useRef()
 
   const handleFullscreen = () => {
     const elem = document.documentElement
     if (!document.fullscreenElement) {
-      if (elem.requestFullscreen) elem.requestFullscreen()
-      else if (elem.webkitRequestFullscreen) elem.webkitRequestFullscreen()
-      else if (elem.msRequestFullscreen) elem.msRequestFullscreen()
+      elem.requestFullscreen?.()
     } else {
-      if (document.exitFullscreen) document.exitFullscreen()
-      else if (document.webkitExitFullscreen) document.webkitExitFullscreen()
-      else if (document.msExitFullscreen) document.msExitFullscreen()
+      document.exitFullscreen?.()
     }
   }
 
-  const toggleLangMenu = () => {
-    setLangMenuOpen((prev) => !prev)
-  }
+  const toggleLangMenu = () => setLangMenuOpen((prev) => !prev)
+  const toggleUserMenu = () => setUserMenuOpen((prev) => !prev)
 
-  const closeLangMenu = () => {
-    setLangMenuOpen(false)
-  }
+  const closeLangMenu = () => setLangMenuOpen(false)
+  const closeUserMenu = () => setUserMenuOpen(false)
 
   useEffect(() => {
     function handleClickOutside(e) {
-      if (langRef.current && !langRef.current.contains(e.target)) {
+      if (langRef.current && !langRef.current.contains(e.target))
         closeLangMenu()
-      }
+      if (userRef.current && !userRef.current.contains(e.target))
+        closeUserMenu()
     }
 
-    if (langMenuOpen) {
-      document.addEventListener('mousedown', handleClickOutside)
-    }
-
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside)
-    }
-  }, [langMenuOpen])
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [])
 
   const handleLanguageSelect = (langCode) => {
     console.log(`Selected language: ${langCode}`)
@@ -127,39 +118,61 @@ const HeaderMenu = () => {
   return (
     <StyledHeaderMenu>
       <li>
-        <UserAvatar />
+        <DropdownWrapper ref={userRef}>
+          <div onClick={toggleUserMenu} style={{ cursor: 'pointer' }}>
+            <UserAvatar />
+          </div>
+          {userMenuOpen && (
+            <DropdownMenu>
+              <DropdownItem
+                onClick={() => navigate('/settings', closeUserMenu())}
+              >
+                <ButtonIcon>
+                  <AiOutlineSetting />
+                </ButtonIcon>{' '}
+                Profile Settings
+              </DropdownItem>
+              <DropdownItem
+                onClick={() => {
+                  closeUserMenu()
+                }}
+              >
+                <Logouts /> Log out
+              </DropdownItem>
+            </DropdownMenu>
+          )}
+        </DropdownWrapper>
       </li>
+
       <li>
         <ButtonIcon onClick={handleFullscreen}>
           <LiaExpandSolid />
         </ButtonIcon>
       </li>
-      <li>
-        <Logouts />
-      </li>
+
       <li>
         <DarkModeToggle />
       </li>
+
       <li>
-        <LanguageWrapper ref={langRef}>
+        <DropdownWrapper ref={langRef}>
           <ButtonIcon onClick={toggleLangMenu}>
             <MdOutlineLanguage />
           </ButtonIcon>
-
           {langMenuOpen && (
-            <LanguageMenu>
+            <DropdownMenu>
               {languages.map((lang) => (
-                <LanguageItem
+                <DropdownItem
                   key={lang.code}
                   onClick={() => handleLanguageSelect(lang.code)}
                 >
                   <img src={lang.flag} alt={`${lang.name} flag`} />
                   {lang.name}
-                </LanguageItem>
+                </DropdownItem>
               ))}
-            </LanguageMenu>
+            </DropdownMenu>
           )}
-        </LanguageWrapper>
+        </DropdownWrapper>
       </li>
     </StyledHeaderMenu>
   )

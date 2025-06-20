@@ -9,7 +9,7 @@ import {
 
 import { BsCurrencyDollar } from 'react-icons/bs'
 import { HiOutlineHomeModern } from 'react-icons/hi2'
-import { IoIosArrowForward } from 'react-icons/io' // <-- import arrow here
+import { IoIosArrowForward } from 'react-icons/io'
 import { IoKeyOutline } from 'react-icons/io5'
 import { MdOutlineLibraryBooks } from 'react-icons/md'
 import { NavLink } from 'react-router-dom'
@@ -64,14 +64,13 @@ const CategoryHeader = styled.div`
 `
 
 const ArrowIcon = styled(IoIosArrowForward)`
-  margin-left: auto; /* push arrow to right */
+  margin-left: auto; 
   transition: transform 0.3s ease;
   color: var(--color-grey-400);
   width: 1.6rem;
   height: 1.6rem;
   flex-shrink: 0;
 
-  /* rotate when open */
   ${({ open }) =>
     open && `transform: rotate(90deg); color: var(--color-brand-600);`}
 `
