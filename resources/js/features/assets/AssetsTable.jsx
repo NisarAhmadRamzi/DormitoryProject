@@ -1,12 +1,12 @@
-import AssetsRow from './AssetsRow'
-import { PAGE_SIZE } from '../../utils/constants'
-import Pagination from '../../ui/Pagination'
-import Spinner from '../../ui/Spinner'
-import { getAssets } from '../../services/apiAssets' // fetch assets API
-import styled from 'styled-components'
 import { useQuery } from '@tanstack/react-query'
-import { useSearchParams } from 'react-router-dom'
 import { useState } from 'react'
+import { FiSearch } from 'react-icons/fi'
+import { RxCaretLeft, RxCaretRight } from 'react-icons/rx'
+import { useSearchParams } from 'react-router-dom'
+import styled from 'styled-components'
+import { getAssets } from '../../services/apiAssets'
+import Spinner from '../../ui/Spinner'
+import AssetsRow from './AssetsRow'
 
 const Table = styled.div`
   border: 1px solid var(--color-grey-200);
@@ -48,38 +48,128 @@ const SortableHeader = styled.div`
   }
 `
 
-function AssetsTable({ search }) {
-  const [searchParams] = useSearchParams()
+const TopBarWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.6rem 2.4rem 0 0rem;
+  gap: 2rem;
+  flex-wrap: wrap;
+`
+
+const SearchInputContainer = styled.div`
+  position: relative;
+  width: 300px;
+
+  svg {
+    position: absolute;
+    top: 50%;
+    left: 90%;
+    transform: translateY(-50%);
+    color: var(--color-grey-900);
+    font-size: 1.4rem;
+    pointer-events: none;
+  }
+
+  input {
+    font-size: 1.4rem;
+    padding: 0.6rem 1rem 0.6rem 2.8rem;
+    border: 1px solid var(--color-grey-300);
+    border-radius: 4px;
+    width: 100%;
+  }
+`
+
+const PaginationWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1.6rem;
+  border-top: 1px solid var(--color-grey-100);
+  background-color: var(--color-grey-0);
+  font-size: 1.4rem;
+  gap: 2rem;
+`
+
+const PageInfo = styled.div`
+  font-weight: 500;
+`
+
+const RowsPerPage = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+
+  select {
+    padding: 0.4rem 0.8rem;
+    font-size: 1.4rem;
+    border: 1px solid var(--color-grey-300);
+    border-radius: 6px;
+    background-color: white;
+  }
+`
+
+const NavButtons = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+
+  button {
+    padding: 0.4rem 0.8rem;
+    font-size: 2rem;
+    background-color: white;
+    border: 1px solid var(--color-grey-300);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+
+    &:hover:not(:disabled) {
+      background-color: var(--color-grey-100);
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+`
+
+function AssetsTable() {
+  const [searchParams, setSearchParams] = useSearchParams()
   const currentPage = Number(searchParams.get('page')) || 1
+  const [rowsPerPage, setRowsPerPage] = useState(10)
+  const [sortBy, setSortBy] = useState(null)
+  const [sortOrder, setSortOrder] = useState('asc')
+  const [searchText, setSearchText] = useState('')
 
   const { isLoading, data, error } = useQuery({
     queryKey: ['assets'],
     queryFn: getAssets,
   })
 
-  const [sortBy, setSortBy] = useState(null)
-  const [sortOrder, setSortOrder] = useState('asc')
-
   if (isLoading) return <Spinner />
   if (error) return <div>Error loading assets!</div>
 
-  let filteredAssets = data?.data || []
+  let assets = data?.data || []
 
-  // Search functionality
-  if (search.trim() !== '') {
-    filteredAssets = filteredAssets.filter((asset) => {
-      const searchString =
-        `${asset.id} ${asset.quantity} ${asset.description}`.toLowerCase()
-      return searchString.includes(search.toLowerCase())
+  // Search
+  if (searchText.trim() !== '') {
+    assets = assets.filter((asset) => {
+      const searchStr = `
+        ${asset.id || ''}
+        ${asset.quantity || ''}
+        ${asset.description || ''}
+        ${asset.total_quantity || ''}
+      `.toLowerCase()
+      return searchStr.includes(searchText.toLowerCase())
     })
   }
 
-  // Sort functionality
+  // Sort
   if (sortBy) {
-    filteredAssets = [...filteredAssets].sort((a, b) => {
+    assets = [...assets].sort((a, b) => {
       let aVal = a[sortBy]
       let bVal = b[sortBy]
-
       if (typeof aVal === 'string') aVal = aVal.toLowerCase()
       if (typeof bVal === 'string') bVal = bVal.toLowerCase()
 
@@ -90,10 +180,11 @@ function AssetsTable({ search }) {
   }
 
   // Pagination
-  const totalItems = filteredAssets.length
-  const start = (currentPage - 1) * PAGE_SIZE
-  const end = start + PAGE_SIZE
-  const paginatedAssets = filteredAssets.slice(start, end)
+  const totalItems = assets.length
+  const totalPages = Math.ceil(totalItems / rowsPerPage)
+  const start = (currentPage - 1) * rowsPerPage
+  const end = start + rowsPerPage
+  const paginatedAssets = assets.slice(start, end)
 
   function handleSort(column) {
     if (sortBy === column) {
@@ -105,14 +196,34 @@ function AssetsTable({ search }) {
   }
 
   const renderSortIcon = (column) => {
-    if (sortBy === column) {
-      return sortOrder === 'asc' ? '↑' : '↓'
-    }
+    if (sortBy === column) return sortOrder === 'asc' ? '↑' : '↓'
     return '↑↓'
+  }
+
+  function handlePageChange(newPage) {
+    setSearchParams({ page: newPage })
+  }
+
+  function handleRowsPerPageChange(e) {
+    const newSize = Number(e.target.value)
+    setRowsPerPage(newSize)
+    setSearchParams({ page: 1 })
   }
 
   return (
     <>
+      <TopBarWrapper>
+        <SearchInputContainer>
+          <FiSearch />
+          <input
+            type="text"
+            placeholder="Search assets..."
+            value={searchText}
+            onChange={(e) => setSearchText(e.target.value)}
+          />
+        </SearchInputContainer>
+      </TopBarWrapper>
+
       <Table role="table">
         <TableHeader role="row">
           <div></div>
@@ -143,11 +254,42 @@ function AssetsTable({ search }) {
           <AssetsRow asset={asset} key={asset.id} />
         ))}
 
-        {filteredAssets.length === 0 && (
+        {assets.length === 0 && (
           <div style={{ padding: '1.6rem' }}>No matching assets found.</div>
         )}
 
-        <Pagination count={totalItems} />
+        <PaginationWrapper>
+          <PageInfo>
+            Page {currentPage} of {totalPages}
+          </PageInfo>
+
+          <RowsPerPage>
+            Rows per page:{' '}
+            <select value={rowsPerPage} onChange={handleRowsPerPageChange}>
+              <option value={5}>5</option>
+              <option value={10}>10</option>
+              <option value={25}>25</option>
+              <option value={50}>50</option>
+            </select>
+          </RowsPerPage>
+
+          <NavButtons>
+            <button
+              onClick={() => handlePageChange(Math.max(1, currentPage - 1))}
+              disabled={currentPage === 1}
+            >
+              <RxCaretLeft />
+            </button>
+            <button
+              onClick={() =>
+                handlePageChange(Math.min(totalPages, currentPage + 1))
+              }
+              disabled={currentPage === totalPages}
+            >
+              <RxCaretRight />
+            </button>
+          </NavButtons>
+        </PaginationWrapper>
       </Table>
     </>
   )
