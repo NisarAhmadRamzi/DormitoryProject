@@ -1,7 +1,6 @@
-// CabinsTable.jsx
+import { RxCaretLeft, RxCaretRight } from 'react-icons/rx'
 
 import { FiSearch } from 'react-icons/fi'
-import Pagination from '../../ui/Pagination'
 import RoomRow from './RoomRow'
 import Spinner from '../../ui/Spinner'
 import { getCabins } from '../../services/apiCabins'
@@ -9,8 +8,6 @@ import styled from 'styled-components'
 import { useQuery } from '@tanstack/react-query'
 import { useSearchParams } from 'react-router-dom'
 import { useState } from 'react'
-
-const PAGE_SIZE = 10
 
 const Table = styled.div`
   border: 1px solid var(--color-grey-200);
@@ -52,8 +49,11 @@ const SortableHeader = styled.div`
 
 const TopBarWrapper = styled.div`
   display: flex;
-  justify-content: flex-start;
+  justify-content: space-between;
   align-items: center;
+  padding: 1.6rem 2.4rem 0 0rem;
+  gap: 2rem;
+  flex-wrap: wrap;
 `
 
 const SearchInputContainer = styled.div`
@@ -79,32 +79,93 @@ const SearchInputContainer = styled.div`
   }
 `
 
-function CabinsTable() {
-  const [searchParams] = useSearchParams()
+const PaginationWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1.6rem;
+  border-top: 1px solid var(--color-grey-100);
+  background-color: var(--color-grey-0);
+  font-size: 1.4rem;
+  gap: 2rem;
+`
+
+const PageInfo = styled.div`
+  font-weight: 500;
+`
+
+const RowsPerPage = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+
+  select {
+    padding: 0.4rem 0.8rem;
+    font-size: 1.4rem;
+    border: 1px solid var(--color-grey-300);
+    border-radius: 6px;
+    background-color: white;
+  }
+`
+
+const NavButtons = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+
+  button {
+    padding: 0.4rem 0.8rem;
+    font-size: 2rem;
+    background-color: white;
+    border: 1px solid var(--color-grey-300);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+
+    &:hover:not(:disabled) {
+      background-color: var(--color-grey-100);
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+`
+
+function RoomsTable() {
+  const [searchParams, setSearchParams] = useSearchParams()
   const currentPage = Number(searchParams.get('page')) || 1
-  const { isLoading, data, error } = useQuery(['cabins'], getCabins)
-  const [searchText, setSearchText] = useState('')
+  const [rowsPerPage, setRowsPerPage] = useState(10)
   const [sortBy, setSortBy] = useState(null)
   const [sortOrder, setSortOrder] = useState('asc')
+  const [searchText, setSearchText] = useState('')
+
+  const { data, isLoading, error } = useQuery(['cabins'], getCabins)
 
   if (isLoading) return <Spinner />
-  if (error) return <div>Error loading cabins!</div>
+  if (error) return <div>Error loading rooms.</div>
 
   let rooms = data?.data || []
 
+  // Search
   if (searchText.trim() !== '') {
     rooms = rooms.filter((room) => {
-      const searchString =
-        `${room.room_number} ${room.type} ${room.capacity} ${room.price}`.toLowerCase()
-      return searchString.includes(searchText.toLowerCase())
+      const searchStr = `
+        ${room.room_number || ''}
+        ${room.type || ''}
+        ${room.capacity || ''}
+        ${room.price || ''}
+      `.toLowerCase()
+      return searchStr.includes(searchText.toLowerCase())
     })
   }
 
+  // Sort
   if (sortBy) {
     rooms = [...rooms].sort((a, b) => {
       let aVal = a[sortBy]
       let bVal = b[sortBy]
-
       if (typeof aVal === 'string') aVal = aVal.toLowerCase()
       if (typeof bVal === 'string') bVal = bVal.toLowerCase()
 
@@ -115,8 +176,9 @@ function CabinsTable() {
   }
 
   const totalItems = rooms.length
-  const start = (currentPage - 1) * PAGE_SIZE
-  const end = start + PAGE_SIZE
+  const totalPages = Math.ceil(totalItems / rowsPerPage)
+  const start = (currentPage - 1) * rowsPerPage
+  const end = start + rowsPerPage
   const paginatedRooms = rooms.slice(start, end)
 
   function handleSort(column) {
@@ -128,11 +190,19 @@ function CabinsTable() {
     }
   }
 
-  const renderSortIcon = (column) => {
-    if (sortBy === column) {
-      return sortOrder === 'asc' ? '↑' : '↓'
-    }
+  function renderSortIcon(column) {
+    if (sortBy === column) return sortOrder === 'asc' ? '↑' : '↓'
     return '↑↓'
+  }
+
+  function handlePageChange(newPage) {
+    setSearchParams({ page: newPage })
+  }
+
+  function handleRowsPerPageChange(e) {
+    const newSize = Number(e.target.value)
+    setRowsPerPage(newSize)
+    setSearchParams({ page: 1 })
   }
 
   return (
@@ -179,18 +249,49 @@ function CabinsTable() {
           <div>Action</div>
         </TableHeader>
 
-        {paginatedRooms.map((cabin) => (
-          <RoomRow key={cabin.id} cabin={cabin} />
+        {paginatedRooms.map((room) => (
+          <RoomRow key={room.id} cabin={room} />
         ))}
 
         {rooms.length === 0 && (
           <div style={{ padding: '1.6rem' }}>No matching rooms found.</div>
         )}
 
-        <Pagination count={totalItems} />
+        <PaginationWrapper>
+          <PageInfo>
+            Page {currentPage} of {totalPages}
+          </PageInfo>
+
+          <RowsPerPage>
+            Rows per page:{' '}
+            <select value={rowsPerPage} onChange={handleRowsPerPageChange}>
+              <option value={5}>5</option>
+              <option value={10}>10</option>
+              <option value={25}>25</option>
+              <option value={50}>50</option>
+            </select>
+          </RowsPerPage>
+
+          <NavButtons>
+            <button
+              onClick={() => handlePageChange(Math.max(1, currentPage - 1))}
+              disabled={currentPage === 1}
+            >
+              <RxCaretLeft />
+            </button>
+            <button
+              onClick={() =>
+                handlePageChange(Math.min(totalPages, currentPage + 1))
+              }
+              disabled={currentPage === totalPages}
+            >
+              <RxCaretRight />
+            </button>
+          </NavButtons>
+        </PaginationWrapper>
       </Table>
     </>
   )
 }
 
-export default CabinsTable
+export default RoomsTable
