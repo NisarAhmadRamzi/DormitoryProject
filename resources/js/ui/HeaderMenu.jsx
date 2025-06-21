@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from 'react'
 
-import { AiOutlineSetting } from 'react-icons/ai'
 import { LiaExpandSolid } from 'react-icons/lia'
 import { MdOutlineLanguage } from 'react-icons/md'
+import { VscAccount } from 'react-icons/vsc'
 import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import Logouts from '../features/authentication/Logouts'
@@ -125,10 +125,10 @@ const HeaderMenu = () => {
           {userMenuOpen && (
             <DropdownMenu>
               <DropdownItem
-                onClick={() => navigate('/settings', closeUserMenu())}
+                onClick={() => navigate('/accounts', closeUserMenu())}
               >
                 <ButtonIcon>
-                  <AiOutlineSetting />
+                  <VscAccount />
                 </ButtonIcon>{' '}
                 Profile Settings
               </DropdownItem>
