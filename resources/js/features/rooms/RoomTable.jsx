@@ -1,4 +1,6 @@
-import { PAGE_SIZE } from '../../utils/constants'
+// CabinsTable.jsx
+
+import { FiSearch } from 'react-icons/fi'
 import Pagination from '../../ui/Pagination'
 import RoomRow from './RoomRow'
 import Spinner from '../../ui/Spinner'
@@ -7,6 +9,8 @@ import styled from 'styled-components'
 import { useQuery } from '@tanstack/react-query'
 import { useSearchParams } from 'react-router-dom'
 import { useState } from 'react'
+
+const PAGE_SIZE = 10
 
 const Table = styled.div`
   border: 1px solid var(--color-grey-200);
@@ -22,12 +26,10 @@ const TableHeader = styled.header`
   column-gap: 0.5rem;
   align-items: center;
   background-color: var(--color-grey-50);
-  border-bottom: 1px solid var(--color-grey-100);
+  padding: 1.6rem 2.4rem;
   text-transform: uppercase;
-  letter-spacing: 0.4px;
   font-weight: 600;
   color: var(--color-grey-600);
-  padding: 1.6rem 2.4rem;
 `
 
 const SortableHeader = styled.div`
@@ -48,47 +50,58 @@ const SortableHeader = styled.div`
   }
 `
 
-function CabinsTable({ search }) {
+const TopBarWrapper = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+`
+
+const SearchInputContainer = styled.div`
+  position: relative;
+  width: 300px;
+
+  svg {
+    position: absolute;
+    top: 50%;
+    left: 90%;
+    transform: translateY(-50%);
+    color: var(--color-grey-900);
+    font-size: 1.4rem;
+    pointer-events: none;
+  }
+
+  input {
+    font-size: 1.4rem;
+    padding: 0.6rem 1rem 0.6rem 2.8rem;
+    border: 1px solid var(--color-grey-300);
+    border-radius: 4px;
+    width: 100%;
+  }
+`
+
+function CabinsTable() {
   const [searchParams] = useSearchParams()
   const currentPage = Number(searchParams.get('page')) || 1
-
-  const filterValue = searchParams.get('price') || 'all'
-
-  const { isLoading, data, error } = useQuery({
-    queryKey: ['cabins'],
-    queryFn: getCabins,
-  })
-
+  const { isLoading, data, error } = useQuery(['cabins'], getCabins)
+  const [searchText, setSearchText] = useState('')
   const [sortBy, setSortBy] = useState(null)
   const [sortOrder, setSortOrder] = useState('asc')
 
   if (isLoading) return <Spinner />
   if (error) return <div>Error loading cabins!</div>
 
-  let filteredRooms = data?.data || []
+  let rooms = data?.data || []
 
-  // Filter by price
-  if (filterValue === 'no-price') {
-    filteredRooms = filteredRooms.map((room) => ({
-      ...room,
-      price: '-',
-    }))
-  } else if (filterValue === 'with-price') {
-    filteredRooms = filteredRooms.filter((room) => parseFloat(room.price) > 0)
-  }
-
-  // Search
-  if (search.trim() !== '') {
-    filteredRooms = filteredRooms.filter((room) => {
+  if (searchText.trim() !== '') {
+    rooms = rooms.filter((room) => {
       const searchString =
-        `${room.id} ${room.room_number} ${room.type} ${room.capacity}`.toLowerCase()
-      return searchString.includes(search.toLowerCase())
+        `${room.room_number} ${room.type} ${room.capacity} ${room.price}`.toLowerCase()
+      return searchString.includes(searchText.toLowerCase())
     })
   }
 
-  // Sort
   if (sortBy) {
-    filteredRooms = [...filteredRooms].sort((a, b) => {
+    rooms = [...rooms].sort((a, b) => {
       let aVal = a[sortBy]
       let bVal = b[sortBy]
 
@@ -101,11 +114,10 @@ function CabinsTable({ search }) {
     })
   }
 
-  // Pagination logic (frontend)
-  const totalItems = filteredRooms.length
+  const totalItems = rooms.length
   const start = (currentPage - 1) * PAGE_SIZE
   const end = start + PAGE_SIZE
-  const paginatedRooms = filteredRooms.slice(start, end)
+  const paginatedRooms = rooms.slice(start, end)
 
   function handleSort(column) {
     if (sortBy === column) {
@@ -125,9 +137,21 @@ function CabinsTable({ search }) {
 
   return (
     <>
+      <TopBarWrapper>
+        <SearchInputContainer>
+          <FiSearch />
+          <input
+            type="text"
+            placeholder="Search rooms..."
+            value={searchText}
+            onChange={(e) => setSearchText(e.target.value)}
+          />
+        </SearchInputContainer>
+      </TopBarWrapper>
+
       <Table role="table">
         <TableHeader role="row">
-          <div></div>
+          <div>ID</div>
           <SortableHeader
             onClick={() => handleSort('room_number')}
             className={sortBy === 'room_number' ? 'active' : ''}
@@ -156,11 +180,11 @@ function CabinsTable({ search }) {
         </TableHeader>
 
         {paginatedRooms.map((cabin) => (
-          <RoomRow cabin={cabin} key={cabin.id} />
+          <RoomRow key={cabin.id} cabin={cabin} />
         ))}
 
-        {filteredRooms.length === 0 && (
-          <div style={{ padding: '1.6rem' }}>No matching cabins found.</div>
+        {rooms.length === 0 && (
+          <div style={{ padding: '1.6rem' }}>No matching rooms found.</div>
         )}
 
         <Pagination count={totalItems} />
