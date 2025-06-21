@@ -1,9 +1,12 @@
 import { useEffect, useState } from 'react'
 
+import styled from 'styled-components'
+import Button from '../../ui/Button'
+import ConfirmDelete from '../../ui/ConfirmDelete'
 import Form from '../../ui/Form'
 import FormRow from '../../ui/FormRow'
 import Input from '../../ui/Input'
-import styled from 'styled-components'
+import Row from '../../ui/Row'
 import { useAccount } from './useAccount'
 import { useUpdateAccount } from './useUpdateAccount'
 
@@ -16,117 +19,203 @@ const ProfilePreview = styled.img`
   border: 2px solid var(--color-grey-300);
 `
 
+const DeleteButton = styled.button`
+  background: red;
+  color: white;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+`
+
 const FileInput = styled.input`
   margin-top: 0.5rem;
 `
 
 function UpdateAccountForm() {
   const { isLoading, error, account } = useAccount()
-  const { isUpdating, updateProfile } = useUpdateAccount()
+  const {
+    isUpdating,
+    updateProfile,
+    isDeletingPhoto,
+    deleteProfilePhoto,
+    isUpdatingPassword,
+    updatePassword,
+  } = useUpdateAccount()
 
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
+  const [showConfirmDelete, setShowConfirmDelete] = useState(false)
   const [photoPreview, setPhotoPreview] = useState(null)
-  const [photoFile, setPhotoFile] = useState(null)
 
-  // Initialize state when account loads
+  // Password state
+  const [passwords, setPasswords] = useState({
+    current_password: '',
+    password: '',
+    password_confirmation: '',
+  })
+
   useEffect(() => {
     if (account) {
       setName(account.name || '')
       setEmail(account.email || '')
-      // Photo preview uses /uploads path like your UserAvatar component
-      setPhotoPreview(account.profile ? `/uploads/${account.profile}` : null)
+      setPhotoPreview(account?.profile ? `/uploads/${account.profile}` : null)
     }
   }, [account])
 
   if (isLoading) return <p>Loading...</p>
   if (error) return <p>Error loading account data</p>
 
-  // Update profile on name or email blur
   const handleBlur = (field, value) => {
     if (!account) return
     if (account[field] === value) return
-
-    // Prepare data for update
-    const data = new FormData()
-    data.append(field, value)
-    data.append('name', field === 'name' ? value : name)
-    data.append('email', field === 'email' ? value : email)
-    if (photoFile) {
-      data.append('profile', photoFile)
-    }
-
-    updateProfile(data)
+    const updatedData = { [field]: value, email, name }
+    updateProfile(updatedData)
   }
 
-  // Handle photo file selection and preview
+  const handleDeletePhoto = () => {
+    setShowConfirmDelete(true)
+  }
+
+  const handleConfirmDelete = () => {
+    deleteProfilePhoto()
+    setShowConfirmDelete(false)
+  }
+
   const handlePhotoChange = (e) => {
     const file = e.target.files[0]
     if (!file) return
+    // Preview the selected image
+    setPhotoPreview(URL.createObjectURL(file))
+    // TODO: Implement uploading the new photo file via API (if needed)
+  }
 
-    setPhotoFile(file)
+  const handlePasswordChange = (e) => {
+    setPasswords((prev) => ({ ...prev, [e.target.name]: e.target.value }))
+  }
 
-    // Preview image locally
-    const reader = new FileReader()
-    reader.onloadend = () => {
-      setPhotoPreview(reader.result)
+  const handlePasswordSubmit = (e) => {
+    e.preventDefault()
+    if (passwords.password !== passwords.password_confirmation) {
+      alert("New password and confirmation don't match")
+      return
     }
-    reader.readAsDataURL(file)
-
-    // Upload immediately after selecting new photo
-    // We send name, email along with photo
-    const data = new FormData()
-    data.append('name', name)
-    data.append('email', email)
-    data.append('profile', file)
-    updateProfile(data)
+    updatePassword(passwords)
+    setPasswords({
+      current_password: '',
+      password: '',
+      password_confirmation: '',
+    })
   }
 
   return (
-    <Form>
-      <FormRow label="Full name">
-        <Input
-          type="text"
-          id="name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          onBlur={() => handleBlur('name', name)}
-          disabled={isUpdating}
-        />
-      </FormRow>
-
-      <FormRow label="Email">
-        <Input
-          type="email"
-          id="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          onBlur={() => handleBlur('email', email)}
-          disabled={isUpdating}
-        />
-      </FormRow>
-
-      <FormRow label="Profile Photo">
-        {photoPreview ? (
-          <ProfilePreview
-            src={photoPreview}
-            alt={`${name || 'User'}'s profile`}
-            onError={(e) => {
-              e.target.onerror = null
-              e.target.src = 'https://www.gravatar.com/avatar/?d=mp&f=y'
-            }}
+    <>
+      <Form>
+        <Row>
+          <FormRow label="Profile Photo">
+            {photoPreview ? (
+              <>
+                <ProfilePreview
+                  src={photoPreview}
+                  alt={`${name || 'User'}'s profile`}
+                  onError={(e) => {
+                    e.target.onerror = null
+                    e.target.src = 'https://www.gravatar.com/avatar/?d=mp&f=y'
+                  }}
+                />
+                <DeleteButton
+                  type="button"
+                  onClick={handleDeletePhoto}
+                  disabled={isUpdating || isDeletingPhoto}
+                >
+                  {isDeletingPhoto ? 'Deleting...' : 'Delete Photo'}
+                </DeleteButton>
+              </>
+            ) : (
+              <p>No profile photo uploaded.</p>
+            )}
+            <FileInput
+              type="file"
+              accept="image/*"
+              onChange={handlePhotoChange}
+              disabled={isUpdating || isDeletingPhoto}
+            />
+          </FormRow>
+        </Row>
+        <FormRow label="Full name">
+          <Input
+            type="text"
+            id="name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            onBlur={() => handleBlur('name', name)}
+            disabled={isUpdating || isDeletingPhoto}
           />
-        ) : (
-          <p>No profile photo uploaded.</p>
-        )}
-        <FileInput
-          type="file"
-          accept="image/*"
-          onChange={handlePhotoChange}
-          disabled={isUpdating}
+        </FormRow>
+
+        <FormRow label="Email">
+          <Input
+            type="email"
+            id="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            onBlur={() => handleBlur('email', email)}
+            disabled={isUpdating || isDeletingPhoto}
+          />
+        </FormRow>
+      </Form>
+
+      <Form onSubmit={handlePasswordSubmit}>
+        <FormRow label="Current Password">
+          <Input
+            type="password"
+            name="current_password"
+            value={passwords.current_password}
+            onChange={handlePasswordChange}
+            disabled={isUpdatingPassword}
+            required
+          />
+        </FormRow>
+        <FormRow label="New Password">
+          <Input
+            type="password"
+            name="password"
+            value={passwords.password}
+            onChange={handlePasswordChange}
+            disabled={isUpdatingPassword}
+            required
+          />
+        </FormRow>
+        <FormRow label="Confirm New Password">
+          <Input
+            type="password"
+            name="password_confirmation"
+            value={passwords.password_confirmation}
+            onChange={handlePasswordChange}
+            disabled={isUpdatingPassword}
+            required
+          />
+        </FormRow>
+        <Button
+          type="submit"
+          disabled={isUpdatingPassword}
+          style={{ marginTop: '1rem' }}
+        >
+          {isUpdatingPassword ? 'Updating...' : 'Update Password'}
+        </Button>
+      </Form>
+
+      {showConfirmDelete && (
+        <ConfirmDelete
+          resourceName="profile photo"
+          itemLabel={name}
+          onConfirm={handleConfirmDelete}
+          onCloseModal={() => setShowConfirmDelete(false)}
+          message="Are you sure you want to delete your profile photo?"
+          subMessage="This action cannot be undone."
         />
-      </FormRow>
-    </Form>
+      )}
+    </>
   )
 }
 
