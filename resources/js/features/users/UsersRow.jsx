@@ -13,9 +13,9 @@ import UserDetails from './UserDetails'
 const TableRow = styled.div`
   display: grid;
   grid-template-columns: 0.6fr 2fr 2.5fr 2fr 2fr 0.5fr;
-  column-gap: 0.5rem;
+  column-gap: 0.4rem;
   align-items: center;
-  padding: 1.2rem 1rem;
+  padding: 1.6rem 2.4rem;
   position: relative;
   &:not(:last-child) {
     border-bottom: 1px solid var(--color-grey-100);
