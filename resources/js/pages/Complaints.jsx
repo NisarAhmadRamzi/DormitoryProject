@@ -1,9 +1,8 @@
+import styled from 'styled-components'
 import AddComplaints from '../features/complaints/AddComplaints'
 import ComplaintsTable from '../features/complaints/ComplaintsTable'
 import Heading from '../ui/Heading'
 import Row from '../ui/Row'
-import styled from 'styled-components'
-import { useState } from 'react'
 
 // Styled search input
 const SearchInput = styled.input`
@@ -24,31 +23,13 @@ const OperationsWrapper = styled.div`
 `
 
 function Complaints() {
-  const [search, setSearch] = useState('')
   return (
     <>
-      <Row
-        type="horizontal"
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-        }}
-      >
-        <Heading as="h1">Complaints</Heading>
-
-        <OperationsWrapper>
-          <SearchInput
-            type="text"
-            placeholder="Search libraries..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-          />
-        </OperationsWrapper>
-      </Row>
-
       <Row>
-        <ComplaintsTable search={search} />
+        <Heading as="h1" style={{ textAlign: 'center' }}>
+          Complaints
+        </Heading>
+        <ComplaintsTable />
         <AddComplaints />
       </Row>
     </>
