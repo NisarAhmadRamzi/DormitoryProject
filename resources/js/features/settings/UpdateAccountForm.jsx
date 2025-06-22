@@ -1,37 +1,137 @@
 import { useEffect, useState } from 'react'
 
-import styled from 'styled-components'
 import Button from '../../ui/Button'
 import ConfirmDelete from '../../ui/ConfirmDelete'
 import Form from '../../ui/Form'
-import FormRow from '../../ui/FormRow'
-import Input from '../../ui/Input'
 import Row from '../../ui/Row'
+import Spinner from '../../ui/Spinner'
+import styled from 'styled-components'
 import { useAccount } from './useAccount'
 import { useUpdateAccount } from './useUpdateAccount'
 
+// Styled Components
+
+const FlexContainer = styled.div`
+  display: flex;
+  gap: 2.4rem;
+  justify-content: space-between;
+  width: 100%;
+  padding: 2rem;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    padding: 1rem;
+  }
+`
+
+const LeftColumn = styled.div`
+  flex: 1;
+  max-width: 50%;
+
+  @media (max-width: 768px) {
+    max-width: 100%;
+  }
+`
+
+const RightColumn = styled.div`
+  flex: 1;
+  max-width: 50%;
+
+  @media (max-width: 768px) {
+    max-width: 100%;
+  }
+`
+const FileInput = styled.input`
+  margin-top: 1rem;
+`
+
 const ProfilePreview = styled.img`
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
+  width: 200px;
+  height: 200px;
   object-fit: cover;
   margin-bottom: 1rem;
   border: 2px solid var(--color-grey-300);
+  background-color: var(--color-grey-0);
+`
+
+const Input = styled.input`
+  width: 100%;
+  padding: 0.8rem 1.2rem;
+  font-size: 1.3rem;
+  color: var(--color-grey-900);
+  background-color: var(--color-grey-0);
+  border: 1px solid
+    ${(props) =>
+      props.error ? 'var(--color-red-700)' : 'var(--color-grey-300)'};
+  border-radius: 8px;
+  box-shadow: var(--shadow-sm);
+  transition: border-color 0.2s, box-shadow 0.2s, background-color 0.3s;
+
+  &:focus {
+    border-color: var(--color-blue-700);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+  }
+
+  &:disabled {
+    background-color: var(--color-grey-100);
+    color: var(--color-grey-500);
+    cursor: not-allowed;
+  }
 `
 
 const DeleteButton = styled.button`
-  background: red;
+  background: var(--color-red-700);
   color: white;
-  padding: 0.5rem 1rem;
+  padding: 0.5rem 1.2rem;
   border: none;
-  border-radius: 4px;
+  border-radius: 6px;
+  font-weight: 500;
   cursor: pointer;
+  margin-top: 1rem;
+  transition: background-color 0.3s;
+
+  &:hover {
+    background-color: var(--color-red-800);
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
 `
 
-const FileInput = styled.input`
-  margin-top: 0.5rem;
+const Label = styled.label`
+  font-weight: 600;
+  color: var(--color-grey-700);
+  margin-bottom: 0.4rem;
+  display: inline-block;
 `
 
+const Error = styled.span`
+  color: var(--color-red-700);
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+`
+
+const StyledFormRow = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1.6rem;
+`
+
+function FormRow({ label, error, children }) {
+  const id = children?.props?.id
+  return (
+    <StyledFormRow>
+      {label && <Label htmlFor={id}>{label}</Label>}
+      {children}
+      {error && <Error>{error}</Error>}
+    </StyledFormRow>
+  )
+}
+
+// Main Component
 function UpdateAccountForm() {
   const { isLoading, error, account } = useAccount()
   const {
@@ -48,7 +148,6 @@ function UpdateAccountForm() {
   const [showConfirmDelete, setShowConfirmDelete] = useState(false)
   const [photoPreview, setPhotoPreview] = useState(null)
 
-  // Password state
   const [passwords, setPasswords] = useState({
     current_password: '',
     password: '',
@@ -63,12 +162,11 @@ function UpdateAccountForm() {
     }
   }, [account])
 
-  if (isLoading) return <p>Loading...</p>
+  if (isLoading) return <Spinner />
   if (error) return <p>Error loading account data</p>
 
   const handleBlur = (field, value) => {
-    if (!account) return
-    if (account[field] === value) return
+    if (!account || account[field] === value) return
     const updatedData = { [field]: value, email, name }
     updateProfile(updatedData)
   }
@@ -85,9 +183,7 @@ function UpdateAccountForm() {
   const handlePhotoChange = (e) => {
     const file = e.target.files[0]
     if (!file) return
-    // Preview the selected image
     setPhotoPreview(URL.createObjectURL(file))
-    // TODO: Implement uploading the new photo file via API (if needed)
   }
 
   const handlePasswordChange = (e) => {
@@ -109,113 +205,117 @@ function UpdateAccountForm() {
   }
 
   return (
-    <>
-      <Form>
-        <Row>
-          <FormRow label="Profile Photo">
-            {photoPreview ? (
-              <>
-                <ProfilePreview
-                  src={photoPreview}
-                  alt={`${name || 'User'}'s profile`}
-                  onError={(e) => {
-                    e.target.onerror = null
-                    e.target.src = 'https://www.gravatar.com/avatar/?d=mp&f=y'
-                  }}
-                />
-                <DeleteButton
-                  type="button"
-                  onClick={handleDeletePhoto}
-                  disabled={isUpdating || isDeletingPhoto}
-                >
-                  {isDeletingPhoto ? 'Deleting...' : 'Delete Photo'}
-                </DeleteButton>
-              </>
-            ) : (
-              <p>No profile photo uploaded.</p>
-            )}
-            <FileInput
-              type="file"
-              accept="image/*"
-              onChange={handlePhotoChange}
+    <FlexContainer>
+      <LeftColumn>
+        <Form>
+          <Row />
+          <FormRow label="Full name">
+            <Input
+              type="text"
+              id="name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              onBlur={() => handleBlur('name', name)}
               disabled={isUpdating || isDeletingPhoto}
             />
           </FormRow>
-        </Row>
-        <FormRow label="Full name">
-          <Input
-            type="text"
-            id="name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            onBlur={() => handleBlur('name', name)}
+
+          <FormRow label="Email">
+            <Input
+              type="email"
+              id="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              onBlur={() => handleBlur('email', email)}
+              disabled={isUpdating || isDeletingPhoto}
+            />
+          </FormRow>
+        </Form>
+
+        <Form onSubmit={handlePasswordSubmit}>
+          <FormRow label="Current Password">
+            <Input
+              type="password"
+              name="current_password"
+              value={passwords.current_password}
+              onChange={handlePasswordChange}
+              disabled={isUpdatingPassword}
+              required
+            />
+          </FormRow>
+          <FormRow label="New Password">
+            <Input
+              type="password"
+              name="password"
+              value={passwords.password}
+              onChange={handlePasswordChange}
+              disabled={isUpdatingPassword}
+              required
+            />
+          </FormRow>
+          <FormRow label="Confirm New Password">
+            <Input
+              type="password"
+              name="password_confirmation"
+              value={passwords.password_confirmation}
+              onChange={handlePasswordChange}
+              disabled={isUpdatingPassword}
+              required
+            />
+          </FormRow>
+          <Button
+            type="submit"
+            disabled={isUpdatingPassword}
+            style={{ marginTop: '1rem' }}
+          >
+            {isUpdatingPassword ? 'Updating...' : 'Update Password'}
+          </Button>
+        </Form>
+
+        {showConfirmDelete && (
+          <ConfirmDelete
+            resourceName="profile photo"
+            itemLabel={name}
+            onConfirm={handleConfirmDelete}
+            onCloseModal={() => setShowConfirmDelete(false)}
+            message="Are you sure you want to delete your profile photo?"
+            subMessage="This action cannot be undone."
+          />
+        )}
+      </LeftColumn>
+
+      <RightColumn>
+        <FormRow label="Profile Photo">
+          {photoPreview ? (
+            <>
+              <ProfilePreview
+                src={photoPreview}
+                alt={`${name || 'User'}'s profile`}
+                onError={(e) => {
+                  e.target.onerror = null
+                  e.target.src = 'https://www.gravatar.com/avatar/?d=mp&f=y'
+                }}
+              />
+              <DeleteButton
+                type="button"
+                onClick={handleDeletePhoto}
+                disabled={isUpdating || isDeletingPhoto}
+              >
+                {isDeletingPhoto ? 'Deleting...' : 'Delete Photo'}
+              </DeleteButton>
+            </>
+          ) : (
+            <p>No profile photo uploaded.</p>
+          )}
+          <FileInput
+            type="file"
+            accept="image/*"
+            onChange={handlePhotoChange}
             disabled={isUpdating || isDeletingPhoto}
           />
         </FormRow>
-
-        <FormRow label="Email">
-          <Input
-            type="email"
-            id="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            onBlur={() => handleBlur('email', email)}
-            disabled={isUpdating || isDeletingPhoto}
-          />
-        </FormRow>
-      </Form>
-
-      <Form onSubmit={handlePasswordSubmit}>
-        <FormRow label="Current Password">
-          <Input
-            type="password"
-            name="current_password"
-            value={passwords.current_password}
-            onChange={handlePasswordChange}
-            disabled={isUpdatingPassword}
-            required
-          />
-        </FormRow>
-        <FormRow label="New Password">
-          <Input
-            type="password"
-            name="password"
-            value={passwords.password}
-            onChange={handlePasswordChange}
-            disabled={isUpdatingPassword}
-            required
-          />
-        </FormRow>
-        <FormRow label="Confirm New Password">
-          <Input
-            type="password"
-            name="password_confirmation"
-            value={passwords.password_confirmation}
-            onChange={handlePasswordChange}
-            disabled={isUpdatingPassword}
-            required
-          />
-        </FormRow>
-        <Button
-          type="submit"
-          disabled={isUpdatingPassword}
-          style={{ marginTop: '1rem' }}
-        >
-          {isUpdatingPassword ? 'Updating...' : 'Update Password'}
-        </Button>
-      </Form>
-
-      {showConfirmDelete && (
-        <ConfirmDelete
-          resourceName="profile photo"
-          itemLabel={name}
-          onConfirm={handleConfirmDelete}
-          onCloseModal={() => setShowConfirmDelete(false)}
-          message="Are you sure you want to delete your profile photo?"
-          subMessage="This action cannot be undone."
-        />
-      )}
-    </>
+      </RightColumn>
+    </FlexContainer>
   )
 }
 
