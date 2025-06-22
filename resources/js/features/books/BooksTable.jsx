@@ -1,13 +1,15 @@
-import { useQuery } from '@tanstack/react-query'
-import { useState } from 'react'
-import { useSearchParams } from 'react-router-dom'
-import styled from 'styled-components'
-import { getBooks } from '../../services/apiBooks'
-import Pagination from '../../ui/Pagination'
-import Spinner from '../../ui/Spinner'
-import { PAGE_SIZE } from '../../utils/constants'
-import BooksRow from './BooksRow'
+import { RxCaretLeft, RxCaretRight } from 'react-icons/rx'
 
+import BooksRow from './BooksRow'
+import { FiSearch } from 'react-icons/fi'
+import Spinner from '../../ui/Spinner'
+import { getBooks } from '../../services/apiBooks'
+import styled from 'styled-components'
+import { useQuery } from '@tanstack/react-query'
+import { useSearchParams } from 'react-router-dom'
+import { useState } from 'react'
+
+// Styled components
 const Table = styled.div`
   border: 1px solid var(--color-grey-200);
   font-size: 1.4rem;
@@ -24,7 +26,6 @@ const TableHeader = styled.div`
   background-color: var(--color-grey-50);
   border-bottom: 1px solid var(--color-grey-100);
   text-transform: uppercase;
-  letter-spacing: 0.4px;
   font-weight: 600;
   color: var(--color-grey-600);
   padding: 1.4rem 2.4rem;
@@ -35,7 +36,6 @@ const SortableHeader = styled.div`
   align-items: center;
   gap: 0.4rem;
   cursor: pointer;
-  user-select: none;
 
   .icon {
     font-size: 1.2rem;
@@ -48,55 +48,147 @@ const SortableHeader = styled.div`
   }
 `
 
-function BooksTable({ search = '' }) {
-  const [searchParams] = useSearchParams()
+const TopBarWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.6rem 2.4rem 0 0rem;
+  gap: 2rem;
+  flex-wrap: wrap;
+`
+
+const SearchWrapper = styled.div`
+  display: flex;
+  align-items: center;
+`
+
+const SearchInputContainer = styled.div`
+  position: relative;
+  width: 300px;
+
+  svg {
+    position: absolute;
+    top: 50%;
+    left: 90%;
+    transform: translateY(-50%);
+    color: var(--color-grey-900);
+    font-size: 1.4rem;
+    pointer-events: none;
+  }
+
+  input {
+    font-size: 1.4rem;
+    padding: 0.6rem 1rem 0.6rem 2.8rem;
+    border: 1px solid var(--color-grey-300);
+    border-radius: 4px;
+    width: 100%;
+  }
+`
+
+const PaginationWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1.6rem;
+  border-top: 1px solid var(--color-grey-100);
+  background-color: var(--color-grey-0);
+  font-size: 1.4rem;
+  gap: 2rem;
+`
+
+const PageInfo = styled.div`
+  font-weight: 500;
+`
+
+const RowsPerPage = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+
+  select {
+    padding: 0.4rem 0.8rem;
+    font-size: 1.4rem;
+    border: 1px solid var(--color-grey-300);
+    border-radius: 6px;
+    background-color: white;
+  }
+`
+
+const NavButtons = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+
+  button {
+    padding: 0.4rem 0.8rem;
+    font-size: 2rem;
+    background-color: white;
+    border: 1px solid var(--color-grey-300);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+
+    &:hover:not(:disabled) {
+      background-color: var(--color-grey-100);
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+`
+
+function BooksTable() {
+  const [searchParams, setSearchParams] = useSearchParams()
   const currentPage = Number(searchParams.get('page')) || 1
+
+  const [searchText, setSearchText] = useState('')
+  const [rowsPerPage, setRowsPerPage] = useState(10)
+  const [sortBy, setSortBy] = useState(null)
+  const [sortOrder, setSortOrder] = useState('asc')
 
   const { isLoading, data, error } = useQuery({
     queryKey: ['books'],
     queryFn: getBooks,
   })
 
-  const [sortBy, setSortBy] = useState(null)
-  const [sortOrder, setSortOrder] = useState('asc')
-
   if (isLoading) return <Spinner />
   if (error) return <div>Error loading books!</div>
 
   let filteredBooks = data?.data || []
 
-  // 1) FILTER by search string:
-  if (search.trim() !== '') {
+  // Filter
+  if (searchText.trim() !== '') {
     filteredBooks = filteredBooks.filter((book) => {
-      const searchString =
-        `${book.title} ${book.author} ${book.publication_year}`.toLowerCase()
-      return searchString.includes(search.toLowerCase())
+      const searchString = `
+        ${book.title || ''}
+        ${book.author || ''}
+        ${book.publication_year || ''}
+      `.toLowerCase()
+      return searchString.includes(searchText.toLowerCase())
     })
   }
 
-  // 2) SORT if needed:
+  // Sort
   if (sortBy) {
     filteredBooks = [...filteredBooks].sort((a, b) => {
       let aVal = a[sortBy]
       let bVal = b[sortBy]
-
-      // "publication_year" is a number; title/author are strings
       if (typeof aVal === 'string') aVal = aVal.toLowerCase()
       if (typeof bVal === 'string') bVal = bVal.toLowerCase()
-
       if (aVal > bVal) return sortOrder === 'asc' ? 1 : -1
       if (aVal < bVal) return sortOrder === 'asc' ? -1 : 1
       return 0
     })
   }
 
-  // 3) PAGINATE:
   const totalItems = filteredBooks.length
-  const start = (currentPage - 1) * PAGE_SIZE
-  const end = start + PAGE_SIZE
+  const totalPages = Math.ceil(totalItems / rowsPerPage)
+  const start = (currentPage - 1) * rowsPerPage
+  const end = start + rowsPerPage
   const paginatedBooks = filteredBooks.slice(start, end)
 
-  // Toggle sort column/direction
   function handleSort(column) {
     if (sortBy === column) {
       setSortOrder((prev) => (prev === 'asc' ? 'desc' : 'asc'))
@@ -106,77 +198,115 @@ function BooksTable({ search = '' }) {
     }
   }
 
-  // Show ↑ when ascending, ↓ when descending, else ↑↓
-  const renderSortIcon = (column) => {
-    if (sortBy === column) {
-      return sortOrder === 'asc' ? '↑' : '↓'
-    }
+  function renderSortIcon(column) {
+    if (sortBy === column) return sortOrder === 'asc' ? '↑' : '↓'
     return '↑↓'
   }
 
+  function handlePageChange(newPage) {
+    setSearchParams({ page: newPage })
+  }
+
+  function handleRowsPerPageChange(e) {
+    setRowsPerPage(Number(e.target.value))
+    setSearchParams({ page: 1 })
+  }
+
   return (
-    <Table role="table">
-      <TableHeader role="row">
-        {/* ID */}
-        <SortableHeader
-          onClick={() => handleSort('id')}
-          className={sortBy === 'id' ? 'active' : ''}
-        >
-          <div style={{ textAlign: 'center' }}>ID</div>
-          <span className="icon">{renderSortIcon('id')}</span>
-        </SortableHeader>
+    <>
+      <TopBarWrapper>
+        <SearchWrapper>
+          <SearchInputContainer>
+            <FiSearch />
+            <input
+              type="text"
+              placeholder="Search books..."
+              value={searchText}
+              onChange={(e) => setSearchText(e.target.value)}
+            />
+          </SearchInputContainer>
+        </SearchWrapper>
+      </TopBarWrapper>
 
-        {/* Title */}
-        <SortableHeader
-          onClick={() => handleSort('title')}
-          className={sortBy === 'title' ? 'active' : ''}
-        >
-          <div>Title</div>
-          <span className="icon">{renderSortIcon('title')}</span>
-        </SortableHeader>
+      <Table role="table">
+        <TableHeader role="row">
+          <SortableHeader
+            onClick={() => handleSort('id')}
+            className={sortBy === 'id' ? 'active' : ''}
+          >
+            ID <span className="icon">{renderSortIcon('id')}</span>
+          </SortableHeader>
+          <SortableHeader
+            onClick={() => handleSort('title')}
+            className={sortBy === 'title' ? 'active' : ''}
+          >
+            Title <span className="icon">{renderSortIcon('title')}</span>
+          </SortableHeader>
+          <SortableHeader
+            onClick={() => handleSort('author')}
+            className={sortBy === 'author' ? 'active' : ''}
+          >
+            Author <span className="icon">{renderSortIcon('author')}</span>
+          </SortableHeader>
+          <SortableHeader
+            onClick={() => handleSort('publication_year')}
+            className={sortBy === 'publication_year' ? 'active' : ''}
+          >
+            Year{' '}
+            <span className="icon">{renderSortIcon('publication_year')}</span>
+          </SortableHeader>
+          <SortableHeader
+            onClick={() => handleSort('status')}
+            className={sortBy === 'status' ? 'active' : ''}
+          >
+            Status <span className="icon">{renderSortIcon('status')}</span>
+          </SortableHeader>
+          <div>Action</div>
+          <div></div>
+        </TableHeader>
 
-        {/* Author */}
-        <SortableHeader
-          onClick={() => handleSort('author')}
-          className={sortBy === 'author' ? 'active' : ''}
-        >
-          <div>Author</div>
-          <span className="icon">{renderSortIcon('author')}</span>
-        </SortableHeader>
+        {paginatedBooks.map((book) => (
+          <BooksRow key={book.id} book={book} />
+        ))}
 
-        {/* Year (publication_year) */}
-        <SortableHeader
-          onClick={() => handleSort('publication_year')}
-          className={sortBy === 'publication_year' ? 'active' : ''}
-        >
-          <div>Year</div>
-          <span className="icon">{renderSortIcon('publication_year')}</span>
-        </SortableHeader>
+        {filteredBooks.length === 0 && (
+          <div style={{ padding: '1.6rem' }}>No matching books found.</div>
+        )}
 
-        {/* Status */}
-        <SortableHeader
-          onClick={() => handleSort('status')}
-          className={sortBy === 'status' ? 'active' : ''}
-        >
-          <div>Status</div>
-          <span className="icon">{renderSortIcon('status')}</span>
-        </SortableHeader>
+        <PaginationWrapper>
+          <PageInfo>
+            Page {currentPage} of {totalPages}
+          </PageInfo>
 
-        {/* "Action" column is not sortable */}
-        <div>Action</div>
-        <div></div>
-      </TableHeader>
+          <RowsPerPage>
+            Rows per page:
+            <select value={rowsPerPage} onChange={handleRowsPerPageChange}>
+              <option value={5}>5</option>
+              <option value={10}>10</option>
+              <option value={25}>25</option>
+              <option value={50}>50</option>
+            </select>
+          </RowsPerPage>
 
-      {paginatedBooks.map((book) => (
-        <BooksRow key={book.id} book={book} />
-      ))}
-
-      {filteredBooks.length === 0 && (
-        <div style={{ padding: '1.6rem' }}>No matching books found.</div>
-      )}
-
-      <Pagination count={totalItems} />
-    </Table>
+          <NavButtons>
+            <button
+              onClick={() => handlePageChange(Math.max(1, currentPage - 1))}
+              disabled={currentPage === 1}
+            >
+              <RxCaretLeft />
+            </button>
+            <button
+              onClick={() =>
+                handlePageChange(Math.min(totalPages, currentPage + 1))
+              }
+              disabled={currentPage === totalPages}
+            >
+              <RxCaretRight />
+            </button>
+          </NavButtons>
+        </PaginationWrapper>
+      </Table>
+    </>
   )
 }
 

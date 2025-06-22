@@ -1,13 +1,15 @@
-import { useQuery } from '@tanstack/react-query'
-import { useState } from 'react'
-import { useSearchParams } from 'react-router-dom'
-import styled from 'styled-components'
-import { getBorrowedBooks } from '../../services/apiBorrowedBooks'
-import Pagination from '../../ui/Pagination'
-import Spinner from '../../ui/Spinner'
-import { PAGE_SIZE } from '../../utils/constants'
-import BorrowedBooksRow from './BorrowedBooksRow'
+import { RxCaretLeft, RxCaretRight } from 'react-icons/rx'
 
+import BorrowedBooksRow from './BorrowedBooksRow'
+import { FiSearch } from 'react-icons/fi'
+import Spinner from '../../ui/Spinner'
+import { getBorrowedBooks } from '../../services/apiBorrowedBooks'
+import styled from 'styled-components'
+import { useQuery } from '@tanstack/react-query'
+import { useSearchParams } from 'react-router-dom'
+import { useState } from 'react'
+
+// Styled components
 const Table = styled.div`
   border: 1px solid var(--color-grey-200);
   font-size: 1.4rem;
@@ -47,39 +49,131 @@ const SortableHeader = styled.div`
   }
 `
 
-function BorrowedBooksTable({ search = '' }) {
-  const [searchParams] = useSearchParams()
+const TopBarWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.6rem 2.4rem 0 0rem;
+  gap: 2rem;
+  flex-wrap: wrap;
+`
+
+const SearchWrapper = styled.div`
+  display: flex;
+  align-items: center;
+`
+
+const SearchInputContainer = styled.div`
+  position: relative;
+  width: 300px;
+
+  svg {
+    position: absolute;
+    top: 50%;
+    left: 90%;
+    transform: translateY(-50%);
+    color: var(--color-grey-900);
+    font-size: 1.4rem;
+    pointer-events: none;
+  }
+
+  input {
+    font-size: 1.4rem;
+    padding: 0.6rem 1rem 0.6rem 2.8rem;
+    border: 1px solid var(--color-grey-300);
+    border-radius: 4px;
+    width: 100%;
+  }
+`
+
+const PaginationWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1.6rem;
+  border-top: 1px solid var(--color-grey-100);
+  background-color: var(--color-grey-0);
+  font-size: 1.4rem;
+  gap: 2rem;
+`
+
+const PageInfo = styled.div`
+  font-weight: 500;
+`
+
+const RowsPerPage = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+
+  select {
+    padding: 0.4rem 0.8rem;
+    font-size: 1.4rem;
+    border: 1px solid var(--color-grey-300);
+    border-radius: 6px;
+    background-color: white;
+  }
+`
+
+const NavButtons = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+
+  button {
+    padding: 0.4rem 0.8rem;
+    font-size: 2rem;
+    background-color: white;
+    border: 1px solid var(--color-grey-300);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+
+    &:hover:not(:disabled) {
+      background-color: var(--color-grey-100);
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+`
+
+function BorrowedBooksTable() {
+  const [searchParams, setSearchParams] = useSearchParams()
   const currentPage = Number(searchParams.get('page')) || 1
+  const limitFromParams = Number(searchParams.get('limit'))
+  const [rowsPerPage, setRowsPerPage] = useState(limitFromParams || 10)
+  const [sortBy, setSortBy] = useState(null)
+  const [sortOrder, setSortOrder] = useState('asc')
+  const [searchText, setSearchText] = useState('')
 
   const { isLoading, data, error } = useQuery({
     queryKey: ['borrowed-books'],
     queryFn: getBorrowedBooks,
   })
 
-  const [sortBy, setSortBy] = useState(null)
-  const [sortOrder, setSortOrder] = useState('asc')
-
   if (isLoading) return <Spinner />
   if (error) return <div>Error loading borrowed books!</div>
 
   let borrowedBooks = data?.data || []
 
-  // 1) FILTER by search:
-  if (search.trim()) {
+  // Filter
+  if (searchText.trim()) {
     borrowedBooks = borrowedBooks.filter((entry) => {
       const studentName =
         entry.student?.name || entry.library_student?.name || ''
       const bookTitle = entry.book?.title || ''
       const searchString = `${studentName} ${bookTitle}`.toLowerCase()
-      return searchString.includes(search.toLowerCase())
+      return searchString.includes(searchText.toLowerCase())
     })
   }
 
-  // 2) SORT if sortBy is set:
+  // Sort
   if (sortBy) {
     borrowedBooks = [...borrowedBooks].sort((a, b) => {
       let aVal, bVal
-
       switch (sortBy) {
         case 'student':
           aVal = (
@@ -113,19 +207,20 @@ function BorrowedBooksTable({ search = '' }) {
           aVal = ''
           bVal = ''
       }
-
       if (aVal < bVal) return sortOrder === 'asc' ? -1 : 1
       if (aVal > bVal) return sortOrder === 'asc' ? 1 : -1
       return 0
     })
   }
 
-  // 3) PAGINATE:
   const totalItems = borrowedBooks.length
-  const startIndex = (currentPage - 1) * PAGE_SIZE
-  const paginatedData = borrowedBooks.slice(startIndex, startIndex + PAGE_SIZE)
+  const totalPages = Math.ceil(totalItems / rowsPerPage)
+  const startIndex = (currentPage - 1) * rowsPerPage
+  const paginatedData = borrowedBooks.slice(
+    startIndex,
+    startIndex + rowsPerPage
+  )
 
-  // Toggle sort column/direction
   function handleSort(column) {
     if (sortBy === column) {
       setSortOrder((prev) => (prev === 'asc' ? 'desc' : 'asc'))
@@ -135,64 +230,79 @@ function BorrowedBooksTable({ search = '' }) {
     }
   }
 
-  // Render the arrow icon for each column
-  const renderSortIcon = (column) => {
-    if (sortBy === column) {
-      return sortOrder === 'asc' ? '↑' : '↓'
-    }
+  function renderSortIcon(column) {
+    if (sortBy === column) return sortOrder === 'asc' ? '↑' : '↓'
     return '↑↓'
+  }
+
+  function handlePageChange(newPage) {
+    const params = new URLSearchParams(searchParams)
+    params.set('page', newPage)
+    params.set('limit', rowsPerPage)
+    setSearchParams(params)
+  }
+
+  function handleRowsPerPageChange(e) {
+    const newRowsPerPage = Number(e.target.value)
+    setRowsPerPage(newRowsPerPage)
+
+    const params = new URLSearchParams(searchParams)
+    params.set('page', 1)
+    params.set('limit', newRowsPerPage)
+    setSearchParams(params)
   }
 
   return (
     <>
+      <TopBarWrapper>
+        <SearchWrapper>
+          <SearchInputContainer>
+            <FiSearch />
+            <input
+              type="text"
+              placeholder="Search borrowed books..."
+              value={searchText}
+              onChange={(e) => setSearchText(e.target.value)}
+            />
+          </SearchInputContainer>
+        </SearchWrapper>
+      </TopBarWrapper>
+
       <Table role="table">
         <TableHeader role="row">
-          {/* Student Name */}
           <SortableHeader
             onClick={() => handleSort('student')}
             className={sortBy === 'student' ? 'active' : ''}
           >
-            <div>Student Name</div>
-            <span className="icon">{renderSortIcon('student')}</span>
+            Student <span className="icon">{renderSortIcon('student')}</span>
           </SortableHeader>
-
-          {/* Book Title */}
           <SortableHeader
             onClick={() => handleSort('book')}
             className={sortBy === 'book' ? 'active' : ''}
           >
-            <div>Book Title</div>
-            <span className="icon">{renderSortIcon('book')}</span>
+            Book <span className="icon">{renderSortIcon('book')}</span>
           </SortableHeader>
-
-          {/* Borrow Date */}
           <SortableHeader
             onClick={() => handleSort('borrow_date')}
             className={sortBy === 'borrow_date' ? 'active' : ''}
           >
-            <div>Borrow Date</div>
+            Borrow Date{' '}
             <span className="icon">{renderSortIcon('borrow_date')}</span>
           </SortableHeader>
-
-          {/* Return Date */}
           <SortableHeader
             onClick={() => handleSort('return_date')}
             className={sortBy === 'return_date' ? 'active' : ''}
           >
-            <div>Return Date</div>
+            Return Date{' '}
             <span className="icon">{renderSortIcon('return_date')}</span>
           </SortableHeader>
-
-          {/* Books Count */}
           <SortableHeader
             onClick={() => handleSort('books_count')}
             className={sortBy === 'books_count' ? 'active' : ''}
           >
-            <div>Books Count</div>
+            Books Count{' '}
             <span className="icon">{renderSortIcon('books_count')}</span>
           </SortableHeader>
-
-          {/* Action (not sortable) */}
           <div>Action</div>
         </TableHeader>
 
@@ -204,7 +314,38 @@ function BorrowedBooksTable({ search = '' }) {
           <div style={{ padding: '1.6rem' }}>No matching records found.</div>
         )}
 
-        <Pagination count={totalItems} />
+        <PaginationWrapper>
+          <PageInfo>
+            Page {currentPage} of {totalPages}
+          </PageInfo>
+
+          <RowsPerPage>
+            Rows per page:
+            <select value={rowsPerPage} onChange={handleRowsPerPageChange}>
+              <option value={5}>5</option>
+              <option value={10}>10</option>
+              <option value={25}>25</option>
+              <option value={50}>50</option>
+            </select>
+          </RowsPerPage>
+
+          <NavButtons>
+            <button
+              onClick={() => handlePageChange(Math.max(1, currentPage - 1))}
+              disabled={currentPage === 1}
+            >
+              <RxCaretLeft />
+            </button>
+            <button
+              onClick={() =>
+                handlePageChange(Math.min(totalPages, currentPage + 1))
+              }
+              disabled={currentPage === totalPages}
+            >
+              <RxCaretRight />
+            </button>
+          </NavButtons>
+        </PaginationWrapper>
       </Table>
     </>
   )
