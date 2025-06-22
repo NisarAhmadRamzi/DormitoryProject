@@ -8,6 +8,8 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import toast from 'react-hot-toast'
 
 export function useUpdateAccount() {
+
+
   const queryClient = useQueryClient()
 
   const { mutate: updateProfileMutate, isLoading: isUpdating } = useMutation(

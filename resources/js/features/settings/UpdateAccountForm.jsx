@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react'
 
+import toast from 'react-hot-toast'
+import styled from 'styled-components'
 import Button from '../../ui/Button'
-import ConfirmDelete from '../../ui/ConfirmDelete'
 import Form from '../../ui/Form'
 import Row from '../../ui/Row'
 import Spinner from '../../ui/Spinner'
-import styled from 'styled-components'
 import { useAccount } from './useAccount'
 import { useUpdateAccount } from './useUpdateAccount'
 
@@ -41,8 +41,16 @@ const RightColumn = styled.div`
     max-width: 100%;
   }
 `
+
 const FileInput = styled.input`
   margin-top: 1rem;
+`
+const ButtonWrapper = styled.div`
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+  flex-wrap: wrap;
+  align-items: center;
 `
 
 const ProfilePreview = styled.img`
@@ -81,18 +89,18 @@ const Input = styled.input`
 `
 
 const DeleteButton = styled.button`
-  background: var(--color-red-700);
+  background: var(--color-red-600);
   color: white;
-  padding: 0.5rem 1.2rem;
+  padding: 0.6rem 1.4rem;
   border: none;
-  border-radius: 6px;
+  border-radius: 8px;
   font-weight: 500;
+  font-size: 1rem;
   cursor: pointer;
-  margin-top: 1rem;
-  transition: background-color 0.3s;
+  transition: background-color 0.3s ease;
 
   &:hover {
-    background-color: var(--color-red-800);
+    background-color: var(--color-red-700);
   }
 
   &:disabled {
@@ -120,6 +128,13 @@ const StyledFormRow = styled.div`
   margin-bottom: 1.6rem;
 `
 
+const ButtonGroup = styled.div`
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+`
+
 function FormRow({ label, error, children }) {
   const id = children?.props?.id
   return (
@@ -131,7 +146,6 @@ function FormRow({ label, error, children }) {
   )
 }
 
-// Main Component
 function UpdateAccountForm() {
   const { isLoading, error, account } = useAccount()
   const {
@@ -145,8 +159,8 @@ function UpdateAccountForm() {
 
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
-  const [showConfirmDelete, setShowConfirmDelete] = useState(false)
   const [photoPreview, setPhotoPreview] = useState(null)
+  const [photoFile, setPhotoFile] = useState(null)
 
   const [passwords, setPasswords] = useState({
     current_password: '',
@@ -172,18 +186,28 @@ function UpdateAccountForm() {
   }
 
   const handleDeletePhoto = () => {
-    setShowConfirmDelete(true)
+    deleteProfilePhoto()
   }
 
-  const handleConfirmDelete = () => {
-    deleteProfilePhoto()
-    setShowConfirmDelete(false)
+  const handlePhotoUpload = () => {
+    if (!photoFile) {
+      toast.error('Please select a photo first')
+      return
+    }
+
+    const formData = new FormData()
+    formData.append('profile', photoFile)
+    formData.append('name', name)
+    formData.append('email', email)
+
+    updateProfile(formData)
   }
 
   const handlePhotoChange = (e) => {
     const file = e.target.files[0]
     if (!file) return
     setPhotoPreview(URL.createObjectURL(file))
+    setPhotoFile(file)
   }
 
   const handlePasswordChange = (e) => {
@@ -271,42 +295,41 @@ function UpdateAccountForm() {
             {isUpdatingPassword ? 'Updating...' : 'Update Password'}
           </Button>
         </Form>
-
-        {showConfirmDelete && (
-          <ConfirmDelete
-            resourceName="profile photo"
-            itemLabel={name}
-            onConfirm={handleConfirmDelete}
-            onCloseModal={() => setShowConfirmDelete(false)}
-            message="Are you sure you want to delete your profile photo?"
-            subMessage="This action cannot be undone."
-          />
-        )}
       </LeftColumn>
 
       <RightColumn>
         <FormRow label="Profile Photo">
-          {photoPreview ? (
-            <>
-              <ProfilePreview
-                src={photoPreview}
-                alt={`${name || 'User'}'s profile`}
-                onError={(e) => {
-                  e.target.onerror = null
-                  e.target.src = 'https://www.gravatar.com/avatar/?d=mp&f=y'
-                }}
-              />
-              <DeleteButton
-                type="button"
-                onClick={handleDeletePhoto}
-                disabled={isUpdating || isDeletingPhoto}
-              >
-                {isDeletingPhoto ? 'Deleting...' : 'Delete Photo'}
-              </DeleteButton>
-            </>
-          ) : (
-            <p>No profile photo uploaded.</p>
-          )}
+          <ProfilePreview
+            src={
+              photoPreview
+                ? photoPreview
+                : 'https://www.gravatar.com/avatar/?d=mp&f=y'
+            }
+            alt={`${name || 'User'}'s profile`}
+            onError={(e) => {
+              e.target.onerror = null
+              e.target.src = 'https://www.gravatar.com/avatar/?d=mp&f=y'
+            }}
+          />
+
+          <ButtonGroup>
+            <DeleteButton
+              type="button"
+              onClick={handleDeletePhoto}
+              disabled={isUpdating || isDeletingPhoto}
+            >
+              {isDeletingPhoto ? 'Deleting...' : 'Delete Photo'}
+            </DeleteButton>
+
+            <Button
+              type="button"
+              onClick={handlePhotoUpload}
+              disabled={isUpdating}
+            >
+              {isUpdating ? 'Uploading...' : 'Update Photo'}
+            </Button>
+          </ButtonGroup>
+
           <FileInput
             type="file"
             accept="image/*"
