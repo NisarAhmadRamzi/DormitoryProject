@@ -2,19 +2,6 @@ import Logo from '../ui/Logo'
 import MainNav from './MainNav'
 import styled from 'styled-components'
 
-// const StyledSidebar = styled.aside`
-//   background-color: var(--color-grey-0);
-//   padding: 3.2rem 2.4rem;
-//   border-right: 1px solid var(--color-grey-100);
-//   overflow: scroll;
-
-//   grid-row: 1 / -1;
-//   display: flex;
-//   flex-direction: column;
-//   gap: 3.2rem;
-// `
-
-//2
 const StyledSidebar = styled.aside`
   background-color: var(--color-grey-0);
   padding: 3.2rem 2.4rem;
@@ -45,28 +32,6 @@ const StyledSidebar = styled.aside`
     /* border: none; */
   }
 `
-
-//v3
-// const StyledSidebar = styled.aside`
-//   background-color: var(--color-grey-0);
-//   padding: 3.2rem 2.4rem;
-//   border-right: 1px solid var(--color-grey-100);
-
-//   /* Enable vertical scrolling */
-//   overflow-y: auto;
-
-//   /* Hide scrollbar (cross-browser) */
-//   scrollbar-width: none; /* Firefox */
-//   -ms-overflow-style: none; /* Internet Explorer 10+ */
-//   &::-webkit-scrollbar {
-//     display: none; /* Chrome, Safari, Opera */
-//   }
-
-//   grid-row: 1 / -1;
-//   display: flex;
-//   flex-direction: column;
-//   gap: 3.2rem;
-// `
 
 function Sidebar() {
   return (
