@@ -1,30 +1,28 @@
-import { RxCaretLeft, RxCaretRight } from 'react-icons/rx'
-
-import { FiSearch } from 'react-icons/fi'
-import LibraryStudentRow from './LibraryStudentRow'
-import Spinner from '../../ui/Spinner'
-import { getAllLibraryStudents } from '../../services/apiLibraryStudents'
-import styled from 'styled-components'
 import { useQuery } from '@tanstack/react-query'
-import { useSearchParams } from 'react-router-dom'
 import { useState } from 'react'
+import { FiSearch } from 'react-icons/fi'
+import { RxCaretLeft, RxCaretRight } from 'react-icons/rx'
+import { useSearchParams } from 'react-router-dom'
+import styled from 'styled-components'
+import { getAllLibraryStudents } from '../../services/apiLibraryStudents'
+import Spinner from '../../ui/Spinner'
+import LibraryStudentRow from './LibraryStudentRow'
 
-// --- Constants ---
 const PAGE_SIZE_OPTIONS = [5, 10, 25, 50]
 
-// --- Styled Components ---
+// Styled Components with CSS variables
 const Table = styled.div`
   border: 1px solid var(--color-grey-200);
   font-size: 1.4rem;
   background-color: var(--color-grey-0);
-  border-radius: 7px;
+  border-radius: var(--border-radius-md);
   overflow: hidden;
 `
 
 const TableHeader = styled.header`
   display: grid;
   grid-template-columns: 0.6fr 2fr 2.5fr 2fr 2.5fr 0.5fr;
-  column-gap: 0.5rem;
+  gap: 0.5rem;
   align-items: center;
   background-color: var(--color-grey-50);
   border-bottom: 1px solid var(--color-grey-100);
@@ -40,7 +38,6 @@ const SortableHeader = styled.div`
   align-items: center;
   gap: 0.4rem;
   cursor: pointer;
-  user-select: none;
 
   .icon {
     font-size: 1.2rem;
@@ -56,13 +53,14 @@ const SortableHeader = styled.div`
 const TableBody = styled.div`
   max-height: 420px;
   overflow-y: auto;
+  background-color: var(--color-grey-0);
 `
 
 const TopBarWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1.6rem 2.4rem 0 0rem;
+  padding: 1.6rem 2.4rem 0;
   gap: 2rem;
   flex-wrap: wrap;
 `
@@ -74,19 +72,27 @@ const SearchInputContainer = styled.div`
   svg {
     position: absolute;
     top: 50%;
-    left: 90%;
+    left: 1rem;
     transform: translateY(-50%);
-    color: var(--color-grey-900);
+    color: var(--color-grey-600);
     font-size: 1.4rem;
     pointer-events: none;
   }
 
   input {
-    font-size: 1.4rem;
-    padding: 0.6rem 1rem 0.6rem 2.8rem;
-    border: 1px solid var(--color-grey-300);
-    border-radius: 4px;
     width: 100%;
+    font-size: 1.4rem;
+    padding: 0.6rem 1rem 0.6rem 3rem;
+    border: 1px solid var(--color-grey-300);
+    border-radius: var(--border-radius-sm);
+    background-color: var(--color-grey-0);
+    color: var(--color-grey-900);
+
+    &:focus {
+      border-color: var(--color-blue-700);
+      outline: none;
+      box-shadow: 0 0 0 3px var(--backdrop-color);
+    }
   }
 `
 
@@ -97,7 +103,6 @@ const PaginationWrapper = styled.div`
   padding: 1.6rem;
   border-top: 1px solid var(--color-grey-100);
   background-color: var(--color-grey-0);
-  font-size: 1.4rem;
   gap: 2rem;
 `
 
@@ -114,8 +119,14 @@ const RowsPerPage = styled.div`
     padding: 0.4rem 0.8rem;
     font-size: 1.4rem;
     border: 1px solid var(--color-grey-300);
-    border-radius: 6px;
-    background-color: white;
+    border-radius: var(--border-radius-sm);
+    background-color: var(--color-grey-0);
+    color: var(--color-grey-900);
+
+    &:disabled {
+      background-color: var(--color-grey-200);
+      color: var(--color-grey-500);
+    }
   }
 `
 
@@ -127,14 +138,16 @@ const NavButtons = styled.div`
   button {
     padding: 0.4rem 0.8rem;
     font-size: 2rem;
-    background-color: white;
+    background-color: var(--color-grey-0);
     border: 1px solid var(--color-grey-300);
-    border-radius: 6px;
+    border-radius: var(--border-radius-sm);
+    color: var(--color-grey-900);
     cursor: pointer;
-    transition: background-color 0.2s;
+    transition: background-color 0.2s, border-color 0.2s;
 
     &:hover:not(:disabled) {
-      background-color: var(--color-grey-100);
+      background-color: var(--color-grey-50);
+      border-color: var(--color-grey-400);
     }
 
     &:disabled {
@@ -144,84 +157,67 @@ const NavButtons = styled.div`
   }
 `
 
-// --- Component ---
-function LibraryStudentsTable() {
+export default function LibraryStudentsTable() {
   const [searchParams, setSearchParams] = useSearchParams()
   const currentPage = Number(searchParams.get('page')) || 1
+  const [sortBy, setSortBy] = useState(null)
+  const [sortOrder, setSortOrder] = useState('asc')
+  const [search, setSearch] = useState('')
+  const [rowsPerPage, setRowsPerPage] = useState(10)
 
   const { data, isLoading, error } = useQuery({
     queryKey: ['library-students'],
     queryFn: getAllLibraryStudents,
   })
 
-  const [sortBy, setSortBy] = useState(null)
-  const [sortOrder, setSortOrder] = useState('asc')
-  const [search, setSearch] = useState('')
-  const [rowsPerPage, setRowsPerPage] = useState(10)
-
   if (isLoading) return <Spinner />
   if (error) return <p>Error loading students</p>
 
   let students = data?.data || []
 
-  // --- Filter by Search ---
-  if (search.trim() !== '') {
-    students = students.filter((student) => {
-      const str = `
-        ${student.id}
-        ${student.name}
-        ${student.email}
-        ${student.phone}
-        ${student.address}
-      `.toLowerCase()
-      return str.includes(search.toLowerCase())
-    })
+  // Filter
+  if (search.trim()) {
+    const lower = search.toLowerCase()
+    students = students.filter((s) =>
+      `${s.id} ${s.name} ${s.email} ${s.phone} ${s.address}`
+        .toLowerCase()
+        .includes(lower)
+    )
   }
 
-  // --- Sort ---
+  // Sort
   if (sortBy) {
     students = [...students].sort((a, b) => {
-      let aVal = a[sortBy]
-      let bVal = b[sortBy]
+      let aVal = a[sortBy],
+        bVal = b[sortBy]
       if (typeof aVal === 'string') aVal = aVal.toLowerCase()
       if (typeof bVal === 'string') bVal = bVal.toLowerCase()
-
       if (aVal > bVal) return sortOrder === 'asc' ? 1 : -1
       if (aVal < bVal) return sortOrder === 'asc' ? -1 : 1
       return 0
     })
   }
 
-  // --- Pagination ---
   const totalItems = students.length
   const totalPages = Math.ceil(totalItems / rowsPerPage)
   const start = (currentPage - 1) * rowsPerPage
-  const end = start + rowsPerPage
-  const paginatedStudents = students.slice(start, end)
+  const paginated = students.slice(start, start + rowsPerPage)
 
-  function handleSort(column) {
-    if (sortBy === column) {
-      setSortOrder((prev) => (prev === 'asc' ? 'desc' : 'asc'))
-    } else {
-      setSortBy(column)
+  const handleSort = (col) => {
+    if (sortBy === col) setSortOrder((o) => (o === 'asc' ? 'desc' : 'asc'))
+    else {
+      setSortBy(col)
       setSortOrder('asc')
     }
   }
 
-  const handlePageChange = (page) => {
-    setSearchParams({ page })
-  }
-
-  const handleRowsPerPageChange = (e) => {
-    const size = Number(e.target.value)
-    setRowsPerPage(size)
+  const changePage = (p) => setSearchParams({ page: p })
+  const changeRows = (e) => {
+    setRowsPerPage(+e.target.value)
     setSearchParams({ page: 1 })
   }
-
-  const renderSortIcon = (column) => {
-    if (sortBy === column) return sortOrder === 'asc' ? '↑' : '↓'
-    return '↑↓'
-  }
+  const renderIcon = (col) =>
+    sortBy === col ? (sortOrder === 'asc' ? '↑' : '↓') : '↑↓'
 
   return (
     <>
@@ -244,42 +240,42 @@ function LibraryStudentsTable() {
             onClick={() => handleSort('name')}
             className={sortBy === 'name' ? 'active' : ''}
           >
-            Name <span className="icon">{renderSortIcon('name')}</span>
+            Name <span className="icon">{renderIcon('name')}</span>
           </SortableHeader>
           <SortableHeader
             onClick={() => handleSort('email')}
             className={sortBy === 'email' ? 'active' : ''}
           >
-            Email <span className="icon">{renderSortIcon('email')}</span>
+            Email <span className="icon">{renderIcon('email')}</span>
           </SortableHeader>
           <SortableHeader
             onClick={() => handleSort('phone')}
             className={sortBy === 'phone' ? 'active' : ''}
           >
-            Phone <span className="icon">{renderSortIcon('phone')}</span>
+            Phone <span className="icon">{renderIcon('phone')}</span>
           </SortableHeader>
           <SortableHeader
             onClick={() => handleSort('address')}
             className={sortBy === 'address' ? 'active' : ''}
           >
-            Address <span className="icon">{renderSortIcon('address')}</span>
+            Address <span className="icon">{renderIcon('address')}</span>
           </SortableHeader>
           <div>Actions</div>
         </TableHeader>
 
         <TableBody>
-          {paginatedStudents.map((student) => (
-            <LibraryStudentRow key={student.id} student={student} />
+          {paginated.map((s) => (
+            <LibraryStudentRow key={s.id} student={s} />
           ))}
         </TableBody>
+
         <PaginationWrapper>
           <PageInfo>
             Page {currentPage} of {totalPages}
           </PageInfo>
-
           <RowsPerPage>
-            Rows per page:{' '}
-            <select value={rowsPerPage} onChange={handleRowsPerPageChange}>
+            Rows per page:
+            <select value={rowsPerPage} onChange={changeRows}>
               {PAGE_SIZE_OPTIONS.map((size) => (
                 <option key={size} value={size}>
                   {size}
@@ -287,18 +283,15 @@ function LibraryStudentsTable() {
               ))}
             </select>
           </RowsPerPage>
-
           <NavButtons>
             <button
-              onClick={() => handlePageChange(Math.max(1, currentPage - 1))}
+              onClick={() => changePage(Math.max(1, currentPage - 1))}
               disabled={currentPage === 1}
             >
               <RxCaretLeft />
             </button>
             <button
-              onClick={() =>
-                handlePageChange(Math.min(totalPages, currentPage + 1))
-              }
+              onClick={() => changePage(Math.min(totalPages, currentPage + 1))}
               disabled={currentPage === totalPages}
             >
               <RxCaretRight />
@@ -309,5 +302,3 @@ function LibraryStudentsTable() {
     </>
   )
 }
-
-export default LibraryStudentsTable

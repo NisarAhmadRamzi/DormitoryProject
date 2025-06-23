@@ -1,27 +1,29 @@
 import { RxCaretLeft, RxCaretRight } from 'react-icons/rx'
-
-import { useQuery } from '@tanstack/react-query'
-import { useState } from 'react'
 import { FiSearch } from 'react-icons/fi'
-import { useSearchParams } from 'react-router-dom'
-import styled from 'styled-components'
-import { getSupports } from '../../services/apiSupports'
-import Spinner from '../../ui/Spinner'
 import SupportRow from './SupportRow'
+import Spinner from '../../ui/Spinner'
+import { getSupports } from '../../services/apiSupports'
+import styled from 'styled-components'
+import { useQuery } from '@tanstack/react-query'
+import { useSearchParams } from 'react-router-dom'
+import { useState } from 'react'
 
+const PAGE_SIZE_OPTIONS = [5, 10, 25, 50]
+
+// Styled Components with CSS variables for light/dark mode support
 const Table = styled.div`
   border: 1px solid var(--color-grey-200);
-  font-size: 1.4rem;
   background-color: var(--color-grey-0);
-  border-radius: 7px;
+  border-radius: var(--border-radius-md);
   overflow: hidden;
+  font-size: 1.4rem;
 `
 
 const TopBarWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1.6rem 2.4rem 0 0rem;
+  padding: 1.6rem 2.4rem 0;
   gap: 2rem;
   flex-wrap: wrap;
 `
@@ -38,26 +40,34 @@ const SearchInputContainer = styled.div`
   svg {
     position: absolute;
     top: 50%;
-    left: 90%;
+    left: 1rem;
     transform: translateY(-50%);
-    color: var(--color-grey-900);
+    color: var(--color-grey-600);
     font-size: 1.4rem;
     pointer-events: none;
   }
 
   input {
-    font-size: 1.4rem;
-    padding: 0.6rem 1rem 0.6rem 2.8rem;
-    border: 1px solid var(--color-grey-300);
-    border-radius: 4px;
     width: 100%;
+    padding: 0.6rem 1rem 0.6rem 3rem;
+    font-size: 1.4rem;
+    border: 1px solid var(--color-grey-300);
+    border-radius: var(--border-radius-sm);
+    background-color: var(--color-grey-0);
+    color: var(--color-grey-900);
+
+    &:focus {
+      outline: none;
+      border-color: var(--color-blue-700);
+      box-shadow: 0 0 0 3px var(--backdrop-color);
+    }
   }
 `
 
 const TableHeader = styled.header`
   display: grid;
   grid-template-columns: 0.6fr 2fr 2.5fr 2.5fr 2.5fr 0.5fr;
-  column-gap: 0.5rem;
+  gap: 0.5rem;
   align-items: center;
   background-color: var(--color-grey-50);
   border-bottom: 1px solid var(--color-grey-100);
@@ -73,7 +83,6 @@ const SortableHeader = styled.div`
   align-items: center;
   gap: 0.4rem;
   cursor: pointer;
-  user-select: none;
 
   .icon {
     font-size: 1.2rem;
@@ -93,7 +102,6 @@ const PaginationWrapper = styled.div`
   padding: 1.6rem;
   border-top: 1px solid var(--color-grey-100);
   background-color: var(--color-grey-0);
-  font-size: 1.4rem;
   gap: 2rem;
 `
 
@@ -110,8 +118,14 @@ const RowsPerPage = styled.div`
     padding: 0.4rem 0.8rem;
     font-size: 1.4rem;
     border: 1px solid var(--color-grey-300);
-    border-radius: 6px;
-    background-color: white;
+    border-radius: var(--border-radius-sm);
+    background-color: var(--color-grey-0);
+    color: var(--color-grey-900);
+
+    &:disabled {
+      background-color: var(--color-grey-200);
+      color: var(--color-grey-500);
+    }
   }
 `
 
@@ -123,14 +137,16 @@ const NavButtons = styled.div`
   button {
     padding: 0.4rem 0.8rem;
     font-size: 2rem;
-    background-color: white;
+    background-color: var(--color-grey-0);
     border: 1px solid var(--color-grey-300);
-    border-radius: 6px;
+    border-radius: var(--border-radius-sm);
+    color: var(--color-grey-900);
     cursor: pointer;
-    transition: background-color 0.2s;
+    transition: background-color 0.2s, border-color 0.2s;
 
     &:hover:not(:disabled) {
-      background-color: var(--color-grey-100);
+      background-color: var(--color-grey-50);
+      border-color: var(--color-grey-400);
     }
 
     &:disabled {
@@ -140,82 +156,75 @@ const NavButtons = styled.div`
   }
 `
 
-function SupportTable() {
+export default function SupportTable() {
   const [searchParams, setSearchParams] = useSearchParams()
   const currentPage = Number(searchParams.get('page')) || 1
+  const [searchText, setSearchText] = useState('')
+  const [rowsPerPage, setRowsPerPage] = useState(10)
+  const [sortBy, setSortBy] = useState(null)
+  const [sortOrder, setSortOrder] = useState('asc')
 
   const { isLoading, data, error } = useQuery({
     queryKey: ['supports'],
     queryFn: getSupports,
   })
 
-  const [searchText, setSearchText] = useState('')
-  const [rowsPerPage, setRowsPerPage] = useState(10)
-  const [sortBy, setSortBy] = useState(null)
-  const [sortOrder, setSortOrder] = useState('asc')
-
   if (isLoading) return <Spinner />
   if (error) return <div>Error loading supports!</div>
 
-  let filteredSupports = data?.data || []
-
-  // Search filter based on searchText local state
-  if (searchText.trim() !== '') {
-    filteredSupports = filteredSupports.filter((support) => {
-      const searchString = `
-        ${support.type}
-        ${support.details}
-        ${support.helper_fullname}
-        ${support.helper_number}
-        ${support.helper_email}
-      `.toLowerCase()
-      return searchString.includes(searchText.toLowerCase())
-    })
+  let items = data?.data || []
+  if (searchText.trim()) {
+    const lower = searchText.toLowerCase()
+    items = items.filter((s) =>
+      [
+        `${s.type}`,
+        `${s.details}`,
+        `${s.helper_fullname}`,
+        `${s.helper_number}`,
+        `${s.helper_email}`,
+      ]
+        .join(' ')
+        .toLowerCase()
+        .includes(lower)
+    )
   }
 
-  // Sorting logic
   if (sortBy) {
-    filteredSupports = [...filteredSupports].sort((a, b) => {
-      let aVal = a[sortBy]
-      let bVal = b[sortBy]
-      if (typeof aVal === 'string') aVal = aVal.toLowerCase()
-      if (typeof bVal === 'string') bVal = bVal.toLowerCase()
-      if (aVal > bVal) return sortOrder === 'asc' ? 1 : -1
-      if (aVal < bVal) return sortOrder === 'asc' ? -1 : 1
-      return 0
+    items = [...items].sort((a, b) => {
+      let x = a[sortBy],
+        y = b[sortBy]
+      if (typeof x === 'string') x = x.toLowerCase()
+      if (typeof y === 'string') y = y.toLowerCase()
+      return x === y
+        ? 0
+        : sortOrder === 'asc'
+        ? x < y
+          ? -1
+          : 1
+        : x < y
+        ? 1
+        : -1
     })
   }
 
-  const totalItems = filteredSupports.length
-  const totalPages = Math.ceil(totalItems / rowsPerPage)
+  const total = items.length
+  const totalPages = Math.ceil(total / rowsPerPage)
   const start = (currentPage - 1) * rowsPerPage
-  const end = start + rowsPerPage
-  const paginatedSupports = filteredSupports.slice(start, end)
+  const pageItems = items.slice(start, start + rowsPerPage)
 
-  function handleSort(column) {
-    if (sortBy === column) {
-      setSortOrder((prev) => (prev === 'asc' ? 'desc' : 'asc'))
-    } else {
-      setSortBy(column)
+  const handleSort = (col) => {
+    if (sortBy === col) setSortOrder((o) => (o === 'asc' ? 'desc' : 'asc'))
+    else {
+      setSortBy(col)
       setSortOrder('asc')
     }
   }
-
-  const renderSortIcon = (column) => {
-    if (sortBy === column) {
-      return sortOrder === 'asc' ? '↑' : '↓'
-    }
-    return '↑↓'
-  }
-
-  function handlePageChange(newPage) {
-    setSearchParams({ page: newPage })
-  }
-
-  function handleRowsPerPageChange(e) {
-    const newSize = Number(e.target.value)
-    setRowsPerPage(newSize)
-    setSearchParams({ page: 1 })
+  const renderIcon = (col) =>
+    sortBy === col ? (sortOrder === 'asc' ? '↑' : '↓') : '↑↓'
+  const goto = (p) => setSearchParams({ page: p })
+  const changeSize = (e) => {
+    setRowsPerPage(+e.target.value)
+    goto(1)
   }
 
   return (
@@ -225,7 +234,6 @@ function SupportTable() {
           <SearchInputContainer>
             <FiSearch />
             <input
-              type="text"
               placeholder="Search supports..."
               value={searchText}
               onChange={(e) => setSearchText(e.target.value)}
@@ -233,84 +241,69 @@ function SupportTable() {
           </SearchInputContainer>
         </SearchWrapper>
       </TopBarWrapper>
-
       <Table role="table">
         <TableHeader role="row">
           <SortableHeader
             onClick={() => handleSort('type')}
             className={sortBy === 'type' ? 'active' : ''}
           >
-            Type <span className="icon">{renderSortIcon('type')}</span>
+            Type <span className="icon">{renderIcon('type')}</span>
           </SortableHeader>
-
           <SortableHeader
             onClick={() => handleSort('details')}
             className={sortBy === 'details' ? 'active' : ''}
           >
-            Details <span className="icon">{renderSortIcon('details')}</span>
+            Details <span className="icon">{renderIcon('details')}</span>
           </SortableHeader>
-
           <SortableHeader
             onClick={() => handleSort('helper_fullname')}
             className={sortBy === 'helper_fullname' ? 'active' : ''}
           >
-            Helper Fullname{' '}
-            <span className="icon">{renderSortIcon('helper_fullname')}</span>
+            Helper <span className="icon">{renderIcon('helper_fullname')}</span>
           </SortableHeader>
-
           <SortableHeader
             onClick={() => handleSort('helper_number')}
             className={sortBy === 'helper_number' ? 'active' : ''}
           >
-            Helper Number{' '}
-            <span className="icon">{renderSortIcon('helper_number')}</span>
+            Number <span className="icon">{renderIcon('helper_number')}</span>
           </SortableHeader>
-
           <SortableHeader
             onClick={() => handleSort('helper_email')}
             className={sortBy === 'helper_email' ? 'active' : ''}
           >
-            Helper Email{' '}
-            <span className="icon">{renderSortIcon('helper_email')}</span>
+            Email <span className="icon">{renderIcon('helper_email')}</span>
           </SortableHeader>
-
           <div>Action</div>
         </TableHeader>
-
-        {paginatedSupports.map((support) => (
-          <SupportRow support={support} key={support.id} />
+        {pageItems.map((s) => (
+          <SupportRow key={s.id} support={s} />
         ))}
-
-        {filteredSupports.length === 0 && (
-          <div style={{ padding: '1.6rem' }}>No matching supports found.</div>
+        {items.length === 0 && (
+          <div style={{ padding: '1.6rem' }}>No matching records.</div>
         )}
-
         <PaginationWrapper>
           <PageInfo>
             Page {currentPage} of {totalPages || 1}
           </PageInfo>
-
           <RowsPerPage>
-            Rows per page:{' '}
-            <select value={rowsPerPage} onChange={handleRowsPerPageChange}>
-              <option value={5}>5</option>
-              <option value={10}>10</option>
-              <option value={25}>25</option>
-              <option value={50}>50</option>
+            Rows per page:
+            <select value={rowsPerPage} onChange={changeSize}>
+              {PAGE_SIZE_OPTIONS.map((n) => (
+                <option key={n} value={n}>
+                  {n}
+                </option>
+              ))}
             </select>
           </RowsPerPage>
-
           <NavButtons>
             <button
-              onClick={() => handlePageChange(Math.max(1, currentPage - 1))}
+              onClick={() => goto(Math.max(1, currentPage - 1))}
               disabled={currentPage === 1}
             >
               <RxCaretLeft />
             </button>
             <button
-              onClick={() =>
-                handlePageChange(Math.min(totalPages, currentPage + 1))
-              }
+              onClick={() => goto(Math.min(totalPages, currentPage + 1))}
               disabled={currentPage === totalPages || totalPages === 0}
             >
               <RxCaretRight />
@@ -321,5 +314,3 @@ function SupportTable() {
     </>
   )
 }
-
-export default SupportTable

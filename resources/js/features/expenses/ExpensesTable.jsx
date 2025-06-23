@@ -1,20 +1,21 @@
-import { RxCaretLeft, RxCaretRight } from 'react-icons/rx'
-
-import ExpenseRow from './ExpensesRow'
-import { FiSearch } from 'react-icons/fi'
-import Spinner from '../../ui/Spinner'
-import { getExpenses } from '../../services/apiExpenses'
-import styled from 'styled-components'
 import { useQuery } from '@tanstack/react-query'
-import { useSearchParams } from 'react-router-dom'
 import { useState } from 'react'
+import { FiSearch } from 'react-icons/fi'
+import { RxCaretLeft, RxCaretRight } from 'react-icons/rx'
+import { useSearchParams } from 'react-router-dom'
+import styled from 'styled-components'
+import { getExpenses } from '../../services/apiExpenses'
+import Spinner from '../../ui/Spinner'
+import ExpenseRow from './ExpensesRow'
 
-// Styled components (reuse from StudentTable/FeesTable style)
+const PAGE_SIZE_OPTIONS = [5, 10, 25, 50]
+
+// Styled Components with CSS variables for light/dark mode support
 const Table = styled.div`
   border: 1px solid var(--color-grey-200);
   font-size: 1.4rem;
   background-color: var(--color-grey-0);
-  border-radius: 7px;
+  border-radius: var(--border-radius-md);
   overflow: hidden;
 `
 
@@ -22,7 +23,7 @@ const TopBarWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1.6rem 2.4rem 0 0rem;
+  padding: 1.6rem 2.4rem 0;
   gap: 2rem;
   flex-wrap: wrap;
 `
@@ -39,26 +40,34 @@ const SearchInputContainer = styled.div`
   svg {
     position: absolute;
     top: 50%;
-    left: 90%;
+    left: 1rem;
     transform: translateY(-50%);
-    color: var(--color-grey-900);
+    color: var(--color-grey-600);
     font-size: 1.4rem;
     pointer-events: none;
   }
 
   input {
-    font-size: 1.4rem;
-    padding: 0.6rem 1rem 0.6rem 2.8rem;
-    border: 1px solid var(--color-grey-300);
-    border-radius: 4px;
     width: 100%;
+    font-size: 1.4rem;
+    padding: 0.6rem 1rem 0.6rem 3rem;
+    border: 1px solid var(--color-grey-300);
+    border-radius: var(--border-radius-sm);
+    background-color: var(--color-grey-0);
+    color: var(--color-grey-900);
+
+    &:focus {
+      border-color: var(--color-blue-700);
+      outline: none;
+      box-shadow: 0 0 0 3px var(--backdrop-color);
+    }
   }
 `
 
 const TableHeader = styled.header`
   display: grid;
   grid-template-columns: 0.6fr 2fr 2fr 2fr 2fr 0.5fr;
-  column-gap: 0.5rem;
+  gap: 0.5rem;
   align-items: center;
   background-color: var(--color-grey-50);
   border-bottom: 1px solid var(--color-grey-100);
@@ -74,7 +83,6 @@ const SortableHeader = styled.div`
   align-items: center;
   gap: 0.4rem;
   cursor: pointer;
-  user-select: none;
 
   .icon {
     font-size: 1.2rem;
@@ -94,7 +102,6 @@ const PaginationWrapper = styled.div`
   padding: 1.6rem;
   border-top: 1px solid var(--color-grey-100);
   background-color: var(--color-grey-0);
-  font-size: 1.4rem;
   gap: 2rem;
 `
 
@@ -111,8 +118,14 @@ const RowsPerPage = styled.div`
     padding: 0.4rem 0.8rem;
     font-size: 1.4rem;
     border: 1px solid var(--color-grey-300);
-    border-radius: 6px;
-    background-color: white;
+    border-radius: var(--border-radius-sm);
+    background-color: var(--color-grey-0);
+    color: var(--color-grey-900);
+
+    &:disabled {
+      background-color: var(--color-grey-200);
+      color: var(--color-grey-500);
+    }
   }
 `
 
@@ -124,14 +137,16 @@ const NavButtons = styled.div`
   button {
     padding: 0.4rem 0.8rem;
     font-size: 2rem;
-    background-color: white;
+    background-color: var(--color-grey-0);
     border: 1px solid var(--color-grey-300);
-    border-radius: 6px;
+    border-radius: var(--border-radius-sm);
+    color: var(--color-grey-900);
     cursor: pointer;
-    transition: background-color 0.2s;
+    transition: background-color 0.2s, border-color 0.2s;
 
     &:hover:not(:disabled) {
-      background-color: var(--color-grey-100);
+      background-color: var(--color-grey-50);
+      border-color: var(--color-grey-400);
     }
 
     &:disabled {
@@ -141,11 +156,9 @@ const NavButtons = styled.div`
   }
 `
 
-function ExpenseTable() {
+export default function ExpenseTable() {
   const [searchParams, setSearchParams] = useSearchParams()
   const currentPage = Number(searchParams.get('page')) || 1
-
-  // Local state for search and pagination
   const [searchText, setSearchText] = useState('')
   const [rowsPerPage, setRowsPerPage] = useState(10)
   const [sortBy, setSortBy] = useState(null)
@@ -161,65 +174,55 @@ function ExpenseTable() {
 
   let filteredExpenses = data?.data || []
 
-  // Search filtering on local searchText state
-  if (searchText.trim() !== '') {
-    filteredExpenses = filteredExpenses.filter((expense) => {
-      const searchString =
-        `${expense.type} ${expense.description}`.toLowerCase()
-      return searchString.includes(searchText.toLowerCase())
-    })
+  // Search filter
+  if (searchText.trim()) {
+    const lower = searchText.toLowerCase()
+    filteredExpenses = filteredExpenses.filter((expense) =>
+      `${expense.type} ${expense.description}`.toLowerCase().includes(lower)
+    )
   }
 
-  // Sorting logic
+  // Sort
   if (sortBy) {
     filteredExpenses = [...filteredExpenses].sort((a, b) => {
       let aVal = a[sortBy]
       let bVal = b[sortBy]
-
       if (typeof aVal === 'string') aVal = aVal.toLowerCase()
       if (typeof bVal === 'string') bVal = bVal.toLowerCase()
-
       if (aVal > bVal) return sortOrder === 'asc' ? 1 : -1
       if (aVal < bVal) return sortOrder === 'asc' ? -1 : 1
       return 0
     })
   }
 
-  // Pagination calculations
   const totalItems = filteredExpenses.length
   const totalPages = Math.ceil(totalItems / rowsPerPage)
-  const start = (currentPage - 1) * rowsPerPage
-  const end = start + rowsPerPage
-  const paginatedExpenses = filteredExpenses.slice(start, end)
+  const startIndex = (currentPage - 1) * rowsPerPage
+  const paginatedExpenses = filteredExpenses.slice(
+    startIndex,
+    startIndex + rowsPerPage
+  )
 
-  // Sorting header click handler
   function handleSort(column) {
-    if (sortBy === column) {
+    if (sortBy === column)
       setSortOrder((prev) => (prev === 'asc' ? 'desc' : 'asc'))
-    } else {
+    else {
       setSortBy(column)
       setSortOrder('asc')
     }
   }
 
-  // Render sort icon arrows
-  const renderSortIcon = (column) => {
-    if (sortBy === column) {
-      return sortOrder === 'asc' ? '↑' : '↓'
-    }
-    return '↑↓'
+  function renderSortIcon(column) {
+    return sortBy === column ? (sortOrder === 'asc' ? '↑' : '↓') : '↑↓'
   }
 
-  // Handle page change and sync URL param
   function handlePageChange(newPage) {
     setSearchParams({ page: newPage })
   }
 
-  // Handle rows per page change
   function handleRowsPerPageChange(e) {
-    const newSize = Number(e.target.value)
-    setRowsPerPage(newSize)
-    // Reset page to 1 on rows per page change
+    const size = Number(e.target.value)
+    setRowsPerPage(size)
     setSearchParams({ page: 1 })
   }
 
@@ -247,7 +250,6 @@ function ExpenseTable() {
           >
             Type <span className="icon">{renderSortIcon('type')}</span>
           </SortableHeader>
-
           <SortableHeader
             onClick={() => handleSort('expense_cash')}
             className={sortBy === 'expense_cash' ? 'active' : ''}
@@ -255,7 +257,6 @@ function ExpenseTable() {
             Expense Cash{' '}
             <span className="icon">{renderSortIcon('expense_cash')}</span>
           </SortableHeader>
-
           <SortableHeader
             onClick={() => handleSort('description')}
             className={sortBy === 'description' ? 'active' : ''}
@@ -263,7 +264,6 @@ function ExpenseTable() {
             Description{' '}
             <span className="icon">{renderSortIcon('description')}</span>
           </SortableHeader>
-
           <SortableHeader
             onClick={() => handleSort('expense_date')}
             className={sortBy === 'expense_date' ? 'active' : ''}
@@ -271,7 +271,6 @@ function ExpenseTable() {
             Expense Date{' '}
             <span className="icon">{renderSortIcon('expense_date')}</span>
           </SortableHeader>
-
           <SortableHeader
             onClick={() => handleSort('goods_quantity')}
             className={sortBy === 'goods_quantity' ? 'active' : ''}
@@ -279,12 +278,11 @@ function ExpenseTable() {
             Goods Quantity{' '}
             <span className="icon">{renderSortIcon('goods_quantity')}</span>
           </SortableHeader>
-
           <div>Action</div>
         </TableHeader>
 
         {paginatedExpenses.map((expense) => (
-          <ExpenseRow expense={expense} key={expense.id} />
+          <ExpenseRow key={expense.id} expense={expense} />
         ))}
 
         {filteredExpenses.length === 0 && (
@@ -295,17 +293,16 @@ function ExpenseTable() {
           <PageInfo>
             Page {currentPage} of {totalPages || 1}
           </PageInfo>
-
           <RowsPerPage>
-            Rows per page:{' '}
+            Rows per page:
             <select value={rowsPerPage} onChange={handleRowsPerPageChange}>
-              <option value={5}>5</option>
-              <option value={10}>10</option>
-              <option value={25}>25</option>
-              <option value={50}>50</option>
+              {PAGE_SIZE_OPTIONS.map((size) => (
+                <option key={size} value={size}>
+                  {size}
+                </option>
+              ))}
             </select>
           </RowsPerPage>
-
           <NavButtons>
             <button
               onClick={() => handlePageChange(Math.max(1, currentPage - 1))}
@@ -327,5 +324,3 @@ function ExpenseTable() {
     </>
   )
 }
-
-export default ExpenseTable

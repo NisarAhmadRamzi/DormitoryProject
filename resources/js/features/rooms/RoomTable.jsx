@@ -1,5 +1,4 @@
 import { RxCaretLeft, RxCaretRight } from 'react-icons/rx'
-
 import { FiSearch } from 'react-icons/fi'
 import RoomRow from './RoomRow'
 import Spinner from '../../ui/Spinner'
@@ -9,11 +8,12 @@ import { useQuery } from '@tanstack/react-query'
 import { useSearchParams } from 'react-router-dom'
 import { useState } from 'react'
 
+// Styled components with CSS variables for dark mode support
 const Table = styled.div`
   border: 1px solid var(--color-grey-200);
   font-size: 1.4rem;
   background-color: var(--color-grey-0);
-  border-radius: 7px;
+  border-radius: var(--border-radius-md);
   overflow: hidden;
 `
 
@@ -51,7 +51,7 @@ const TopBarWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1.6rem 2.4rem 0 0rem;
+  padding: 1.6rem 2.4rem 0;
   gap: 2rem;
   flex-wrap: wrap;
 `
@@ -63,19 +63,27 @@ const SearchInputContainer = styled.div`
   svg {
     position: absolute;
     top: 50%;
-    left: 90%;
+    left: 1rem;
     transform: translateY(-50%);
-    color: var(--color-grey-900);
+    color: var(--color-grey-600);
     font-size: 1.4rem;
     pointer-events: none;
   }
 
   input {
     font-size: 1.4rem;
-    padding: 0.6rem 1rem 0.6rem 2.8rem;
+    padding: 0.6rem 1rem 0.6rem 3rem;
     border: 1px solid var(--color-grey-300);
-    border-radius: 4px;
+    border-radius: var(--border-radius-sm);
     width: 100%;
+    background-color: var(--color-grey-0);
+    color: var(--color-grey-900);
+
+    &:focus {
+      border-color: var(--color-blue-700);
+      outline: none;
+      box-shadow: 0 0 0 3px var(--backdrop-color);
+    }
   }
 `
 
@@ -103,8 +111,14 @@ const RowsPerPage = styled.div`
     padding: 0.4rem 0.8rem;
     font-size: 1.4rem;
     border: 1px solid var(--color-grey-300);
-    border-radius: 6px;
-    background-color: white;
+    border-radius: var(--border-radius-sm);
+    background-color: var(--color-grey-0);
+    color: var(--color-grey-900);
+
+    &:disabled {
+      background-color: var(--color-grey-200);
+      color: var(--color-grey-500);
+    }
   }
 `
 
@@ -116,14 +130,16 @@ const NavButtons = styled.div`
   button {
     padding: 0.4rem 0.8rem;
     font-size: 2rem;
-    background-color: white;
+    background-color: var(--color-grey-0);
     border: 1px solid var(--color-grey-300);
-    border-radius: 6px;
+    border-radius: var(--border-radius-sm);
+    color: var(--color-grey-900);
     cursor: pointer;
-    transition: background-color 0.2s;
+    transition: background-color 0.2s, border-color 0.2s;
 
     &:hover:not(:disabled) {
-      background-color: var(--color-grey-100);
+      background-color: var(--color-grey-50);
+      border-color: var(--color-grey-400);
     }
 
     &:disabled {
@@ -133,7 +149,7 @@ const NavButtons = styled.div`
   }
 `
 
-function RoomsTable() {
+export default function RoomsTable() {
   const [searchParams, setSearchParams] = useSearchParams()
   const currentPage = Number(searchParams.get('page')) || 1
   const [rowsPerPage, setRowsPerPage] = useState(10)
@@ -148,8 +164,8 @@ function RoomsTable() {
 
   let rooms = data?.data || []
 
-  // Search
   if (searchText.trim() !== '') {
+    const lower = searchText.toLowerCase()
     rooms = rooms.filter((room) => {
       const searchStr = `
         ${room.room_number || ''}
@@ -157,18 +173,16 @@ function RoomsTable() {
         ${room.capacity || ''}
         ${room.price || ''}
       `.toLowerCase()
-      return searchStr.includes(searchText.toLowerCase())
+      return searchStr.includes(lower)
     })
   }
 
-  // Sort
   if (sortBy) {
     rooms = [...rooms].sort((a, b) => {
       let aVal = a[sortBy]
       let bVal = b[sortBy]
       if (typeof aVal === 'string') aVal = aVal.toLowerCase()
       if (typeof bVal === 'string') bVal = bVal.toLowerCase()
-
       if (aVal > bVal) return sortOrder === 'asc' ? 1 : -1
       if (aVal < bVal) return sortOrder === 'asc' ? -1 : 1
       return 0
@@ -178,30 +192,24 @@ function RoomsTable() {
   const totalItems = rooms.length
   const totalPages = Math.ceil(totalItems / rowsPerPage)
   const start = (currentPage - 1) * rowsPerPage
-  const end = start + rowsPerPage
-  const paginatedRooms = rooms.slice(start, end)
+  const paginatedRooms = rooms.slice(start, start + rowsPerPage)
 
-  function handleSort(column) {
-    if (sortBy === column) {
+  const handleSort = (column) => {
+    if (sortBy === column)
       setSortOrder((prev) => (prev === 'asc' ? 'desc' : 'asc'))
-    } else {
+    else {
       setSortBy(column)
       setSortOrder('asc')
     }
   }
 
-  function renderSortIcon(column) {
-    if (sortBy === column) return sortOrder === 'asc' ? '↑' : '↓'
-    return '↑↓'
-  }
+  const renderSortIcon = (column) =>
+    sortBy === column ? (sortOrder === 'asc' ? '↑' : '↓') : '↑↓'
 
-  function handlePageChange(newPage) {
-    setSearchParams({ page: newPage })
-  }
+  const handlePageChange = (newPage) => setSearchParams({ page: newPage })
 
-  function handleRowsPerPageChange(e) {
-    const newSize = Number(e.target.value)
-    setRowsPerPage(newSize)
+  const handleRowsPerPageChange = (e) => {
+    setRowsPerPage(Number(e.target.value))
     setSearchParams({ page: 1 })
   }
 
@@ -263,7 +271,7 @@ function RoomsTable() {
           </PageInfo>
 
           <RowsPerPage>
-            Rows per page:{' '}
+            Rows per page:
             <select value={rowsPerPage} onChange={handleRowsPerPageChange}>
               <option value={5}>5</option>
               <option value={10}>10</option>
@@ -293,5 +301,3 @@ function RoomsTable() {
     </>
   )
 }
-
-export default RoomsTable

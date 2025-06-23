@@ -1,21 +1,21 @@
-import { RxCaretLeft, RxCaretRight } from 'react-icons/rx'
-
-import FeesRow from './FeesRow'
-import { FiSearch } from 'react-icons/fi'
-import Spinner from '../../ui/Spinner'
-import { getFees } from '../../services/apiFees'
-import styled from 'styled-components'
 import { useQuery } from '@tanstack/react-query'
-import { useSearchParams } from 'react-router-dom'
 import { useState } from 'react'
+import { FiSearch } from 'react-icons/fi'
+import { RxCaretLeft, RxCaretRight } from 'react-icons/rx'
+import { useSearchParams } from 'react-router-dom'
+import styled from 'styled-components'
+import { getFees } from '../../services/apiFees'
+import Spinner from '../../ui/Spinner'
+import FeesRow from './FeesRow'
 
-// Styled components similar to StudentTable (add Search, Pagination wrappers etc.)
+const PAGE_SIZE_OPTIONS = [5, 10, 25, 50]
 
+// Styled components with CSS variables for dark mode support
 const Table = styled.div`
   border: 1px solid var(--color-grey-200);
   font-size: 1.4rem;
   background-color: var(--color-grey-0);
-  border-radius: 7px;
+  border-radius: var(--border-radius-md);
   overflow: hidden;
 `
 
@@ -23,7 +23,7 @@ const TopBarWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1.6rem 2.4rem 0 0rem;
+  padding: 1.6rem 2.4rem 0;
   gap: 2rem;
   flex-wrap: wrap;
 `
@@ -40,26 +40,34 @@ const SearchInputContainer = styled.div`
   svg {
     position: absolute;
     top: 50%;
-    left: 90%;
+    left: 1rem;
     transform: translateY(-50%);
-    color: var(--color-grey-900);
+    color: var(--color-grey-600);
     font-size: 1.4rem;
     pointer-events: none;
   }
 
   input {
-    font-size: 1.4rem;
-    padding: 0.6rem 1rem 0.6rem 2.8rem;
-    border: 1px solid var(--color-grey-300);
-    border-radius: 4px;
     width: 100%;
+    font-size: 1.4rem;
+    padding: 0.6rem 1rem 0.6rem 3rem;
+    border: 1px solid var(--color-grey-300);
+    border-radius: var(--border-radius-sm);
+    background-color: var(--color-grey-0);
+    color: var(--color-grey-900);
+
+    &:focus {
+      border-color: var(--color-blue-700);
+      outline: none;
+      box-shadow: 0 0 0 3px var(--backdrop-color);
+    }
   }
 `
 
 const TableHeader = styled.header`
   display: grid;
   grid-template-columns: 0.6fr 2fr 2fr 2fr 2fr 2fr 0.5fr;
-  column-gap: 0.5rem;
+  gap: 0.5rem;
   align-items: center;
   background-color: var(--color-grey-50);
   border-bottom: 1px solid var(--color-grey-100);
@@ -75,7 +83,6 @@ const SortableHeader = styled.div`
   align-items: center;
   gap: 0.4rem;
   cursor: pointer;
-  user-select: none;
 
   .icon {
     font-size: 1.2rem;
@@ -95,7 +102,6 @@ const PaginationWrapper = styled.div`
   padding: 1.6rem;
   border-top: 1px solid var(--color-grey-100);
   background-color: var(--color-grey-0);
-  font-size: 1.4rem;
   gap: 2rem;
 `
 
@@ -112,8 +118,14 @@ const RowsPerPage = styled.div`
     padding: 0.4rem 0.8rem;
     font-size: 1.4rem;
     border: 1px solid var(--color-grey-300);
-    border-radius: 6px;
-    background-color: white;
+    border-radius: var(--border-radius-sm);
+    background-color: var(--color-grey-0);
+    color: var(--color-grey-900);
+
+    &:disabled {
+      background-color: var(--color-grey-200);
+      color: var(--color-grey-500);
+    }
   }
 `
 
@@ -125,14 +137,16 @@ const NavButtons = styled.div`
   button {
     padding: 0.4rem 0.8rem;
     font-size: 2rem;
-    background-color: white;
+    background-color: var(--color-grey-0);
     border: 1px solid var(--color-grey-300);
-    border-radius: 6px;
+    border-radius: var(--border-radius-sm);
+    color: var(--color-grey-900);
     cursor: pointer;
-    transition: background-color 0.2s;
+    transition: background-color 0.2s, border-color 0.2s;
 
     &:hover:not(:disabled) {
-      background-color: var(--color-grey-100);
+      background-color: var(--color-grey-50);
+      border-color: var(--color-grey-400);
     }
 
     &:disabled {
@@ -142,13 +156,12 @@ const NavButtons = styled.div`
   }
 `
 
-function FeesTable() {
+export default function FeesTable() {
   const [searchParams, setSearchParams] = useSearchParams()
   const currentPage = Number(searchParams.get('page')) || 1
   const sortParam = searchParams.get('sortBy') || 'id-asc'
   const [sortByCol, sortOrder] = sortParam.split('-')
 
-  // Add local searchText and rowsPerPage state
   const [searchText, setSearchText] = useState('')
   const [rowsPerPage, setRowsPerPage] = useState(10)
 
@@ -157,7 +170,44 @@ function FeesTable() {
     queryFn: getFees,
   })
 
-  function handleSort(fieldName) {
+  if (isLoading) return <Spinner />
+  if (error) return <div>Error loading fees!</div>
+
+  let filteredFees = data?.data || []
+
+  // Filter
+  if (searchText.trim()) {
+    const lower = searchText.toLowerCase()
+    filteredFees = filteredFees.filter((fee) =>
+      `${fee.id} ${fee.student?.name} ${fee.student?.last_name}`
+        .toLowerCase()
+        .includes(lower)
+    )
+  }
+
+  // Sort
+  filteredFees = [...filteredFees].sort((a, b) => {
+    let aVal, bVal
+    if (sortByCol === 'student') {
+      aVal = `${a.student?.name} ${a.student?.last_name}`.toLowerCase() || ''
+      bVal = `${b.student?.name} ${b.student?.last_name}`.toLowerCase() || ''
+    } else {
+      aVal = a[sortByCol] ?? ''
+      bVal = b[sortByCol] ?? ''
+      if (typeof aVal === 'string') aVal = aVal.toLowerCase()
+      if (typeof bVal === 'string') bVal = bVal.toLowerCase()
+    }
+    if (aVal < bVal) return sortOrder === 'asc' ? -1 : 1
+    if (aVal > bVal) return sortOrder === 'asc' ? 1 : -1
+    return 0
+  })
+
+  const totalItems = filteredFees.length
+  const totalPages = Math.ceil(totalItems / rowsPerPage)
+  const startIndex = (currentPage - 1) * rowsPerPage
+  const paginatedFees = filteredFees.slice(startIndex, startIndex + rowsPerPage)
+
+  const handleSort = (fieldName) => {
     const newDirection =
       sortByCol === fieldName && sortOrder === 'asc' ? 'desc' : 'asc'
     searchParams.set('sortBy', `${fieldName}-${newDirection}`)
@@ -165,62 +215,19 @@ function FeesTable() {
     setSearchParams(searchParams)
   }
 
-  const renderSortIcon = (column) => {
-    if (sortByCol === column) {
-      return sortOrder === 'asc' ? '↑' : '↓'
-    }
-    return '↑↓'
-  }
+  const renderSortIcon = (column) =>
+    sortByCol === column ? (sortOrder === 'asc' ? '↑' : '↓') : '↑↓'
 
-  if (isLoading) return <Spinner />
-  if (error) return <div>Error loading fees!</div>
-
-  // Filter based on local searchText state (like StudentTable)
-  let filteredFees = data?.data || []
-  if (searchText.trim() !== '') {
-    filteredFees = filteredFees.filter((fee) => {
-      const searchString =
-        `${fee.id} ${fee.student?.name} ${fee.student?.last_name}`.toLowerCase()
-      return searchString.includes(searchText.toLowerCase())
-    })
-  }
-
-  // Sort before pagination
-  filteredFees = [...filteredFees].sort((a, b) => {
-    let aVal = a[sortByCol]
-    let bVal = b[sortByCol]
-
-    if (sortByCol === 'student') {
-      aVal = `${a.student?.name} ${a.student?.last_name}`.toLowerCase() || ''
-      bVal = `${b.student?.name} ${b.student?.last_name}`.toLowerCase() || ''
-    }
-
-    if (typeof aVal === 'string') aVal = aVal.toLowerCase()
-    if (typeof bVal === 'string') bVal = bVal.toLowerCase()
-
-    if (aVal < bVal) return sortOrder === 'asc' ? -1 : 1
-    if (aVal > bVal) return sortOrder === 'asc' ? 1 : -1
-    return 0
-  })
-
-  // Pagination using rowsPerPage state (not fixed PAGE_SIZE)
-  const totalItems = filteredFees.length
-  const totalPages = Math.ceil(totalItems / rowsPerPage)
-  const startIndex = (currentPage - 1) * rowsPerPage
-  const endIndex = startIndex + rowsPerPage
-  const paginatedFees = filteredFees.slice(startIndex, endIndex)
-
-  function handlePageChange(newPage) {
+  const handlePageChange = (newPage) => {
     setSearchParams({
       page: newPage,
       sortBy: searchParams.get('sortBy') || 'id-asc',
     })
   }
 
-  function handleRowsPerPageChange(e) {
+  const handleRowsPerPageChange = (e) => {
     const newSize = Number(e.target.value)
     setRowsPerPage(newSize)
-    // Reset page to 1 on rows per page change
     setSearchParams({ page: 1, sortBy: searchParams.get('sortBy') || 'id-asc' })
   }
 
@@ -248,15 +255,12 @@ function FeesTable() {
           >
             ID <span className="icon">{renderSortIcon('id')}</span>
           </SortableHeader>
-
           <SortableHeader
             onClick={() => handleSort('student')}
             className={sortByCol === 'student' ? 'active' : ''}
           >
-            Student Name{' '}
-            <span className="icon">{renderSortIcon('student')}</span>
+            Student <span className="icon">{renderSortIcon('student')}</span>
           </SortableHeader>
-
           <SortableHeader
             onClick={() => handleSort('office_pay')}
             className={sortByCol === 'office_pay' ? 'active' : ''}
@@ -264,7 +268,6 @@ function FeesTable() {
             Office Pay{' '}
             <span className="icon">{renderSortIcon('office_pay')}</span>
           </SortableHeader>
-
           <SortableHeader
             onClick={() => handleSort('office_paid')}
             className={sortByCol === 'office_paid' ? 'active' : ''}
@@ -272,7 +275,6 @@ function FeesTable() {
             Office Paid{' '}
             <span className="icon">{renderSortIcon('office_paid')}</span>
           </SortableHeader>
-
           <SortableHeader
             onClick={() => handleSort('warranty_pay')}
             className={sortByCol === 'warranty_pay' ? 'active' : ''}
@@ -280,7 +282,6 @@ function FeesTable() {
             Warranty Pay{' '}
             <span className="icon">{renderSortIcon('warranty_pay')}</span>
           </SortableHeader>
-
           <SortableHeader
             onClick={() => handleSort('total_fee')}
             className={sortByCol === 'total_fee' ? 'active' : ''}
@@ -288,7 +289,6 @@ function FeesTable() {
             Total Fee{' '}
             <span className="icon">{renderSortIcon('total_fee')}</span>
           </SortableHeader>
-
           <div>Action</div>
         </TableHeader>
 
@@ -304,17 +304,16 @@ function FeesTable() {
           <PageInfo>
             Page {currentPage} of {totalPages || 1}
           </PageInfo>
-
           <RowsPerPage>
-            Rows per page:{' '}
+            Rows per page:
             <select value={rowsPerPage} onChange={handleRowsPerPageChange}>
-              <option value={5}>5</option>
-              <option value={10}>10</option>
-              <option value={25}>25</option>
-              <option value={50}>50</option>
+              {PAGE_SIZE_OPTIONS.map((size) => (
+                <option key={size} value={size}>
+                  {size}
+                </option>
+              ))}
             </select>
           </RowsPerPage>
-
           <NavButtons>
             <button
               onClick={() => handlePageChange(Math.max(1, currentPage - 1))}
@@ -326,7 +325,7 @@ function FeesTable() {
               onClick={() =>
                 handlePageChange(Math.min(totalPages, currentPage + 1))
               }
-              disabled={currentPage === totalPages || totalPages === 0}
+              disabled={currentPage === totalPages && totalPages > 0}
             >
               <RxCaretRight />
             </button>
@@ -336,5 +335,3 @@ function FeesTable() {
     </>
   )
 }
-
-export default FeesTable

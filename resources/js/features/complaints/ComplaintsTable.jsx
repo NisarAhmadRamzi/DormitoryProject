@@ -1,19 +1,19 @@
-import { RxCaretLeft, RxCaretRight } from 'react-icons/rx'
-import { FiSearch } from 'react-icons/fi'
-import ComplaintsRow from './ComplaintsRow'
-import Spinner from '../../ui/Spinner'
-import { getComplaints } from '../../services/apiComplaints'
-import styled from 'styled-components'
 import { useQuery } from '@tanstack/react-query'
-import { useSearchParams } from 'react-router-dom'
 import { useState } from 'react'
+import { FiSearch } from 'react-icons/fi'
+import { RxCaretLeft, RxCaretRight } from 'react-icons/rx'
+import { useSearchParams } from 'react-router-dom'
+import styled from 'styled-components'
+import { getComplaints } from '../../services/apiComplaints'
+import Spinner from '../../ui/Spinner'
+import ComplaintsRow from './ComplaintsRow'
 
-// --- Styled Components ---
+// Styled Components with CSS variables for dark mode support
 const Table = styled.div`
   border: 1px solid var(--color-grey-200);
   font-size: 1.4rem;
   background-color: var(--color-grey-0);
-  border-radius: 7px;
+  border-radius: var(--border-radius-md);
   overflow: hidden;
 `
 
@@ -53,7 +53,7 @@ const TopBarWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1.6rem 2.4rem 0 0rem;
+  padding: 1.6rem 2.4rem 0;
   gap: 2rem;
   flex-wrap: wrap;
 `
@@ -65,19 +65,27 @@ const SearchInputContainer = styled.div`
   svg {
     position: absolute;
     top: 50%;
-    left: 90%;
+    left: 1rem;
     transform: translateY(-50%);
-    color: var(--color-grey-900);
+    color: var(--color-grey-600);
     font-size: 1.4rem;
     pointer-events: none;
   }
 
   input {
     font-size: 1.4rem;
-    padding: 0.6rem 1rem 0.6rem 2.8rem;
+    padding: 0.6rem 1rem 0.6rem 3rem;
     border: 1px solid var(--color-grey-300);
-    border-radius: 4px;
+    border-radius: var(--border-radius-sm);
     width: 100%;
+    background-color: var(--color-grey-0);
+    color: var(--color-grey-900);
+
+    &:focus {
+      border-color: var(--color-blue-700);
+      outline: none;
+      box-shadow: 0 0 0 3px var(--backdrop-color);
+    }
   }
 `
 
@@ -105,8 +113,14 @@ const RowsPerPage = styled.div`
     padding: 0.4rem 0.8rem;
     font-size: 1.4rem;
     border: 1px solid var(--color-grey-300);
-    border-radius: 6px;
-    background-color: white;
+    border-radius: var(--border-radius-sm);
+    background-color: var(--color-grey-0);
+    color: var(--color-grey-900);
+
+    &:disabled {
+      background-color: var(--color-grey-200);
+      color: var(--color-grey-500);
+    }
   }
 `
 
@@ -118,14 +132,16 @@ const NavButtons = styled.div`
   button {
     padding: 0.4rem 0.8rem;
     font-size: 2rem;
-    background-color: white;
+    background-color: var(--color-grey-0);
     border: 1px solid var(--color-grey-300);
-    border-radius: 6px;
+    border-radius: var(--border-radius-sm);
+    color: var(--color-grey-900);
     cursor: pointer;
-    transition: background-color 0.2s;
+    transition: background-color 0.2s, border-color 0.2s;
 
     &:hover:not(:disabled) {
-      background-color: var(--color-grey-100);
+      background-color: var(--color-grey-50);
+      border-color: var(--color-grey-400);
     }
 
     &:disabled {
@@ -135,28 +151,27 @@ const NavButtons = styled.div`
   }
 `
 
-// --- Main Component ---
-function ComplaintsTable() {
+export default function ComplaintsTable() {
   const [searchParams, setSearchParams] = useSearchParams()
   const currentPage = Number(searchParams.get('page')) || 1
+  const [search, setSearch] = useState('')
+  const [rowsPerPage, setRowsPerPage] = useState(10)
+  const [sortBy, setSortBy] = useState(null)
+  const [sortOrder, setSortOrder] = useState('asc')
 
   const { isLoading, data, error } = useQuery({
     queryKey: ['complaints'],
     queryFn: getComplaints,
   })
 
-  const [search, setSearch] = useState('')
-  const [rowsPerPage, setRowsPerPage] = useState(10)
-  const [sortBy, setSortBy] = useState(null)
-  const [sortOrder, setSortOrder] = useState('asc')
-
   if (isLoading) return <Spinner />
   if (error) return <div>Error loading complaints!</div>
 
   let complaints = data?.data || []
 
-  // --- Search Filter ---
+  // Search
   if (search.trim() !== '') {
+    const lower = search.toLowerCase()
     complaints = complaints.filter((c) => {
       const str = `
         ${c.id}
@@ -165,11 +180,11 @@ function ComplaintsTable() {
         ${c.status}
         ${c.student?.name}
       `.toLowerCase()
-      return str.includes(search.toLowerCase())
+      return str.includes(lower)
     })
   }
 
-  // --- Sorting ---
+  // Sort
   if (sortBy) {
     complaints = [...complaints].sort((a, b) => {
       let aVal, bVal
@@ -198,41 +213,33 @@ function ComplaintsTable() {
           aVal = ''
           bVal = ''
       }
-
       if (aVal < bVal) return sortOrder === 'asc' ? -1 : 1
       if (aVal > bVal) return sortOrder === 'asc' ? 1 : -1
       return 0
     })
   }
 
-  // --- Pagination ---
+  // Pagination
   const totalItems = complaints.length
   const totalPages = Math.ceil(totalItems / rowsPerPage)
   const start = (currentPage - 1) * rowsPerPage
-  const end = start + rowsPerPage
-  const paginatedComplaints = complaints.slice(start, end)
+  const paginated = complaints.slice(start, start + rowsPerPage)
 
-  const handleSort = (column) => {
-    if (sortBy === column) {
-      setSortOrder((prev) => (prev === 'asc' ? 'desc' : 'asc'))
-    } else {
-      setSortBy(column)
+  const handleSort = (col) => {
+    if (sortBy === col) setSortOrder((o) => (o === 'asc' ? 'desc' : 'asc'))
+    else {
+      setSortBy(col)
       setSortOrder('asc')
     }
   }
 
-  const renderSortIcon = (column) => {
-    if (sortBy === column) return sortOrder === 'asc' ? '↑' : '↓'
-    return '↑↓'
-  }
+  const renderIcon = (col) =>
+    sortBy === col ? (sortOrder === 'asc' ? '↑' : '↓') : '↑↓'
 
-  const handlePageChange = (page) => {
-    setSearchParams({ page })
-  }
+  const changePage = (p) => setSearchParams({ page: p })
 
-  const handleRowsPerPageChange = (e) => {
-    const newSize = Number(e.target.value)
-    setRowsPerPage(newSize)
+  const changeRows = (e) => {
+    setRowsPerPage(Number(e.target.value))
     setSearchParams({ page: 1 })
   }
 
@@ -256,44 +263,41 @@ function ComplaintsTable() {
             onClick={() => handleSort('id')}
             className={sortBy === 'id' ? 'active' : ''}
           >
-            <div>ID</div>
-            <span className="icon">{renderSortIcon('id')}</span>
+            <div>ID</div> <span className="icon">{renderIcon('id')}</span>
           </SortableHeader>
           <SortableHeader
             onClick={() => handleSort('student')}
             className={sortBy === 'student' ? 'active' : ''}
           >
-            <div>Student Name</div>
-            <span className="icon">{renderSortIcon('student')}</span>
+            <div>Student</div>{' '}
+            <span className="icon">{renderIcon('student')}</span>
           </SortableHeader>
           <SortableHeader
             onClick={() => handleSort('title')}
             className={sortBy === 'title' ? 'active' : ''}
           >
-            <div>Title</div>
-            <span className="icon">{renderSortIcon('title')}</span>
+            <div>Title</div> <span className="icon">{renderIcon('title')}</span>
           </SortableHeader>
           <SortableHeader
             onClick={() => handleSort('status')}
             className={sortBy === 'status' ? 'active' : ''}
           >
-            <div>Status</div>
-            <span className="icon">{renderSortIcon('status')}</span>
+            <div>Status</div>{' '}
+            <span className="icon">{renderIcon('status')}</span>
           </SortableHeader>
           <SortableHeader
             onClick={() => handleSort('created_at')}
             className={sortBy === 'created_at' ? 'active' : ''}
           >
-            <div>Created At</div>
-            <span className="icon">{renderSortIcon('created_at')}</span>
+            <div>Created At</div>{' '}
+            <span className="icon">{renderIcon('created_at')}</span>
           </SortableHeader>
           <div>Action</div>
         </TableHeader>
 
-        {paginatedComplaints.map((complaint) => (
-          <ComplaintsRow key={complaint.id} complaint={complaint} />
+        {paginated.map((c) => (
+          <ComplaintsRow key={c.id} complaint={c} />
         ))}
-
         {complaints.length === 0 && (
           <div style={{ padding: '1.6rem' }}>No matching complaints found.</div>
         )}
@@ -302,28 +306,24 @@ function ComplaintsTable() {
           <PageInfo>
             Page {currentPage} of {totalPages}
           </PageInfo>
-
           <RowsPerPage>
-            Rows per page:{' '}
-            <select value={rowsPerPage} onChange={handleRowsPerPageChange}>
+            Rows per page:
+            <select value={rowsPerPage} onChange={changeRows}>
               <option value={5}>5</option>
               <option value={10}>10</option>
               <option value={25}>25</option>
               <option value={50}>50</option>
             </select>
           </RowsPerPage>
-
           <NavButtons>
             <button
-              onClick={() => handlePageChange(Math.max(1, currentPage - 1))}
+              onClick={() => changePage(Math.max(1, currentPage - 1))}
               disabled={currentPage === 1}
             >
               <RxCaretLeft />
             </button>
             <button
-              onClick={() =>
-                handlePageChange(Math.min(totalPages, currentPage + 1))
-              }
+              onClick={() => changePage(Math.min(totalPages, currentPage + 1))}
               disabled={currentPage === totalPages}
             >
               <RxCaretRight />
@@ -334,5 +334,3 @@ function ComplaintsTable() {
     </>
   )
 }
-
-export default ComplaintsTable

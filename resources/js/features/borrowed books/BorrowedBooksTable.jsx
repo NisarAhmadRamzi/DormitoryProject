@@ -1,7 +1,6 @@
 import { RxCaretLeft, RxCaretRight } from 'react-icons/rx'
-
-import BorrowedBooksRow from './BorrowedBooksRow'
 import { FiSearch } from 'react-icons/fi'
+import BorrowedBooksRow from './BorrowedBooksRow'
 import Spinner from '../../ui/Spinner'
 import { getBorrowedBooks } from '../../services/apiBorrowedBooks'
 import styled from 'styled-components'
@@ -9,19 +8,19 @@ import { useQuery } from '@tanstack/react-query'
 import { useSearchParams } from 'react-router-dom'
 import { useState } from 'react'
 
-// Styled components
+// Styled Components with CSS variables for dark mode support
 const Table = styled.div`
   border: 1px solid var(--color-grey-200);
   font-size: 1.4rem;
   background-color: var(--color-grey-0);
-  border-radius: 7px;
+  border-radius: var(--border-radius-md);
   overflow: hidden;
 `
 
 const TableHeader = styled.header`
   display: grid;
   grid-template-columns: 0.6fr 2fr 2fr 2fr 2fr 0.5fr;
-  column-gap: 0.5rem;
+  gap: 0.5rem;
   align-items: center;
   background-color: var(--color-grey-50);
   border-bottom: 1px solid var(--color-grey-100);
@@ -36,7 +35,6 @@ const SortableHeader = styled.div`
   align-items: center;
   gap: 0.4rem;
   cursor: pointer;
-  user-select: none;
 
   .icon {
     font-size: 1.2rem;
@@ -53,7 +51,7 @@ const TopBarWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1.6rem 2.4rem 0 0rem;
+  padding: 1.6rem 2.4rem 0;
   gap: 2rem;
   flex-wrap: wrap;
 `
@@ -70,19 +68,27 @@ const SearchInputContainer = styled.div`
   svg {
     position: absolute;
     top: 50%;
-    left: 90%;
+    left: 1rem;
     transform: translateY(-50%);
-    color: var(--color-grey-900);
+    color: var(--color-grey-600);
     font-size: 1.4rem;
     pointer-events: none;
   }
 
   input {
-    font-size: 1.4rem;
-    padding: 0.6rem 1rem 0.6rem 2.8rem;
-    border: 1px solid var(--color-grey-300);
-    border-radius: 4px;
     width: 100%;
+    font-size: 1.4rem;
+    padding: 0.6rem 1rem 0.6rem 3rem;
+    border: 1px solid var(--color-grey-300);
+    border-radius: var(--border-radius-sm);
+    background-color: var(--color-grey-0);
+    color: var(--color-grey-900);
+
+    &:focus {
+      border-color: var(--color-blue-700);
+      outline: none;
+      box-shadow: 0 0 0 3px var(--backdrop-color);
+    }
   }
 `
 
@@ -93,7 +99,6 @@ const PaginationWrapper = styled.div`
   padding: 1.6rem;
   border-top: 1px solid var(--color-grey-100);
   background-color: var(--color-grey-0);
-  font-size: 1.4rem;
   gap: 2rem;
 `
 
@@ -110,8 +115,14 @@ const RowsPerPage = styled.div`
     padding: 0.4rem 0.8rem;
     font-size: 1.4rem;
     border: 1px solid var(--color-grey-300);
-    border-radius: 6px;
-    background-color: white;
+    border-radius: var(--border-radius-sm);
+    background-color: var(--color-grey-0);
+    color: var(--color-grey-900);
+
+    &:disabled {
+      background-color: var(--color-grey-200);
+      color: var(--color-grey-500);
+    }
   }
 `
 
@@ -123,14 +134,16 @@ const NavButtons = styled.div`
   button {
     padding: 0.4rem 0.8rem;
     font-size: 2rem;
-    background-color: white;
+    background-color: var(--color-grey-0);
     border: 1px solid var(--color-grey-300);
-    border-radius: 6px;
+    border-radius: var(--border-radius-sm);
+    color: var(--color-grey-900);
     cursor: pointer;
-    transition: background-color 0.2s;
+    transition: background-color 0.2s, border-color 0.2s;
 
     &:hover:not(:disabled) {
-      background-color: var(--color-grey-100);
+      background-color: var(--color-grey-50);
+      border-color: var(--color-grey-400);
     }
 
     &:disabled {
@@ -140,11 +153,12 @@ const NavButtons = styled.div`
   }
 `
 
-function BorrowedBooksTable() {
+export default function BorrowedBooksTable() {
   const [searchParams, setSearchParams] = useSearchParams()
   const currentPage = Number(searchParams.get('page')) || 1
-  const limitFromParams = Number(searchParams.get('limit'))
-  const [rowsPerPage, setRowsPerPage] = useState(limitFromParams || 10)
+  const [rowsPerPage, setRowsPerPage] = useState(
+    Number(searchParams.get('limit')) || 10
+  )
   const [sortBy, setSortBy] = useState(null)
   const [sortOrder, setSortOrder] = useState('asc')
   const [searchText, setSearchText] = useState('')
@@ -161,12 +175,15 @@ function BorrowedBooksTable() {
 
   // Filter
   if (searchText.trim()) {
+    const lower = searchText.toLowerCase()
     borrowedBooks = borrowedBooks.filter((entry) => {
-      const studentName =
-        entry.student?.name || entry.library_student?.name || ''
-      const bookTitle = entry.book?.title || ''
-      const searchString = `${studentName} ${bookTitle}`.toLowerCase()
-      return searchString.includes(searchText.toLowerCase())
+      const studentName = (
+        entry.student?.name ||
+        entry.library_student?.name ||
+        ''
+      ).toLowerCase()
+      const bookTitle = (entry.book?.title || '').toLowerCase()
+      return `${studentName} ${bookTitle}`.includes(lower)
     })
   }
 
@@ -207,9 +224,15 @@ function BorrowedBooksTable() {
           aVal = ''
           bVal = ''
       }
-      if (aVal < bVal) return sortOrder === 'asc' ? -1 : 1
-      if (aVal > bVal) return sortOrder === 'asc' ? 1 : -1
-      return 0
+      return aVal === bVal
+        ? 0
+        : sortOrder === 'asc'
+        ? aVal < bVal
+          ? -1
+          : 1
+        : aVal < bVal
+        ? 1
+        : -1
     })
   }
 
@@ -221,34 +244,31 @@ function BorrowedBooksTable() {
     startIndex + rowsPerPage
   )
 
-  function handleSort(column) {
-    if (sortBy === column) {
+  const handleSort = (column) => {
+    if (sortBy === column)
       setSortOrder((prev) => (prev === 'asc' ? 'desc' : 'asc'))
-    } else {
+    else {
       setSortBy(column)
       setSortOrder('asc')
     }
   }
 
-  function renderSortIcon(column) {
-    if (sortBy === column) return sortOrder === 'asc' ? '↑' : '↓'
-    return '↑↓'
-  }
+  const renderSortIcon = (column) =>
+    sortBy === column ? (sortOrder === 'asc' ? '↑' : '↓') : '↑↓'
 
-  function handlePageChange(newPage) {
+  const handlePageChange = (newPage) => {
     const params = new URLSearchParams(searchParams)
     params.set('page', newPage)
     params.set('limit', rowsPerPage)
     setSearchParams(params)
   }
 
-  function handleRowsPerPageChange(e) {
-    const newRowsPerPage = Number(e.target.value)
-    setRowsPerPage(newRowsPerPage)
-
+  const handleRowsPerPageChange = (e) => {
+    const limit = Number(e.target.value)
+    setRowsPerPage(limit)
     const params = new URLSearchParams(searchParams)
     params.set('page', 1)
-    params.set('limit', newRowsPerPage)
+    params.set('limit', limit)
     setSearchParams(params)
   }
 
@@ -318,7 +338,6 @@ function BorrowedBooksTable() {
           <PageInfo>
             Page {currentPage} of {totalPages}
           </PageInfo>
-
           <RowsPerPage>
             Rows per page:
             <select value={rowsPerPage} onChange={handleRowsPerPageChange}>
@@ -328,7 +347,6 @@ function BorrowedBooksTable() {
               <option value={50}>50</option>
             </select>
           </RowsPerPage>
-
           <NavButtons>
             <button
               onClick={() => handlePageChange(Math.max(1, currentPage - 1))}
@@ -350,5 +368,3 @@ function BorrowedBooksTable() {
     </>
   )
 }
-
-export default BorrowedBooksTable
