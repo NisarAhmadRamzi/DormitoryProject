@@ -5,6 +5,7 @@ use App\Http\Controllers\backend\AuthController;
 use App\Http\Controllers\backend\BookController;
 use App\Http\Controllers\backend\BorrowedBookController;
 use App\Http\Controllers\backend\ComplaintController;
+use App\Http\Controllers\backend\DashboardController;
 use App\Http\Controllers\backend\ExpenseController;
 use App\Http\Controllers\backend\FeeController;
 use App\Http\Controllers\backend\LibraryController;
@@ -93,4 +94,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/profile', [ProfileController::class, 'update']);
     Route::delete('/profile/photo', [ProfileController::class, 'deletePhoto']);
     Route::put('/profile/password', [ProfileController::class, 'updatePassword']);
+
+    Route::get('/dashboard-stats', [DashboardController::class, 'stats']);
 });
