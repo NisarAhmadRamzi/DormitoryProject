@@ -12,6 +12,7 @@ use App\Models\Support;
 use App\Models\Expense;
 use App\Models\Complaint;
 use App\Models\Book;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
@@ -74,6 +75,12 @@ class DashboardController extends Controller
     //             ],
     //         ]);
     //     }
+
+    public function __construct()
+    {
+        Artisan::call('permission:cache-reset');
+        $this->middleware('permission:dashboard')->only(['index']);
+    }
 
     public function stats()
     {
