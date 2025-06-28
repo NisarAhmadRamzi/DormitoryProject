@@ -96,4 +96,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('/profile/password', [ProfileController::class, 'updatePassword']);
 
     Route::get('/dashboard-stats', [DashboardController::class, 'stats']);
+    Route::get('/dashboard/student', [DashboardController::class, 'studentDashboard']);
+    Route::get('/dashboard/library-admin', [DashboardController::class, 'libraryAdminDashboard']);
+    Route::get('/dashboard/library-student', [DashboardController::class, 'libraryStudentDashboard']);
 });
