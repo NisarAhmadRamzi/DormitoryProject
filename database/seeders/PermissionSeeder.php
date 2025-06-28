@@ -16,7 +16,10 @@ class PermissionSeeder extends Seeder
 
         // Create permissions
         $permissions = [
-            'dashboard',
+            'AdminDashboard',
+            'StudentDashboard',
+            'LibraryAdminDashboard',
+            'LibraryStudentDashboard',
 
             'all users',
             'view user',
