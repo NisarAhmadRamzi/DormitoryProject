@@ -25,12 +25,18 @@ class RoleController extends Controller
     }
 
 
-
     // GET /api/roles
     public function index()
     {
         $roles = Role::with('permissions')->get();
-        return RoleResource::collection($roles);
+        return response()->json(['roles' => $roles], 200);
+    }
+
+    // GET /api/roles/create (optional for APIs, can be omitted if front-end already knows how to get permissions)
+    public function create()
+    {
+        $permissions = Permission::all();
+        return response()->json(['permissions' => $permissions], 200);
     }
 
     // POST /api/roles
@@ -47,12 +53,20 @@ class RoleController extends Controller
             $role->syncPermissions($request->permissions);
         }
 
-        $role->load('permissions');
+        return response()->json(['message' => 'Role created successfully.', 'role' => $role], 201);
+    }
+
+    // GET /api/roles/{role}/edit
+    public function edit(Role $role)
+    {
+        $permissions = Permission::all();
+        $rolePermissions = $role->permissions->pluck('name')->toArray();
 
         return response()->json([
-            'message' => 'Role created successfully.',
-            'role' => new RoleResource($role)
-        ], 201);
+            'role' => $role,
+            'permissions' => $permissions,
+            'role_permissions' => $rolePermissions
+        ], 200);
     }
 
     // PUT /api/roles/{role}
@@ -64,24 +78,9 @@ class RoleController extends Controller
         ]);
 
         $role->update(['name' => $request->name]);
+        $role->syncPermissions($request->permissions ?? []);
 
-        if ($request->has('permissions')) {
-            $role->syncPermissions($request->permissions);
-        }
-
-        $role->load('permissions');
-
-        return response()->json([
-            'message' => 'Role updated successfully.',
-            'role' => new RoleResource($role)
-        ], 200);
-    }
-
-    // GET /api/roles/{role}
-    public function show(Role $role)
-    {
-        $role->load('permissions');
-        return new RoleResource($role);
+        return response()->json(['message' => 'Role updated successfully.', 'role' => $role], 200);
     }
 
     // DELETE /api/roles/{role}
