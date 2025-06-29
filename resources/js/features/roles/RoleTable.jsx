@@ -1,8 +1,8 @@
-import RoleRow from './RoleRow'
-import Spinner from '../../ui/Spinner'
-import { getRoles } from '../../services/apiRoles'
-import styled from 'styled-components'
 import { useQuery } from '@tanstack/react-query'
+import styled from 'styled-components'
+import { getRoles } from '../../services/apiRoles'
+import Spinner from '../../ui/Spinner'
+import RoleRow from './RoleRow'
 
 const Table = styled.div`
   border: 1px solid var(--color-grey-200);

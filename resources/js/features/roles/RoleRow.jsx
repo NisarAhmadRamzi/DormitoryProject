@@ -1,11 +1,11 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 
-import ConfirmDelete from '../../ui/ConfirmDelete'
-import CreateRoleForm from './CreateRoleForm'
-import Modal from '../../ui/Modal'
-import { deleteRole } from '../../services/apiRoles'
-import styled from 'styled-components'
 import toast from 'react-hot-toast'
+import styled from 'styled-components'
+import { deleteRole } from '../../services/apiRoles'
+import ConfirmDelete from '../../ui/ConfirmDelete'
+import Modal from '../../ui/Modal'
+import CreateRoleForm from './CreateRoleForm'
 
 const TableRow = styled.div`
   display: grid;
