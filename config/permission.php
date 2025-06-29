@@ -183,4 +183,9 @@ return [
 
         'store' => 'default',
     ],
+    /*
+     * Set default guard name to 'sanctum' so roles and permissions use it by default.
+     */
+    'guard_name' => 'sanctum',
+
 ];
