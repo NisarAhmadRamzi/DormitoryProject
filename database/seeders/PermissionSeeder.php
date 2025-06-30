@@ -110,13 +110,13 @@ class PermissionSeeder extends Seeder
         ];
 
         foreach ($permissions as $permission) {
-            \Spatie\Permission\Models\Permission::firstOrCreate(['name' => $permission]);
+            \Spatie\Permission\Models\Permission::firstOrCreate(['name' => $permission, 'guard_name' => 'sanctum']);
         }
         // Assign permissions to roles
-        $adminRole = \Spatie\Permission\Models\Role::findByName('admin');
+        $adminRole = \Spatie\Permission\Models\Role::findByName('admin', 'sanctum');
         $adminRole->givePermissionTo($permissions);
 
-        $second_admin = \Spatie\Permission\Models\Role::findByName('second_admin');
+        $second_admin = \Spatie\Permission\Models\Role::findByName('second_admin', 'sanctum');
         $second_admin->givePermissionTo([
             'all users',
             'view user',
@@ -175,7 +175,7 @@ class PermissionSeeder extends Seeder
 
         ]);
 
-        $student = \Spatie\Permission\Models\Role::findByName('student');
+        $student = \Spatie\Permission\Models\Role::findByName('student', 'sanctum');
         $student->givePermissionTo([
             'all students',
             'view student',
@@ -197,7 +197,7 @@ class PermissionSeeder extends Seeder
 
         ]);
 
-        $library_admin = \Spatie\Permission\Models\Role::findByName('library_admin');
+        $library_admin = \Spatie\Permission\Models\Role::findByName('library_admin', 'sanctum');
         $library_admin->givePermissionTo([
             'all users',
             'view user',
@@ -234,7 +234,7 @@ class PermissionSeeder extends Seeder
 
         ]);
 
-        $library_student = \Spatie\Permission\Models\Role::findByName('library_student');
+        $library_student = \Spatie\Permission\Models\Role::findByName('library_student', 'sanctum');
         // Assign permissions to library student role
         $library_student->givePermissionTo([
             'view user',

@@ -18,11 +18,11 @@ class RoleSeeder extends Seeder
     {
         // Creating roles
         $roles = [
-            ['name' => 'admin'],
-            ['name' => 'second_admin'],
-            ['name' => 'student'],
-            ['name' => 'library_admin'],
-            ['name' => 'library_student']
+            ['name' => 'admin', 'guard_name' => 'sanctum'],
+            ['name' => 'second_admin', 'guard_name' => 'sanctum'],
+            ['name' => 'student', 'guard_name' => 'sanctum'],
+            ['name' => 'library_admin', 'guard_name' => 'sanctum'],
+            ['name' => 'library_student', 'guard_name' => 'sanctum']
         ];
 
         foreach ($roles as $role) {
