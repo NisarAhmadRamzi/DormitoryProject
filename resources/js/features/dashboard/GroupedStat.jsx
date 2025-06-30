@@ -1,21 +1,22 @@
-
+t
 
 import { HiCheckCircle, HiExclamationCircle, HiXCircle } from 'react-icons/hi'
 import styled, { keyframes } from 'styled-components'
 import SpinnerMini from '../../ui/SpinnerMini'
 
-// Animation
+// Fade animation
 const fadeIn = keyframes`
   from { opacity: 0 }
   to { opacity: 1 }
 `
 
-// Utilities
+// Format date utility
 function formatDate(dateStr) {
   const parsed = new Date(dateStr)
   return isNaN(parsed) ? dateStr : parsed.toLocaleString()
 }
 
+// Helpers
 function isDateString(value) {
   return (
     typeof value === 'string' && !isNaN(Date.parse(value)) && value.length >= 10
@@ -29,12 +30,12 @@ function getIcon(value) {
   return <HiXCircle />
 }
 
-// Styled components
+// Styled Components
 const StyledGroupedStat = styled.div`
   background-color: var(--color-grey-0);
   border: 1px solid var(--color-grey-100);
   border-radius: var(--border-radius-md);
-  padding: 1.2rem 1.6rem; /* Reduced padding */
+  padding: 1.2rem 1.6rem;
   display: flex;
   flex-direction: column;
   grid-column: span 1;
@@ -44,18 +45,17 @@ const StyledGroupedStat = styled.div`
 `
 
 const Title = styled.h3`
-  font-size: 1.3rem;
+  font-size: 1.4rem;
   font-weight: 600;
   text-transform: uppercase;
   color: var(--color-grey-500);
-  margin-bottom: 0.8rem;
 `
 
 const StatList = styled.ul`
   list-style: none;
   display: flex;
   flex-direction: column;
-  gap: 0.6rem; /* Reduced vertical gap */
+  gap: 1.2rem;
   padding: 0;
   margin: 0;
 `
@@ -63,8 +63,8 @@ const StatList = styled.ul`
 const StatItem = styled.li`
   display: flex;
   align-items: center;
-  gap: 0.8rem;
-  font-size: 1.3rem;
+  gap: 1rem;
+  font-size: 1.4rem;
   color: var(--color-grey-700);
 `
 
@@ -72,8 +72,8 @@ const IconWrapper = styled.span`
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 2.2rem;
-  height: 2.2rem;
+  width: 2.4rem;
+  height: 2.4rem;
   border-radius: 50%;
   background-color: ${({ value }) =>
     typeof value === 'number' && value > 0
@@ -109,10 +109,9 @@ const LoadingWrapper = styled.div`
   padding: 0;
 `
 
-// Main component
-function GroupedStat({ title, data = {}, isLoading = false }) {
+function GroupedStat({ title, data = {}, isLoading = false, marginTop }) {
   return (
-    <StyledGroupedStat>
+    <StyledGroupedStat marginTop={marginTop}>
       <Title>{title}</Title>
       {isLoading ? (
         <LoadingWrapper>

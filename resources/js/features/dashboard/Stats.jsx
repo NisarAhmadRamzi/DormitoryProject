@@ -77,11 +77,13 @@ const Stats = () => {
         title="Books Overview"
         data={dashboardData?.books}
         isLoading={isLoading}
+        marginTop="3px" // 0.4rem ≈ 6px
       />
       <GroupedStat
         title="Fees Overview"
         data={dashboardData?.fees}
         isLoading={isLoading}
+        marginTop="3px" // 0.4rem ≈ 6px
       />
     </>
   )
