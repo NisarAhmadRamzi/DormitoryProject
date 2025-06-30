@@ -5,6 +5,7 @@ import { PiStudent } from 'react-icons/pi'
 import { SlBookOpen } from 'react-icons/sl'
 import { getDashboardStats } from '../../services/apiDashboard'
 import SpinnerMini from '../../ui/SpinnerMini'
+import GroupedStat from './GroupedStat' // ✅ new import
 import Stat from './Stat'
 
 const Stats = () => {
@@ -26,6 +27,7 @@ const Stats = () => {
         color="blue"
         icon={<FaUsersViewfinder />}
         value={isLoading ? <SpinnerMini /> : dashboardData?.total_users}
+        style={{ BiBorderLeft: '2px solid blue' }}
       />
       <Stat
         title="All students"
@@ -48,6 +50,38 @@ const Stats = () => {
         value={
           isLoading ? <SpinnerMini /> : dashboardData?.assets.total_quantity
         }
+      />
+
+      {/* ✅ Add the grouped stat card for rooms */}
+      <GroupedStat
+        title="Room Overview"
+        data={dashboardData?.rooms}
+        isLoading={isLoading}
+      />
+      <GroupedStat
+        title="Complaints Overview"
+        data={dashboardData?.complaints}
+        isLoading={isLoading}
+      />
+      <GroupedStat
+        title="Donations Overview"
+        data={dashboardData?.donations}
+        isLoading={isLoading}
+      />
+      <GroupedStat
+        title="Expenses Overview"
+        data={dashboardData?.expenses}
+        isLoading={isLoading}
+      />
+      <GroupedStat
+        title="Books Overview"
+        data={dashboardData?.books}
+        isLoading={isLoading}
+      />
+      <GroupedStat
+        title="Fees Overview"
+        data={dashboardData?.fees}
+        isLoading={isLoading}
       />
     </>
   )
