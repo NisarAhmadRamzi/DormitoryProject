@@ -30,12 +30,7 @@ function RoleTable({ search = '' }) {
   // Check if data is available
   const roles = Array.isArray(data?.data) ? data.data : []
 
-  // Filter roles based on the search input
-  const filteredRoles = roles.filter((role) =>
-    role.name.toLowerCase().includes(search.toLowerCase())
-  )
-
-  if (filteredRoles.length === 0) return <p>No matching roles found.</p>
+  if (roles.length === 0) return <p>No matching roles found.</p>
 
   return (
     <Table role="table">
@@ -47,7 +42,7 @@ function RoleTable({ search = '' }) {
         <div>Actions</div>
       </TableHeader>
 
-      {filteredRoles.map((role) => (
+      {roles.map((role) => (
         <RoleRow key={role.id} role={role} />
       ))}
     </Table>

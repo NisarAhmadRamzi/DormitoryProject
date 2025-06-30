@@ -1,78 +1,124 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-
 import toast from 'react-hot-toast'
+import { FaTrashArrowUp } from 'react-icons/fa6'
+import { FiEdit } from 'react-icons/fi'
 import styled from 'styled-components'
 import { deleteRole } from '../../services/apiRoles'
-import ConfirmDelete from '../../ui/ConfirmDelete'
+import ConfirmDelete from '../../ui/ConfirmDelete' // Import ConfirmDelete
 import Modal from '../../ui/Modal'
-import CreateRoleForm from './CreateRoleForm'
+import EditRoleForm from './EditRoleForm'
 
 const TableRow = styled.div`
   display: grid;
-  grid-template-columns: 0.6fr 2fr 2fr 2fr 1fr;
-  padding: 1.4rem 1rem;
+  grid-template-columns: 0.6fr 1.2fr 4fr 1fr 1fr 1fr;
+  padding: 1.2rem 1rem;
   align-items: center;
-  justify-content: center;
-  border-top: 1px solid var(--color-grey-200);
-`
-
-const DeleteButton = styled.button`
-  background-color: var(--color-red-700);
-  color: white;
-  border: none;
-  padding: 0.6rem 1.2rem;
-  border-radius: var(--border-radius-sm);
-  font-size: 1.4rem;
-  cursor: pointer;
+  border-bottom: 1px solid var(--color-grey-200);
   transition: background-color 0.2s;
 
   &:hover {
-    background-color: var(--color-red-800);
+    background-color: var(--color-grey-100);
   }
 `
 
-function RoleRow({ role }) {
-  const queryClient = useQueryClient()
+const ModalHeader = styled.h2`
+  margin: 0 0 1rem;
+  font-size: 1.6rem;
+`
 
-  const { mutate: deleteMutate, isLoading: isDeleting } = useMutation({
-    mutationFn: deleteRole,
-    onSuccess: () => {
-      queryClient.invalidateQueries(['roles'])
-      toast.success('Role deleted successfully')
-    },
-    onError: (err) => {
-      toast.error(err.message || 'Failed to delete role')
-    },
-  })
+const ActionGroup = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+`
 
-  const handleDeleteConfirm = () => {
-    deleteMutate(role.id)
+const IconButton = styled.button`
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+
+  & svg {
+    width: 2.2rem;
+    height: 2.2rem;
   }
+`
+
+const EditIcon = styled(FiEdit)`
+  color: #2563eb; // blue
+`
+
+const DeleteIcon = styled(FaTrashArrowUp)`
+  color: #dc2626; // red
+`
+
+export default function RoleRow({ role }) {
+  const qc = useQueryClient()
+
+  const deleteMut = useMutation(() => deleteRole(role.id), {
+    onSuccess: () => {
+      qc.invalidateQueries(['roles'])
+      toast.success('Role deleted')
+    },
+    onError: (err) => toast.error(err.message || 'Delete failed'),
+  })
+  const handleCloseModal = () => {}
 
   return (
-    <TableRow>
-      <div>{role.id}</div>
-      <div>{role.name}</div>
-      <div>{role.created_at}</div>
-      <div>{role.updated_at}</div>
+    <>
+      <TableRow role="row">
+        <div>{role.id}</div>
+        <div>{role.name}</div>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4px' }}>
+          {role.permissions.map((p) => (
+            <span
+              key={p.id}
+              style={{
+                padding: '4px 6px',
+                background: 'var(--color-grey-400)',
+                borderRadius: '4px',
+                fontSize: '1.2rem',
+              }}
+            >
+              {p.name}
+            </span>
+          ))}
+        </div>
+        <div>{role.created_at}</div>
+        <div>{role.updated_at}</div>
+        <ActionGroup>
+          <Modal.Open opensWindowName={`edit-role-${role.id}`}>
+            <IconButton>
+              <EditIcon />
+            </IconButton>
+          </Modal.Open>
 
-      <div>
-        <Modal.Open opensWindowName={`delete-role-${role.id}`}>
-          <DeleteButton disabled={isDeleting}>Delete Role</DeleteButton>
-        </Modal.Open>
+          <Modal.Open opensWindowName={`delete-role-${role.id}`}>
+            <IconButton>
+              <DeleteIcon style={{ marginLeft: '20px' }} />
+            </IconButton>
+          </Modal.Open>
+        </ActionGroup>
+      </TableRow>
 
-        <Modal.Window name={`delete-role-${role.id}`}>
-          <ConfirmDelete
-            onConfirm={handleDeleteConfirm}
-            resourceName="role"
-            itemLabel={role.name}
-          />
-        </Modal.Window>
-      </div>
+      {/* Edit Role Modal */}
+      <Modal.Window name={`edit-role-${role.id}`}>
+        <ModalHeader>Edit Role: {role.name}</ModalHeader>
+        <EditRoleForm role={role} />
+      </Modal.Window>
 
-      <CreateRoleForm roleToEdit={role} />
-    </TableRow>
+      {/* Delete Confirmation Modal */}
+      <Modal.Window name={`delete-role-${role.id}`}>
+        <ModalHeader>Delete Role</ModalHeader>
+        <ConfirmDelete
+          resourceName="Role"
+          itemLabel={role.name}
+          onConfirm={() => deleteMut.mutate()}
+          onCloseModal={handleCloseModal}
+        />
+      </Modal.Window>
+    </>
   )
 }
-
-export default RoleRow
