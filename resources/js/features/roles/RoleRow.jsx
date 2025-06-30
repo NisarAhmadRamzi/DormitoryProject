@@ -4,13 +4,13 @@ import { FaTrashArrowUp } from 'react-icons/fa6'
 import { FiEdit } from 'react-icons/fi'
 import styled from 'styled-components'
 import { deleteRole } from '../../services/apiRoles'
-import ConfirmDelete from '../../ui/ConfirmDelete' // Import ConfirmDelete
+import ConfirmDelete from '../../ui/ConfirmDelete'
 import Modal from '../../ui/Modal'
 import EditRoleForm from './EditRoleForm'
 
 const TableRow = styled.div`
   display: grid;
-  grid-template-columns: 0.6fr 1.2fr 4fr 1fr 1fr 1fr;
+  grid-template-columns: 0.6fr 1.2fr 4fr 1fr 1fr 1fr; /* Match TableHeader */
   padding: 1.2rem 1rem;
   align-items: center;
   border-bottom: 1px solid var(--color-grey-200);
@@ -47,11 +47,11 @@ const IconButton = styled.button`
 `
 
 const EditIcon = styled(FiEdit)`
-  color: #2563eb; // blue
+  color: #2563eb;
 `
 
 const DeleteIcon = styled(FaTrashArrowUp)`
-  color: #dc2626; // red
+  color: #dc2626;
 `
 
 export default function RoleRow({ role }) {
@@ -64,6 +64,7 @@ export default function RoleRow({ role }) {
     },
     onError: (err) => toast.error(err.message || 'Delete failed'),
   })
+
   const handleCloseModal = () => {}
 
   return (
@@ -77,7 +78,7 @@ export default function RoleRow({ role }) {
               key={p.id}
               style={{
                 padding: '4px 6px',
-                background: 'var(--color-grey-400)',
+                background: 'var(--color-grey-300)',
                 borderRadius: '4px',
                 fontSize: '1.2rem',
               }}
@@ -97,19 +98,17 @@ export default function RoleRow({ role }) {
 
           <Modal.Open opensWindowName={`delete-role-${role.id}`}>
             <IconButton>
-              <DeleteIcon style={{ marginLeft: '20px' }} />
+              <DeleteIcon />
             </IconButton>
           </Modal.Open>
         </ActionGroup>
       </TableRow>
 
-      {/* Edit Role Modal */}
       <Modal.Window name={`edit-role-${role.id}`}>
         <ModalHeader>Edit Role: {role.name}</ModalHeader>
         <EditRoleForm role={role} />
       </Modal.Window>
 
-      {/* Delete Confirmation Modal */}
       <Modal.Window name={`delete-role-${role.id}`}>
         <ModalHeader>Delete Role</ModalHeader>
         <ConfirmDelete

@@ -10,9 +10,10 @@ const Table = styled.div`
   background-color: var(--color-grey-0);
   border-radius: 7px;
 `
+
 const TableHeader = styled.header`
   display: grid;
-  grid-template-columns: 1.4fr 2fr 2fr 2fr 1fr; // <-- Match this exactly with TableRow
+  grid-template-columns: 0.6fr 1.2fr 4fr 1fr 1fr 1fr; /* Match RoleRow */
   align-items: center;
   background-color: var(--color-grey-50);
   padding: 1.4rem 1rem;
@@ -27,7 +28,6 @@ function RoleTable({ search = '' }) {
   if (isLoading) return <Spinner />
   if (isError) return <p>Error: {error.message}</p>
 
-  // Check if data is available
   const roles = Array.isArray(data?.data) ? data.data : []
 
   if (roles.length === 0) return <p>No matching roles found.</p>
@@ -37,6 +37,7 @@ function RoleTable({ search = '' }) {
       <TableHeader role="row">
         <div>ID</div>
         <div>Name</div>
+        <div>Permissions</div>
         <div>Created At</div>
         <div>Updated At</div>
         <div>Actions</div>
