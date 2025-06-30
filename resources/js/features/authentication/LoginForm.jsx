@@ -149,14 +149,6 @@ function LoginForm() {
           {!isLoading ? 'Log in' : <SpinnerMini />}
         </Button>
       </FormRowVertical>
-
-      <FormRowVertical>
-        <p>
-          Don&apos;t have an account?{' '}
-          <StyledLink to="/register">Create account</StyledLink>
-        </p>
-      </FormRowVertical>
-
       <FormRowVertical>
         <p>
           <StyledLink to="/">← Back to Home</StyledLink>
