@@ -119,5 +119,25 @@
       "emailRequired": "Email is required",
       "passwordRequired": "Password is required"
     }
+  },
+  "account": {
+    "updateTitle": "Update your account"
+  },
+  "accountForm": {
+    "loadError": "Error loading account data",
+    "fullName": "Full name",
+    "email": "Email",
+    "currentPassword": "Current Password",
+    "newPassword": "New Password",
+    "confirmNewPassword": "Confirm New Password",
+    "updatePassword": "Update Password",
+    "updating": "Updating...",
+    "profilePhoto": "Profile Photo",
+    "deletePhoto": "Delete Photo",
+    "updatePhoto": "Update Photo",
+    "uploading": "Uploading...",
+    "deleting": "Deleting...",
+    "noPhotoError": "Please select a photo first",
+    "passwordMismatch": "New password and confirmation don't match"
   }
 }

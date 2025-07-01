@@ -119,5 +119,25 @@
       "emailRequired": "ایمیل الزامی است",
       "passwordRequired": "رمز عبور الزامی است"
     }
+  },
+  "account": {
+    "updateTitle": "حساب خود را به‌روزرسانی کنید"
+  },
+  "accountForm": {
+    "loadError": "خطا در بارگذاری اطلاعات حساب",
+    "fullName": "نام کامل",
+    "email": "ایمیل",
+    "currentPassword": "رمز عبور فعلی",
+    "newPassword": "رمز عبور جدید",
+    "confirmNewPassword": "تأیید رمز جدید",
+    "updatePassword": "به‌روزرسانی رمز عبور",
+    "updating": "در حال به‌روزرسانی...",
+    "profilePhoto": "عکس پروفایل",
+    "deletePhoto": "حذف عکس",
+    "updatePhoto": "به‌روزرسانی عکس",
+    "uploading": "در حال آپلود...",
+    "deleting": "در حال حذف...",
+    "noPhotoError": "لطفاً ابتدا یک عکس انتخاب کنید",
+    "passwordMismatch": "رمز جدید و تأیید آن مطابقت ندارند"
   }
 }

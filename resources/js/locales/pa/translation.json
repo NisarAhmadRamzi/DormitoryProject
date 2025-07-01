@@ -119,5 +119,25 @@
       "emailRequired": "بریښنالیک اړین دی",
       "passwordRequired": "پټنوم اړین دی"
     }
+  },
+  "account": {
+    "updateTitle": "خپل حساب تازه کړئ"
+  },
+  "accountForm": {
+    "loadError": "د حساب معلوماتو په ترلاسه کولو کې تېروتنه",
+    "fullName": "بشپړ نوم",
+    "email": "بریښنالیک",
+    "currentPassword": "اوسنی رمز",
+    "newPassword": "نوی رمز",
+    "confirmNewPassword": "د نوي رمز تایید",
+    "updatePassword": "رمز تازه کړئ",
+    "updating": "په تازه کولو کې...",
+    "profilePhoto": "د پروفایل انځور",
+    "deletePhoto": "انځور ړنګ کړئ",
+    "updatePhoto": "انځور تازه کړئ",
+    "uploading": "په اپلوډ کې...",
+    "deleting": "په ړنګولو کې...",
+    "noPhotoError": "مهرباني وکړئ لومړی یو انځور وټاکئ",
+    "passwordMismatch": "نوی رمز او تایید سره برابر نه دي"
   }
 }

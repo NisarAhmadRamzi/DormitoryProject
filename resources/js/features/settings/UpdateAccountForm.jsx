@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react'
-
 import toast from 'react-hot-toast'
+import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
+
 import Button from '../../ui/Button'
 import Form from '../../ui/Form'
 import Row from '../../ui/Row'
@@ -10,7 +11,6 @@ import { useAccount } from './useAccount'
 import { useUpdateAccount } from './useUpdateAccount'
 
 // Styled Components
-
 const FlexContainer = styled.div`
   display: flex;
   gap: 2.4rem;
@@ -45,6 +45,7 @@ const RightColumn = styled.div`
 const FileInput = styled.input`
   margin-top: 1rem;
 `
+
 const ButtonWrapper = styled.div`
   display: flex;
   gap: 1rem;
@@ -147,6 +148,7 @@ function FormRow({ label, error, children }) {
 }
 
 function UpdateAccountForm() {
+  const { t } = useTranslation()
   const { isLoading, error, account } = useAccount()
   const {
     isUpdating,
@@ -177,7 +179,7 @@ function UpdateAccountForm() {
   }, [account])
 
   if (isLoading) return <Spinner />
-  if (error) return <p>Error loading account data</p>
+  if (error) return <p>{t('accountForm.loadError')}</p>
 
   const handleBlur = (field, value) => {
     if (!account || account[field] === value) return
@@ -191,7 +193,7 @@ function UpdateAccountForm() {
 
   const handlePhotoUpload = () => {
     if (!photoFile) {
-      toast.error('Please select a photo first')
+      toast.error(t('accountForm.noPhotoError'))
       return
     }
 
@@ -217,7 +219,7 @@ function UpdateAccountForm() {
   const handlePasswordSubmit = (e) => {
     e.preventDefault()
     if (passwords.password !== passwords.password_confirmation) {
-      alert("New password and confirmation don't match")
+      alert(t('accountForm.passwordMismatch'))
       return
     }
     updatePassword(passwords)
@@ -233,7 +235,7 @@ function UpdateAccountForm() {
       <LeftColumn>
         <Form>
           <Row />
-          <FormRow label="Full name">
+          <FormRow label={t('accountForm.fullName')}>
             <Input
               type="text"
               id="name"
@@ -244,7 +246,7 @@ function UpdateAccountForm() {
             />
           </FormRow>
 
-          <FormRow label="Email">
+          <FormRow label={t('accountForm.email')}>
             <Input
               type="email"
               id="email"
@@ -257,7 +259,7 @@ function UpdateAccountForm() {
         </Form>
 
         <Form onSubmit={handlePasswordSubmit}>
-          <FormRow label="Current Password">
+          <FormRow label={t('accountForm.currentPassword')}>
             <Input
               type="password"
               name="current_password"
@@ -267,7 +269,7 @@ function UpdateAccountForm() {
               required
             />
           </FormRow>
-          <FormRow label="New Password">
+          <FormRow label={t('accountForm.newPassword')}>
             <Input
               type="password"
               name="password"
@@ -277,7 +279,7 @@ function UpdateAccountForm() {
               required
             />
           </FormRow>
-          <FormRow label="Confirm New Password">
+          <FormRow label={t('accountForm.confirmNewPassword')}>
             <Input
               type="password"
               name="password_confirmation"
@@ -292,13 +294,15 @@ function UpdateAccountForm() {
             disabled={isUpdatingPassword}
             style={{ marginTop: '1rem' }}
           >
-            {isUpdatingPassword ? 'Updating...' : 'Update Password'}
+            {isUpdatingPassword
+              ? t('accountForm.updating')
+              : t('accountForm.updatePassword')}
           </Button>
         </Form>
       </LeftColumn>
 
       <RightColumn>
-        <FormRow label="Profile Photo">
+        <FormRow label={t('accountForm.profilePhoto')}>
           <ProfilePreview
             src={
               photoPreview
@@ -318,7 +322,9 @@ function UpdateAccountForm() {
               onClick={handleDeletePhoto}
               disabled={isUpdating || isDeletingPhoto}
             >
-              {isDeletingPhoto ? 'Deleting...' : 'Delete Photo'}
+              {isDeletingPhoto
+                ? t('accountForm.deleting')
+                : t('accountForm.deletePhoto')}
             </DeleteButton>
 
             <Button
@@ -326,7 +332,9 @@ function UpdateAccountForm() {
               onClick={handlePhotoUpload}
               disabled={isUpdating}
             >
-              {isUpdating ? 'Uploading...' : 'Update Photo'}
+              {isUpdating
+                ? t('accountForm.uploading')
+                : t('accountForm.updatePhoto')}
             </Button>
           </ButtonGroup>
 
