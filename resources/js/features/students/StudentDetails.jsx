@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import Heading from '../../ui/Heading'
 
@@ -39,7 +40,9 @@ const Value = styled.span`
 `
 
 function StudentDetails({ student }) {
-  if (!student) return <p>No student data available.</p>
+  const { t } = useTranslation()
+
+  if (!student) return <p>{t('studentDetails.noData')}</p>
 
   const {
     id,
@@ -63,101 +66,101 @@ function StudentDetails({ student }) {
 
   return (
     <StyledDetails>
-      <Heading as="h3">Student Details</Heading>
+      <Heading as="h3">{t('studentDetails.title')}</Heading>
 
       <DetailsGrid>
         <DetailItem>
-          <Label>ID</Label>
+          <Label>{t('studentDetails.id')}</Label>
           <Value>{id}</Value>
         </DetailItem>
 
         <DetailItem>
-          <Label>Username</Label>
+          <Label>{t('studentDetails.username')}</Label>
           <Value>{name}</Value>
         </DetailItem>
 
         <DetailItem>
-          <Label>Father name</Label>
+          <Label>{t('studentDetails.fatherName')}</Label>
           <Value>{f_name}</Value>
         </DetailItem>
 
         <DetailItem>
-          <Label>Last name</Label>
+          <Label>{t('studentDetails.lastName')}</Label>
           <Value>{last_name}</Value>
         </DetailItem>
 
         <DetailItem>
-          <Label>Email</Label>
+          <Label>{t('studentDetails.email')}</Label>
           <Value>{email}</Value>
         </DetailItem>
 
         <DetailItem>
-          <Label>ID Number</Label>
+          <Label>{t('studentDetails.idNumber')}</Label>
           <Value>{id_number}</Value>
         </DetailItem>
 
         <DetailItem>
-          <Label>Phone</Label>
+          <Label>{t('studentDetails.phone')}</Label>
           <Value>{phone}</Value>
         </DetailItem>
 
         <DetailItem>
-          <Label>Gender</Label>
+          <Label>{t('studentDetails.gender')}</Label>
           <Value>{gender}</Value>
         </DetailItem>
 
         <DetailItem>
-          <Label>Date of Birth</Label>
+          <Label>{t('studentDetails.dob')}</Label>
           <Value>{dob}</Value>
         </DetailItem>
 
         <DetailItem>
-          <Label>From</Label>
+          <Label>{t('studentDetails.from')}</Label>
           <Value>{from}</Value>
         </DetailItem>
 
         <DetailItem>
-          <Label>Academic Info</Label>
+          <Label>{t('studentDetails.academicInfo')}</Label>
           <Value>{academic_info}</Value>
         </DetailItem>
 
         <DetailItem>
-          <Label>Registration Date</Label>
+          <Label>{t('studentDetails.registrationDate')}</Label>
           <Value>{registration_date}</Value>
         </DetailItem>
 
         <DetailItem>
-          <Label>Registration Deadline</Label>
+          <Label>{t('studentDetails.registrationDeadline')}</Label>
           <Value>{registration_deadline}</Value>
         </DetailItem>
 
         <DetailItem>
-          <Label>Room Info</Label>
+          <Label>{t('studentDetails.roomInfo')}</Label>
           <Value>
             {room
               ? `Room ${room.room_number} (${room.type}), Floor: ${room.floor}`
-              : 'No room assigned'}
+              : t('studentDetails.noRoom')}
           </Value>
         </DetailItem>
 
         <DetailItem>
-          <Label>Fee Info</Label>
+          <Label>{t('studentDetails.feeInfo')}</Label>
           <Value>
             {fee
               ? `Total Fee: $${fee.total_fee}, Paid: $${
                   fee.office_paid
                 }, Due: $${fee.total_fee - fee.office_paid}`
-              : 'No fee data'}
+              : t('studentDetails.noFee')}
           </Value>
         </DetailItem>
 
         <DetailItem>
-          <Label>Created At</Label>
+          <Label>{t('studentDetails.createdAt')}</Label>
           <Value>{created_at}</Value>
         </DetailItem>
 
         <DetailItem>
-          <Label>Updated At</Label>
+          <Label>{t('studentDetails.updatedAt')}</Label>
           <Value>{updated_at}</Value>
         </DetailItem>
       </DetailsGrid>

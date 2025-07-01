@@ -1,9 +1,11 @@
-import Button from '../../ui/Button'
-import CreateStudentForm from './CreateStudentForm'
-import Modal from '../../ui/Modal'
+import { useTranslation } from 'react-i18next'
 import { useUser } from '../../context/UserContext'
+import Button from '../../ui/Button'
+import Modal from '../../ui/Modal'
+import CreateStudentForm from './CreateStudentForm'
 
 const AddStudent = () => {
+  const { t } = useTranslation()
   const { user } = useUser()
   const role = user?.role
 
@@ -13,7 +15,7 @@ const AddStudent = () => {
   return (
     <Modal.Provider>
       <Modal.Open opensWindowName="room-form">
-        <Button>Add new student</Button>
+        <Button>{t('addStudent.buttonText')}</Button>
       </Modal.Open>
 
       <Modal.Window name="room-form">

@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { FiSearch } from 'react-icons/fi'
 import { RxCaretLeft, RxCaretRight } from 'react-icons/rx'
 import { useSearchParams } from 'react-router-dom'
@@ -155,6 +156,9 @@ const NavButtons = styled.div`
 `
 
 export default function StudentTable() {
+  const { i18n } = useTranslation()
+  const isRtl = i18n.dir() === 'rtl'
+
   const [searchParams, setSearchParams] = useSearchParams()
   const currentPage = Number(searchParams.get('page')) || 1
   const [rowsPerPage, setRowsPerPage] = useState(10)
@@ -295,6 +299,8 @@ export default function StudentTable() {
             <button
               onClick={() => handlePageChange(Math.max(1, currentPage - 1))}
               disabled={currentPage === 1}
+              style={{ transform: isRtl ? 'scaleX(-1)' : 'none' }}
+              aria-label="Previous Page"
             >
               <RxCaretLeft />
             </button>
@@ -303,6 +309,8 @@ export default function StudentTable() {
                 handlePageChange(Math.min(totalPages, currentPage + 1))
               }
               disabled={currentPage === totalPages}
+              style={{ transform: isRtl ? 'scaleX(-1)' : 'none' }}
+              aria-label="Next Page"
             >
               <RxCaretRight />
             </button>

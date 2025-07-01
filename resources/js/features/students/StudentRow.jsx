@@ -1,5 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useEffect, useRef, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { HiEllipsisVertical, HiEye, HiPencil, HiTrash } from 'react-icons/hi2'
 
 import toast from 'react-hot-toast'
@@ -102,6 +103,7 @@ const DropdownItem = styled.button`
 `
 
 function StudentRow({ student }) {
+  const { t } = useTranslation()
   const queryClient = useQueryClient()
   const [isOpen, setIsOpen] = useState(false)
   const [dropdownPosition, setDropdownPosition] = useState(null)
@@ -113,11 +115,11 @@ function StudentRow({ student }) {
     mutationFn: deleteStudent,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['students'] })
-      toast.success('Student deleted successfully')
+      toast.success(t('studentRow.deleteSuccess'))
     },
     onError: (err) => {
       console.error('Error during deletion:', err)
-      toast.error(err.message || 'Failed to delete student')
+      toast.error(err.message || t('studentRow.deleteFailed'))
     },
   })
 
@@ -164,14 +166,17 @@ function StudentRow({ student }) {
       <Cell>{student.phone}</Cell>
 
       <DropdownWrapper ref={dropdownRef}>
-        <IconButton onClick={toggleDropdown}>
+        <IconButton
+          onClick={toggleDropdown}
+          aria-label={t('studentRow.actions')}
+        >
           <HiEllipsisVertical />
         </IconButton>
 
         <DropdownMenu show={isOpen} position={dropdownPosition}>
           <Modal.Open opensWindowName={`view-${student.id}`}>
             <DropdownItem onClick={closeDropdown}>
-              <HiEye /> View
+              <HiEye /> {t('studentRow.view')}
             </DropdownItem>
           </Modal.Open>
 
@@ -179,13 +184,13 @@ function StudentRow({ student }) {
             <>
               <Modal.Open opensWindowName={`edit-${student.id}`}>
                 <DropdownItem onClick={closeDropdown}>
-                  <HiPencil /> Edit
+                  <HiPencil /> {t('studentRow.edit')}
                 </DropdownItem>
               </Modal.Open>
 
               <Modal.Open opensWindowName={`delete-${student.id}`}>
                 <DropdownItem onClick={closeDropdown} disabled={isDeleting}>
-                  <HiTrash /> Delete
+                  <HiTrash /> {t('studentRow.delete')}
                 </DropdownItem>
               </Modal.Open>
             </>
@@ -204,7 +209,7 @@ function StudentRow({ student }) {
       <Modal.Window name={`delete-${student.id}`}>
         <ConfirmDelete
           onConfirm={handleDeleteConfirm}
-          resourceName="student"
+          resourceName={t('studentRow.student')}
           itemLabel={student.name}
         />
       </Modal.Window>
