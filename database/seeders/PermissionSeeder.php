@@ -118,6 +118,8 @@ class PermissionSeeder extends Seeder
 
         $second_admin = \Spatie\Permission\Models\Role::findByName('second_admin', 'sanctum');
         $second_admin->givePermissionTo([
+            'AdminDashboard',
+
             'all users',
             'view user',
 
@@ -177,6 +179,8 @@ class PermissionSeeder extends Seeder
 
         $student = \Spatie\Permission\Models\Role::findByName('student', 'sanctum');
         $student->givePermissionTo([
+            'StudentDashboard',
+
             'all students',
             'view student',
 
@@ -199,6 +203,8 @@ class PermissionSeeder extends Seeder
 
         $library_admin = \Spatie\Permission\Models\Role::findByName('library_admin', 'sanctum');
         $library_admin->givePermissionTo([
+            'LibraryAdminDashboard',
+
             'all users',
             'view user',
             'create user',
@@ -237,6 +243,8 @@ class PermissionSeeder extends Seeder
         $library_student = \Spatie\Permission\Models\Role::findByName('library_student', 'sanctum');
         // Assign permissions to library student role
         $library_student->givePermissionTo([
+            'LibraryStudentDashboard',
+
             'view user',
 
             'view library student',
