@@ -105,5 +105,19 @@
   },
   "addUser": {
     "buttonText": "نوې کاروونکی اضافه کړئ"
+  },
+  "loginForm": {
+    "emailLabel": "بریښنالیک پته",
+    "emailPlaceholder": "you@example.com",
+    "passwordLabel": "پټنوم",
+    "passwordPlaceholder": "خپل پټنوم دننه کړئ",
+    "showPassword": "پټنوم ښکاره کړئ",
+    "hidePassword": "پټنوم پټ کړئ",
+    "loginButton": "ننوتل",
+    "backToHome": "← بیرته کور پاڼې ته",
+    "errors": {
+      "emailRequired": "بریښنالیک اړین دی",
+      "passwordRequired": "پټنوم اړین دی"
+    }
   }
 }

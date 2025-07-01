@@ -105,5 +105,19 @@
   },
   "addUser": {
     "buttonText": "افزودن کاربر جدید"
+  },
+  "loginForm": {
+    "emailLabel": "آدرس ایمیل",
+    "emailPlaceholder": "you@example.com",
+    "passwordLabel": "رمز عبور",
+    "passwordPlaceholder": "رمز عبور خود را وارد کنید",
+    "showPassword": "نمایش رمز عبور",
+    "hidePassword": "مخفی کردن رمز عبور",
+    "loginButton": "ورود",
+    "backToHome": "← بازگشت به صفحه اصلی",
+    "errors": {
+      "emailRequired": "ایمیل الزامی است",
+      "passwordRequired": "رمز عبور الزامی است"
+    }
   }
 }

@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next' // <-- import i18n
 import { FaEye, FaEyeSlash } from 'react-icons/fa'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
@@ -39,7 +40,9 @@ const StyledInput = styled.input`
 const PasswordToggle = styled.span`
   position: absolute;
   top: 50%;
-  right: 0.75rem;
+  /* Use right for LTR, left for RTL */
+  right: ${({ dir }) => (dir === 'ltr' ? '0.75rem' : 'auto')};
+  left: ${({ dir }) => (dir === 'rtl' ? '0.75rem' : 'auto')};
   transform: translateY(-50%);
   cursor: pointer;
   color: var(--color-grey-500);
@@ -68,6 +71,9 @@ const StyledLink = styled(Link)`
 `
 
 function LoginForm() {
+  const { t, i18n } = useTranslation()
+  const dir = i18n.dir() // 'ltr' or 'rtl'
+
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
@@ -84,8 +90,13 @@ function LoginForm() {
     e.preventDefault()
     const newErrors = {}
 
-    if (!email) newErrors.email = 'Email is required'
-    if (!password) newErrors.password = 'Password is required'
+    if (!email)
+      newErrors.email = t('loginForm.errors.emailRequired', 'Email is required')
+    if (!password)
+      newErrors.password = t(
+        'loginForm.errors.passwordRequired',
+        'Password is required'
+      )
     setErrors(newErrors)
 
     if (Object.keys(newErrors).length > 0) return
@@ -95,7 +106,7 @@ function LoginForm() {
 
   return (
     <Form onSubmit={handleSubmit}>
-      <FormRowVertical label="Email address">
+      <FormRowVertical label={t('loginForm.emailLabel', 'Email address')}>
         <StyledInput
           type="email"
           id="email"
@@ -103,14 +114,15 @@ function LoginForm() {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           disabled={isLoading}
-          placeholder="you@example.com"
+          placeholder={t('loginForm.emailPlaceholder', 'you@example.com')}
           aria-invalid={errors.email ? 'true' : 'false'}
           aria-describedby={errors.email ? 'email-error' : undefined}
+          dir={dir}
         />
         {errors.email && <ErrorText id="email-error">{errors.email}</ErrorText>}
       </FormRowVertical>
 
-      <FormRowVertical label="Password">
+      <FormRowVertical label={t('loginForm.passwordLabel', 'Password')}>
         <div style={{ position: 'relative' }}>
           <StyledInput
             type={showPassword ? 'text' : 'password'}
@@ -119,14 +131,25 @@ function LoginForm() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             disabled={isLoading}
-            placeholder="Enter your password"
+            placeholder={t(
+              'loginForm.passwordPlaceholder',
+              'Enter your password'
+            )}
             aria-invalid={errors.password ? 'true' : 'false'}
             aria-describedby={errors.password ? 'password-error' : undefined}
-            style={{ paddingRight: '2.5rem' }}
+            style={{
+              paddingRight: dir === 'ltr' ? '2.5rem' : undefined,
+              paddingLeft: dir === 'rtl' ? '2.5rem' : undefined,
+            }}
+            dir={dir}
           />
           <PasswordToggle
             onClick={() => setShowPassword((s) => !s)}
-            aria-label={showPassword ? 'Hide password' : 'Show password'}
+            aria-label={
+              showPassword
+                ? t('loginForm.hidePassword', 'Hide password')
+                : t('loginForm.showPassword', 'Show password')
+            }
             role="button"
             tabIndex={0}
             onKeyDown={(e) => {
@@ -135,6 +158,7 @@ function LoginForm() {
                 setShowPassword((s) => !s)
               }
             }}
+            dir={dir}
           >
             {showPassword ? <FaEyeSlash /> : <FaEye />}
           </PasswordToggle>
@@ -146,12 +170,14 @@ function LoginForm() {
 
       <FormRowVertical>
         <Button size="large" disabled={isLoading}>
-          {!isLoading ? 'Log in' : <SpinnerMini />}
+          {!isLoading ? t('loginForm.loginButton', 'Log in') : <SpinnerMini />}
         </Button>
       </FormRowVertical>
       <FormRowVertical>
         <p>
-          <StyledLink to="/">← Back to Home</StyledLink>
+          <StyledLink to="/">
+            {t('loginForm.backToHome', '← Back to Home')}
+          </StyledLink>
         </p>
       </FormRowVertical>
     </Form>

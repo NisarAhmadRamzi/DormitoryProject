@@ -105,5 +105,19 @@
   },
   "addUser": {
     "buttonText": "Add new User"
+  },
+  "loginForm": {
+    "emailLabel": "Email address",
+    "emailPlaceholder": "you@example.com",
+    "passwordLabel": "Password",
+    "passwordPlaceholder": "Enter your password",
+    "showPassword": "Show password",
+    "hidePassword": "Hide password",
+    "loginButton": "Log in",
+    "backToHome": "← Back to Home",
+    "errors": {
+      "emailRequired": "Email is required",
+      "passwordRequired": "Password is required"
+    }
   }
 }
