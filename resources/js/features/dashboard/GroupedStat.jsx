@@ -1,5 +1,3 @@
-t
-
 import { HiCheckCircle, HiExclamationCircle, HiXCircle } from 'react-icons/hi'
 import styled, { keyframes } from 'styled-components'
 import SpinnerMini from '../../ui/SpinnerMini'

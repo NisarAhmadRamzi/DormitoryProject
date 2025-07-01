@@ -1,15 +1,15 @@
-import { HiEllipsisVertical, HiEye, HiPencil, HiTrash } from 'react-icons/hi2'
-import { useEffect, useRef, useState } from 'react'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useEffect, useRef, useState } from 'react'
+import { HiEllipsisVertical, HiEye, HiPencil, HiTrash } from 'react-icons/hi2'
 
-import ConfirmDelete from '../../ui/ConfirmDelete'
-import CreateStudentForm from './CreateStudentForm'
-import Modal from '../../ui/Modal'
-import StudentDetails from './StudentDetails'
-import { deleteStudent } from '../../services/apiStudents'
-import styled from 'styled-components'
 import toast from 'react-hot-toast'
+import styled from 'styled-components'
 import { useUser } from '../../context/UserContext'
+import { deleteStudent } from '../../services/apiStudents'
+import ConfirmDelete from '../../ui/ConfirmDelete'
+import Modal from '../../ui/Modal'
+import CreateStudentForm from './CreateStudentForm'
+import StudentDetails from './StudentDetails'
 
 const TableRow = styled.div`
   display: grid;
