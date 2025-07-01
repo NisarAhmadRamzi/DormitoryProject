@@ -1,12 +1,15 @@
+import { useTranslation } from 'react-i18next'
 import Button from '../../ui/Button'
 import Modal from '../../ui/Modal'
-import EditRoleForm from './EditRoleForm' 
+import EditRoleForm from './EditRoleForm'
 
 const AddRole = () => {
+  const { t } = useTranslation()
+
   return (
     <Modal.Provider>
       <Modal.Open opensWindowName="create-role-form">
-        <Button>Add new role</Button>
+        <Button>{t('addRole.buttonText')}</Button>
       </Modal.Open>
 
       <Modal.Window name="create-role-form">

@@ -228,5 +228,37 @@
     "deleteFailed": "حذف دانشجو ناموفق بود",
     "student": "دانشجو"
   },
-  "error": "خطا"
+  "error": "خطا",
+  "addRole": {
+    "buttonText": "افزودن نقش جدید"
+  },
+  "editRoleForm": {
+    "roleName": "نام نقش",
+    "permissions": "اجازه‌ها",
+    "cancel": "لغو",
+    "create": "ایجاد نقش",
+    "update": "ذخیره تغییرات",
+    "saving": "در حال ذخیره...",
+    "createSuccess": "نقش با موفقیت ایجاد شد",
+    "updateSuccess": "نقش با موفقیت بروزرسانی شد",
+    "createFail": "ایجاد نقش ناکام ماند",
+    "updateFail": "بروزرسانی نقش ناکام ماند"
+  },
+  "roleRow": {
+    "editTitle": "ویرایش نقش: {{name}}",
+    "deleteTitle": "حذف نقش",
+    "deleteSuccess": "نقش حذف شد",
+    "deleteFail": "حذف ناکام ماند",
+    "resourceName": "نقش"
+  },
+  "roleTable": {
+    "id": "شناسه",
+    "name": "نام",
+    "permissions": "اجازه‌ها",
+    "createdAt": "ایجاد شده",
+    "updatedAt": "به‌روزرسانی شده",
+    "actions": "عملیات",
+    "loadingError": "خطا: {{message}}",
+    "noMatch": "هیچ نقشی یافت نشد."
+  }
 }

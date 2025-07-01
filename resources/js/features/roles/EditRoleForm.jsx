@@ -1,8 +1,7 @@
-
-
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { Controller, useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
+import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { createRole, getPermissions, updateRole } from '../../services/apiRoles'
 import Spinner from '../../ui/Spinner'
@@ -91,23 +90,25 @@ const Button = styled.button`
 `
 
 export default function EditRoleForm({ role, onCloseModal }) {
+  const { t } = useTranslation()
   const qc = useQueryClient()
 
   const { data: permRes, isLoading } = useQuery(['permissions'], getPermissions)
-
-  // Use updateRole if role exists, else createRole
   const mutationFn = role ? updateRole : createRole
 
-  const { mutateAsync, isLoading: isSubmitting } = useMutation(mutationFn, {
+  const { mutateAsync } = useMutation(mutationFn, {
     onSuccess: () => {
       qc.invalidateQueries(['roles'])
-      toast.success(role ? 'Role updated' : 'Role created')
-      if (typeof onCloseModal === 'function') {
-        onCloseModal()
-      }
+      toast.success(
+        t(role ? 'editRoleForm.updateSuccess' : 'editRoleForm.createSuccess')
+      )
+      if (typeof onCloseModal === 'function') onCloseModal()
     },
     onError: (err) =>
-      toast.error(err.message || (role ? 'Update failed' : 'Create failed')),
+      toast.error(
+        err.message ||
+          t(role ? 'editRoleForm.updateFail' : 'editRoleForm.createFail')
+      ),
   })
 
   const {
@@ -141,12 +142,12 @@ export default function EditRoleForm({ role, onCloseModal }) {
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
       <Fieldset>
-        <Label htmlFor="role-name">Role Name</Label>
+        <Label htmlFor="role-name">{t('editRoleForm.roleName')}</Label>
         <TextInput id="role-name" {...register('name', { required: true })} />
       </Fieldset>
 
       <Fieldset>
-        <Label>Permissions</Label>
+        <Label>{t('editRoleForm.permissions')}</Label>
         <CheckboxGrid>
           <Controller
             name="permissions"
@@ -181,10 +182,14 @@ export default function EditRoleForm({ role, onCloseModal }) {
 
       <Actions>
         <Button type="button" onClick={onCloseModal} disabled={formSubmitting}>
-          Cancel
+          {t('editRoleForm.cancel')}
         </Button>
         <Button type="submit" disabled={formSubmitting}>
-          {formSubmitting ? 'Saving…' : role ? 'Save Changes' : 'Create Role'}
+          {formSubmitting
+            ? t('editRoleForm.saving')
+            : role
+            ? t('editRoleForm.update')
+            : t('editRoleForm.create')}
         </Button>
       </Actions>
     </Form>

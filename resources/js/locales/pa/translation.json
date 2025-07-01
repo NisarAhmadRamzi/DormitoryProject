@@ -228,5 +228,37 @@
     "deleteFailed": "د زده کوونکي د حذف کولو هڅه ناکامه شوه",
     "student": "زده کوونکی"
   },
-  "error": "تېروتنه"
+  "error": "تېروتنه",
+  "addRole": {
+    "buttonText": "نوې نقش اضافه کړئ"
+  },
+  "editRoleForm": {
+    "roleName": "د نقش نوم",
+    "permissions": "اجازې",
+    "cancel": "لغوه",
+    "create": "نقش جوړ کړئ",
+    "update": "بدلونونه خوندي کړئ",
+    "saving": "په خوندي کولو کې...",
+    "createSuccess": "نقش جوړ شو",
+    "updateSuccess": "نقش تازه شو",
+    "createFail": "د نقش جوړول ناکام شول",
+    "updateFail": "د نقش تازه کول ناکام شول"
+  },
+  "roleRow": {
+    "editTitle": "د نقش سمون: {{name}}",
+    "deleteTitle": "نقش ړنګ کړئ",
+    "deleteSuccess": "نقش ړنګ شو",
+    "deleteFail": "د ړنګولو هڅه ناکامه شوه",
+    "resourceName": "نقش"
+  },
+  "roleTable": {
+    "id": "شمېره",
+    "name": "نوم",
+    "permissions": "اجازې",
+    "createdAt": "جوړ شوی",
+    "updatedAt": "اوسمهال شوی",
+    "actions": "عملیات",
+    "loadingError": "تېروتنه: {{message}}",
+    "noMatch": "هیڅ رول ونه موندل شو."
+  }
 }

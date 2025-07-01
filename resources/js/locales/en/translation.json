@@ -228,5 +228,37 @@
     "deleteFailed": "Failed to delete student",
     "student": "student"
   },
-  "error": "Error"
+  "error": "Error",
+  "addRole": {
+    "buttonText": "Add new role"
+  },
+  "editRoleForm": {
+    "roleName": "Role Name",
+    "permissions": "Permissions",
+    "cancel": "Cancel",
+    "create": "Create Role",
+    "update": "Save Changes",
+    "saving": "Saving…",
+    "createSuccess": "Role created",
+    "updateSuccess": "Role updated",
+    "createFail": "Create failed",
+    "updateFail": "Update failed"
+  },
+  "roleRow": {
+    "editTitle": "Edit Role: {{name}}",
+    "deleteTitle": "Delete Role",
+    "deleteSuccess": "Role deleted",
+    "deleteFail": "Delete failed",
+    "resourceName": "Role"
+  },
+  "roleTable": {
+    "id": "ID",
+    "name": "Name",
+    "permissions": "Permissions",
+    "createdAt": "Created At",
+    "updatedAt": "Updated At",
+    "actions": "Actions",
+    "loadingError": "Error: {{message}}",
+    "noMatch": "No matching roles found."
+  }
 }
