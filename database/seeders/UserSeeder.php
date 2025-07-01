@@ -22,6 +22,8 @@ class UserSeeder extends Seeder
         $adminRole = Role::where('name', 'admin')->first();
         $secondAdminRole = Role::where('name', 'second_admin')->first();
         $studentRole = Role::where('name', 'student')->first();
+        $libraryAdminRole = Role::where('name', 'library_admin')->first();
+        $libraryStudentRole = Role::where('name', 'library_student')->first();
 
         // Creating users and assigning roles
         $user1 = User::create([
@@ -49,8 +51,8 @@ class UserSeeder extends Seeder
         ]);
 
         $user4 = User::create([
-            'name' => 'arif',
-            'email' => 'arif@gmail.com',
+            'name' => 'secondAdmin',
+            'email' => 'secondAdmin@gmail.com',
             'password' => Hash::make('12345678'),
             'role' => $secondAdminRole->name,
             'profile' => 'uploads/4.jpg'
@@ -60,16 +62,33 @@ class UserSeeder extends Seeder
             'name' => 'student',
             'email' => 'student@gmail.com',
             'password' => Hash::make('12345678'),
-            'role' => 'student', // Assuming 'student' is a valid role name
+            'role' => $studentRole->name,
             'profile' => 'uploads/4.jpg'
         ]);
 
+        $user6 = User::create([
+            'name' => 'libraryAdmin',
+            'email' => 'libraryAdmin@gmail.com',
+            'password' => Hash::make('12345678'),
+            'role' => $libraryAdminRole->name,
+            'profile' => 'uploads/4.jpg'
+        ]);
+        $user7 = User::create([
+            'name' => 'libraryStudent',
+            'email' => 'libraryStudent@gmail.com',
+            'password' => Hash::make('12345678'),
+            'role' => $libraryStudentRole->name,
+            'profile' => 'uploads/4.jpg'
+        ]);
         // Assign roles to users
         $user1->assignRole($adminRole);
         $user2->assignRole($adminRole);
         $user3->assignRole($adminRole);
         $user4->assignRole($secondAdminRole);
         $user5->assignRole($studentRole);
+        $user6->assignRole($libraryAdminRole);
+        $user7->assignRole($libraryStudentRole);
+
 
 
 

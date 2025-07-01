@@ -179,7 +179,9 @@ class PermissionSeeder extends Seeder
 
         $student = \Spatie\Permission\Models\Role::findByName('student', 'sanctum');
         $student->givePermissionTo([
+
             'StudentDashboard',
+
 
             'all students',
             'view student',

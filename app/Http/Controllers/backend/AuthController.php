@@ -23,7 +23,7 @@ class AuthController extends Controller
         // Find user by email
         $user = User::where('email', $request->email)->first();
 
-        // Check if the user exists and if the password is correct
+        // Check if user exists and password matches
         if (!$user || !Hash::check($request->password, $user->password)) {
             return response()->json(['message' => 'Invalid credentials'], 401);
         }
@@ -31,25 +31,20 @@ class AuthController extends Controller
         // Generate token
         $token = $user->createToken($user->name)->plainTextToken;
 
-        // Determine user role and send appropriate response
-        if ($user->role == 'admin') {
-            // Admin login
+        // Lowercase the role for response consistency
+        $role = strtolower($user->role);
+
+        // Check if the role is one of the expected roles
+        if (in_array($role, ['admin', 'second_admin', 'library_admin', 'library_student', 'student'])) {
             return response()->json([
-                'message' => 'Admin logged in successfully',
-                'user' => $user,
-                'token' => $token
-            ]);
-        } elseif ($user->role == 'student') {
-            // Member (Student) login
-            return response()->json([
-                'message' => 'Student logged in successfully',
+                'message' => ucfirst($role) . ' logged in successfully',
                 'user' => $user,
                 'token' => $token
             ]);
         }
 
-        // Default response in case of unexpected role
-        return response()->json(['message' => 'Unauthorized user role'], 401);
+        // Unknown or unauthorized role
+        return response()->json(['message' => 'Unauthorized user role'], 403);
     }
 
     // Register method (Admin and Member Registration)
