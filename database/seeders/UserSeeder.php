@@ -80,6 +80,15 @@ class UserSeeder extends Seeder
             'role' => $libraryStudentRole->name,
             'profile' => 'uploads/4.jpg'
         ]);
+
+        $user8 = User::create([
+            'name' => 'admin',
+            'email' => 'admin@gmail.com',
+            'password' => Hash::make('12345678'),
+            'role' => $adminRole->name,
+            'profile' => 'uploads/4.jpg'
+        ]);
+
         // Assign roles to users
         $user1->assignRole($adminRole);
         $user2->assignRole($adminRole);
@@ -88,6 +97,7 @@ class UserSeeder extends Seeder
         $user5->assignRole($studentRole);
         $user6->assignRole($libraryAdminRole);
         $user7->assignRole($libraryStudentRole);
+        $user8->assignRole($adminRole);
 
 
 
