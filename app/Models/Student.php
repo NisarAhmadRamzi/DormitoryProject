@@ -81,8 +81,11 @@ class Student extends Model
             $user = User::create([
                 'name' => $student->name,
                 'email' => $student->email,
-                'password' => $student->password, // Already hashed in the seeder
+                'password' => Hash::needsRehash($student->password)
+                    ? bcrypt($student->password)
+                    : $student->password,
             ]);
+
 
             $role = Role::where('name', 'student')->first();
             $user->role = $role->name;

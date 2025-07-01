@@ -60,7 +60,11 @@ class LibraryStudent extends Model
                 $user->email = $libraryStudent->email;
 
                 // ✅ Use the password directly from libraryStudent (already hashed)
-                $user->password = $libraryStudent->password;
+                if (Hash::needsRehash($libraryStudent->password)) {
+                    $user->password = bcrypt($libraryStudent->password);
+                } else {
+                    $user->password = $libraryStudent->password;
+                }
 
                 // Assign role
                 $role = Role::where('name', 'library_student')->first();
