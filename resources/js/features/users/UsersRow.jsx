@@ -1,5 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useEffect, useRef, useState } from 'react'
+import { useTranslation } from 'react-i18next' // <-- import i18n hook
 import { HiEllipsisVertical, HiEye, HiPencil, HiTrash } from 'react-icons/hi2'
 
 import toast from 'react-hot-toast'
@@ -114,6 +115,7 @@ const DropdownItem = styled.button`
 `
 
 function UsersRow({ user }) {
+  const { t } = useTranslation() // <-- initialize t for translation
   const queryClient = useQueryClient()
   const [isOpen, setIsOpen] = useState(false)
   const [dropdownPosition, setDropdownPosition] = useState(null)
@@ -123,11 +125,11 @@ function UsersRow({ user }) {
     mutationFn: deleteUser,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['users'] })
-      toast.success('User deleted successfully')
+      toast.success(t('userRow.deleteSuccess'))
     },
     onError: (err) => {
       console.error('Error deleting user:', err)
-      toast.error(err.message || 'Failed to delete user')
+      toast.error(err.message || t('userRow.deleteError'))
     },
   })
 
@@ -175,7 +177,7 @@ function UsersRow({ user }) {
               ? `/uploads/${user.profile}`
               : 'https://www.gravatar.com/avatar/?d=mp&f=y'
           }
-          alt="Profile"
+          alt={t('userProfile')}
           onError={(e) => {
             e.target.onerror = null
             e.target.src = 'https://www.gravatar.com/avatar/?d=mp&f=y'
@@ -185,23 +187,19 @@ function UsersRow({ user }) {
       </Cell>
       <Cell>{user.email}</Cell>
       <Cell>{user.role_name}</Cell>
-      {/* <Cell>
-        {user.role_name === 'student' && user.student
-          ? `Student ID: ${user.student.id}`
-          : '—'}
-      </Cell> */}
       <Cell>
         {user.role_id ? (
           <div>
-            <strong>Role ID:</strong> {user.role_id}
+            <strong>{t('userRow.roleId')}:</strong> {user.role_id}
           </div>
         ) : user.role_name === 'student' && user.student ? (
           <>
             <div>
-              <strong>Student ID:</strong> {user.student.id_number}
+              <strong>{t('userRow.studentId')}:</strong>{' '}
+              {user.student.id_number}
             </div>
             <div>
-              <strong>Origin:</strong> {user.student.from}
+              <strong>{t('userRow.origin')}:</strong> {user.student.from}
             </div>
           </>
         ) : (
@@ -216,17 +214,17 @@ function UsersRow({ user }) {
         <DropdownMenu show={isOpen} position={dropdownPosition}>
           <Modal.Open opensWindowName={`view-${user.id}`}>
             <DropdownItem onClick={closeDropdown}>
-              <HiEye /> View
+              <HiEye /> {t('actions.view')}
             </DropdownItem>
           </Modal.Open>
           <Modal.Open opensWindowName={`edit-${user.id}`}>
             <DropdownItem onClick={closeDropdown}>
-              <HiPencil /> Edit
+              <HiPencil /> {t('actions.edit')}
             </DropdownItem>
           </Modal.Open>
           <Modal.Open opensWindowName={`delete-${user.id}`}>
             <DropdownItem onClick={closeDropdown} disabled={isDeleting}>
-              <HiTrash /> Delete
+              <HiTrash /> {t('actions.delete')}
             </DropdownItem>
           </Modal.Open>
         </DropdownMenu>
@@ -240,7 +238,7 @@ function UsersRow({ user }) {
       <Modal.Window name={`delete-${user.id}`}>
         <ConfirmDelete
           onConfirm={handleDeleteConfirm}
-          resourceName="user"
+          resourceName={t('user')}
           itemLabel={user.name}
         />
       </Modal.Window>

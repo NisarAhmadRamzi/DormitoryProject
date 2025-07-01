@@ -78,5 +78,32 @@
       "password": "رمز عبور الزامی است",
       "cpassword": "تأیید رمز عبور الزامی است"
     }
+  },
+  "userRow": {
+    "deleteSuccess": "کاربر با موفقیت حذف شد",
+    "deleteError": "حذف کاربر با خطا مواجه شد",
+    "studentId": "آی‌دی شاگرد",
+    "origin": "محل",
+    "roleId": "آی‌دی نقش"
+  },
+  "actions": {
+    "view": "نمایش",
+    "edit": "ویرایش",
+    "delete": "حذف"
+  },
+  "userTable": {
+    "searchPlaceholder": "جستجوی کاربران...",
+    "name": "نام",
+    "email": "ایمیل",
+    "role": "نقش",
+    "action": "عملیات",
+    "page": "صفحه",
+    "of": "از",
+    "rowsPerPage": "تعداد سطرها در هر صفحه",
+    "noUsers": "هیچ کاربری یافت نشد.",
+    "loadError": "خطا در بارگذاری کاربران!"
+  },
+  "addUser": {
+    "buttonText": "افزودن کاربر جدید"
   }
 }

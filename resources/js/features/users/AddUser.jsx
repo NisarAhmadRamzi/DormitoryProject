@@ -1,12 +1,15 @@
+import { useTranslation } from 'react-i18next'
 import Button from '../../ui/Button'
-import Modal from '../../ui/Modal' // Now using the default export
+import Modal from '../../ui/Modal'
 import CreateUserForm from './CreateUserForm'
 
 const AddUser = () => {
+  const { t } = useTranslation()
+
   return (
     <Modal.Provider>
       <Modal.Open opensWindowName="user-form">
-        <Button>Add new User</Button>
+        <Button>{t('addUser.buttonText', 'Add new User')}</Button>
       </Modal.Open>
 
       <Modal.Window name="user-form">

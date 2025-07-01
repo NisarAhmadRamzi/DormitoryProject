@@ -78,5 +78,32 @@
       "password": "Password is required",
       "cpassword": "Confirm password is required"
     }
+  },
+  "userRow": {
+    "deleteSuccess": "User deleted successfully",
+    "deleteError": "Failed to delete user",
+    "studentId": "Student ID",
+    "origin": "Origin",
+    "roleId": "Role ID"
+  },
+  "actions": {
+    "view": "View",
+    "edit": "Edit",
+    "delete": "Delete"
+  },
+  "userTable": {
+    "searchPlaceholder": "Search users...",
+    "name": "Name",
+    "email": "Email",
+    "role": "Role",
+    "action": "Action",
+    "page": "Page",
+    "of": "of",
+    "rowsPerPage": "Rows per page",
+    "noUsers": "No matching users found.",
+    "loadError": "Error loading users!"
+  },
+  "addUser": {
+    "buttonText": "Add new User"
   }
 }

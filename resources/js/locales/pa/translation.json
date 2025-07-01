@@ -78,5 +78,32 @@
       "password": "پټنوم اړین دی",
       "cpassword": "د پټنوم تایید اړین دی"
     }
+  },
+  "userRow": {
+    "deleteSuccess": "کارن په بریالیتوب سره ړنګ شو",
+    "deleteError": "د کارن ړنګولو کې ستونزه راغله",
+    "studentId": "د شاګرد ID",
+    "origin": "اصلیت",
+    "roleId": "د نقش ID"
+  },
+  "actions": {
+    "view": "کتنه",
+    "edit": "سمون",
+    "delete": "ړنګول"
+  },
+  "userTable": {
+    "searchPlaceholder": "کارنان ولټوئ...",
+    "name": "نوم",
+    "email": "برېښنالیک",
+    "role": "نقش",
+    "action": "عمل",
+    "page": "پاڼه",
+    "of": "د",
+    "rowsPerPage": "سطرونه په هر پاڼه",
+    "noUsers": "هیڅ کارن ونه موندل شو.",
+    "loadError": "د کارنانو په راوړلو کې ستونزه!"
+  },
+  "addUser": {
+    "buttonText": "نوې کاروونکی اضافه کړئ"
   }
 }

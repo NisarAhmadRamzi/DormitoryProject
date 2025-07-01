@@ -1,14 +1,16 @@
 import { useQuery } from '@tanstack/react-query'
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { FiSearch } from 'react-icons/fi'
 import { RxCaretLeft, RxCaretRight } from 'react-icons/rx'
 import { useSearchParams } from 'react-router-dom'
 import styled from 'styled-components'
+
 import { getUsers } from '../../services/apiUser'
 import Spinner from '../../ui/Spinner'
 import UsersRow from './UsersRow'
 
-// Styled Components
+// 🔻 Styled components
 const Table = styled.div`
   border: 1px solid var(--color-grey-200);
   font-size: 1.4rem;
@@ -158,7 +160,9 @@ const NavButtons = styled.div`
   }
 `
 
+// 🔻 Component
 export default function UsersTable() {
+  const { t } = useTranslation()
   const [searchParams, setSearchParams] = useSearchParams()
   const currentPage = Number(searchParams.get('page')) || 1
   const [rowsPerPage, setRowsPerPage] = useState(10)
@@ -172,7 +176,7 @@ export default function UsersTable() {
   })
 
   if (isLoading) return <Spinner />
-  if (error) return <div>Error loading users!</div>
+  if (error) return <div>{t('userTable.loadError')}</div>
 
   let filteredUsers = data?.data || []
   if (searchText.trim() !== '') {
@@ -243,7 +247,7 @@ export default function UsersTable() {
             <FiSearch />
             <input
               type="text"
-              placeholder="Search users..."
+              placeholder={t('userTable.searchPlaceholder')}
               value={searchText}
               onChange={(e) => setSearchText(e.target.value)}
             />
@@ -257,21 +261,24 @@ export default function UsersTable() {
             onClick={() => handleSort('name')}
             className={sortBy === 'name' ? 'active' : ''}
           >
-            Name <span className="icon">{renderIcon('name')}</span>
+            {t('userTable.name')}{' '}
+            <span className="icon">{renderIcon('name')}</span>
           </SortableHeader>
           <SortableHeader
             onClick={() => handleSort('email')}
             className={sortBy === 'email' ? 'active' : ''}
           >
-            Email <span className="icon">{renderIcon('email')}</span>
+            {t('userTable.email')}{' '}
+            <span className="icon">{renderIcon('email')}</span>
           </SortableHeader>
           <SortableHeader
             onClick={() => handleSort('role')}
             className={sortBy === 'role' ? 'active' : ''}
           >
-            Role <span className="icon">{renderIcon('role')}</span>
+            {t('userTable.role')}{' '}
+            <span className="icon">{renderIcon('role')}</span>
           </SortableHeader>
-          <div>Action</div>
+          <div>{t('userTable.action')}</div>
         </TableHeader>
 
         {paginatedUsers.map((user) => (
@@ -279,16 +286,16 @@ export default function UsersTable() {
         ))}
 
         {filteredUsers.length === 0 && (
-          <div style={{ padding: '1.6rem' }}>No matching users found.</div>
+          <div style={{ padding: '1.6rem' }}>{t('userTable.noUsers')}</div>
         )}
 
         <PaginationWrapper>
           <PageInfo>
-            Page {currentPage} of {totalPages}
+            {t('userTable.page')} {currentPage} {t('userTable.of')} {totalPages}
           </PageInfo>
 
           <RowsPerPage>
-            Rows per page:
+            {t('userTable.rowsPerPage')}:
             <select value={rowsPerPage} onChange={changeRows}>
               <option value={5}>5</option>
               <option value={10}>10</option>
