@@ -1,4 +1,5 @@
-{"userProfile": "د کارونکي پروفایل",
+{
+  "userProfile": "د کارونکي پروفایل",
   "id": "شناخت",
   "name": "نوم",
   "email": "بریښنالیک",
@@ -57,5 +58,25 @@
     "cancel": "لغوه کول",
     "delete": "ړنګول",
     "thisResource": "دا {{resource}}"
+  },
+  "userForm": {
+    "name": "نوم",
+    "email": "بریښنالیک",
+    "password": "پټنوم",
+    "confirmPassword": "پټنوم تایید کړئ",
+    "role": "نقش",
+    "profileImage": "د پروفایل عکس",
+    "create": "کارن جوړ کړئ",
+    "update": "کارن تازه کړئ",
+    "cancel": "لغوه",
+    "createdSuccess": "کارن په بریالیتوب سره جوړ شو",
+    "updatedSuccess": "کارن په بریالیتوب سره تازه شو",
+    "error": "یو څه تېروتنه وشوه",
+    "errors": {
+      "name": "نوم اړین دی",
+      "email": "بریښنالیک اړین دی",
+      "password": "پټنوم اړین دی",
+      "cpassword": "د پټنوم تایید اړین دی"
+    }
   }
 }

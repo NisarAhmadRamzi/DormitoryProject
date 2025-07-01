@@ -58,5 +58,25 @@
     "cancel": "Cancel",
     "delete": "Delete",
     "thisResource": "this {{resource}}"
+  },
+  "userForm": {
+    "name": "Name",
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Confirm Password",
+    "role": "Role",
+    "profileImage": "Profile Image",
+    "create": "Create User",
+    "update": "Update User",
+    "cancel": "Cancel",
+    "createdSuccess": "User created successfully",
+    "updatedSuccess": "User updated successfully",
+    "error": "Something went wrong",
+    "errors": {
+      "name": "Name is required",
+      "email": "Email is required",
+      "password": "Password is required",
+      "cpassword": "Confirm password is required"
+    }
   }
 }

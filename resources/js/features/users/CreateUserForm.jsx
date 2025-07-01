@@ -1,14 +1,15 @@
-import { createUser, editUser } from '../../services/apiUser'
-//v2
-import { useMutation, useQueryClient } from '@tanstack/react-query'
 
+
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useState } from 'react'
+import { useForm } from 'react-hook-form'
+import toast from 'react-hot-toast'
+import { useTranslation } from 'react-i18next'
+import styled from 'styled-components'
+import { createUser, editUser } from '../../services/apiUser'
 import Button from '../../ui/Button'
 import Form from '../../ui/Form'
 import Input from '../../ui/Input'
-import styled from 'styled-components'
-import toast from 'react-hot-toast'
-import { useForm } from 'react-hook-form'
-import { useState } from 'react'
 
 const FormRow = styled.div`
   display: grid;
@@ -20,9 +21,11 @@ const FormRow = styled.div`
     justify-content: flex-end;
   }
 `
+
 const Label = styled.label`
   font-weight: 500;
 `
+
 const Error = styled.span`
   font-size: 1.4rem;
   color: red;
@@ -31,10 +34,10 @@ const Error = styled.span`
 const SelectInput = styled.select`
   font-size: 1.4rem;
   padding: 1.2rem;
-  border-radius: var(--border-radius-sm); /* Use global border-radius */
-  border: 1px solid var(--color-grey-300); /* Use global grey border */
-  background-color: var(--color-grey-0); /* Background for light mode */
-  color: var(--color-grey-700); /* Text color for light mode */
+  border-radius: var(--border-radius-sm);
+  border: 1px solid var(--color-grey-300);
+  background-color: var(--color-grey-0);
+  color: var(--color-grey-700);
   width: 100%;
   transition: background-color 0.3s, color 0.3s, border 0.3s;
 
@@ -51,8 +54,10 @@ const SelectInput = styled.select`
 `
 
 function CreateUserForm({ userToEdit = {}, onCloseModal }) {
+  const { t } = useTranslation()
   const isEdit = Boolean(userToEdit.id)
   const [profileImage, setProfileImage] = useState(null)
+
   const {
     register,
     handleSubmit,
@@ -63,16 +68,20 @@ function CreateUserForm({ userToEdit = {}, onCloseModal }) {
       ? { ...userToEdit, role: userToEdit.role || 'student' }
       : { role: 'student' },
   })
+
   const queryClient = useQueryClient()
+
   const { mutate, isLoading } = useMutation({
     mutationFn: (data) =>
       isEdit ? editUser(userToEdit.id, data) : createUser(data),
     onSuccess: () => {
-      toast.success(`User ${isEdit ? 'updated' : 'created'} successfully`)
+      toast.success(
+        t(isEdit ? 'userForm.updatedSuccess' : 'userForm.createdSuccess')
+      )
       queryClient.invalidateQueries(['users'])
       onCloseModal?.()
     },
-    onError: () => toast.error('Something went wrong'),
+    onError: () => toast.error(t('userForm.error')),
   })
 
   const onSubmit = (data) => {
@@ -82,69 +91,77 @@ function CreateUserForm({ userToEdit = {}, onCloseModal }) {
     if (data.password) formData.append('password', data.password)
     if (data.cpassword) formData.append('cpassword', data.cpassword)
     if (profileImage) formData.append('profile', profileImage)
-    if (data.role) formData.append('role', data.role) // Add role to formData
+    if (data.role) formData.append('role', data.role)
     mutate(formData)
   }
 
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
       <FormRow>
-        <Label>Name</Label>
-        <Input {...register('name', { required: 'Name is required' })} />
+        <Label>{t('userForm.name')}</Label>
+        <Input {...register('name', { required: t('userForm.errors.name') })} />
         {errors.name && <Error>{errors.name.message}</Error>}
       </FormRow>
+
       <FormRow>
-        <Label>Email</Label>
+        <Label>{t('userForm.email')}</Label>
         <Input
           type="email"
-          {...register('email', { required: 'Email is required' })}
+          {...register('email', { required: t('userForm.errors.email') })}
         />
         {errors.email && <Error>{errors.email.message}</Error>}
       </FormRow>
+
       {!isEdit && (
         <>
           <FormRow>
-            <Label>Password</Label>
+            <Label>{t('userForm.password')}</Label>
             <Input
               type="password"
-              {...register('password', { required: 'Password is required' })}
+              {...register('password', {
+                required: t('userForm.errors.password'),
+              })}
             />
             {errors.password && <Error>{errors.password.message}</Error>}
           </FormRow>
+
           <FormRow>
-            <Label>Confirm Password</Label>
+            <Label>{t('userForm.confirmPassword')}</Label>
             <Input
               type="password"
               {...register('cpassword', {
-                required: 'Confirm password is required',
+                required: t('userForm.errors.cpassword'),
               })}
             />
             {errors.cpassword && <Error>{errors.cpassword.message}</Error>}
           </FormRow>
         </>
       )}
+
       <FormRow>
-        <Label>Role</Label>
+        <Label>{t('userForm.role')}</Label>
         <SelectInput {...register('role')}>
-          <option value="student">Student</option>
-          <option value="second_admin">Second Admin</option>
-          <option value="admin">Admin</option>
+          <option value="student">{t('roles.student')}</option>
+          <option value="second_admin">{t('roles.second_admin')}</option>
+          <option value="admin">{t('roles.admin')}</option>
         </SelectInput>
       </FormRow>
+
       <FormRow>
-        <Label>Profile Image</Label>
+        <Label>{t('userForm.profileImage')}</Label>
         <Input
           type="file"
           accept="image/*"
           onChange={(e) => setProfileImage(e.target.files[0])}
         />
       </FormRow>
+
       <FormRow>
         <Button type="submit" disabled={isLoading}>
-          {isEdit ? 'Update' : 'Create'} User
+          {isEdit ? t('userForm.update') : t('userForm.create')}
         </Button>
         <Button type="button" onClick={() => onCloseModal?.()}>
-          Cancel
+          {t('userForm.cancel')}
         </Button>
       </FormRow>
     </Form>

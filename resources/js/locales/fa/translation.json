@@ -58,5 +58,25 @@
     "cancel": "لغو",
     "delete": "حذف",
     "thisResource": "این {{resource}}"
+  },
+  "userForm": {
+    "name": "نام",
+    "email": "ایمیل",
+    "password": "رمز عبور",
+    "confirmPassword": "تأیید رمز عبور",
+    "role": "نقش",
+    "profileImage": "عکس پروفایل",
+    "create": "ایجاد کاربر",
+    "update": "بروزرسانی کاربر",
+    "cancel": "لغو",
+    "createdSuccess": "کاربر با موفقیت ایجاد شد",
+    "updatedSuccess": "کاربر با موفقیت بروزرسانی شد",
+    "error": "مشکلی رخ داده است",
+    "errors": {
+      "name": "نام الزامی است",
+      "email": "ایمیل الزامی است",
+      "password": "رمز عبور الزامی است",
+      "cpassword": "تأیید رمز عبور الزامی است"
+    }
   }
 }
