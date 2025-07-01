@@ -9,7 +9,6 @@ import { getStudents } from '../../services/apiStudents'
 import Spinner from '../../ui/Spinner'
 import StudentRow from './StudentRow'
 
-// Styled components
 const Table = styled.div`
   border: 1px solid var(--color-grey-200);
   font-size: 1.4rem;
@@ -156,9 +155,7 @@ const NavButtons = styled.div`
 `
 
 export default function StudentTable() {
-  const { i18n } = useTranslation()
-  const isRtl = i18n.dir() === 'rtl'
-
+  const { t } = useTranslation()
   const [searchParams, setSearchParams] = useSearchParams()
   const currentPage = Number(searchParams.get('page')) || 1
   const [rowsPerPage, setRowsPerPage] = useState(10)
@@ -172,7 +169,12 @@ export default function StudentTable() {
   )
 
   if (isLoading) return <Spinner />
-  if (isError) return <p>Error: {error.message}</p>
+  if (isError)
+    return (
+      <p>
+        {t('error')}: {error.message}
+      </p>
+    )
 
   let filteredStudents = data?.data || []
 
@@ -233,7 +235,7 @@ export default function StudentTable() {
             <FiSearch />
             <input
               type="text"
-              placeholder="Search students..."
+              placeholder={t('studentTable.searchPlaceholder')}
               value={searchText}
               onChange={(e) => setSearchText(e.target.value)}
             />
@@ -243,33 +245,36 @@ export default function StudentTable() {
 
       <Table role="table">
         <TableHeader role="row">
-          <div>ID</div>
+          <div>{t('studentTable.id')}</div>
           <SortableHeader
             onClick={() => handleSort('name')}
             className={sortBy === 'name' ? 'active' : ''}
           >
-            Name <span className="icon">{renderSortIcon('name')}</span>
+            {t('studentTable.name')}{' '}
+            <span className="icon">{renderSortIcon('name')}</span>
           </SortableHeader>
           <SortableHeader
             onClick={() => handleSort('email')}
             className={sortBy === 'email' ? 'active' : ''}
           >
-            Email <span className="icon">{renderSortIcon('email')}</span>
+            {t('studentTable.email')}{' '}
+            <span className="icon">{renderSortIcon('email')}</span>
           </SortableHeader>
           <SortableHeader
             onClick={() => handleSort('id_number')}
             className={sortBy === 'id_number' ? 'active' : ''}
           >
-            ID Number{' '}
+            {t('studentTable.idNumber')}{' '}
             <span className="icon">{renderSortIcon('id_number')}</span>
           </SortableHeader>
           <SortableHeader
             onClick={() => handleSort('phone')}
             className={sortBy === 'phone' ? 'active' : ''}
           >
-            Phone <span className="icon">{renderSortIcon('phone')}</span>
+            {t('studentTable.phone')}{' '}
+            <span className="icon">{renderSortIcon('phone')}</span>
           </SortableHeader>
-          <div>Action</div>
+          <div>{t('studentTable.action')}</div>
         </TableHeader>
 
         {paginatedStudents.map((student) => (
@@ -277,16 +282,16 @@ export default function StudentTable() {
         ))}
 
         {filteredStudents.length === 0 && (
-          <div style={{ padding: '1.6rem' }}>No matching students found.</div>
+          <div style={{ padding: '1.6rem' }}>{t('studentTable.noResults')}</div>
         )}
 
         <PaginationWrapper>
           <PageInfo>
-            Page {currentPage} of {totalPages}
+            {t('studentTable.pageInfo', { currentPage, totalPages })}
           </PageInfo>
 
           <RowsPerPage>
-            Rows per page:
+            {t('studentTable.rowsPerPage')}
             <select value={rowsPerPage} onChange={handleRowsPerPageChange}>
               <option value={5}>5</option>
               <option value={10}>10</option>
@@ -299,8 +304,7 @@ export default function StudentTable() {
             <button
               onClick={() => handlePageChange(Math.max(1, currentPage - 1))}
               disabled={currentPage === 1}
-              style={{ transform: isRtl ? 'scaleX(-1)' : 'none' }}
-              aria-label="Previous Page"
+              aria-label={t('studentTable.previousPage')}
             >
               <RxCaretLeft />
             </button>
@@ -309,8 +313,7 @@ export default function StudentTable() {
                 handlePageChange(Math.min(totalPages, currentPage + 1))
               }
               disabled={currentPage === totalPages}
-              style={{ transform: isRtl ? 'scaleX(-1)' : 'none' }}
-              aria-label="Next Page"
+              aria-label={t('studentTable.nextPage')}
             >
               <RxCaretRight />
             </button>
