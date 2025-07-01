@@ -162,7 +162,9 @@ const NavButtons = styled.div`
 
 // 🔻 Component
 export default function UsersTable() {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
+  const dir = i18n.dir() // 'ltr' or 'rtl'
+
   const [searchParams, setSearchParams] = useSearchParams()
   const currentPage = Number(searchParams.get('page')) || 1
   const [rowsPerPage, setRowsPerPage] = useState(10)
@@ -231,6 +233,10 @@ export default function UsersTable() {
 
   const renderIcon = (col) =>
     sortBy === col ? (sortOrder === 'asc' ? '↑' : '↓') : '↑↓'
+
+  // Swap caret icons for RTL so arrows visually point correctly
+  const PrevIcon = dir === 'rtl' ? RxCaretRight : RxCaretLeft
+  const NextIcon = dir === 'rtl' ? RxCaretLeft : RxCaretRight
 
   const changePage = (newPage) => setSearchParams({ page: newPage })
 
@@ -308,14 +314,16 @@ export default function UsersTable() {
             <button
               onClick={() => changePage(Math.max(1, currentPage - 1))}
               disabled={currentPage === 1}
+              aria-label={t('userTable.previousPage')}
             >
-              <RxCaretLeft />
+              <PrevIcon />
             </button>
             <button
               onClick={() => changePage(Math.min(totalPages, currentPage + 1))}
               disabled={currentPage === totalPages}
+              aria-label={t('userTable.nextPage')}
             >
-              <RxCaretRight />
+              <NextIcon />
             </button>
           </NavButtons>
         </PaginationWrapper>
