@@ -155,7 +155,9 @@ const NavButtons = styled.div`
 `
 
 export default function StudentTable() {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
+  const dir = i18n.dir() // 'ltr' or 'rtl'
+
   const [searchParams, setSearchParams] = useSearchParams()
   const currentPage = Number(searchParams.get('page')) || 1
   const [rowsPerPage, setRowsPerPage] = useState(10)
@@ -219,6 +221,10 @@ export default function StudentTable() {
 
   const renderSortIcon = (column) =>
     sortBy === column ? (sortOrder === 'asc' ? '↑' : '↓') : '↑↓'
+
+  // Flip icons based on text direction
+  const PrevIcon = dir === 'rtl' ? RxCaretRight : RxCaretLeft
+  const NextIcon = dir === 'rtl' ? RxCaretLeft : RxCaretRight
 
   const handlePageChange = (newPage) => setSearchParams({ page: newPage })
 
@@ -306,7 +312,7 @@ export default function StudentTable() {
               disabled={currentPage === 1}
               aria-label={t('studentTable.previousPage')}
             >
-              <RxCaretLeft />
+              <PrevIcon />
             </button>
             <button
               onClick={() =>
@@ -315,7 +321,7 @@ export default function StudentTable() {
               disabled={currentPage === totalPages}
               aria-label={t('studentTable.nextPage')}
             >
-              <RxCaretRight />
+              <NextIcon />
             </button>
           </NavButtons>
         </PaginationWrapper>
