@@ -25,6 +25,7 @@
   "supports": "ملاتړونه",
   "student": "شاګرد",
   "guest": "میلمستون",
+  "user": "کاربر",
   "roles": {
     "admin": "ادمین",
     "second_admin": "دویم ادمین",
@@ -32,5 +33,13 @@
     "library_admin": "د کتابتون ادمین",
     "library_student": "د کتابتون شاګرد",
     "guest": "میلمستون"
+  },
+  "confirmDelete": {
+    "title": "{{resource}} ړنګول",
+    "message": "تاسو ډاډه یاست چې غواړئ {{item}} ړنګ کړئ؟",
+    "subMessage": "دا عمل بیرته نه شي کیدای.",
+    "cancel": "لغوه کول",
+    "delete": "ړنګول",
+    "thisResource": "دا {{resource}}"
   }
 }

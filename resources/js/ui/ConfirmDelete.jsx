@@ -1,3 +1,6 @@
+
+
+import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 
 const ConfirmBox = styled.div`
@@ -33,17 +36,28 @@ const DeleteButton = styled(Button)`
 
 function ConfirmDelete({
   resourceName = 'item',
-  message = `Are you sure you want to delete this ${resourceName}?`,
-  subMessage = 'This action cannot be undone.',
+  message,
+  subMessage,
   onConfirm,
   onCloseModal,
-  itemLabel, // ✅ Add this prop
+  itemLabel,
 }) {
+  const { t } = useTranslation()
+
+  // Default messages fallback to translations if not provided as props
+  const defaultMessage = t('confirmDelete.message', {
+    resource: t(resourceName),
+  })
+  const defaultSubMessage = t('confirmDelete.subMessage')
+
   return (
     <ConfirmBox>
-      <h2 style={{ fontWeight: 'bold' }}>Delete {resourceName}</h2>
+      <h2 style={{ fontWeight: 'bold' }}>
+        {t('confirmDelete.title', { resource: t(resourceName) })}
+      </h2>
+
       <p>
-        Are you sure you want to delete{' '}
+        {message || defaultMessage.split('{{item}}')[0]}
         <span
           style={{
             fontSize: '20px',
@@ -51,21 +65,25 @@ function ConfirmDelete({
             color: 'var(--color-red-700)',
           }}
         >
-          {itemLabel || `this ${resourceName}`}
+          {itemLabel ||
+            t('confirmDelete.thisResource', { resource: t(resourceName) })}
         </span>
-        ?
+        {message ? '' : defaultMessage.split('{{item}}')[1]}
       </p>
 
-      <p>{subMessage}</p>
+      <p>{subMessage || defaultSubMessage}</p>
+
       <ButtonGroup>
-        <CancelButton onClick={onCloseModal}>Cancel</CancelButton>
+        <CancelButton onClick={onCloseModal}>
+          {t('confirmDelete.cancel')}
+        </CancelButton>
         <DeleteButton
           onClick={() => {
             onConfirm()
             onCloseModal()
           }}
         >
-          Delete
+          {t('confirmDelete.delete')}
         </DeleteButton>
       </ButtonGroup>
     </ConfirmBox>

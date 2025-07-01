@@ -25,6 +25,7 @@
   "supports": "Supports",
   "student": "Student",
   "guest": "Guest",
+  "user": "User",
   "roles": {
     "admin": "Administrator",
     "second_admin": "Second Administrator",
@@ -32,5 +33,13 @@
     "library_admin": "Library Administrator",
     "library_student": "Library Student",
     "guest": "Guest"
+  },
+  "confirmDelete": {
+    "title": "Delete {{resource}}",
+    "message": "Are you sure you want to delete {{item}}?",
+    "subMessage": "This action cannot be undone.",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "thisResource": "this {{resource}}"
   }
 }

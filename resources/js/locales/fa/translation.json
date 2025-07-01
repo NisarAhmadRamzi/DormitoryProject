@@ -8,14 +8,6 @@
   "userManagement": "مدیریت کاربران",
   "users": "کاربران",
   "rolesTitle": "نقش‌ها",
-  "roles": {
-    "admin": "مدیر",
-    "second_admin": "مدیر دوم",
-    "student": "دانشجو",
-    "library_admin": "مدیر کتابخانه",
-    "library_student": "دانشجوی کتابخانه",
-    "guest": "مهمان"
-  },
   "permissions": "اجازه‌ها",
   "students": "دانشجویان",
   "dormitoryManagement": "مدیریت خوابگاه",
@@ -31,5 +23,23 @@
   "fees": "فیس‌ها",
   "expenses": "مصارف",
   "supports": "پشتیبانی",
-  "student": "شاگرد"
+  "student": "شاگرد",
+  "guest": "مهمان",
+  "user": "کاربر",
+  "roles": {
+    "admin": "مدیر",
+    "second_admin": "مدیر دوم",
+    "student": "دانشجو",
+    "library_admin": "مدیر کتابخانه",
+    "library_student": "دانشجوی کتابخانه",
+    "guest": "مهمان"
+  },
+  "confirmDelete": {
+    "title": "حذف {{resource}}",
+    "message": "آیا مطمئن هستید که می‌خواهید {{item}} را حذف کنید؟",
+    "subMessage": "این عملیات قابل بازگشت نیست.",
+    "cancel": "لغو",
+    "delete": "حذف",
+    "thisResource": "این {{resource}}"
+  }
 }
