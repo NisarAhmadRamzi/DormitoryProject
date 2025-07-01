@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState } from 'react'
-
+import { useTranslation } from 'react-i18next'
 import { LiaExpandSolid } from 'react-icons/lia'
 import { MdOutlineLanguage } from 'react-icons/md'
 import { VscAccount } from 'react-icons/vsc'
 import { useNavigate } from 'react-router-dom'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 import Logouts from '../features/authentication/Logouts'
 import UserAvatar from '../features/authentication/UserAvatar'
 import ButtonIcon from './ButtonIcon'
@@ -15,6 +15,12 @@ const StyledHeaderMenu = styled.ul`
   align-items: center;
   gap: 3rem;
   position: relative;
+  /* Support RTL flex direction */
+  ${({ dir }) =>
+    dir === 'rtl' &&
+    css`
+      direction: rtl;
+    `}
 `
 
 const DropdownWrapper = styled.div`
@@ -23,7 +29,6 @@ const DropdownWrapper = styled.div`
 
 const DropdownMenu = styled.ul`
   position: absolute;
-  right: 0;
   top: 100%;
   background-color: var(--color-grey-0);
   border: 1px solid lightgray;
@@ -32,6 +37,18 @@ const DropdownMenu = styled.ul`
   padding: 0.4rem 0;
   z-index: 100;
   min-width: 200px;
+
+  /* Adjust menu position for RTL */
+  ${({ dir }) =>
+    dir === 'rtl'
+      ? css`
+          left: 0;
+          right: auto;
+        `
+      : css`
+          right: 0;
+          left: auto;
+        `}
 `
 
 const DropdownItem = styled.button`
@@ -83,6 +100,9 @@ const HeaderMenu = () => {
   const langRef = useRef()
   const userRef = useRef()
 
+  const { t, i18n } = useTranslation()
+  const dir = i18n.dir()
+
   const handleFullscreen = () => {
     const elem = document.documentElement
     if (!document.fullscreenElement) {
@@ -111,33 +131,29 @@ const HeaderMenu = () => {
   }, [])
 
   const handleLanguageSelect = (langCode) => {
-    console.log(`Selected language: ${langCode}`)
+    i18n.changeLanguage(langCode)
     closeLangMenu()
   }
 
   return (
-    <StyledHeaderMenu>
+    <StyledHeaderMenu dir={dir}>
       <li>
         <DropdownWrapper ref={userRef}>
           <div onClick={toggleUserMenu} style={{ cursor: 'pointer' }}>
             <UserAvatar />
           </div>
           {userMenuOpen && (
-            <DropdownMenu>
+            <DropdownMenu dir={dir}>
               <DropdownItem
                 onClick={() => navigate('/accounts', closeUserMenu())}
               >
                 <ButtonIcon>
                   <VscAccount />
                 </ButtonIcon>{' '}
-                Profile Settings
+                {t('profileSettings')}
               </DropdownItem>
-              <DropdownItem
-                onClick={() => {
-                  closeUserMenu()
-                }}
-              >
-                <Logouts /> Log out
+              <DropdownItem onClick={closeUserMenu}>
+                <Logouts /> {t('logout')}
               </DropdownItem>
             </DropdownMenu>
           )}
@@ -160,7 +176,7 @@ const HeaderMenu = () => {
             <MdOutlineLanguage />
           </ButtonIcon>
           {langMenuOpen && (
-            <DropdownMenu>
+            <DropdownMenu dir={dir}>
               {languages.map((lang) => (
                 <DropdownItem
                   key={lang.code}

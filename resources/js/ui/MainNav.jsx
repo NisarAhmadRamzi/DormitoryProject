@@ -17,9 +17,10 @@ import { RxDashboard } from 'react-icons/rx'
 import { TbDatabaseDollar } from 'react-icons/tb'
 import { TfiSupport } from 'react-icons/tfi'
 import { VscAccount } from 'react-icons/vsc'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 import { useState } from 'react'
 import { useUser } from '../context/UserContext'
+import { useTranslation } from 'react-i18next'
 
 const NavList = styled.ul`
   display: flex;
@@ -32,6 +33,20 @@ const Category = styled.div`
   flex-direction: column;
 `
 
+// Helper for direction-aware border and padding
+const directionStyles = ({ dir }) =>
+  dir === 'rtl'
+    ? css`
+        border-right: 4px solid transparent;
+        border-left: none;
+        padding: 1.2rem 2.4rem 1.2rem 1rem;
+      `
+    : css`
+        border-left: 4px solid transparent;
+        border-right: none;
+        padding: 1.2rem 1rem 1.2rem 2.4rem;
+      `
+
 const CategoryHeader = styled.div`
   cursor: pointer;
   display: flex;
@@ -39,16 +54,18 @@ const CategoryHeader = styled.div`
   gap: 1.2rem;
   font-size: 1.6rem;
   font-weight: 500;
-  padding: 1.2rem 2.4rem;
   color: var(--color-grey-600);
-  border-left: 4px solid transparent;
   transition: all 0.3s;
+  ${({ dir }) => directionStyles({ dir })}
 
   &:hover {
     color: var(--color-grey-800);
     background-color: var(--color-grey-50);
     border-radius: var(--border-radius-sm);
-    border-left-color: var(--color-brand-600);
+    ${({ dir }) =>
+      dir === 'rtl'
+        ? `border-right-color: var(--color-brand-600);`
+        : `border-left-color: var(--color-brand-600);`}
   }
 
   & svg {
@@ -64,15 +81,32 @@ const CategoryHeader = styled.div`
 `
 
 const ArrowIcon = styled(IoIosArrowForward)`
-  margin-left: auto; 
   transition: transform 0.3s ease;
   color: var(--color-grey-400);
   width: 1.6rem;
   height: 1.6rem;
   flex-shrink: 0;
 
-  ${({ open }) =>
-    open && `transform: rotate(90deg); color: var(--color-brand-600);`}
+  /* Position arrow on the opposite side of text */
+  ${({ dir }) =>
+    dir === 'rtl'
+      ? css`
+          margin-right: auto;
+          margin-left: 0;
+          transform-origin: center;
+        `
+      : css`
+          margin-left: auto;
+          margin-right: 0;
+          transform-origin: center;
+        `}
+
+  ${({ open, dir }) =>
+    open
+      ? dir === 'rtl'
+        ? `transform: rotate(-90deg); color: var(--color-brand-600);`
+        : `transform: rotate(90deg); color: var(--color-brand-600);`
+      : ''}
 `
 
 const SubMenu = styled.ul`
@@ -121,6 +155,8 @@ function MainNav() {
   const [openCategory, setOpenCategory] = useState('')
   const { user } = useUser()
   const role = user?.role
+  const { t, i18n } = useTranslation()
+  const dir = i18n.dir() // 'ltr' or 'rtl'
 
   const toggleCategory = (category) => {
     setOpenCategory(openCategory === category ? '' : category)
@@ -131,29 +167,29 @@ function MainNav() {
       <NavList>
         {/* General */}
         <Category>
-          <CategoryHeader onClick={() => toggleCategory('general')}>
-            General
-            <ArrowIcon open={openCategory === 'general'} />
+          <CategoryHeader onClick={() => toggleCategory('general')} dir={dir}>
+            {t('general')}
+            <ArrowIcon open={openCategory === 'general'} dir={dir} />
           </CategoryHeader>
           <SubMenu open={openCategory === 'general'}>
             {role !== 'student' && (
               <li>
                 <StyledNavlink to="/dashboard">
                   <RxDashboard />
-                  <span>Dashboard</span>
+                  <span>{t('dashboard')}</span>
                 </StyledNavlink>
               </li>
             )}
             <li>
               <StyledNavlink to="/settings">
                 <IoSettingsOutline />
-                <span>Settings</span>
+                <span>{t('settings')}</span>
               </StyledNavlink>
             </li>
             <li>
               <StyledNavlink to="/accounts">
                 <VscAccount />
-                <span>Accounts</span>
+                <span>{t('accounts')}</span>
               </StyledNavlink>
             </li>
           </SubMenu>
@@ -161,16 +197,16 @@ function MainNav() {
 
         {/* User Management */}
         <Category>
-          <CategoryHeader onClick={() => toggleCategory('users')}>
-            User Management
-            <ArrowIcon open={openCategory === 'users'} />
+          <CategoryHeader onClick={() => toggleCategory('users')} dir={dir}>
+            {t('rolesTitle')}
+            <ArrowIcon open={openCategory === 'users'} dir={dir} />
           </CategoryHeader>
           <SubMenu open={openCategory === 'users'}>
             {role !== 'student' && (
               <li>
                 <StyledNavlink to="/users">
                   <LuUsers />
-                  <span>Users</span>
+                  <span>{t('users')}</span>
                 </StyledNavlink>
               </li>
             )}
@@ -178,23 +214,22 @@ function MainNav() {
               <li>
                 <StyledNavlink to="/roles">
                   <LuBadgeCheck />
-                  <span>Roles</span>
+                  <span>{t('rolesTitle')}</span>
                 </StyledNavlink>
               </li>
             )}
-
             {role !== 'student' && (
               <li>
                 <StyledNavlink to="/permissions">
                   <IoKeyOutline />
-                  <span>Permissions</span>
+                  <span>{t('permissions')}</span>
                 </StyledNavlink>
               </li>
             )}
             <li>
               <StyledNavlink to="/students">
                 <PiGraduationCapLight />
-                <span>Students</span>
+                <span>{t('students')}</span>
               </StyledNavlink>
             </li>
           </SubMenu>
@@ -202,23 +237,22 @@ function MainNav() {
 
         {/* Dormitory Management */}
         <Category>
-          <CategoryHeader onClick={() => toggleCategory('dormitory')}>
-            Dormitory Management
-            <ArrowIcon open={openCategory === 'dormitory'} />
+          <CategoryHeader onClick={() => toggleCategory('dormitory')} dir={dir}>
+            {t('dormitoryManagement')}
+            <ArrowIcon open={openCategory === 'dormitory'} dir={dir} />
           </CategoryHeader>
           <SubMenu open={openCategory === 'dormitory'}>
             <li>
               <StyledNavlink to="/rooms">
                 <IoBedOutline />
-                <span>Rooms</span>
+                <span>{t('rooms')}</span>
               </StyledNavlink>
             </li>
-
             {role !== 'student' && (
               <li>
                 <StyledNavlink to="/assets">
                   <TbDatabaseDollar />
-                  <span>Assets</span>
+                  <span>{t('assets')}</span>
                 </StyledNavlink>
               </li>
             )}
@@ -226,7 +260,7 @@ function MainNav() {
               <li>
                 <StyledNavlink to="/complaints">
                   <PiWarningLight />
-                  <span>Complaints</span>
+                  <span>{t('complaints')}</span>
                 </StyledNavlink>
               </li>
             )}
@@ -235,38 +269,37 @@ function MainNav() {
 
         {/* Library Management */}
         <Category>
-          <CategoryHeader onClick={() => toggleCategory('library')}>
-            Library Management
-            <ArrowIcon open={openCategory === 'library'} />
+          <CategoryHeader onClick={() => toggleCategory('library')} dir={dir}>
+            {t('libraryManagement')}
+            <ArrowIcon open={openCategory === 'library'} dir={dir} />
           </CategoryHeader>
           <SubMenu open={openCategory === 'library'}>
             {role !== 'student' && (
               <li>
                 <StyledNavlink to="/libraries">
                   <HiOutlineHomeModern />
-                  <span>Library</span>
+                  <span>{t('library')}</span>
                 </StyledNavlink>
               </li>
             )}
-
             {role !== 'student' && (
               <li>
                 <StyledNavlink to="/library-students">
                   <PiGraduationCapDuotone />
-                  <span>Library Students</span>
+                  <span>{t('libraryStudents')}</span>
                 </StyledNavlink>
               </li>
             )}
             <li>
               <StyledNavlink to="/books">
                 <MdOutlineLibraryBooks />
-                <span>Books</span>
+                <span>{t('books')}</span>
               </StyledNavlink>
             </li>
             <li>
               <StyledNavlink to="/borrowed-books">
                 <MdOutlineLibraryBooks />
-                <span>Borrowed Books</span>
+                <span>{t('borrowedBooks')}</span>
               </StyledNavlink>
             </li>
           </SubMenu>
@@ -275,27 +308,27 @@ function MainNav() {
         {/* Finance */}
         {role !== 'student' && (
           <Category>
-            <CategoryHeader onClick={() => toggleCategory('finance')}>
-              Finance
-              <ArrowIcon open={openCategory === 'finance'} />
+            <CategoryHeader onClick={() => toggleCategory('finance')} dir={dir}>
+              {t('finance')}
+              <ArrowIcon open={openCategory === 'finance'} dir={dir} />
             </CategoryHeader>
             <SubMenu open={openCategory === 'finance'}>
               <li>
                 <StyledNavlink to="/fees">
                   <BsCurrencyDollar />
-                  <span>Fees</span>
+                  <span>{t('fees')}</span>
                 </StyledNavlink>
               </li>
               <li>
                 <StyledNavlink to="/expenses">
                   <PiCurrencyDollarSimpleBold />
-                  <span>Expenses</span>
+                  <span>{t('expenses')}</span>
                 </StyledNavlink>
               </li>
               <li>
                 <StyledNavlink to="/supports">
                   <TfiSupport />
-                  <span>Supports</span>
+                  <span>{t('supports')}</span>
                 </StyledNavlink>
               </li>
             </SubMenu>
