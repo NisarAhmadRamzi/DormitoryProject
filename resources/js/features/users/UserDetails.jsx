@@ -1,5 +1,15 @@
-import Heading from '../../ui/Heading'
+import dayjs from 'dayjs'
+import localizedFormat from 'dayjs/plugin/localizedFormat'
+import relativeTime from 'dayjs/plugin/relativeTime'
+import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
+import Heading from '../../ui/Heading'
+
+// Only import Persian locale (used as fallback for Pashto too)
+import 'dayjs/locale/fa'
+
+dayjs.extend(localizedFormat)
+dayjs.extend(relativeTime)
 
 const ModalFrame = styled.div`
   background-color: var(--color-grey-0);
@@ -10,6 +20,20 @@ const ModalFrame = styled.div`
   max-height: 80vh;
   overflow-y: auto;
   align-items: center;
+  padding: 1rem;
+  position: relative;
+  direction: ${(props) => (props.isRtl ? 'rtl' : 'ltr')};
+`
+
+const CloseButton = styled.button`
+  position: absolute;
+  top: 1rem;
+  ${(props) => (props.isRtl ? 'left' : 'right')}: 1rem;
+  background: none;
+  border: none;
+  font-size: 2rem;
+  color: var(--color-grey-600);
+  cursor: pointer;
 `
 
 const ProfileSection = styled.div`
@@ -73,13 +97,15 @@ const DetailRow = styled.div`
   }
 `
 
-function formatDate(dateStr) {
-  const parsed = new Date(dateStr)
-  return isNaN(parsed) ? dateStr : parsed.toLocaleString()
-}
+function UserDetails({ user, onClose }) {
+  const { t, i18n } = useTranslation()
+  const currentLang = i18n.language
+  const isRtl = ['fa', 'ps'].includes(currentLang)
 
-function UserDetails({ user }) {
-  if (!user) return <p>No user data available.</p>
+  // Use Persian for both fa and ps
+  dayjs.locale(currentLang === 'ps' ? 'fa' : currentLang)
+
+  if (!user) return <p>{t('noUserData')}</p>
 
   const {
     id,
@@ -93,37 +119,40 @@ function UserDetails({ user }) {
     updated_at,
   } = user
 
-  // Assuming gender field exists on student
   const gender = student?.gender?.toLowerCase()
   const pronoun =
-    gender === 'male' ? 'He' : gender === 'female' ? 'She' : 'They'
+    gender === 'male' ? t('he') : gender === 'female' ? t('she') : t('they')
 
   return (
-    <ModalFrame>
-      <Heading as="h3">User Profile</Heading>
+    <ModalFrame isRtl={isRtl}>
+      <CloseButton isRtl={isRtl} onClick={onClose}>
+        &times;
+      </CloseButton>
+
+      <Heading as="h3">{t('userProfile')}</Heading>
 
       <ProfileSection>
         <ProfileImg src={`/uploads/${profile}`} alt={`${name}'s profile`} />
         <InfoBlock>
           <InfoRow>
-            <Label>ID</Label>
+            <Label>{t('id')}</Label>
             <Value>{id}</Value>
           </InfoRow>
 
           <InfoRow>
-            <Label>Name</Label>
+            <Label>{t('name')}</Label>
             <Value>{name}</Value>
           </InfoRow>
 
           <InfoRow>
-            <Label>Email</Label>
+            <Label>{t('email')}</Label>
             <Value>{email}</Value>
           </InfoRow>
 
           <InfoRow>
-            <Label>Role</Label>
+            <Label>{t('role')}</Label>
             <Value>
-              {role_name} <small>(ID: {role_id})</small>
+              {t(`roles.${role_name}`)} <small>(ID: {role_id})</small>
             </Value>
           </InfoRow>
         </InfoBlock>
@@ -132,33 +161,33 @@ function UserDetails({ user }) {
       {student ? (
         <>
           <DetailRow>
-            <Label>Student ID</Label>
+            <Label>{t('studentId')}</Label>
             <Value>{student.id_number}</Value>
           </DetailRow>
           <DetailRow>
-            <Label>Origin</Label>
+            <Label>{t('origin')}</Label>
             <Value>{student.from}</Value>
           </DetailRow>
           <DetailRow>
-            <Label>Gender</Label>
-            <Value>{student.gender ?? 'Unknown'}</Value>
+            <Label>{t('gender')}</Label>
+            <Value>{student.gender ?? t('unknown')}</Value>
           </DetailRow>
         </>
       ) : (
         <DetailRow>
-          <Label>Student Info</Label>
-          <Value>{`${pronoun} is not a student.`}</Value>
+          <Label>{t('studentInfo')}</Label>
+          <Value>{`${pronoun} ${t('notStudent')}`}</Value>
         </DetailRow>
       )}
 
       <DetailRow>
-        <Label>Account Created</Label>
-        <Value>{formatDate(created_at)}</Value>
+        <Label>{t('accountCreated')}</Label>
+        <Value>{dayjs(created_at).fromNow()}</Value>
       </DetailRow>
 
       <DetailRow>
-        <Label>Last Updated</Label>
-        <Value>{formatDate(updated_at)}</Value>
+        <Label>{t('lastUpdated')}</Label>
+        <Value>{dayjs(updated_at).fromNow()}</Value>
       </DetailRow>
     </ModalFrame>
   )
