@@ -1,13 +1,12 @@
-import { createRoom, editRoom } from '../../services/apiCabins'
-// export default CreateRoomForm
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-
+import { useForm } from 'react-hook-form'
+import toast from 'react-hot-toast'
+import { useTranslation } from 'react-i18next'
+import styled from 'styled-components'
+import { createRoom, editRoom } from '../../services/apiCabins'
 import Button from '../../ui/Button'
 import Form from '../../ui/Form'
 import Input from '../../ui/Input'
-import styled from 'styled-components'
-import toast from 'react-hot-toast'
-import { useForm } from 'react-hook-form'
 
 const StyledSelect = styled.select`
   padding: 0.8rem;
@@ -16,18 +15,17 @@ const StyledSelect = styled.select`
   border-radius: 0.4rem;
   width: 100%;
   outline: none;
-  background-color: var(--color-grey-0); /* Light mode background */
-  color: var(--color-grey-700); /* Light mode text color */
+  background-color: var(--color-grey-0);
+  color: var(--color-grey-700);
 
   &:focus {
     border-color: var(--color-primary);
   }
 
-  /* Dark mode styles */
   @media (prefers-color-scheme: dark) {
-    background-color: var(--color-grey-800); /* Dark mode background */
-    color: var(--color-grey-300); /* Dark mode text color */
-    border: 1px solid var(--color-grey-600); /* Dark mode border */
+    background-color: var(--color-grey-800);
+    color: var(--color-grey-300);
+    border: 1px solid var(--color-grey-600);
   }
 `
 
@@ -36,7 +34,6 @@ const FormRow = styled.div`
   align-items: center;
   grid-template-columns: 24rem 1fr 1.2fr;
   gap: 2.4rem;
-
   padding: 1.2rem 0;
 
   &:first-child {
@@ -68,6 +65,7 @@ const Error = styled.span`
 `
 
 function CreateRoomForm({ roomToEdit = {}, onCloseModal }) {
+  const { t } = useTranslation()
   const { id, editId, ...editValues } = roomToEdit
   const isEditSession = Boolean(roomToEdit.id)
 
@@ -89,8 +87,8 @@ function CreateRoomForm({ roomToEdit = {}, onCloseModal }) {
     onSuccess: () => {
       toast.success(
         isEditSession
-          ? 'Room updated successfully'
-          : 'New room successfully created'
+          ? t('roomForm.successUpdated')
+          : t('roomForm.successCreated')
       )
       queryClient.invalidateQueries({ queryKey: ['cabins'] })
       reset()
@@ -108,61 +106,57 @@ function CreateRoomForm({ roomToEdit = {}, onCloseModal }) {
       type={onCloseModal ? 'modal' : 'regular'}
     >
       <FormRow>
-        <Label htmlFor="room_number">Room Number</Label>
+        <Label htmlFor="room_number">{t('roomForm.roomNumber')}</Label>
         <Input
           type="number"
           id="room_number"
           defaultValue={301}
           {...register('room_number', {
-            required: 'This field is required',
-            min: { value: 301, message: 'Room Number should be at least 301' },
-            max: {
-              value: 310,
-              message: 'Room Number cannot be more than is 310',
-            },
+            required: t('form.required'),
+            min: { value: 301, message: t('roomForm.roomNumberMin') },
+            max: { value: 310, message: t('roomForm.roomNumberMax') },
           })}
         />
         {errors?.room_number && <Error>{errors.room_number.message}</Error>}
       </FormRow>
 
       <FormRow>
-        <Label htmlFor="type">Room Type</Label>
+        <Label htmlFor="type">{t('roomForm.type')}</Label>
         <StyledSelect
           id="type"
-          {...register('type', { required: 'This field is required' })}
+          {...register('type', { required: t('form.required') })}
         >
-          <option value="">-- Select type --</option>
-          <option value="4 people">4 people</option>
-          <option value="6 people">6 people</option>
-          <option value="8 people">8 people</option>
+          <option value="">{t('roomForm.selectType')}</option>
+          <option value="4 people">{t('roomForm.4people')}</option>
+          <option value="6 people">{t('roomForm.6people')}</option>
+          <option value="8 people">{t('roomForm.8people')}</option>
         </StyledSelect>
         {errors?.type && <Error>{errors.type.message}</Error>}
       </FormRow>
 
       <FormRow>
-        <Label htmlFor="capacity">Capacity</Label>
+        <Label htmlFor="capacity">{t('roomForm.capacity')}</Label>
         <Input
           type="number"
           id="capacity"
           defaultValue={4}
           {...register('capacity', {
-            required: 'This field is required',
-            validate: (value) => value >= 0 || 'Capacity cannot be less than 0',
+            required: t('form.required'),
+            validate: (value) => value >= 0 || t('roomForm.capacityMin'),
           })}
         />
         {errors?.capacity && <Error>{errors.capacity.message}</Error>}
       </FormRow>
 
       <FormRow>
-        <Label htmlFor="current_occupancy">Current Occupancy</Label>
+        <Label htmlFor="current_occupancy">{t('roomForm.occupancy')}</Label>
         <Input
           type="number"
           id="current_occupancy"
           defaultValue={0}
           {...register('current_occupancy', {
-            required: 'This field is required',
-            validate: (value) =>
-              value >= 0 || 'Current occupancy cannot be less than 0',
+            required: t('form.required'),
+            validate: (value) => value >= 0 || t('roomForm.occupancyMin'),
           })}
         />
         {errors?.current_occupancy && (
@@ -171,41 +165,41 @@ function CreateRoomForm({ roomToEdit = {}, onCloseModal }) {
       </FormRow>
 
       <FormRow>
-        <Label htmlFor="price">Price</Label>
+        <Label htmlFor="price">{t('roomForm.price')}</Label>
         <Input
           type="number"
           id="price"
           defaultValue={0}
           {...register('price', {
-            required: 'This field is required',
-            validate: (value) => value >= 0 || 'Price cannot be less than 0',
+            required: t('form.required'),
+            validate: (value) => value >= 0 || t('roomForm.priceMin'),
           })}
         />
         {errors?.price && <Error>{errors.price.message}</Error>}
       </FormRow>
 
       <FormRow>
-        <Label htmlFor="status">Status</Label>
+        <Label htmlFor="status">{t('roomForm.status')}</Label>
         <StyledSelect
           id="status"
-          {...register('status', { required: 'This field is required' })}
+          {...register('status', { required: t('form.required') })}
         >
-          <option value="">-- Select status --</option>
-          <option value="Available">Available</option>
-          <option value="Occupied">Occupied</option>
+          <option value="">{t('roomForm.selectStatus')}</option>
+          <option value="Available">{t('roomForm.available')}</option>
+          <option value="Occupied">{t('roomForm.occupied')}</option>
         </StyledSelect>
         {errors?.status && <Error>{errors.status.message}</Error>}
       </FormRow>
 
       <FormRow>
-        <Label htmlFor="floor">Floor</Label>
+        <Label htmlFor="floor">{t('roomForm.floor')}</Label>
         <StyledSelect
           id="floor"
-          {...register('floor', { required: 'This field is required' })}
+          {...register('floor', { required: t('form.required') })}
         >
-          <option value="">-- Select floor --</option>
-          <option value="Third Floor">Third Floor</option>
-          <option value="Fourth Floor">Fourth Floor</option>
+          <option value="">{t('roomForm.selectFloor')}</option>
+          <option value="Third Floor">{t('roomForm.third')}</option>
+          <option value="Fourth Floor">{t('roomForm.fourth')}</option>
         </StyledSelect>
         {errors?.floor && <Error>{errors.floor.message}</Error>}
       </FormRow>
@@ -216,10 +210,10 @@ function CreateRoomForm({ roomToEdit = {}, onCloseModal }) {
           type="reset"
           onClick={() => onCloseModal?.()}
         >
-          Cancel
+          {t('form.cancel')}
         </Button>
         <Button type="submit" disabled={isLoading}>
-          {isEditSession ? 'Edit room' : 'Create new room'}
+          {isEditSession ? t('roomForm.edit') : t('roomForm.create')}
         </Button>
       </FormRow>
     </Form>

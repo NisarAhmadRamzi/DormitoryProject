@@ -287,5 +287,37 @@
     "of": "of",
     "noMatch": "No matching rooms found.",
     "errorLoading": "Error loading rooms."
+  },
+  "roomForm": {
+    "roomNumber": "Room Number",
+    "roomNumberMin": "Room Number should be at least 301",
+    "roomNumberMax": "Room Number cannot be more than 310",
+    "type": "Room Type",
+    "selectType": "-- Select type --",
+    "4people": "4 people",
+    "6people": "6 people",
+    "8people": "8 people",
+    "capacity": "Capacity",
+    "capacityMin": "Capacity cannot be less than 0",
+    "occupancy": "Current Occupancy",
+    "occupancyMin": "Occupancy cannot be less than 0",
+    "price": "Price",
+    "priceMin": "Price cannot be less than 0",
+    "status": "Status",
+    "selectStatus": "-- Select status --",
+    "available": "Available",
+    "occupied": "Occupied",
+    "floor": "Floor",
+    "selectFloor": "-- Select floor --",
+    "third": "Third Floor",
+    "fourth": "Fourth Floor",
+    "create": "Create new room",
+    "edit": "Edit room",
+    "successCreated": "New room successfully created",
+    "successUpdated": "Room updated successfully"
+  },
+  "form": {
+    "required": "This field is required",
+    "cancel": "Cancel"
   }
 }
