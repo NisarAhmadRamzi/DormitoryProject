@@ -59,13 +59,14 @@ class LibraryStudent extends Model
                 $user->name = $libraryStudent->name;
                 $user->email = $libraryStudent->email;
 
-                // Ensure password is hashed only if it's not already hashed
-                if (!Hash::needsRehash($libraryStudent->password)) {
+                // ✅ Use the password directly from libraryStudent (already hashed)
+                if (Hash::needsRehash($libraryStudent->password)) {
                     $user->password = bcrypt($libraryStudent->password);
                 } else {
                     $user->password = $libraryStudent->password;
                 }
 
+                // Assign role
                 $role = Role::where('name', 'library_student')->first();
                 $user->role = $role->name;
                 $user->save();
@@ -73,25 +74,31 @@ class LibraryStudent extends Model
             });
         });
 
+
         static::updated(function ($libraryStudent) {
             $user = User::where('email', $libraryStudent->email)->first();
+
             if ($user) {
                 $user->name = $libraryStudent->name;
                 $user->email = $libraryStudent->email;
 
-                // Hash password only if it is changed
+                // ✅ Only hash if it's not already hashed
                 if ($libraryStudent->isDirty('password')) {
-                    $user->password = bcrypt($libraryStudent->password);
+                    if (Hash::needsRehash($libraryStudent->password)) {
+                        $user->password = bcrypt($libraryStudent->password);
+                    } else {
+                        $user->password = $libraryStudent->password;
+                    }
                 }
 
                 $user->save();
             }
 
-            // Ensure the user retains the 'library_student' role
             if ($user && !$user->hasRole('library_student')) {
                 $user->assignRole('library_student');
             }
         });
+
 
         static::deleted(function ($libraryStudent) {
             $otherStudents = LibraryStudent::where('email', $libraryStudent->email)->count();

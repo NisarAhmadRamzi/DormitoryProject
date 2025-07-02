@@ -26,7 +26,7 @@ class StudentSeeder extends Seeder
             'f_name' => 'Hassan',
             'last_name' => 'Tabish',
             'email' => 'nader@gmail.com',
-            'password' => bcrypt('12345678'), // It's better to hash the password
+            'password' => '12345678', // It's better to hash the password
             'from' => 'Ghazni',
             'dob' => '2000-01-01',
             'id_number' => '123456789',
@@ -57,7 +57,7 @@ class StudentSeeder extends Seeder
             'f_name' => 'Hassan',
             'last_name' => 'qaderi',
             'email' => 'ali@gmail.com',
-            'password' => bcrypt('12345678'), // It's better to hash the password
+            'password' => '12345678', // It's better to hash the password
             'from' => 'Ghazni',
             'dob' => '2000-01-01',
             'id_number' => '123456789',

@@ -12,70 +12,14 @@ use App\Models\Support;
 use App\Models\Expense;
 use App\Models\Complaint;
 use App\Models\Book;
+use App\Models\BorrowedBook;
 use App\Models\Fee;
+use App\Models\LibraryStudent;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
-    //     public function stats()
-    //     {
-    //         $totalUsers = DB::table('users')->count();
-    //         $totalStudents = Student::count();
-    //         $totalLibraryStudents = DB::table('LibraryStudent')->count();
-    //         // $totalStaff = DB::table('staff')->count();
-
-
-    //         $totalRooms = Room::count();
-    //         $availableRooms = Room::where('status', 'Available')->count();
-    //         $occupiedRooms = Room::where('status', 'Occupied')->count();
-
-    //         $pendingComplaints = Complaint::where('status', 'Pending')->count();
-    //         $inProgressComplaints = Complaint::where('status', 'In Progress')->count();
-    //         $resolvedComplaints = Complaint::where('status', 'Resolved')->count();
-
-    //         // for all assets
-    //         $totalAssets = DB::table('assets')->sum('quantity');
-    //         $totalDonations = Support::sum('total_cash_donated');
-    //         $totalCashDonated = Support::orderBy('id', 'desc')->value('total_cash_donated') ?? 0;
-    //         $totalGoodsQuantity = Support::sum('goods_quantity');
-    //         $totalExpenses = Expense::sum('expense_cash');
-
-
-    //         $totalBooks = Book::sum('books_total_count');
-    //         $borrowedBooks = Book::sum('borrowed_books_total_count');
-    //         // $avialabeBooks = Book::sum('books_total_count_available');
-    //         $availableBooks = $totalBooks - $borrowedBooks;
-
-    //         return response()->json([
-    //             'total_users' => $totalUsers,
-    //             'total_students' => $totalStudents,
-    //             'total_library_students' => $totalLibraryStudents,
-    //             // 'total_staff' => $totalStaff,
-    //             'total_rooms' => $totalRooms,
-    //             'room_status' => [
-    //                 'available' => $availableRooms,
-    //                 'occupied' => $occupiedRooms,
-    //             ],
-    //             'complaints' => [
-    //                 'pending' => $pendingComplaints,
-    //                 'in_progress' => $inProgressComplaints,
-    //                 'resolved' => $resolvedComplaints,
-    //             ],
-    //             'donations' => [
-    //                 'total_donations' => $totalDonations,
-    //                 'total_cash_donated' => $totalCashDonated,
-    //                 'total_goods_quantity' => $totalGoodsQuantity,
-    //             ],
-    //             'expenses' => $totalExpenses,
-    //             'assets_total_quantity' => $totalAssets,
-    //             'books' => [
-    //                 'total_books' => $totalBooks,
-    //                 'borrowed_books' => $borrowedBooks,
-    //                 'available_books' => $availableBooks,
-    //             ],
-    //         ]);
-    //     }
 
     public function __construct()
     {
@@ -174,106 +118,184 @@ class DashboardController extends Controller
             ],
         ]);
     }
-    public function studentDashboard(Request $request)
+
+    public function studentDashboard()
     {
-        $studentId = auth()->user()->student->id; // Assuming user is linked to student
+        $user = auth()->user();
 
-        $student = Student::with('room')->find($studentId);
+        $student = Student::where('email', $user->email)->first();
+        $totalStudents = Student::count();
 
-        $fees = Fee::where('student_id', $studentId)->selectRaw('SUM(total_fee) as total_fee, SUM(paid_fee) as paid_fee')->first();
-        $outstanding = $fees->total_fee - $fees->paid_fee;
 
-        $complaints = Complaint::where('student_id', $studentId)
-            ->selectRaw('status, COUNT(*) as count')
-            ->groupBy('status')->pluck('count', 'status');
+        if (!$student) {
+            return response()->json(['message' => 'Student not found'], 404);
+        }
 
-        $borrowedBooks = DB::table('borrowed_books')
-            ->where('student_id', $studentId)
-            ->select('book_id', 'due_date', 'status')
-            ->get();
+        $room = $student->room;
+        $fees = $student->fees;
+        $complaints = $student->complaints;
 
         return response()->json([
-            'student' => $student,
+            'student_info' => $student,
+            'total_students' => $totalStudents,
+            'room' => $room,
             'fees' => [
-                'total' => $fees->total_fee,
-                'paid' => $fees->paid_fee,
-                'outstanding' => $outstanding,
+                'office_paid' => $fees->office_paid ?? 0,
+                'warranty_paid' => $fees->warranty_paid ?? 0,
+                'total_fee' => $fees->total_fee ?? 0,
+                'due_date' => $fees->due_date ?? null,
             ],
-            'complaints' => $complaints,
-            'borrowed_books' => $borrowedBooks,
+            'complaints_summary' => [
+                'total' => $complaints->count(),
+                'pending' => $complaints->where('status', 'Pending')->count(),
+                'resolved' => $complaints->where('status', 'Resolved')->count(),
+            ],
         ]);
     }
-
     public function libraryAdminDashboard()
     {
         $totalBooks = Book::sum('books_total_count');
         $borrowedBooks = Book::sum('borrowed_books_total_count');
-        $overdueBooks = DB::table('borrowed_books')->where('status', 'Overdue')->count();
-        $libraryStudentsCount = DB::table('library_students')->count();
+        $availableBooks = $totalBooks - $borrowedBooks;
 
-        $recentDonations = Support::orderBy('help_date', 'desc')->limit(5)->get();
-
-        $pendingLibraryComplaints = Complaint::where('status', 'Pending')
-            ->where('category', 'library') // assuming category field
-            ->count();
+        $totalLibraryStudents = LibraryStudent::count();
+        $borrowedBookStatus = DB::table('borrowed_books')
+            ->select('status', DB::raw('count(*) as count'))
+            ->groupBy('status')
+            ->pluck('count', 'status');
 
         return response()->json([
-            'total_books' => $totalBooks,
-            'borrowed_books' => $borrowedBooks,
-            'overdue_books' => $overdueBooks,
-            'library_students' => $libraryStudentsCount,
-            'recent_donations' => $recentDonations,
-            'pending_complaints' => $pendingLibraryComplaints,
+            'books' => [
+                'total' => $totalBooks,
+                'borrowed' => $borrowedBooks,
+                'available' => $availableBooks,
+            ],
+            'library_students' => [
+                'total' => $totalLibraryStudents,
+            ],
+            'borrowed_book_status' => $borrowedBookStatus,
         ]);
     }
-
-    public function libraryStudentDashboard(Request $request)
+    public function libraryStudentDashboard()
     {
-        $libraryStudentId = auth()->user()->libraryStudent->id;
+        $user = auth()->user();
+        $libraryStudent = LibraryStudent::where('email', $user->email)->first();
 
-        $libraryStudent = DB::table('library_students')->where('id', $libraryStudentId)->first();
+        if (!$libraryStudent) {
+            return response()->json(['message' => 'Library Student not found'], 404);
+        }
 
-        $borrowedBooks = DB::table('borrowed_books')
-            ->where('library_student_id', $libraryStudentId)
-            ->select('book_id', 'due_date', 'status')
-            ->get();
-
-        // If you track fines:
-        $totalFines = DB::table('fines')
-            ->where('library_student_id', $libraryStudentId)
-            ->sum('amount');
+        $borrowedBooks = BorrowedBook::where('library_student_id', $libraryStudent->id)->get();
 
         return response()->json([
-            'library_student' => $libraryStudent,
+            'library_student_info' => $libraryStudent,
             'borrowed_books' => $borrowedBooks,
-            'total_fines' => $totalFines ?? 0,
+            'borrowed_summary' => [
+                'total' => $borrowedBooks->count(),
+                'active' => $borrowedBooks->where('status', 'Borrowed')->count(),
+                'overdue' => $borrowedBooks->where('status', 'Overdue')->count(),
+                'returned' => $borrowedBooks->where('status', 'Returned')->count(),
+            ],
         ]);
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // public function studentDashboard(Request $request)
+    // {
+    //     $studentId = auth()->user()->student->id; // Assuming user is linked to student
+    //     // $studentId = 5; // Assuming user is linked to student
+
+    //     $student = Student::with('room')->find($studentId);
+
+    //     // $fees = Fee::where('student_id', $studentId)->selectRaw('SUM(total_fee) as total_fee, SUM(paid_fee) as paid_fee')->first();
+    //     // $outstanding = $fees->total_fee - $fees->paid_fee;
+
+    //     $complaints = Complaint::where('student_id', $studentId)
+    //         ->selectRaw('status, COUNT(*) as count')
+    //         ->groupBy('status')->pluck('count', 'status');
+
+    //     // $borrowedBooks = DB::table('borrowed_books')
+    //     //     ->where('student_id', $studentId)
+    //     //     ->select('book_id', 'due_date', 'status')
+    //     //     ->get();
+
+    //     return response()->json([
+    //         'student' => $student,
+    //         // 'fees' => [
+    //         //     'total' => $fees->total_fee,
+    //         //     'paid' => $fees->paid_fee,
+    //         //     'outstanding' => $outstanding,
+    //         // ],
+    //         'complaints' => $complaints,
+    //         // 'borrowed_books' => $borrowedBooks,
+    //     ]);
+    // }
+
+    // public function libraryAdminDashboard()
+    // {
+    //     // $totalBooks = Book::sum('books_total_count');
+    //     // $borrowedBooks = Book::sum('borrowed_books_total_count');
+    //     // $overdueBooks = DB::table('borrowed_books')->where('status', 'Overdue')->count();
+    //     // $libraryStudentsCount = DB::table('library_students')->count();
+
+    //     // $recentDonations = Support::orderBy('help_date', 'desc')->limit(5)->get();
+
+    //     // $pendingLibraryComplaints = Complaint::where('status', 'Pending')
+    //     //     ->where('category', 'library') // assuming category field
+    //     //     ->count();
+
+    //     return response()->json([
+    //         // 'total_books' => $totalBooks,
+    //         // 'borrowed_books' => $borrowedBooks,
+    //         // 'overdue_books' => $overdueBooks,
+    //         // 'library_students' => $libraryStudentsCount,
+    //         // 'recent_donations' => $recentDonations,
+    //         // 'pending_complaints' => $pendingLibraryComplaints,
+    //         'library Admin'
+    //     ]);
+    // }
+
+    // public function libraryStudentDashboard(Request $request)
+    // {
+    //     // $libraryStudentId = auth()->user()->libraryStudent->id;
+
+    //     // $libraryStudent = DB::table('library_students')->where('id', $libraryStudentId)->first();
+
+    //     // $borrowedBooks = DB::table('borrowed_books')
+    //     //     ->where('library_student_id', $libraryStudentId)
+    //     //     ->select('book_id', 'due_date', 'status')
+    //     //     ->get();
+
+    //     // // If you track fines:
+    //     // $totalFines = DB::table('fines')
+    //     //     ->where('library_student_id', $libraryStudentId)
+    //     //     ->sum('amount');
+
+    //     return response()->json([
+    //         // 'library_student' => $libraryStudent,
+    //         // 'borrowed_books' => $borrowedBooks,
+    //         // 'total_fines' => $totalFines ?? 0,
+
+    //         'library Student'
+    //     ]);
+    // }
 }
-
-
-
-
-
-
- // return response()->json([
-        //     'total_students' => $totalStudents,
-        //     'room_status' => [
-        //         'available' => $availableRooms,
-        //         'occupied' => $occupiedRooms,
-        //     ],
-        //     'donations' => [
-        //         'total_cash' => $totalCashDonated,
-        //         'total_goods' => $totalGoodsQuantity,
-        //     ],
-        //     'expenses' => $totalExpenses,
-        //     'complaints' => [
-        //         'open' => $openComplaints,
-        //         'resolved' => $resolvedComplaints,
-        //     ],
-        //     'books' => [
-        //         'total' => $totalBooks,
-        //         'borrowed' => $borrowedBooks,
-        //         'available' => $availableBooks,
-        //     ],
-        // ]);
