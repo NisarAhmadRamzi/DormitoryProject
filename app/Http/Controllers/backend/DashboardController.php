@@ -12,7 +12,9 @@ use App\Models\Support;
 use App\Models\Expense;
 use App\Models\Complaint;
 use App\Models\Book;
+use App\Models\BorrowedBook;
 use App\Models\Fee;
+use App\Models\LibraryStudent;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
 
@@ -116,11 +118,14 @@ class DashboardController extends Controller
             ],
         ]);
     }
+
     public function studentDashboard()
     {
         $user = auth()->user();
 
         $student = Student::where('email', $user->email)->first();
+        $totalStudents = Student::count();
+
 
         if (!$student) {
             return response()->json(['message' => 'Student not found'], 404);
@@ -132,6 +137,7 @@ class DashboardController extends Controller
 
         return response()->json([
             'student_info' => $student,
+            'total_students' => $totalStudents,
             'room' => $room,
             'fees' => [
                 'office_paid' => $fees->office_paid ?? 0,
@@ -146,6 +152,54 @@ class DashboardController extends Controller
             ],
         ]);
     }
+    public function libraryAdminDashboard()
+    {
+        $totalBooks = Book::sum('books_total_count');
+        $borrowedBooks = Book::sum('borrowed_books_total_count');
+        $availableBooks = $totalBooks - $borrowedBooks;
+
+        $totalLibraryStudents = LibraryStudent::count();
+        $borrowedBookStatus = DB::table('borrowed_books')
+            ->select('status', DB::raw('count(*) as count'))
+            ->groupBy('status')
+            ->pluck('count', 'status');
+
+        return response()->json([
+            'books' => [
+                'total' => $totalBooks,
+                'borrowed' => $borrowedBooks,
+                'available' => $availableBooks,
+            ],
+            'library_students' => [
+                'total' => $totalLibraryStudents,
+            ],
+            'borrowed_book_status' => $borrowedBookStatus,
+        ]);
+    }
+    public function libraryStudentDashboard()
+    {
+        $user = auth()->user();
+        $libraryStudent = LibraryStudent::where('email', $user->email)->first();
+
+        if (!$libraryStudent) {
+            return response()->json(['message' => 'Library Student not found'], 404);
+        }
+
+        $borrowedBooks = BorrowedBook::where('library_student_id', $libraryStudent->id)->get();
+
+        return response()->json([
+            'library_student_info' => $libraryStudent,
+            'borrowed_books' => $borrowedBooks,
+            'borrowed_summary' => [
+                'total' => $borrowedBooks->count(),
+                'active' => $borrowedBooks->where('status', 'Borrowed')->count(),
+                'overdue' => $borrowedBooks->where('status', 'Overdue')->count(),
+                'returned' => $borrowedBooks->where('status', 'Returned')->count(),
+            ],
+        ]);
+    }
+
+
 
 
 
