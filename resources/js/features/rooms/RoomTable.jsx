@@ -1,14 +1,18 @@
-import { RxCaretLeft, RxCaretRight } from 'react-icons/rx'
-import { FiSearch } from 'react-icons/fi'
-import RoomRow from './RoomRow'
-import Spinner from '../../ui/Spinner'
-import { getCabins } from '../../services/apiCabins'
-import styled from 'styled-components'
-import { useQuery } from '@tanstack/react-query'
-import { useSearchParams } from 'react-router-dom'
-import { useState } from 'react'
 
-// Styled components with CSS variables for dark mode support
+import { useQuery } from '@tanstack/react-query'
+import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import { FiSearch } from 'react-icons/fi'
+import { RxCaretLeft, RxCaretRight } from 'react-icons/rx'
+import { useSearchParams } from 'react-router-dom'
+import styled from 'styled-components'
+import { getCabins } from '../../services/apiCabins'
+import Spinner from '../../ui/Spinner'
+import RoomRow from './RoomRow'
+
+// Styled components
+// [unchanged – same as before]
+
 const Table = styled.div`
   border: 1px solid var(--color-grey-200);
   font-size: 1.4rem;
@@ -150,6 +154,10 @@ const NavButtons = styled.div`
 `
 
 export default function RoomsTable() {
+  const { t, i18n } = useTranslation()
+  const dir = i18n.dir()
+  const isRtl = dir === 'rtl'
+
   const [searchParams, setSearchParams] = useSearchParams()
   const currentPage = Number(searchParams.get('page')) || 1
   const [rowsPerPage, setRowsPerPage] = useState(10)
@@ -160,7 +168,7 @@ export default function RoomsTable() {
   const { data, isLoading, error } = useQuery(['cabins'], getCabins)
 
   if (isLoading) return <Spinner />
-  if (error) return <div>Error loading rooms.</div>
+  if (error) return <div>{t('roomsTable.errorLoading')}</div>
 
   let rooms = data?.data || []
 
@@ -220,41 +228,45 @@ export default function RoomsTable() {
           <FiSearch />
           <input
             type="text"
-            placeholder="Search rooms..."
+            placeholder={t('roomsTable.searchPlaceholder')}
             value={searchText}
             onChange={(e) => setSearchText(e.target.value)}
           />
         </SearchInputContainer>
       </TopBarWrapper>
 
-      <Table role="table">
+      <Table role="table" dir={dir}>
         <TableHeader role="row">
-          <div>ID</div>
+          <div>{t('roomsTable.id')}</div>
           <SortableHeader
             onClick={() => handleSort('room_number')}
             className={sortBy === 'room_number' ? 'active' : ''}
           >
-            Number <span className="icon">{renderSortIcon('room_number')}</span>
+            {t('roomsTable.number')}{' '}
+            <span className="icon">{renderSortIcon('room_number')}</span>
           </SortableHeader>
           <SortableHeader
             onClick={() => handleSort('type')}
             className={sortBy === 'type' ? 'active' : ''}
           >
-            Type <span className="icon">{renderSortIcon('type')}</span>
+            {t('roomsTable.type')}{' '}
+            <span className="icon">{renderSortIcon('type')}</span>
           </SortableHeader>
           <SortableHeader
             onClick={() => handleSort('capacity')}
             className={sortBy === 'capacity' ? 'active' : ''}
           >
-            Capacity <span className="icon">{renderSortIcon('capacity')}</span>
+            {t('roomsTable.capacity')}{' '}
+            <span className="icon">{renderSortIcon('capacity')}</span>
           </SortableHeader>
           <SortableHeader
             onClick={() => handleSort('price')}
             className={sortBy === 'price' ? 'active' : ''}
           >
-            Price <span className="icon">{renderSortIcon('price')}</span>
+            {t('roomsTable.price')}{' '}
+            <span className="icon">{renderSortIcon('price')}</span>
           </SortableHeader>
-          <div>Action</div>
+          <div>{t('roomsTable.action')}</div>
         </TableHeader>
 
         {paginatedRooms.map((room) => (
@@ -262,16 +274,17 @@ export default function RoomsTable() {
         ))}
 
         {rooms.length === 0 && (
-          <div style={{ padding: '1.6rem' }}>No matching rooms found.</div>
+          <div style={{ padding: '1.6rem' }}>{t('roomsTable.noMatch')}</div>
         )}
 
         <PaginationWrapper>
           <PageInfo>
-            Page {currentPage} of {totalPages}
+            {t('roomsTable.page')} {currentPage} {t('roomsTable.of')}{' '}
+            {totalPages}
           </PageInfo>
 
           <RowsPerPage>
-            Rows per page:
+            {t('roomsTable.rowsPerPage')}:
             <select value={rowsPerPage} onChange={handleRowsPerPageChange}>
               <option value={5}>5</option>
               <option value={10}>10</option>
@@ -285,7 +298,7 @@ export default function RoomsTable() {
               onClick={() => handlePageChange(Math.max(1, currentPage - 1))}
               disabled={currentPage === 1}
             >
-              <RxCaretLeft />
+              {isRtl ? <RxCaretRight /> : <RxCaretLeft />}
             </button>
             <button
               onClick={() =>
@@ -293,7 +306,7 @@ export default function RoomsTable() {
               }
               disabled={currentPage === totalPages}
             >
-              <RxCaretRight />
+              {isRtl ? <RxCaretLeft /> : <RxCaretRight />}
             </button>
           </NavButtons>
         </PaginationWrapper>

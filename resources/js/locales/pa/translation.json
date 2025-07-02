@@ -273,5 +273,19 @@
   "AlertRooms": {
     "deleteSuccess": "کوټه په بریالیتوب سره حذف شوه",
     "deleteError": "کوټه نه شي حذف کېدای"
+  },
+  "roomsTable": {
+    "searchPlaceholder": "خونې ولټوئ...",
+    "id": "شمېره",
+    "number": "نمبر",
+    "type": "ډول",
+    "capacity": "ګنجایش",
+    "price": "بیه",
+    "action": "عمل",
+    "rowsPerPage": "لیکې په هره پاڼه کې",
+    "page": "پاڼه",
+    "of": "له",
+    "noMatch": "هیڅ خونه ونه موندل شوه.",
+    "errorLoading": "د خونو د پورته کولو تېروتنه."
   }
 }

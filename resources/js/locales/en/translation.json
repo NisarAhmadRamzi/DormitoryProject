@@ -273,5 +273,19 @@
   "AlertRooms": {
     "deleteSuccess": "Room deleted successfully",
     "deleteError": "Room could not be deleted"
+  },
+  "roomsTable": {
+    "searchPlaceholder": "Search rooms...",
+    "id": "ID",
+    "number": "Number",
+    "type": "Type",
+    "capacity": "Capacity",
+    "price": "Price",
+    "action": "Action",
+    "rowsPerPage": "Rows per page",
+    "page": "Page",
+    "of": "of",
+    "noMatch": "No matching rooms found.",
+    "errorLoading": "Error loading rooms."
   }
 }

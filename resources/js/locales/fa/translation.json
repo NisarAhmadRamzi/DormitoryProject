@@ -273,5 +273,19 @@
   "AlertRooms": {
     "deleteSuccess": "اتاق با موفقیت حذف شد",
     "deleteError": "امکان حذف اتاق وجود ندارد"
+  },
+  "roomsTable": {
+    "searchPlaceholder": "اتاق‌ها را جستجو کنید...",
+    "id": "شناسه",
+    "number": "شماره",
+    "type": "نوع",
+    "capacity": "ظرفیت",
+    "price": "قیمت",
+    "action": "عملیات",
+    "rowsPerPage": "سطرها در هر صفحه",
+    "page": "صفحه",
+    "of": "از",
+    "noMatch": "هیچ اتاقی مطابق با جستجو یافت نشد.",
+    "errorLoading": "خطا در بارگذاری اتاق‌ها."
   }
 }
