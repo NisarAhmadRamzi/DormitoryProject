@@ -260,5 +260,8 @@
     "actions": "عملیات",
     "loadingError": "تېروتنه: {{message}}",
     "noMatch": "هیڅ رول ونه موندل شو."
+  },
+  "Addrooms": {
+    "addNewRoom": "نوې خونه اضافه کړئ"
   }
 }

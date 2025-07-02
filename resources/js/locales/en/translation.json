@@ -260,5 +260,8 @@
     "actions": "Actions",
     "loadingError": "Error: {{message}}",
     "noMatch": "No matching roles found."
+  },
+  "Addrooms": {
+    "addNewRoom": "Add new room"
   }
 }

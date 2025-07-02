@@ -260,5 +260,8 @@
     "actions": "عملیات",
     "loadingError": "خطا: {{message}}",
     "noMatch": "هیچ نقشی یافت نشد."
+  },
+  "Addrooms": {
+    "addNewRoom": "افزودن اتاق جدید"
   }
 }
