@@ -319,5 +319,18 @@
   "form": {
     "required": "This field is required",
     "cancel": "Cancel"
+  },
+  "roomDetails": {
+    "title": "Room Details",
+    "id": "ID",
+    "number": "Room Number",
+    "type": "Type",
+    "capacity": "Capacity",
+    "occupancy": "Occupancy",
+    "status": "Status",
+    "floor": "Floor",
+    "price": "Price",
+    "created": "Created",
+    "updated": "Updated"
   }
 }

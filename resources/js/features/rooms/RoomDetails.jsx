@@ -1,24 +1,23 @@
+import { formatDistanceToNow } from 'date-fns'
+import { enUS, faIR } from 'date-fns/locale'
+import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 
 const DetailsContainer = styled.div`
   padding: 3rem;
-  background-color: var(
-    --color-grey-0
-  ); /* Uses light/dark mode adaptive color */
+  background-color: var(--color-grey-0);
   border-radius: var(--border-radius-md);
   box-shadow: var(--shadow-md);
   max-width: 800px;
   margin: 0 auto;
-  color: var(--color-grey-800); /* Fallback text color for the container */
-
-  /* Optional: smooth transition between light and dark mode */
+  color: var(--color-grey-800);
   transition: background-color 0.3s, color 0.3s, box-shadow 0.3s;
 `
 
 const Title = styled.h2`
   font-size: 2rem;
   margin-bottom: 2rem;
-  color: var(--color-grey-900); /* Title color adapts to mode */
+  color: var(--color-grey-900);
   text-align: center;
 `
 
@@ -35,49 +34,65 @@ const Grid = styled.div`
 const DetailItem = styled.div`
   font-size: 1.5rem;
   line-height: 1.6;
-  color: var(--color-grey-700); /* Text adapts to mode */
+  color: var(--color-grey-700);
 
   strong {
     display: inline-block;
     min-width: 120px;
-    color: var(--color-grey-900); /* Strong text adapts to mode */
+    color: var(--color-grey-900);
   }
 `
 
-const RoomDetails = ({ room }) => {
+function RoomDetails({ room }) {
+  const { t, i18n } = useTranslation()
+
+  // Inline RTL detection for 'fa' and 'pa'
+  const dir = ['fa', 'pa'].includes(i18n.language) ? 'rtl' : 'ltr'
+  const locale = ['fa', 'pa'].includes(i18n.language) ? faIR : enUS
+
+  const formatDate = (dateString) => {
+    if (!dateString) return t('unknown')
+    const d = new Date(dateString)
+    if (isNaN(d)) return t('unknown')
+    return formatDistanceToNow(d, { addSuffix: true, locale })
+  }
+
   return (
-    <DetailsContainer>
-      <Title>Room Details</Title>
+    <DetailsContainer dir={dir}>
+      <Title>{t('roomDetails.title')}</Title>
       <Grid>
         <DetailItem>
-          <strong>ID:</strong> {room.id}
+          <strong>{t('roomDetails.id')}:</strong> {room.id}
         </DetailItem>
         <DetailItem>
-          <strong>Room Number:</strong> {room.room_number}
+          <strong>{t('roomDetails.number')}:</strong> {room.room_number}
         </DetailItem>
         <DetailItem>
-          <strong>Type:</strong> {room.type}
+          <strong>{t('roomDetails.type')}:</strong> {room.type}
         </DetailItem>
         <DetailItem>
-          <strong>Capacity:</strong> {room.capacity}
+          <strong>{t('roomDetails.capacity')}:</strong> {room.capacity}
         </DetailItem>
         <DetailItem>
-          <strong>Occupancy:</strong> {room.current_occupancy}
+          <strong>{t('roomDetails.occupancy')}:</strong>{' '}
+          {room.current_occupancy}
         </DetailItem>
         <DetailItem>
-          <strong>Status:</strong> {room.status}
+          <strong>{t('roomDetails.status')}:</strong> {room.status}
         </DetailItem>
         <DetailItem>
-          <strong>Floor:</strong> {room.floor}
+          <strong>{t('roomDetails.floor')}:</strong> {room.floor}
         </DetailItem>
         <DetailItem>
-          <strong>Price:</strong> ${room.price}
+          <strong>{t('roomDetails.price')}:</strong> ${room.price}
         </DetailItem>
         <DetailItem>
-          <strong>Created:</strong> {room.created_at}
+          <strong>{t('roomDetails.created')}:</strong>{' '}
+          {formatDate(room.created_at)}
         </DetailItem>
         <DetailItem>
-          <strong>Updated:</strong> {room.updated_at}
+          <strong>{t('roomDetails.updated')}:</strong>{' '}
+          {formatDate(room.updated_at)}
         </DetailItem>
       </Grid>
     </DetailsContainer>

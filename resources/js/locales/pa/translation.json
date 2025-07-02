@@ -319,5 +319,18 @@
   "form": {
     "required": "دا برخه لازمي ده",
     "cancel": "لغوه"
+  },
+  "roomDetails": {
+    "title": "د خونې جزئیات",
+    "id": "شمېره",
+    "number": "د خونې شمېره",
+    "type": "ډول",
+    "capacity": "ظرفیت",
+    "occupancy": "اوسېدونکي",
+    "status": "حالت",
+    "floor": "منزل",
+    "price": "قیمت",
+    "created": "ایجاد شوی",
+    "updated": "تازه شوی"
   }
 }
