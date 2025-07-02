@@ -29,6 +29,7 @@
   "students": "شاگردان",
   "dormitoryManagement": "مدیریت خوابگاه",
   "rooms": "اتاق‌ها",
+  "room": "اتاق‌",
   "assets": "دارایی‌ها",
   "complaints": "شکایات",
   "libraryManagement": "مدیریت کتابخانه",
@@ -53,7 +54,7 @@
   },
   "confirmDelete": {
     "title": "حذف {{resource}}",
-    "message": "آیا مطمئن هستید که می‌خواهید {{item}} را حذف کنید؟",
+    "message": "آیا مطمئن هستید که می‌خواهید {{resource}} {{item}} را حذف کنید؟",
     "subMessage": "این عملیات قابل بازگشت نیست.",
     "cancel": "لغو",
     "delete": "حذف",
@@ -263,5 +264,14 @@
   },
   "Addrooms": {
     "addNewRoom": "افزودن اتاق جدید"
+  },
+  "ContextActions": {
+    "view": "نمایش",
+    "edit": "ویرایش",
+    "delete": "حذف"
+  },
+  "AlertRooms": {
+    "deleteSuccess": "اتاق با موفقیت حذف شد",
+    "deleteError": "امکان حذف اتاق وجود ندارد"
   }
 }

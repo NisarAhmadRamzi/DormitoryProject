@@ -29,6 +29,7 @@
   "students": "Students",
   "dormitoryManagement": "Dormitory Management",
   "rooms": "Rooms",
+  "room": "Room",
   "assets": "Assets",
   "complaints": "Complaints",
   "libraryManagement": "Library Management",
@@ -53,7 +54,7 @@
   },
   "confirmDelete": {
     "title": "Delete {{resource}}",
-    "message": "Are you sure you want to delete {{item}}?",
+    "message": "Are you sure you want to delete {{resource}} {{item}} ?",
     "subMessage": "This action cannot be undone.",
     "cancel": "Cancel",
     "delete": "Delete",
@@ -263,5 +264,14 @@
   },
   "Addrooms": {
     "addNewRoom": "Add new room"
+  },
+  "ContextActions": {
+    "view": "View",
+    "edit": "Edit",
+    "delete": "Delete"
+  },
+  "AlertRooms": {
+    "deleteSuccess": "Room deleted successfully",
+    "deleteError": "Room could not be deleted"
   }
 }

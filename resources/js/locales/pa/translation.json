@@ -29,6 +29,7 @@
   "students": "شاګردان",
   "dormitoryManagement": "د خوبتون مدیریت",
   "rooms": "خونه‌ګانې",
+  "room": "خونه",
   "assets": "شاتګونه",
   "complaints": "شکایتونه",
   "libraryManagement": "د کتابتون مدیریت",
@@ -53,7 +54,7 @@
   },
   "confirmDelete": {
     "title": "{{resource}} ړنګول",
-    "message": "تاسو ډاډه یاست چې غواړئ {{item}} ړنګ کړئ؟",
+    "message": "تاسو ډاډه یاست چې غواړئ {{resource}} {{item}} ړنګ کړئ؟",
     "subMessage": "دا عمل بیرته نه شي کیدای.",
     "cancel": "لغوه کول",
     "delete": "ړنګول",
@@ -263,5 +264,14 @@
   },
   "Addrooms": {
     "addNewRoom": "نوې خونه اضافه کړئ"
+  },
+  "ContextActions": {
+    "view": "کتنه",
+    "edit": "سمون",
+    "delete": "حذف"
+  },
+  "AlertRooms": {
+    "deleteSuccess": "کوټه په بریالیتوب سره حذف شوه",
+    "deleteError": "کوټه نه شي حذف کېدای"
   }
 }
