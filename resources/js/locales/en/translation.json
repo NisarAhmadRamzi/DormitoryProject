@@ -581,5 +581,36 @@
     "updateSuccess": "Book \"{{title}}\" updated successfully",
     "createSuccess": "New book \"{{title}}\" created successfully",
     "error": "Something went wrong"
-  }
+  },
+  "AddBooks": {
+    "addBookButton": "Add new Book"
+  },
+  "common": {
+    "view": "View",
+    "edit": "Edit",
+    "delete": "Delete"
+  },
+  "AlertBooks": {
+    "deletedSuccess": "Book deleted successfully",
+    "deleteFailed": "Failed to delete book"
+  },
+  "status": {
+    "available": "Available",
+    "borrowed": "Borrowed"
+  },
+  "booksTable": {
+    "searchPlaceholder": "Search books...",
+    "headers": {
+      "id": "ID",
+      "title": "Title",
+      "author": "Author",
+      "year": "Year",
+      "status": "Status",
+      "action": "Action"
+    },
+    "noMatch": "No matching books found.",
+    "pageInfo": "Page {{currentPage}} of {{totalPages}}",
+    "rowsPerPage": "Rows per page:"
+  },
+  "BookError": "Error loading books!"
 }

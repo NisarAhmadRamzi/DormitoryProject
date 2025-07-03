@@ -583,5 +583,36 @@
     "updateSuccess": "کتاب «{{title}}» په بریالیتوب سره سم شو",
     "createSuccess": "نوی کتاب «{{title}}» په بریالیتوب سره جوړ شو",
     "error": "یو څه غلط شول"
-  }
+  },
+  "AddBooks": {
+    "addBookButton": "نوی کتاب اضافه کړئ"
+  },
+  "common": {
+    "view": "کتنه",
+    "edit": "سمون",
+    "delete": "ړنګول"
+  },
+  "AlertBooks": {
+    "deletedSuccess": "کتاب په بریالیتوب سره ړنګ شو",
+    "deleteFailed": "کتاب ړنګ نشو"
+  },
+  "status": {
+    "available": "شته",
+    "borrowed": "پور ورکړل شوی"
+  },
+  "booksTable": {
+    "searchPlaceholder": "د کتابونو لټون...",
+    "headers": {
+      "id": "شناخت",
+      "title": "سرلیک",
+      "author": "لیکوال",
+      "year": "د خپرېدو کال",
+      "status": "حالت",
+      "action": "عمل"
+    },
+    "noMatch": "هیڅ مناسب کتاب ونه موندل شو.",
+    "pageInfo": "پاڼه {{currentPage}} له {{totalPages}}",
+    "rowsPerPage": "کتارونه په هره پاڼه کې:"
+  },
+  "BookError": "د کتابونو په راوړلو کې تېروتنه!"
 }

@@ -1,14 +1,13 @@
-import { RxCaretLeft, RxCaretRight } from 'react-icons/rx'
-import { FiSearch } from 'react-icons/fi'
-import BooksRow from './BooksRow'
-import Spinner from '../../ui/Spinner'
-import { getBooks } from '../../services/apiBooks'
-import styled from 'styled-components'
 import { useQuery } from '@tanstack/react-query'
-import { useSearchParams } from 'react-router-dom'
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import { FiSearch } from 'react-icons/fi'
+import { useSearchParams } from 'react-router-dom'
+import styled from 'styled-components'
+import { getBooks } from '../../services/apiBooks'
+import Spinner from '../../ui/Spinner'
+import BooksRow from './BooksRow'
 
-// Styled Components with CSS variables for dark mode support
 const Table = styled.div`
   border: 1px solid var(--color-grey-200);
   font-size: 1.4rem;
@@ -153,8 +152,8 @@ const NavButtons = styled.div`
     }
   }
 `
-
 export default function BooksTable() {
+  const { t } = useTranslation()
   const [searchParams, setSearchParams] = useSearchParams()
   const currentPage = Number(searchParams.get('page')) || 1
   const [searchText, setSearchText] = useState('')
@@ -168,7 +167,7 @@ export default function BooksTable() {
   })
 
   if (isLoading) return <Spinner />
-  if (error) return <div>Error loading books!</div>
+  if (error) return <div>{t('BookError')}</div>
 
   let filteredBooks = data?.data || []
 
@@ -226,7 +225,7 @@ export default function BooksTable() {
             <FiSearch />
             <input
               type="text"
-              placeholder="Search books..."
+              placeholder={t('booksTable.searchPlaceholder')}
               value={searchText}
               onChange={(e) => setSearchText(e.target.value)}
             />
@@ -240,34 +239,38 @@ export default function BooksTable() {
             onClick={() => handleSort('id')}
             className={sortBy === 'id' ? 'active' : ''}
           >
-            ID <span className="icon">{renderSortIcon('id')}</span>
+            {t('booksTable.headers.id')}{' '}
+            <span className="icon">{renderSortIcon('id')}</span>
           </SortableHeader>
           <SortableHeader
             onClick={() => handleSort('title')}
             className={sortBy === 'title' ? 'active' : ''}
           >
-            Title <span className="icon">{renderSortIcon('title')}</span>
+            {t('booksTable.headers.title')}{' '}
+            <span className="icon">{renderSortIcon('title')}</span>
           </SortableHeader>
           <SortableHeader
             onClick={() => handleSort('author')}
             className={sortBy === 'author' ? 'active' : ''}
           >
-            Author <span className="icon">{renderSortIcon('author')}</span>
+            {t('booksTable.headers.author')}{' '}
+            <span className="icon">{renderSortIcon('author')}</span>
           </SortableHeader>
           <SortableHeader
             onClick={() => handleSort('publication_year')}
             className={sortBy === 'publication_year' ? 'active' : ''}
           >
-            Year{' '}
+            {t('booksTable.headers.year')}{' '}
             <span className="icon">{renderSortIcon('publication_year')}</span>
           </SortableHeader>
           <SortableHeader
             onClick={() => handleSort('status')}
             className={sortBy === 'status' ? 'active' : ''}
           >
-            Status <span className="icon">{renderSortIcon('status')}</span>
+            {t('booksTable.headers.status')}{' '}
+            <span className="icon">{renderSortIcon('status')}</span>
           </SortableHeader>
-          <div>Action</div>
+          <div>{t('booksTable.headers.action')}</div>
           <div></div>
         </TableHeader>
 
@@ -276,15 +279,18 @@ export default function BooksTable() {
         ))}
 
         {filteredBooks.length === 0 && (
-          <div style={{ padding: '1.6rem' }}>No matching books found.</div>
+          <div style={{ padding: '1.6rem' }}>{t('booksTable.noMatch')}</div>
         )}
 
         <PaginationWrapper>
           <PageInfo>
-            Page {currentPage} of {totalPages}
+            {t('booksTable.pageInfo', {
+              currentPage,
+              totalPages,
+            })}
           </PageInfo>
           <RowsPerPage>
-            Rows per page:
+            {t('booksTable.rowsPerPage')}
             <select value={rowsPerPage} onChange={handleRowsPerPageChange}>
               <option value={5}>5</option>
               <option value={10}>10</option>
@@ -293,7 +299,7 @@ export default function BooksTable() {
             </select>
           </RowsPerPage>
           <NavButtons>
-            <button
+            {/* <button
               onClick={() => handlePageChange(Math.max(1, currentPage - 1))}
               disabled={currentPage === 1}
             >
@@ -306,6 +312,22 @@ export default function BooksTable() {
               disabled={currentPage === totalPages}
             >
               <RxCaretRight />
+            </button> */}
+            <button
+              onClick={() => handlePageChange(Math.max(1, currentPage - 1))}
+              disabled={currentPage === 1}
+              aria-label={t('libraryTable.previousPage')}
+            >
+              &lt;
+            </button>
+            <button
+              onClick={() =>
+                handlePageChange(Math.min(totalPages, currentPage + 1))
+              }
+              disabled={currentPage === totalPages}
+              aria-label={t('libraryTable.nextPage')}
+            >
+              &gt;
             </button>
           </NavButtons>
         </PaginationWrapper>

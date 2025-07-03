@@ -1,15 +1,15 @@
-import { HiEllipsisVertical, HiEye, HiPencil, HiTrash } from 'react-icons/hi2'
-import { useEffect, useRef, useState } from 'react'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-
-import BookDetails from './BookDetails'
-import ConfirmDelete from '../../ui/ConfirmDelete'
-import CreateBookForm from './CreateBookForm'
-import Modal from '../../ui/Modal'
-import { deleteBook } from '../../services/apiBooks'
-import styled from 'styled-components'
+import { useEffect, useRef, useState } from 'react'
 import toast from 'react-hot-toast'
+import { useTranslation } from 'react-i18next'
+import { HiEllipsisVertical, HiEye, HiPencil, HiTrash } from 'react-icons/hi2'
+import styled from 'styled-components'
 import { useUser } from '../../context/UserContext'
+import { deleteBook } from '../../services/apiBooks'
+import ConfirmDelete from '../../ui/ConfirmDelete'
+import Modal from '../../ui/Modal'
+import BookDetails from './BookDetails'
+import CreateBookForm from './CreateBookForm'
 
 const TableRow = styled.div`
   display: grid;
@@ -76,6 +76,7 @@ const DropdownMenu = styled.ul`
   display: ${({ show }) => (show ? 'block' : 'none')};
   min-width: 180px;
 `
+
 const DropdownItem = styled.button`
   width: 100%;
   background: none;
@@ -89,13 +90,16 @@ const DropdownItem = styled.button`
   color: var(--color-grey-700);
   cursor: pointer;
   transition: background-color 0.2s;
+
   &:hover {
     background-color: var(--color-grey-50);
   }
 `
+
 function BooksRow({ book }) {
-    const { user } = useUser()
-    const role = user?.role
+  const { t } = useTranslation()
+  const { user } = useUser()
+  const role = user?.role
   const queryClient = useQueryClient()
   const [isOpen, setIsOpen] = useState(false)
   const [dropdownPosition, setDropdownPosition] = useState(null)
@@ -105,10 +109,10 @@ function BooksRow({ book }) {
     mutationFn: deleteBook,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['books'] })
-      toast.success('Book deleted successfully')
+      toast.success(t('AlertBooks.deletedSuccess'))
     },
     onError: (err) => {
-      toast.error(err.message || 'Failed to delete book')
+      toast.error(err.message || t('AlertBooks.deleteFailed'))
     },
   })
 
@@ -152,7 +156,7 @@ function BooksRow({ book }) {
       <Cell>{book.title}</Cell>
       <Cell>{book.author}</Cell>
       <Cell>{book.publication_year}</Cell>
-      <Cell>{book.status}</Cell>
+      <Cell>{t(`status.${book.status?.toLowerCase()}`)}</Cell>
       <Cell>
         <DropdownWrapper ref={dropdownRef}>
           <IconButton onClick={toggleDropdown}>
@@ -162,20 +166,22 @@ function BooksRow({ book }) {
           <DropdownMenu show={isOpen} position={dropdownPosition}>
             <Modal.Open opensWindowName={`view-${book.id}`}>
               <DropdownItem onClick={closeDropdown}>
-                <HiEye /> View
+                <HiEye /> {t('common.view')}
               </DropdownItem>
             </Modal.Open>
+
             {role !== 'student' && (
               <Modal.Open opensWindowName={`edit-${book.id}`}>
                 <DropdownItem onClick={closeDropdown}>
-                  <HiPencil /> Edit
+                  <HiPencil /> {t('common.edit')}
                 </DropdownItem>
               </Modal.Open>
             )}
+
             {role !== 'student' && (
               <Modal.Open opensWindowName={`delete-${book.id}`}>
                 <DropdownItem onClick={closeDropdown} disabled={isDeleting}>
-                  <HiTrash /> Delete
+                  <HiTrash /> {t('common.delete')}
                 </DropdownItem>
               </Modal.Open>
             )}
@@ -183,6 +189,7 @@ function BooksRow({ book }) {
         </DropdownWrapper>
       </Cell>
       <Cell></Cell>
+
       <Modal.Window name={`view-${book.id}`}>
         <BookDetails book={book} />
       </Modal.Window>
@@ -192,8 +199,8 @@ function BooksRow({ book }) {
       <Modal.Window name={`delete-${book.id}`}>
         <ConfirmDelete
           onConfirm={handleDeleteConfirm}
-          resourceName="book"
-          itemLabel={book.name}
+          resourceName={t('books')}
+          itemLabel={book.title}
         />
       </Modal.Window>
     </TableRow>

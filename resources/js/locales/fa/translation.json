@@ -580,5 +580,36 @@
     "updateSuccess": "کتاب «{{title}}» با موفقیت ویرایش شد",
     "createSuccess": "کتاب جدید «{{title}}» با موفقیت ایجاد شد",
     "error": "مشکلی پیش آمد"
-  }
+  },
+  "AddBooks": {
+    "addBookButton": "کتاب جدید اضافه کنید"
+  },
+  "common": {
+    "view": "مشاهده",
+    "edit": "ویرایش",
+    "delete": "حذف"
+  },
+  "AlertBooks": {
+    "deletedSuccess": "کتاب با موفقیت حذف شد",
+    "deleteFailed": "حذف کتاب انجام نشد"
+  },
+  "status": {
+    "available": "دردسترس",
+    "borrowed": "قرض داده شده"
+  },
+  "booksTable": {
+    "searchPlaceholder": "جستجوی کتاب‌ها...",
+    "headers": {
+      "id": "شناسه",
+      "title": "عنوان",
+      "author": "نویسنده",
+      "year": "سال نشر",
+      "status": "وضعیت",
+      "action": "عملیات"
+    },
+    "noMatch": "هیچ کتابی مطابق پیدا نشد.",
+    "pageInfo": "صفحه {{currentPage}} از {{totalPages}}",
+    "rowsPerPage": "تعداد سطرها در هر صفحه:"
+  },
+  "BookError": "خطا در بارگذاری کتاب‌ها!"
 }
