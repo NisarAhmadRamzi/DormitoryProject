@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import AddComplaints from '../features/complaints/AddComplaints'
 import ComplaintsTable from '../features/complaints/ComplaintsTable'
@@ -23,16 +24,16 @@ const OperationsWrapper = styled.div`
 `
 
 function Complaints() {
+  const { t } = useTranslation()
+
   return (
-    <>
-      <Row>
-        <Heading as="h1" style={{ textAlign: 'center' }}>
-          Complaints
-        </Heading>
-        <ComplaintsTable />
-        <AddComplaints />
-      </Row>
-    </>
+    <Row>
+      <Heading as="h1" style={{ textAlign: 'center' }}>
+        {t('complaints')}
+      </Heading>
+      <ComplaintsTable />
+      <AddComplaints />
+    </Row>
   )
 }
 

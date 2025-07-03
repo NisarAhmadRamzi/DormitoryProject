@@ -332,5 +332,8 @@
     "price": "Price",
     "created": "Created",
     "updated": "Updated"
+  },
+  "AddComplaints": {
+    "addNew": "Add new Complaints"
   }
 }

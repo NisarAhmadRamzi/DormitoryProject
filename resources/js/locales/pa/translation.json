@@ -332,5 +332,8 @@
     "price": "قیمت",
     "created": "ایجاد شوی",
     "updated": "تازه شوی"
+  },
+  "AddComplaints": {
+    "addNew": "نوې شکایت اضافه کړئ"
   }
 }
