@@ -1,6 +1,6 @@
-import { formatDistanceToNow, parseISO } from 'date-fns'
-
+import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
+import dayjs from '../../locales/dayjsConfig'
 import Heading from '../../ui/Heading'
 
 const StyledDetails = styled.div`
@@ -43,18 +43,19 @@ const Value = styled.span`
   word-break: break-word;
 `
 
-function formatTimeAgo(dateString) {
+function formatTimeAgo(dateString, locale = 'en') {
   try {
-    const isoString = dateString.replace(' ', 'T')
-    const date = parseISO(isoString)
-    return formatDistanceToNow(date, { addSuffix: true })
+    return dayjs(dateString).locale(locale).fromNow()
   } catch {
     return 'Invalid date'
   }
 }
 
 function BorrowedBookDetails({ borrowedBook }) {
-  if (!borrowedBook) return <p>No borrowed book data available.</p>
+  const { t, i18n } = useTranslation()
+  const locale = i18n.language || 'en'
+
+  if (!borrowedBook) return <p>{t('borrowedBook.noData')}</p>
 
   const {
     id,
@@ -73,62 +74,74 @@ function BorrowedBookDetails({ borrowedBook }) {
 
   return (
     <StyledDetails>
-      <Heading as="h3">Borrowed Book Details</Heading>
+      <Heading as="h3">{t('borrowedBook.details.title')}</Heading>
 
       <DetailsGrid>
         <DetailItem>
-          <Label>Student</Label>
-          <Value>{student?.name || library_student?.name || 'N/A'}</Value>
+          <Label>{t('borrowedBook.fields.student')}</Label>
+          <Value>
+            {student?.name || library_student?.name || t('borrowedBook.na')}
+          </Value>
         </DetailItem>
 
         <DetailItem>
-          <Label>ID</Label>
-          <Value>{id ?? 'N/A'}</Value>
+          <Label>{t('borrowedBook.fields.id')}</Label>
+          <Value>{id ?? t('borrowedBook.na')}</Value>
         </DetailItem>
 
         <DetailItem>
-          <Label>Book Title</Label>
-          <Value>{book?.title || 'N/A'}</Value>
+          <Label>{t('borrowedBook.fields.bookTitle')}</Label>
+          <Value>{book?.title || t('borrowedBook.na')}</Value>
         </DetailItem>
 
         <DetailItem>
-          <Label>Borrow Date</Label>
-          <Value>{borrow_date || 'N/A'}</Value>
+          <Label>{t('borrowedBook.fields.borrowDate')}</Label>
+          <Value>{borrow_date || t('borrowedBook.na')}</Value>
         </DetailItem>
 
         <DetailItem>
-          <Label>Return Date</Label>
-          <Value>{return_date || 'N/A'}</Value>
+          <Label>{t('borrowedBook.fields.returnDate')}</Label>
+          <Value>{return_date || t('borrowedBook.na')}</Value>
         </DetailItem>
 
         <DetailItem>
-          <Label>Status</Label>
-          <Value>{status || 'N/A'}</Value>
+          <Label>{t('borrowedBook.fields.status')}</Label>
+          <Value>{status || t('borrowedBook.na')}</Value>
         </DetailItem>
 
         <DetailItem>
-          <Label>Total Books Available Before Borrowing</Label>
-          <Value>{books_total_count ?? 'N/A'}</Value>
+          <Label>{t('borrowedBook.fields.totalBefore')}</Label>
+          <Value>{books_total_count ?? t('borrowedBook.na')}</Value>
         </DetailItem>
 
         <DetailItem>
-          <Label>Total Books Available After Borrowing</Label>
-          <Value>{books_total_count_after_borrowed ?? 'N/A'}</Value>
+          <Label>{t('borrowedBook.fields.totalAfter')}</Label>
+          <Value>
+            {books_total_count_after_borrowed ?? t('borrowedBook.na')}
+          </Value>
         </DetailItem>
 
         <DetailItem>
-          <Label>Total Borrowed Books</Label>
-          <Value>{borrowed_books_total_count ?? 'N/A'}</Value>
+          <Label>{t('borrowedBook.fields.totalBorrowed')}</Label>
+          <Value>{borrowed_books_total_count ?? t('borrowedBook.na')}</Value>
         </DetailItem>
 
         <DetailItem>
-          <Label>Created At</Label>
-          <Value>{created_at ? formatTimeAgo(created_at) : 'N/A'}</Value>
+          <Label>{t('borrowedBook.fields.createdAt')}</Label>
+          <Value>
+            {created_at
+              ? formatTimeAgo(created_at, locale)
+              : t('borrowedBook.na')}
+          </Value>
         </DetailItem>
 
         <DetailItem>
-          <Label>Updated At</Label>
-          <Value>{updated_at ? formatTimeAgo(updated_at) : 'N/A'}</Value>
+          <Label>{t('borrowedBook.fields.updatedAt')}</Label>
+          <Value>
+            {updated_at
+              ? formatTimeAgo(updated_at, locale)
+              : t('borrowedBook.na')}
+          </Value>
         </DetailItem>
       </DetailsGrid>
     </StyledDetails>

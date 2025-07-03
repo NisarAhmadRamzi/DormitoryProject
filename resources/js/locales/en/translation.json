@@ -631,5 +631,25 @@
       "year": "کال",
       "status": "حالت"
     }
+  },
+  "borrowedBook": {
+    "noData": "No borrowed book data available.",
+    "na": "N/A",
+    "details": {
+      "title": "Borrowed Book Details"
+    },
+    "fields": {
+      "student": "Student",
+      "id": "ID",
+      "bookTitle": "Book Title",
+      "borrowDate": "Borrow Date",
+      "returnDate": "Return Date",
+      "status": "Status",
+      "totalBefore": "Total Books Available Before Borrowing",
+      "totalAfter": "Total Books Available After Borrowing",
+      "totalBorrowed": "Total Borrowed Books",
+      "createdAt": "Created At",
+      "updatedAt": "Updated At"
+    }
   }
 }

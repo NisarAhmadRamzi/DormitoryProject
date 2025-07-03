@@ -630,5 +630,25 @@
       "year": "Publication Year",
       "status": "Status"
     }
+  },
+  "borrowedBook": {
+    "noData": "د امانت کتاب معلومات شتون نلري.",
+    "na": "موجود نه دی",
+    "details": {
+      "title": "د امانت کتاب جزییات"
+    },
+    "fields": {
+      "student": "شاگرد",
+      "id": "شناخت",
+      "bookTitle": "د کتاب سرلیک",
+      "borrowDate": "د امانت نیټه",
+      "returnDate": "د بیرته راګرځولو نیټه",
+      "status": "حالت",
+      "totalBefore": "د امانت څخه مخکې ټول کتابونه",
+      "totalAfter": "د امانت څخه وروسته ټول کتابونه",
+      "totalBorrowed": "ټول امانت شوي کتابونه",
+      "createdAt": "جوړ شوی نیټه",
+      "updatedAt": "تازه شوی نیټه"
+    }
   }
 }
