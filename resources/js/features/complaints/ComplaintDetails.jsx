@@ -1,4 +1,6 @@
+import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
+import dayjs from '../../locales/dayjsConfig'
 import Heading from '../../ui/Heading'
 
 const StyledDetails = styled.div`
@@ -34,7 +36,8 @@ const Value = styled.span`
 `
 
 function ComplaintDetails({ complaint }) {
-  if (!complaint) return <p>No complaint data available.</p>
+  const { t, i18n } = useTranslation()
+  if (!complaint) return <p>{t('complaintDetails.noData')}</p>
 
   const {
     id,
@@ -47,49 +50,52 @@ function ComplaintDetails({ complaint }) {
     resolved_at,
   } = complaint
 
+  // Set the dayjs locale dynamically based on selected language
+  dayjs.locale(i18n.language || 'en')
+
   return (
     <StyledDetails>
-      <Heading as="h3">Complaint Details</Heading>
+      <Heading as="h3">{t('complaintDetails.heading')}</Heading>
 
       <DetailRow>
-        <Label>ID</Label>
+        <Label>{t('complaintDetails.id')}</Label>
         <Value>{id}</Value>
       </DetailRow>
 
       <DetailRow>
-        <Label>Title</Label>
+        <Label>{t('complaintDetails.title')}</Label>
         <Value>{title}</Value>
       </DetailRow>
 
       <DetailRow>
-        <Label>Description</Label>
+        <Label>{t('complaintDetails.description')}</Label>
         <Value>{description}</Value>
       </DetailRow>
 
       <DetailRow>
-        <Label>Status</Label>
+        <Label>{t('complaintDetails.status')}</Label>
         <Value>{status}</Value>
       </DetailRow>
 
       <DetailRow>
-        <Label>Student</Label>
-        <Value>{student?.name || 'Unknown'}</Value>
+        <Label>{t('complaintDetails.student')}</Label>
+        <Value>{student?.name || t('complaintDetails.unknown')}</Value>
       </DetailRow>
 
       <DetailRow>
-        <Label>Created At</Label>
-        <Value>{created_at || 'N/A'}</Value>
+        <Label>{t('complaintDetails.createdAt')}</Label>
+        <Value>{created_at ? dayjs(created_at).fromNow() : 'N/A'}</Value>
       </DetailRow>
 
       <DetailRow>
-        <Label>Updated At</Label>
-        <Value>{updated_at || 'N/A'}</Value>
+        <Label>{t('complaintDetails.updatedAt')}</Label>
+        <Value>{updated_at ? dayjs(updated_at).fromNow() : 'N/A'}</Value>
       </DetailRow>
 
       {resolved_at && (
         <DetailRow>
-          <Label>Resolved At</Label>
-          <Value>{resolved_at}</Value>
+          <Label>{t('complaintDetails.resolvedAt')}</Label>
+          <Value>{dayjs(resolved_at).fromNow()}</Value>
         </DetailRow>
       )}
     </StyledDetails>

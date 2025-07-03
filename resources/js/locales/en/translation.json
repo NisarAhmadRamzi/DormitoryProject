@@ -382,5 +382,19 @@
       "pageInfo": "Page {{current}} of {{total}}",
       "rowsPerPage": "Rows per page:"
     }
+  },
+  "complaintDetails": {
+    "heading": "Complaint Details",
+    "noData": "No complaint data available.",
+    "id": "ID",
+    "title": "Title",
+    "description": "Description",
+    "status": "Status",
+    "student": "Student",
+    "unknown": "Unknown",
+    "createdAt": "Created At",
+    "updatedAt": "Updated At",
+    "resolvedAt": "Resolved At",
+    "na": "N/A"
   }
 }

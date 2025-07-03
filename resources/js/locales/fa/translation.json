@@ -382,5 +382,19 @@
       "pageInfo": "صفحه {{current}} از {{total}}",
       "rowsPerPage": "ردیف‌ها در هر صفحه:"
     }
+  },
+  "complaintDetails": {
+    "heading": "جزئیات شکایت",
+    "noData": "اطلاعاتی در مورد شکایت موجود نیست.",
+    "id": "شناسه",
+    "title": "عنوان",
+    "description": "شرح",
+    "status": "وضعیت",
+    "student": "دانشجو",
+    "unknown": "نامشخص",
+    "createdAt": "تاریخ ایجاد",
+    "updatedAt": "تاریخ به‌روزرسانی",
+    "resolvedAt": "تاریخ حل‌شدن",
+    "na": "ناموجود"
   }
 }
