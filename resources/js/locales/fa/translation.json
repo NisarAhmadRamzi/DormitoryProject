@@ -34,7 +34,7 @@
   "complaints": "شکایات",
   "libraryManagement": "مدیریت کتابخانه",
   "library": "کتابخانه",
-  "libraryStudents": "دانشجویان کتابخانه",
+  "libraryStudents": "شاگردان کتابخانه",
   "books": "کتاب‌ها",
   "borrowedBooks": "کتاب‌های امانتی",
   "finance": "مالی",
@@ -207,7 +207,7 @@
     "updatedAt": "تاریخ بروزرسانی"
   },
   "studentTable": {
-    "searchPlaceholder": "جستجوی دانشجویان...",
+    "searchPlaceholder": "جستجوی شاگردان...",
     "id": "شناسه",
     "name": "نام",
     "email": "ایمیل",
@@ -459,5 +459,98 @@
     "updatedAt": "آخرین بروزرسانی",
     "notAvailable": "ناموجود",
     "noData": "هیچ اطلاعاتی درباره کتابخانه موجود نیست."
+  },
+  "addLibraryStudent": {
+    "addButton": "افزودن شاگرد جدید در کتابخانه"
+  },
+  "libraryStudentForm": {
+    "name": "نام",
+    "lastName": "نام خانوادگی",
+    "email": "ایمیل",
+    "password": "رمز عبور",
+    "address": "آدرس",
+    "idNumber": "شماره شناسنامه",
+    "academicInfo": "اطلاعات تحصیلی",
+    "registrationDate": "تاریخ ثبت‌نام",
+    "registrationDeadline": "آخرین مهلت ثبت‌نام",
+    "phone": "شماره تماس",
+    "gender": "جنسیت",
+    "membershipStatus": "وضعیت عضویت",
+    "libraryIdFixed": "کد کتابخانه (ثابت)",
+    "selectGender": "-- جنسیت را انتخاب کنید --",
+    "selectStatus": "-- وضعیت را انتخاب کنید --",
+    "genderOptions": {
+      "male": "مرد",
+      "female": "زن",
+      "other": "سایر"
+    },
+    "statusOptions": {
+      "active": "فعال",
+      "expired": "منقضی شده"
+    },
+    "addStudent": "اضافه‌کردن دانشجو",
+    "editStudent": "ویرایش دانشجو",
+    "cancel": "لغو",
+    "createSuccess": "دانشجو \"{{name}} {{lastName}}\" با موفقیت ایجاد شد",
+    "updateSuccess": "دانشجو \"{{name}} {{lastName}}\" با موفقیت ویرایش شد",
+    "genericError": "مشکلی رخ داده است",
+    "validation": {
+      "nameRequired": "نام الزامی است",
+      "lastNameRequired": "نام خانوادگی الزامی است",
+      "emailRequired": "ایمیل الزامی است",
+      "passwordRequired": "رمز عبور الزامی است",
+      "passwordMin": "حداقل ۸ حرف",
+      "addressRequired": "آدرس الزامی است",
+      "idNumberRequired": "شماره شناسنامه الزامی است",
+      "registrationDateRequired": "تاریخ ثبت‌نام الزامی است",
+      "phoneRequired": "شماره تماس الزامی است",
+      "deadlineRequired": "آخرین مهلت الزامی است",
+      "genderRequired": "جنسیت الزامی است",
+      "statusRequired": "وضعیت عضویت الزامی است",
+      "maxLength": "حداکثر ۲۵۵ حرف"
+    }
+  },
+  "libraryStudentRow": {
+    "view": "مشاهده",
+    "edit": "ویرایش",
+    "delete": "حذف",
+    "resourceName": "دانشجو",
+    "deleteSuccess": "دانشجو حذف شد",
+    "deleteError": "حذف دانشجو ناکام شد"
+  },
+  "libraryStudentsTable": {
+    "id": "شناسه",
+    "name": "نام",
+    "email": "ایمیل",
+    "phone": "شماره تماس",
+    "address": "آدرس",
+    "actions": "عملیات",
+    "searchPlaceholder": "جستجوی دانشجویان...",
+    "pageInfo": "صفحه {{currentPage}} از {{totalPages}}",
+    "rowsPerPage": "تعداد ردیف‌ها در هر صفحه:",
+    "error": "خطا در بارگیری دانشجویان"
+  },
+  "libraryStudentDetails": {
+    "title": "جزئیات دانشجوی کتابخانه",
+    "id": "شناسه",
+    "libraryId": "شناسه کتابخانه",
+    "fullName": "نام کامل",
+    "email": "ایمیل",
+    "phone": "شماره تماس",
+    "idNumber": "شماره شناسنامه",
+    "address": "آدرس",
+    "academicInfo": "اطلاعات تحصیلی",
+    "gender": "جنسیت",
+    "gender_Male": "مرد",
+    "gender_Female": "زن",
+    "gender_Other": "دیگر",
+    "status": "وضعیت عضویت",
+    "status_Active": "فعال",
+    "status_Expired": "منقضی شده",
+    "registrationDate": "تاریخ ثبت‌نام",
+    "registrationDeadline": "آخرین مهلت ثبت‌نام",
+    "createdAt": "ایجاد شده",
+    "updatedAt": "بروزرسانی شده",
+    "noData": "هیچ اطلاعاتی از دانشجو موجود نیست."
   }
 }

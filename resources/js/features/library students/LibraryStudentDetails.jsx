@@ -1,14 +1,16 @@
-import Heading from '../../ui/Heading'
 import { formatDistanceToNow } from 'date-fns'
+import { enUS, faIR } from 'date-fns/locale'
+import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
+import Heading from '../../ui/Heading'
 
 const StyledDetails = styled.div`
   background-color: var(--color-grey-0);
   padding: 2.4rem;
   border-radius: 8px;
   box-shadow: var(--shadow-md);
-  max-height: 80vh; /* Consistent with StudentDetails */
-  overflow-y: auto; /* Scroll if content overflows */
+  max-height: 80vh;
+  overflow-y: auto;
 `
 
 const DetailsGrid = styled.div`
@@ -40,92 +42,113 @@ const Value = styled.span`
 `
 
 function LibraryStudentDetails({ student }) {
-  if (!student) return <p>No student data available.</p>
+  const { t, i18n } = useTranslation()
+
+  if (!student)
+    return (
+      <p>{t('libraryStudentDetails.noData') || 'No student data available.'}</p>
+    )
+
+  // Determine locale based on current language
+  const locale = i18n.language === 'fa' ? faIR : enUS
 
   return (
     <StyledDetails>
-      <Heading as="h3">Library Student Details</Heading>
+      <Heading as="h3">
+        {t('libraryStudentDetails.heading') || 'Library Student Details'}
+      </Heading>
       <DetailsGrid>
         <DetailItem>
-          <Label>ID</Label>
+          <Label>{t('libraryStudentDetails.id') || 'ID'}</Label>
           <Value>{student.id}</Value>
         </DetailItem>
 
         <DetailItem>
-          <Label>Library ID</Label>
+          <Label>{t('libraryStudentDetails.libraryId') || 'Library ID'}</Label>
           <Value>{student.library_id}</Value>
         </DetailItem>
 
         <DetailItem>
-          <Label>Full Name</Label>
+          <Label>{t('libraryStudentDetails.fullName') || 'Full Name'}</Label>
           <Value>
             {student.name} {student.last_name}
           </Value>
         </DetailItem>
 
         <DetailItem>
-          <Label>Email</Label>
+          <Label>{t('libraryStudentDetails.email') || 'Email'}</Label>
           <Value>{student.email}</Value>
         </DetailItem>
 
         <DetailItem>
-          <Label>Phone</Label>
+          <Label>{t('libraryStudentDetails.phone') || 'Phone'}</Label>
           <Value>{student.phone}</Value>
         </DetailItem>
 
         <DetailItem>
-          <Label>ID Number</Label>
+          <Label>{t('libraryStudentDetails.idNumber') || 'ID Number'}</Label>
           <Value>{student.id_number}</Value>
         </DetailItem>
 
         <DetailItem>
-          <Label>Address</Label>
+          <Label>{t('libraryStudentDetails.address') || 'Address'}</Label>
           <Value>{student.address}</Value>
         </DetailItem>
 
         <DetailItem>
-          <Label>Academic Information</Label>
+          <Label>
+            {t('libraryStudentDetails.academicInfo') || 'Academic Information'}
+          </Label>
           <Value>{student.academic_info}</Value>
         </DetailItem>
 
         <DetailItem>
-          <Label>Gender</Label>
+          <Label>{t('libraryStudentDetails.gender') || 'Gender'}</Label>
           <Value>{student.gender}</Value>
         </DetailItem>
 
         <DetailItem>
-          <Label>Membership Status</Label>
+          <Label>
+            {t('libraryStudentDetails.membershipStatus') || 'Membership Status'}
+          </Label>
           <Value>{student.membership_status}</Value>
         </DetailItem>
 
         <DetailItem>
-          <Label>Registration Date</Label>
+          <Label>
+            {t('libraryStudentDetails.registrationDate') || 'Registration Date'}
+          </Label>
           <Value>
             {new Date(student.registration_date).toLocaleDateString()}
           </Value>
         </DetailItem>
 
         <DetailItem>
-          <Label>Registration Deadline</Label>
+          <Label>
+            {t('libraryStudentDetails.registrationDeadline') ||
+              'Registration Deadline'}
+          </Label>
           <Value>
             {new Date(student.registration_deadline).toLocaleDateString()}
           </Value>
         </DetailItem>
 
         <DetailItem>
-          <Label>Created At</Label>
+          <Label>{t('libraryStudentDetails.createdAt') || 'Created At'}</Label>
           <Value>
             {formatDistanceToNow(new Date(student.created_at), {
               addSuffix: true,
+              locale,
             })}
           </Value>
         </DetailItem>
 
         <DetailItem>
-          <Label>Updated At</Label>
+          <Label>{t('libraryStudentDetails.updatedAt') || 'Updated At'}</Label>
           <Value>
             {formatDistanceToNow(new Date(student.updated_at), {
               addSuffix: true,
+              locale,
             })}
           </Value>
         </DetailItem>

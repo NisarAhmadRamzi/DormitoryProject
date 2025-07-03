@@ -460,5 +460,98 @@
     "updatedAt": "Updated At",
     "notAvailable": "N/A",
     "noData": "No library data available."
+  },
+  "addLibraryStudent": {
+    "addButton": "Add new student in library"
+  },
+  "libraryStudentForm": {
+    "name": "First Name",
+    "lastName": "Last Name",
+    "email": "Email",
+    "password": "Password",
+    "address": "Address",
+    "idNumber": "ID Number",
+    "academicInfo": "Academic Info",
+    "registrationDate": "Registration Date",
+    "registrationDeadline": "Registration Deadline",
+    "phone": "Phone",
+    "gender": "Gender",
+    "membershipStatus": "Membership Status",
+    "libraryIdFixed": "Library ID (Fixed)",
+    "selectGender": "-- Select gender --",
+    "selectStatus": "-- Select status --",
+    "genderOptions": {
+      "male": "Male",
+      "female": "Female",
+      "other": "Other"
+    },
+    "statusOptions": {
+      "active": "Active",
+      "expired": "Expired"
+    },
+    "addStudent": "Add Student",
+    "editStudent": "Edit Student",
+    "cancel": "Cancel",
+    "createSuccess": "Student \"{{name}} {{lastName}}\" created successfully",
+    "updateSuccess": "Student \"{{name}} {{lastName}}\" updated successfully",
+    "genericError": "Something went wrong",
+    "validation": {
+      "nameRequired": "First name is required",
+      "lastNameRequired": "Last name is required",
+      "emailRequired": "Email is required",
+      "passwordRequired": "Password is required",
+      "passwordMin": "Minimum 8 characters",
+      "addressRequired": "Address is required",
+      "idNumberRequired": "ID Number is required",
+      "registrationDateRequired": "Registration date is required",
+      "phoneRequired": "Phone number is required",
+      "deadlineRequired": "Deadline is required",
+      "genderRequired": "Gender is required",
+      "statusRequired": "Membership status is required",
+      "maxLength": "Max 255 characters"
+    }
+  },
+  "libraryStudentRow": {
+    "view": "View",
+    "edit": "Edit",
+    "delete": "Delete",
+    "resourceName": "student",
+    "deleteSuccess": "Student deleted",
+    "deleteError": "Failed to delete student"
+  },
+  "libraryStudentsTable": {
+    "id": "ID",
+    "name": "Name",
+    "email": "Email",
+    "phone": "Phone",
+    "address": "Address",
+    "actions": "Actions",
+    "searchPlaceholder": "Search students...",
+    "pageInfo": "Page {{currentPage}} of {{totalPages}}",
+    "rowsPerPage": "Rows per page:",
+    "error": "Error loading students"
+  },
+  "libraryStudentDetails": {
+    "title": "Library Student Details",
+    "id": "ID",
+    "libraryId": "Library ID",
+    "fullName": "Full Name",
+    "email": "Email",
+    "phone": "Phone",
+    "idNumber": "ID Number",
+    "address": "Address",
+    "academicInfo": "Academic Information",
+    "gender": "Gender",
+    "gender_Male": "Male",
+    "gender_Female": "Female",
+    "gender_Other": "Other",
+    "status": "Membership Status",
+    "status_Active": "Active",
+    "status_Expired": "Expired",
+    "registrationDate": "Registration Date",
+    "registrationDeadline": "Registration Deadline",
+    "createdAt": "Created At",
+    "updatedAt": "Updated At",
+    "noData": "No student data available."
   }
 }

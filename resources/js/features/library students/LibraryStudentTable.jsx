@@ -1,13 +1,12 @@
 import { useQuery } from '@tanstack/react-query'
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { FiSearch } from 'react-icons/fi'
-import { RxCaretLeft, RxCaretRight } from 'react-icons/rx'
 import { useSearchParams } from 'react-router-dom'
 import styled from 'styled-components'
 import { getAllLibraryStudents } from '../../services/apiLibraryStudents'
 import Spinner from '../../ui/Spinner'
 import LibraryStudentRow from './LibraryStudentRow'
-
 const PAGE_SIZE_OPTIONS = [5, 10, 25, 50]
 
 // Styled Components with CSS variables
@@ -165,13 +164,15 @@ export default function LibraryStudentsTable() {
   const [search, setSearch] = useState('')
   const [rowsPerPage, setRowsPerPage] = useState(10)
 
+  const { t } = useTranslation()
+
   const { data, isLoading, error } = useQuery({
     queryKey: ['library-students'],
     queryFn: getAllLibraryStudents,
   })
 
   if (isLoading) return <Spinner />
-  if (error) return <p>Error loading students</p>
+  if (error) return <p>{t('libraryStudentsTable.error')}</p>
 
   let students = data?.data || []
 
@@ -226,7 +227,7 @@ export default function LibraryStudentsTable() {
           <FiSearch />
           <input
             type="text"
-            placeholder="Search students..."
+            placeholder={t('libraryStudentsTable.searchPlaceholder')}
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
@@ -235,32 +236,36 @@ export default function LibraryStudentsTable() {
 
       <Table>
         <TableHeader>
-          <div>ID</div>
+          <div>{t('libraryStudentsTable.id')}</div>
           <SortableHeader
             onClick={() => handleSort('name')}
             className={sortBy === 'name' ? 'active' : ''}
           >
-            Name <span className="icon">{renderIcon('name')}</span>
+            {t('libraryStudentsTable.name')}{' '}
+            <span className="icon">{renderIcon('name')}</span>
           </SortableHeader>
           <SortableHeader
             onClick={() => handleSort('email')}
             className={sortBy === 'email' ? 'active' : ''}
           >
-            Email <span className="icon">{renderIcon('email')}</span>
+            {t('libraryStudentsTable.email')}{' '}
+            <span className="icon">{renderIcon('email')}</span>
           </SortableHeader>
           <SortableHeader
             onClick={() => handleSort('phone')}
             className={sortBy === 'phone' ? 'active' : ''}
           >
-            Phone <span className="icon">{renderIcon('phone')}</span>
+            {t('libraryStudentsTable.phone')}{' '}
+            <span className="icon">{renderIcon('phone')}</span>
           </SortableHeader>
           <SortableHeader
             onClick={() => handleSort('address')}
             className={sortBy === 'address' ? 'active' : ''}
           >
-            Address <span className="icon">{renderIcon('address')}</span>
+            {t('libraryStudentsTable.address')}{' '}
+            <span className="icon">{renderIcon('address')}</span>
           </SortableHeader>
-          <div>Actions</div>
+          <div>{t('libraryStudentsTable.actions')}</div>
         </TableHeader>
 
         <TableBody>
@@ -271,10 +276,13 @@ export default function LibraryStudentsTable() {
 
         <PaginationWrapper>
           <PageInfo>
-            Page {currentPage} of {totalPages}
+            {t('libraryStudentsTable.pageInfo', {
+              currentPage,
+              totalPages,
+            })}
           </PageInfo>
           <RowsPerPage>
-            Rows per page:
+            {t('libraryStudentsTable.rowsPerPage')}
             <select value={rowsPerPage} onChange={changeRows}>
               {PAGE_SIZE_OPTIONS.map((size) => (
                 <option key={size} value={size}>
@@ -287,14 +295,16 @@ export default function LibraryStudentsTable() {
             <button
               onClick={() => changePage(Math.max(1, currentPage - 1))}
               disabled={currentPage === 1}
+              aria-label={t('libraryTable.previousPage')}
             >
-              <RxCaretLeft />
+              &lt;
             </button>
             <button
               onClick={() => changePage(Math.min(totalPages, currentPage + 1))}
               disabled={currentPage === totalPages}
+              aria-label={t('libraryTable.nextPage')}
             >
-              <RxCaretRight />
+              &gt;
             </button>
           </NavButtons>
         </PaginationWrapper>

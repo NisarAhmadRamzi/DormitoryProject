@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from 'react'
 import { HiEllipsisVertical, HiEye, HiPencil, HiTrash } from 'react-icons/hi2'
 
 import toast from 'react-hot-toast'
+import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { deleteLibraryStudent } from '../../services/apiLibraryStudents'
 import ConfirmDelete from '../../ui/ConfirmDelete'
@@ -17,18 +18,19 @@ const TableRow = styled.div`
   align-items: center;
   padding: 1.4rem 1rem;
   position: relative;
+
   &:not(:last-child) {
     border-bottom: 1px solid var(--color-grey-100);
   }
-  transition: background-color 0.2s; /* Smooth transition */
+
+  transition: background-color 0.2s;
 
   &:hover {
-    background-color: var(--color-grey-200); /* Light mode hover */
+    background-color: var(--color-grey-200);
     cursor: pointer;
 
-    /* For dark mode hover */
     @media (prefers-color-scheme: dark) {
-      background-color: var(--color-grey-700); /* Dark mode hover */
+      background-color: var(--color-grey-700);
       cursor: pointer;
     }
   }
@@ -90,6 +92,7 @@ const DropdownItem = styled.button`
   color: var(--color-grey-700);
   cursor: pointer;
   transition: background-color 0.2s;
+
   &:hover {
     background-color: var(--color-grey-50);
   }
@@ -100,15 +103,16 @@ function LibraryStudentRow({ student }) {
   const [isOpen, setIsOpen] = useState(false)
   const [dropdownPosition, setDropdownPosition] = useState(null)
   const dropdownRef = useRef()
+  const { t } = useTranslation()
 
   const { isLoading: isDeleting, mutate } = useMutation({
     mutationFn: () => deleteLibraryStudent(student.id),
     onSuccess: () => {
-      toast.success('Student deleted')
+      toast.success(t('libraryStudentRow.deleteSuccess'))
       queryClient.invalidateQueries({ queryKey: ['library-students'] })
     },
     onError: () => {
-      toast.error('Failed to delete student')
+      toast.error(t('libraryStudentRow.deleteError'))
     },
   })
 
@@ -164,19 +168,19 @@ function LibraryStudentRow({ student }) {
         <DropdownMenu show={isOpen} position={dropdownPosition}>
           <Modal.Open opensWindowName={`view-${student.id}`}>
             <DropdownItem onClick={closeDropdown}>
-              <HiEye /> View
+              <HiEye /> {t('libraryStudentRow.view')}
             </DropdownItem>
           </Modal.Open>
 
           <Modal.Open opensWindowName={`edit-${student.id}`}>
             <DropdownItem onClick={closeDropdown}>
-              <HiPencil /> Edit
+              <HiPencil /> {t('libraryStudentRow.edit')}
             </DropdownItem>
           </Modal.Open>
 
           <Modal.Open opensWindowName={`delete-${student.id}`}>
             <DropdownItem onClick={closeDropdown} disabled={isDeleting}>
-              <HiTrash /> Delete
+              <HiTrash /> {t('libraryStudentRow.delete')}
             </DropdownItem>
           </Modal.Open>
         </DropdownMenu>
@@ -189,10 +193,11 @@ function LibraryStudentRow({ student }) {
       <Modal.Window name={`edit-${student.id}`}>
         <CreateLibraryStudentForm studentToEdit={student} />
       </Modal.Window>
+
       <Modal.Window name={`delete-${student.id}`}>
         <ConfirmDelete
           onConfirm={handleDeleteConfirm}
-          resourceName="student"
+          resourceName={t('libraryStudentRow.resourceName')}
           itemLabel={student.name}
         />
       </Modal.Window>

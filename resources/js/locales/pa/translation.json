@@ -462,5 +462,98 @@
     "updatedAt": "وروستی تازه معلومات",
     "notAvailable": "شته نه ده",
     "noData": "د کتابتون معلومات نشته."
+  },
+  "addLibraryStudent": {
+    "addButton": "په کتابتون کې نوی زده‌کوونکی اضافه کړئ"
+  },
+  "libraryStudentForm": {
+    "name": "نوم",
+    "lastName": "تخلص",
+    "email": "بریښنالیک",
+    "password": "پټ نوم",
+    "address": "پته",
+    "idNumber": "د پېژند شمېره",
+    "academicInfo": "تحصیلي معلومات",
+    "registrationDate": "د ثبت‌نام نیټه",
+    "registrationDeadline": "د ثبت‌نام وروستۍ نیټه",
+    "phone": "د اړیکې شمېره",
+    "gender": "جنس",
+    "membershipStatus": "د غړیتوب حالت",
+    "libraryIdFixed": "د کتابتون ID (ثابت)",
+    "selectGender": "-- جنس غوره کړئ --",
+    "selectStatus": "-- حالت غوره کړئ --",
+    "genderOptions": {
+      "male": "نارینه",
+      "female": "ښځینه",
+      "other": "نور"
+    },
+    "statusOptions": {
+      "active": "فعال",
+      "expired": "ختم شوی"
+    },
+    "addStudent": "زده کوونکی اضافه کړئ",
+    "editStudent": "زده کوونکی سمول",
+    "cancel": "لغو",
+    "createSuccess": "زده کوونکی \"{{name}} {{lastName}}\" بریالی اضافه شو",
+    "updateSuccess": "زده کوونکی \"{{name}} {{lastName}}\" بریالی سم شو",
+    "genericError": "یوه ستونزه پېښه شوې",
+    "validation": {
+      "nameRequired": "نوم اړین دی",
+      "lastNameRequired": "تخلص اړین دی",
+      "emailRequired": "بریښنالیک اړین دی",
+      "passwordRequired": "پټ نوم اړین دی",
+      "passwordMin": "لږ تر لږه ۸ توری",
+      "addressRequired": "پته اړینه ده",
+      "idNumberRequired": "د پېژند شمېره اړینه ده",
+      "registrationDateRequired": "د ثبت‌نام نیټه اړینه ده",
+      "phoneRequired": "د اړیکې شمېره اړینه ده",
+      "deadlineRequired": "وروستۍ نیټه اړینه ده",
+      "genderRequired": "جنس اړین دی",
+      "statusRequired": "د غړیتوب حالت اړین دی",
+      "maxLength": "تر ټولو زیات ۲۵۵ توری"
+    }
+  },
+  "libraryStudentRow": {
+    "view": "کتل",
+    "edit": "سمول",
+    "delete": "ړنګول",
+    "resourceName": "زده کوونکی",
+    "deleteSuccess": "زده کوونکی ړنګ شو",
+    "deleteError": "زده کوونکی نه شو ړنګیدای"
+  },
+  "libraryStudentsTable": {
+    "id": "شمېره",
+    "name": "نوم",
+    "email": "بریښنالیک",
+    "phone": "شمېره",
+    "address": "پته",
+    "actions": "عملیات",
+    "searchPlaceholder": "زده کوونکي ولټوئ...",
+    "pageInfo": "پاڼه {{currentPage}} له {{totalPages}} څخه",
+    "rowsPerPage": "په هره پاڼه کې لیکې:",
+    "error": "د زده کوونکو په اخیستو کې ستونزه"
+  },
+  "libraryStudentDetails": {
+    "title": "د کتابتون زده کوونکي جزیات",
+    "id": "شمېره",
+    "libraryId": "د کتابتون شمېره",
+    "fullName": "بشپړ نوم",
+    "email": "بریښنالیک",
+    "phone": "تلیفون",
+    "idNumber": "د پیژند شمېر",
+    "address": "پته",
+    "academicInfo": "اکاډمیک معلومات",
+    "gender": "جنس",
+    "gender_Male": "نارینه",
+    "gender_Female": "ښځینه",
+    "gender_Other": "نور",
+    "status": "د غړیتوب حالت",
+    "status_Active": "فعال",
+    "status_Expired": "تېر شوی",
+    "registrationDate": "د ثبت‌نام نېټه",
+    "registrationDeadline": "د ثبت‌نام وروستۍ نېټه",
+    "createdAt": "جوړ شوی",
+    "updatedAt": "تازه شوی",
+    "noData": "د زده کوونکي معلومات نشته."
   }
 }
