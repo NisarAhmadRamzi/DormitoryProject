@@ -335,5 +335,13 @@
   },
   "AddComplaints": {
     "addNew": "شکایت جدید اضافه کنید"
+  },
+  "complaintsRow": {
+    "view": "مشاهده",
+    "edit": "ویرایش",
+    "delete": "حذف",
+    "deleteSuccess": "شکایت با موفقیت حذف شد",
+    "deleteError": "حذف شکایت انجام نشد",
+    "resourceName": "شکایت"
   }
 }

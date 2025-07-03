@@ -335,5 +335,13 @@
   },
   "AddComplaints": {
     "addNew": "نوې شکایت اضافه کړئ"
+  },
+  "complaintsRow": {
+    "view": "کتنه",
+    "edit": "سمول",
+    "delete": "حذف",
+    "deleteSuccess": "شکایت په بریالیتوب سره حذف شو",
+    "deleteError": "د شکایت حذفول ناکام شو",
+    "resourceName": "شکایت"
   }
 }

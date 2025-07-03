@@ -335,5 +335,13 @@
   },
   "AddComplaints": {
     "addNew": "Add new Complaints"
+  },
+  "complaintsRow": {
+    "view": "View",
+    "edit": "Edit",
+    "delete": "Delete",
+    "deleteSuccess": "Complaint deleted successfully",
+    "deleteError": "Failed to delete complaint",
+    "resourceName": "complaint"
   }
 }

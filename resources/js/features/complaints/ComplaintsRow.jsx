@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from 'react'
 import { HiEllipsisVertical, HiEye, HiPencil, HiTrash } from 'react-icons/hi2'
 
 import toast from 'react-hot-toast'
+import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { deleteComplaint } from '../../services/apiComplaints'
 import ConfirmDelete from '../../ui/ConfirmDelete'
@@ -28,7 +29,6 @@ const TableRow = styled.div`
     background-color: var(--color-grey-200); /* Light mode hover */
     cursor: pointer;
 
-    /* Dark mode hover */
     @media (prefers-color-scheme: dark) {
       background-color: var(--color-grey-700); /* Dark mode hover */
       cursor: pointer;
@@ -105,6 +105,7 @@ const DropdownItem = styled.button`
 `
 
 function ComplaintsRow({ complaint }) {
+  const { t } = useTranslation()
   const queryClient = useQueryClient()
   const [isOpen, setIsOpen] = useState(false)
   const [dropdownPosition, setDropdownPosition] = useState(null)
@@ -114,10 +115,10 @@ function ComplaintsRow({ complaint }) {
     mutationFn: deleteComplaint,
     onSuccess: () => {
       queryClient.invalidateQueries(['complaints'])
-      toast.success('Complaint deleted successfully')
+      toast.success(t('complaintsRow.deleteSuccess'))
     },
     onError: (err) => {
-      toast.error(err.message || 'Failed to delete complaint')
+      toast.error(err.message || t('complaintsRow.deleteError'))
     },
   })
 
@@ -168,19 +169,19 @@ function ComplaintsRow({ complaint }) {
         <DropdownMenu show={isOpen} position={dropdownPosition}>
           <Modal.Open opensWindowName={`view-${complaint.id}`}>
             <DropdownItem onClick={closeDropdown}>
-              <HiEye /> View
+              <HiEye /> {t('complaintsRow.view')}
             </DropdownItem>
           </Modal.Open>
 
           <Modal.Open opensWindowName={`edit-${complaint.id}`}>
             <DropdownItem onClick={closeDropdown}>
-              <HiPencil /> Edit
+              <HiPencil /> {t('complaintsRow.edit')}
             </DropdownItem>
           </Modal.Open>
 
           <Modal.Open opensWindowName={`delete-${complaint.id}`}>
             <DropdownItem onClick={closeDropdown} disabled={isDeleting}>
-              <HiTrash /> Delete
+              <HiTrash /> {t('complaintsRow.delete')}
             </DropdownItem>
           </Modal.Open>
         </DropdownMenu>
@@ -196,7 +197,7 @@ function ComplaintsRow({ complaint }) {
       <Modal.Window name={`delete-${complaint.id}`}>
         <ConfirmDelete
           onConfirm={handleDeleteConfirm}
-          resourceName="complaint"
+          resourceName={t('complaintsRow.resourceName')}
           itemLabel={complaint.name}
         />
       </Modal.Window>
