@@ -1,14 +1,13 @@
 import { useQuery } from '@tanstack/react-query'
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { FiSearch } from 'react-icons/fi'
-import { RxCaretLeft, RxCaretRight } from 'react-icons/rx'
 import { useSearchParams } from 'react-router-dom'
 import styled from 'styled-components'
 import { getComplaints } from '../../services/apiComplaints'
 import Spinner from '../../ui/Spinner'
 import ComplaintsRow from './ComplaintsRow'
 
-// Styled Components with CSS variables for dark mode support
 const Table = styled.div`
   border: 1px solid var(--color-grey-200);
   font-size: 1.4rem;
@@ -152,6 +151,7 @@ const NavButtons = styled.div`
 `
 
 export default function ComplaintsTable() {
+  const { t } = useTranslation()
   const [searchParams, setSearchParams] = useSearchParams()
   const currentPage = Number(searchParams.get('page')) || 1
   const [search, setSearch] = useState('')
@@ -165,7 +165,7 @@ export default function ComplaintsTable() {
   })
 
   if (isLoading) return <Spinner />
-  if (error) return <div>Error loading complaints!</div>
+  if (error) return <div>{t('errorLoading', 'Error loading complaints!')}</div>
 
   let complaints = data?.data || []
 
@@ -250,7 +250,7 @@ export default function ComplaintsTable() {
           <FiSearch />
           <input
             type="text"
-            placeholder="Search complaints..."
+            placeholder={t('complaintsTable.searchPlaceholder')}
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
@@ -263,51 +263,58 @@ export default function ComplaintsTable() {
             onClick={() => handleSort('id')}
             className={sortBy === 'id' ? 'active' : ''}
           >
-            <div>ID</div> <span className="icon">{renderIcon('id')}</span>
+            <div>{t('complaintsTable.headers.id')}</div>{' '}
+            <span className="icon">{renderIcon('id')}</span>
           </SortableHeader>
           <SortableHeader
             onClick={() => handleSort('student')}
             className={sortBy === 'student' ? 'active' : ''}
           >
-            <div>Student</div>{' '}
+            <div>{t('complaintsTable.headers.student')}</div>{' '}
             <span className="icon">{renderIcon('student')}</span>
           </SortableHeader>
           <SortableHeader
             onClick={() => handleSort('title')}
             className={sortBy === 'title' ? 'active' : ''}
           >
-            <div>Title</div> <span className="icon">{renderIcon('title')}</span>
+            <div>{t('complaintsTable.headers.title')}</div>{' '}
+            <span className="icon">{renderIcon('title')}</span>
           </SortableHeader>
           <SortableHeader
             onClick={() => handleSort('status')}
             className={sortBy === 'status' ? 'active' : ''}
           >
-            <div>Status</div>{' '}
+            <div>{t('complaintsTable.headers.status')}</div>{' '}
             <span className="icon">{renderIcon('status')}</span>
           </SortableHeader>
           <SortableHeader
             onClick={() => handleSort('created_at')}
             className={sortBy === 'created_at' ? 'active' : ''}
           >
-            <div>Created At</div>{' '}
+            <div>{t('complaintsTable.headers.createdAt')}</div>{' '}
             <span className="icon">{renderIcon('created_at')}</span>
           </SortableHeader>
-          <div>Action</div>
+          <div>{t('complaintsTable.headers.action')}</div>
         </TableHeader>
 
         {paginated.map((c) => (
           <ComplaintsRow key={c.id} complaint={c} />
         ))}
         {complaints.length === 0 && (
-          <div style={{ padding: '1.6rem' }}>No matching complaints found.</div>
+          <div style={{ padding: '1.6rem' }}>
+            {t('complaintsTable.noMatching')}
+          </div>
         )}
 
         <PaginationWrapper>
           <PageInfo>
-            Page {currentPage} of {totalPages}
+            {t('complaintsTable.pagination.pageInfo', {
+              current: currentPage,
+              total: totalPages,
+            })}
           </PageInfo>
           <RowsPerPage>
-            Rows per page:
+            {t('complaintsTable.pagination.rowsPerPage')}
             <select value={rowsPerPage} onChange={changeRows}>
               <option value={5}>5</option>
               <option value={10}>10</option>
@@ -316,18 +323,22 @@ export default function ComplaintsTable() {
             </select>
           </RowsPerPage>
           <NavButtons>
-            <button
-              onClick={() => changePage(Math.max(1, currentPage - 1))}
-              disabled={currentPage === 1}
-            >
-              <RxCaretLeft />
-            </button>
-            <button
-              onClick={() => changePage(Math.min(totalPages, currentPage + 1))}
-              disabled={currentPage === totalPages}
-            >
-              <RxCaretRight />
-            </button>
+            <NavButtons>
+              <button
+                onClick={() => changePage(Math.max(1, currentPage - 1))}
+                disabled={currentPage === 1}
+              >
+                &lt;
+              </button>
+              <button
+                onClick={() =>
+                  changePage(Math.min(totalPages, currentPage + 1))
+                }
+                disabled={currentPage === totalPages}
+              >
+                &gt;
+              </button>
+            </NavButtons>
           </NavButtons>
         </PaginationWrapper>
       </Table>

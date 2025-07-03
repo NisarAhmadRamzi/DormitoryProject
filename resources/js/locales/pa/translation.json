@@ -366,5 +366,26 @@
       "statusRequired": "حالت اړین دی"
     },
     "errorGeneric": "کومه ستونزه رامنځته شوه"
-  }
+  },
+  "complaintsTable": {
+    "searchPlaceholder": "شکایتونه لټون وکړئ...",
+    "headers": {
+      "id": "شمېره",
+      "student": "زده کوونکی",
+      "title": "سرلیک",
+      "status": "حالت",
+      "createdAt": "جوړ شوی نېټه",
+      "action": "عمل"
+    },
+    "noMatching": "هیڅ شکایتونه ونه موندل شول.",
+    "pagination": {
+      "pageInfo": "پاڼه {{current}} له {{total}} څخه",
+      "rowsPerPage": "په هر پاڼه کې قطارونه:"
+    }
+  },
+  "pagination": {
+    "previousPage": "تېرې پاڼې ته لاړ شه",
+    "nextPage": "راتلونکې پاڼې ته لاړ شه"
+  },
+  "errorLoading": "د شکایتونو د بارولو کې تېروتنه!"
 }

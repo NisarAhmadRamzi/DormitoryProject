@@ -366,5 +366,21 @@
       "statusRequired": "Status is required"
     },
     "errorGeneric": "Something went wrong"
+  },
+  "complaintsTable": {
+    "searchPlaceholder": "Search complaints...",
+    "headers": {
+      "id": "ID",
+      "student": "Student",
+      "title": "Title",
+      "status": "Status",
+      "createdAt": "Created At",
+      "action": "Action"
+    },
+    "noMatching": "No matching complaints found.",
+    "pagination": {
+      "pageInfo": "Page {{current}} of {{total}}",
+      "rowsPerPage": "Rows per page:"
+    }
   }
 }

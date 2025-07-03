@@ -366,5 +366,21 @@
       "statusRequired": "وضعیت الزامی است"
     },
     "errorGeneric": "خطایی رخ داده است"
+  },
+  "complaintsTable": {
+    "searchPlaceholder": "شکایات را جستجو کنید...",
+    "headers": {
+      "id": "شناسه",
+      "student": "دانشجو",
+      "title": "عنوان",
+      "status": "وضعیت",
+      "createdAt": "تاریخ ایجاد",
+      "action": "عملیات"
+    },
+    "noMatching": "شکایات مطابق یافت نشد.",
+    "pagination": {
+      "pageInfo": "صفحه {{current}} از {{total}}",
+      "rowsPerPage": "ردیف‌ها در هر صفحه:"
+    }
   }
 }
