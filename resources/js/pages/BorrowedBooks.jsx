@@ -1,17 +1,20 @@
-import AddBorroedBook from '../features/borrowed books/AddBorrowedBook'
+import { useTranslation } from 'react-i18next'
+import AddBorrowedBook from '../features/borrowed books/AddBorrowedBook'
 import BorrowedBooksTable from '../features/borrowed books/BorrowedBooksTable'
 import Heading from '../ui/Heading'
 import Row from '../ui/Row'
 
 function BorrowedBooks() {
+  const { t } = useTranslation()
+
   return (
     <>
       <Row>
         <Heading as="h1" style={{ textAlign: 'center' }}>
-          Borrowed Books
+          {t('borrowedBooks')}
         </Heading>
         <BorrowedBooksTable />
-        <AddBorroedBook />
+        <AddBorrowedBook />
       </Row>
     </>
   )

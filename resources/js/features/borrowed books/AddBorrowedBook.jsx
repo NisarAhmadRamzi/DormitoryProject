@@ -1,24 +1,27 @@
-import Button from '../../ui/Button'
-import CreateBorrowedBookForm from './CreateBorrowedBookForm'
-import Modal from '../../ui/Modal' // Now using the default export
-import React from 'react'
+import { useTranslation } from 'react-i18next'
 import { useUser } from '../../context/UserContext'
+import Button from '../../ui/Button'
+import Modal from '../../ui/Modal'
+import CreateBorrowedBookForm from './CreateBorrowedBookForm'
 
-const AddBorroedBook = () => {
-    const { user } = useUser()
-    const role = user?.role
-    if (role === 'student') return null
+const AddBorrowedBook = () => {
+  const { user } = useUser()
+  const role = user?.role
+  const { t } = useTranslation()
+
+  if (role === 'student') return null
+
   return (
     <Modal.Provider>
-      <Modal.Open opensWindowName="room-form">
-        <Button>Add new BorroedBook</Button>
+      <Modal.Open opensWindowName="borrowed-book-form">
+        <Button>{t('borrowBooks.addNew')}</Button>
       </Modal.Open>
 
-      <Modal.Window name="room-form">
+      <Modal.Window name="borrowed-book-form">
         <CreateBorrowedBookForm />
       </Modal.Window>
     </Modal.Provider>
   )
 }
 
-export default AddBorroedBook
+export default AddBorrowedBook
