@@ -552,5 +552,33 @@
     "createdAt": "ایجاد شده",
     "updatedAt": "بروزرسانی شده",
     "noData": "هیچ اطلاعاتی از دانشجو موجود نیست."
+  },
+  "createBookForm": {
+    "libraryId": "آی‌دی کتابخانه",
+    "libraryIdRequired": "آی‌دی کتابخانه ضروری است",
+    "title": "عنوان",
+    "titleRequired": "عنوان ضروری است",
+    "titleMaxLength": "عنوان باید کمتر از ۲۵۵ حرف باشد",
+    "author": "نویسنده",
+    "authorRequired": "نام نویسنده ضروری است",
+    "authorMaxLength": "نام نویسنده باید کمتر از ۲۵۵ حرف باشد",
+    "publicationYear": "سال نشر",
+    "publicationYearRequired": "سال نشر ضروری است",
+    "publicationYearInvalid": "باید یک سال ۴ رقمی باشد (YYYY)",
+    "status": "وضعیت",
+    "statusRequired": "وضعیت ضروری است",
+    "statusInvalid": "وضعیت نامعتبر",
+    "available": "دسترس",
+    "borrowed": "قرض‌گرفته‌شده",
+    "selectStatus": "انتخاب وضعیت",
+    "totalCopies": "مجموع نسخه‌ها",
+    "totalCopiesRequired": "تعداد نسخه‌ها ضروری است",
+    "minCopies": "باید حداقل ۱ نسخه باشد",
+    "cancel": "لغو",
+    "editBook": "ویرایش کتاب",
+    "createBook": "ایجاد کتاب جدید",
+    "updateSuccess": "کتاب «{{title}}» با موفقیت ویرایش شد",
+    "createSuccess": "کتاب جدید «{{title}}» با موفقیت ایجاد شد",
+    "error": "مشکلی پیش آمد"
   }
 }

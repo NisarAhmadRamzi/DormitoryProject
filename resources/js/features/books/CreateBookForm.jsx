@@ -1,13 +1,13 @@
-import { createBook, editBook } from '../../services/apiBooks'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-
+import React from 'react'
+import { useForm } from 'react-hook-form'
+import toast from 'react-hot-toast'
+import { useTranslation } from 'react-i18next'
+import styled from 'styled-components'
+import { createBook, editBook } from '../../services/apiBooks'
 import Button from '../../ui/Button'
 import Form from '../../ui/Form'
 import Input from '../../ui/Input'
-import React from 'react'
-import styled from 'styled-components'
-import toast from 'react-hot-toast'
-import { useForm } from 'react-hook-form'
 
 const FormRow = styled.div`
   display: grid;
@@ -62,6 +62,7 @@ const Select = styled.select`
 
 function CreateBookForm({ bookToEdit = {}, onCloseModal }) {
   const isEditSession = Boolean(bookToEdit.id)
+  const { t } = useTranslation()
 
   const {
     register,
@@ -81,28 +82,25 @@ function CreateBookForm({ bookToEdit = {}, onCloseModal }) {
       const book = res.data
       toast.success(
         isEditSession
-          ? `Book "${book.title}" updated successfully`
-          : `New book "${book.title}" created successfully`
+          ? t('createBookForm.updateSuccess', { title: book.title })
+          : t('createBookForm.createSuccess', { title: book.title })
       )
       queryClient.invalidateQueries({ queryKey: ['books'] })
       reset()
       onCloseModal?.()
     },
     onError: (err) => {
-      toast.error(err.message || 'Something went wrong')
+      toast.error(err.message || t('createBookForm.error'))
     },
   })
 
   const onSubmit = (data) => {
     data.publication_year = String(data.publication_year)
-
-    // Normalize status capitalization
     const validStatuses = {
       available: 'Available',
       borrowed: 'Borrowed',
     }
     data.status = validStatuses[data.status?.toLowerCase()] || data.status
-
     mutate(data)
   }
 
@@ -115,12 +113,12 @@ function CreateBookForm({ bookToEdit = {}, onCloseModal }) {
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
       <FormRow>
-        <Label htmlFor="library_id">Library ID</Label>
+        <Label htmlFor="library_id">{t('createBookForm.libraryId')}</Label>
         <Input
           type="number"
           id="library_id"
           {...register('library_id', {
-            required: 'Library ID is required',
+            required: t('createBookForm.libraryIdRequired'),
             valueAsNumber: true,
           })}
         />
@@ -128,15 +126,15 @@ function CreateBookForm({ bookToEdit = {}, onCloseModal }) {
       </FormRow>
 
       <FormRow>
-        <Label htmlFor="title">Title</Label>
+        <Label htmlFor="title">{t('createBookForm.title')}</Label>
         <Input
           type="text"
           id="title"
           {...register('title', {
-            required: 'Title is required',
+            required: t('createBookForm.titleRequired'),
             maxLength: {
               value: 255,
-              message: 'Title must be under 255 characters',
+              message: t('createBookForm.titleMaxLength'),
             },
           })}
         />
@@ -144,15 +142,15 @@ function CreateBookForm({ bookToEdit = {}, onCloseModal }) {
       </FormRow>
 
       <FormRow>
-        <Label htmlFor="author">Author</Label>
+        <Label htmlFor="author">{t('createBookForm.author')}</Label>
         <Input
           type="text"
           id="author"
           {...register('author', {
-            required: 'Author is required',
+            required: t('createBookForm.authorRequired'),
             maxLength: {
               value: 255,
-              message: 'Author must be under 255 characters',
+              message: t('createBookForm.authorMaxLength'),
             },
           })}
         />
@@ -160,14 +158,17 @@ function CreateBookForm({ bookToEdit = {}, onCloseModal }) {
       </FormRow>
 
       <FormRow>
-        <Label htmlFor="publication_year">Publication Year</Label>
+        <Label htmlFor="publication_year">
+          {t('createBookForm.publicationYear')}
+        </Label>
         <Input
           type="number"
           id="publication_year"
           {...register('publication_year', {
-            required: 'Publication year is required',
+            required: t('createBookForm.publicationYearRequired'),
             validate: (value) =>
-              /^\d{4}$/.test(value) || 'Must be a 4-digit year (YYYY)',
+              /^\d{4}$/.test(value) ||
+              t('createBookForm.publicationYearInvalid'),
           })}
         />
         {errors?.publication_year && (
@@ -176,32 +177,35 @@ function CreateBookForm({ bookToEdit = {}, onCloseModal }) {
       </FormRow>
 
       <FormRow>
-        <Label htmlFor="status">Status</Label>
+        <Label htmlFor="status">{t('createBookForm.status')}</Label>
         <Select
           id="status"
           {...register('status', {
-            required: 'Status is required',
+            required: t('createBookForm.statusRequired'),
             validate: (value) =>
-              ['Available', 'Borrowed'].includes(value) || 'Invalid status',
+              ['Available', 'Borrowed'].includes(value) ||
+              t('createBookForm.statusInvalid'),
           })}
         >
-          <option value="">-- Select Status --</option>
-          <option value="Available">Available</option>
-          <option value="Borrowed">Borrowed</option>
+          <option value="">-- {t('createBookForm.selectStatus')} --</option>
+          <option value="Available">{t('createBookForm.available')}</option>
+          <option value="Borrowed">{t('createBookForm.borrowed')}</option>
         </Select>
         {errors?.status && <Error>{errors.status.message}</Error>}
       </FormRow>
 
       <FormRow>
-        <Label htmlFor="books_total_count">Total Copies</Label>
+        <Label htmlFor="books_total_count">
+          {t('createBookForm.totalCopies')}
+        </Label>
         <Input
           type="number"
           id="books_total_count"
           {...register('books_total_count', {
-            required: 'Total number of copies is required',
+            required: t('createBookForm.totalCopiesRequired'),
             min: {
               value: 1,
-              message: 'Must be at least 1 copy',
+              message: t('createBookForm.minCopies'),
             },
             valueAsNumber: true,
           })}
@@ -217,10 +221,12 @@ function CreateBookForm({ bookToEdit = {}, onCloseModal }) {
           type="reset"
           onClick={() => onCloseModal?.()}
         >
-          Cancel
+          {t('createBookForm.cancel')}
         </Button>
         <Button type="submit" disabled={isLoading}>
-          {isEditSession ? 'Edit Book' : 'Create New Book'}
+          {isEditSession
+            ? t('createBookForm.editBook')
+            : t('createBookForm.createBook')}
         </Button>
       </FormRow>
     </Form>

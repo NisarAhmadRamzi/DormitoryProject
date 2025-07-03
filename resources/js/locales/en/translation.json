@@ -553,5 +553,33 @@
     "createdAt": "Created At",
     "updatedAt": "Updated At",
     "noData": "No student data available."
+  },
+  "createBookForm": {
+    "libraryId": "Library ID",
+    "libraryIdRequired": "Library ID is required",
+    "title": "Title",
+    "titleRequired": "Title is required",
+    "titleMaxLength": "Title must be under 255 characters",
+    "author": "Author",
+    "authorRequired": "Author is required",
+    "authorMaxLength": "Author must be under 255 characters",
+    "publicationYear": "Publication Year",
+    "publicationYearRequired": "Publication year is required",
+    "publicationYearInvalid": "Must be a 4-digit year (YYYY)",
+    "status": "Status",
+    "statusRequired": "Status is required",
+    "statusInvalid": "Invalid status",
+    "available": "Available",
+    "borrowed": "Borrowed",
+    "selectStatus": "Select Status",
+    "totalCopies": "Total Copies",
+    "totalCopiesRequired": "Total number of copies is required",
+    "minCopies": "Must be at least 1 copy",
+    "cancel": "Cancel",
+    "editBook": "Edit Book",
+    "createBook": "Create New Book",
+    "updateSuccess": "Book \"{{title}}\" updated successfully",
+    "createSuccess": "New book \"{{title}}\" created successfully",
+    "error": "Something went wrong"
   }
 }

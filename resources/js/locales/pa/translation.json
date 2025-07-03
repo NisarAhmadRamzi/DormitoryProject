@@ -555,5 +555,33 @@
     "createdAt": "جوړ شوی",
     "updatedAt": "تازه شوی",
     "noData": "د زده کوونکي معلومات نشته."
+  },
+  "createBookForm": {
+    "libraryId": "کتابتون آی‌دی",
+    "libraryIdRequired": "کتابتون آی‌دی لازمي ده",
+    "title": "سرلیک",
+    "titleRequired": "سرلیک لازمي ده",
+    "titleMaxLength": "سرلیک باید تر ۲۵۵ حروفو کم وي",
+    "author": "لیکوال",
+    "authorRequired": "لیکوال لازمي ده",
+    "authorMaxLength": "لیکوال باید تر ۲۵۵ حروفو کم وي",
+    "publicationYear": "د خپرېدو کال",
+    "publicationYearRequired": "د خپرېدو کال لازمي ده",
+    "publicationYearInvalid": "باید ۴ عدد لرونکی کال وي (YYYY)",
+    "status": "حالت",
+    "statusRequired": "حالت لازمي ده",
+    "statusInvalid": "ناسم حالت",
+    "available": "شتون لري",
+    "borrowed": "پور شوی",
+    "selectStatus": "حالت وټاکئ",
+    "totalCopies": "ټول کاپي‌ګانې",
+    "totalCopiesRequired": "ټول شمېر کاپي‌ګانې لازمي دي",
+    "minCopies": "لږ تر لږه باید ۱ کاپي وي",
+    "cancel": "لغوه",
+    "editBook": "کتاب سمول",
+    "createBook": "نوی کتاب جوړ کړئ",
+    "updateSuccess": "کتاب «{{title}}» په بریالیتوب سره سم شو",
+    "createSuccess": "نوی کتاب «{{title}}» په بریالیتوب سره جوړ شو",
+    "error": "یو څه غلط شول"
   }
 }
