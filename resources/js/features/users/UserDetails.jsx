@@ -1,15 +1,7 @@
-import dayjs from 'dayjs'
-import localizedFormat from 'dayjs/plugin/localizedFormat'
-import relativeTime from 'dayjs/plugin/relativeTime'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
+import dayjs from '../../locales/dayjsConfig' // your centralized config file
 import Heading from '../../ui/Heading'
-
-// Only import Persian locale (used as fallback for Pashto too)
-import 'dayjs/locale/fa'
-
-dayjs.extend(localizedFormat)
-dayjs.extend(relativeTime)
 
 const ModalFrame = styled.div`
   background-color: var(--color-grey-0);
@@ -102,8 +94,8 @@ function UserDetails({ user, onClose }) {
   const currentLang = i18n.language
   const isRtl = ['fa', 'ps'].includes(currentLang)
 
-  // Use Persian for both fa and ps
-  dayjs.locale(currentLang === 'ps' ? 'fa' : currentLang)
+  // Set locale for dayjs based on current language
+  dayjs.locale(currentLang === 'ps' ? 'ps' : currentLang) // use 'ps' locale, not 'fa' for Pashto
 
   if (!user) return <p>{t('noUserData')}</p>
 
