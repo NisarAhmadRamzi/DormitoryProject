@@ -343,5 +343,28 @@
     "deleteSuccess": "Complaint deleted successfully",
     "deleteError": "Failed to delete complaint",
     "resourceName": "complaint"
+  },
+  "createComplaintForm": {
+    "title": "Title",
+    "description": "Description",
+    "status": "Status",
+    "resolvedAt": "Resolved At (optional)",
+    "cancel": "Cancel",
+    "editComplaint": "Edit Complaint",
+    "submitComplaint": "Submit Complaint",
+    "selectStatus": "-- Select Status --",
+    "statusOptions": {
+      "pending": "Pending",
+      "resolved": "Resolved",
+      "inProgress": "In Progress"
+    },
+    "validation": {
+      "titleRequired": "Title is required",
+      "titleMaxLength": "Title must be under 255 characters",
+      "descriptionRequired": "Description is required",
+      "descriptionMaxLength": "Description must be under 1000 characters",
+      "statusRequired": "Status is required"
+    },
+    "errorGeneric": "Something went wrong"
   }
 }

@@ -343,5 +343,28 @@
     "deleteSuccess": "شکایت با موفقیت حذف شد",
     "deleteError": "حذف شکایت انجام نشد",
     "resourceName": "شکایت"
+  },
+  "createComplaintForm": {
+    "title": "عنوان",
+    "description": "شرح",
+    "status": "وضعیت",
+    "resolvedAt": "تاریخ حل شده (اختیاری)",
+    "cancel": "لغو",
+    "editComplaint": "ویرایش شکایت",
+    "submitComplaint": "ارسال شکایت",
+    "selectStatus": "-- وضعیت را انتخاب کنید --",
+    "statusOptions": {
+      "pending": "در انتظار",
+      "resolved": "حل شده",
+      "inProgress": "در حال بررسی"
+    },
+    "validation": {
+      "titleRequired": "عنوان الزامی است",
+      "titleMaxLength": "عنوان باید کمتر از ۲۵۵ کاراکتر باشد",
+      "descriptionRequired": "شرح الزامی است",
+      "descriptionMaxLength": "شرح باید کمتر از ۱۰۰۰ کاراکتر باشد",
+      "statusRequired": "وضعیت الزامی است"
+    },
+    "errorGeneric": "خطایی رخ داده است"
   }
 }

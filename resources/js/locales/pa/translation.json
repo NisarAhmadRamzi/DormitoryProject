@@ -343,5 +343,28 @@
     "deleteSuccess": "شکایت په بریالیتوب سره حذف شو",
     "deleteError": "د شکایت حذفول ناکام شو",
     "resourceName": "شکایت"
+  },
+  "createComplaintForm": {
+    "title": "سرلیک",
+    "description": "تفصیل",
+    "status": "حالت",
+    "resolvedAt": "حل شوی نېټه (اختیاري)",
+    "cancel": "لغوه کول",
+    "editComplaint": "شکایت سمول",
+    "submitComplaint": "شکایت وړاندې کول",
+    "selectStatus": "-- حالت وټاکئ --",
+    "statusOptions": {
+      "pending": "په تمه",
+      "resolved": "حل شوی",
+      "inProgress": "په پرمختګ کې"
+    },
+    "validation": {
+      "titleRequired": "سرلیک اړین دی",
+      "titleMaxLength": "سرلیک باید د ۲۵۵ کرکټرونو لاندې وي",
+      "descriptionRequired": "تفصیل اړین دی",
+      "descriptionMaxLength": "تفصیل باید د ۱۰۰۰ کرکټرونو لاندې وي",
+      "statusRequired": "حالت اړین دی"
+    },
+    "errorGeneric": "کومه ستونزه رامنځته شوه"
   }
 }
