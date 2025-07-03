@@ -448,5 +448,16 @@
     "errorGeneric": "خطایی رخ داده است",
     "submitSuccess": "شکایت \"{{title}}\" با موفقیت ثبت شد",
     "editSuccess": "شکایت \"{{title}}\" با موفقیت ویرایش شد"
+  },
+  "libraryDetails": {
+    "heading": "جزئیات کتابخانه",
+    "id": "شناسه",
+    "name": "نام",
+    "location": "موقعیت",
+    "contactInfo": "اطلاعات تماس",
+    "createdAt": "تاریخ ایجاد",
+    "updatedAt": "آخرین بروزرسانی",
+    "notAvailable": "ناموجود",
+    "noData": "هیچ اطلاعاتی درباره کتابخانه موجود نیست."
   }
 }

@@ -451,5 +451,16 @@
     "errorGeneric": "کومه ستونزه رامنځته شوه",
     "submitSuccess": "شکایت \"{{title}}\" په بریالیتوب سره ثبت شو",
     "editSuccess": "شکایت \"{{title}}\" په بریالیتوب سره تازه شو"
+  },
+  "libraryDetails": {
+    "heading": "د کتابتون جزیات",
+    "id": "شمېره",
+    "name": "نوم",
+    "location": "ځای",
+    "contactInfo": "د تماس معلومات",
+    "createdAt": "د جوړېدو نېټه",
+    "updatedAt": "وروستی تازه معلومات",
+    "notAvailable": "شته نه ده",
+    "noData": "د کتابتون معلومات نشته."
   }
 }

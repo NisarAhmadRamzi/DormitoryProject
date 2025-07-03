@@ -1,6 +1,8 @@
-import Heading from '../../ui/Heading'
 import { formatDistanceToNow } from 'date-fns'
+import { enUS, faIR } from 'date-fns/locale'
+import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
+import Heading from '../../ui/Heading'
 
 const StyledDetails = styled.div`
   background-color: var(--color-grey-0);
@@ -35,45 +37,56 @@ const Value = styled.span`
 `
 
 function LibraryDetails({ library }) {
-  if (!library) return <p>No library data available.</p>
+  const { t, i18n } = useTranslation()
 
-  const {id, name, location, contact_info, created_at, updated_at } = library
+  if (!library) return <p>{t('libraryDetails.noData')}</p>
+
+  const { id, name, location, contact_info, created_at, updated_at } = library
+
+  const currentLang = i18n.language
+  const locale = currentLang === 'fa' ? faIR : enUS // default fallback
 
   return (
     <StyledDetails>
-      <Heading as="h3">Library Details</Heading>
+      <Heading as="h3">{t('libraryDetails.heading')}</Heading>
 
       <DetailRow>
-        <Label>ID</Label>
+        <Label>{t('libraryDetails.id')}</Label>
         <Value>{id}</Value>
       </DetailRow>
 
       <DetailRow>
-        <Label>Name</Label>
+        <Label>{t('libraryDetails.name')}</Label>
         <Value>{name}</Value>
       </DetailRow>
 
       <DetailRow>
-        <Label>Location</Label>
+        <Label>{t('libraryDetails.location')}</Label>
         <Value>{location}</Value>
       </DetailRow>
 
       <DetailRow>
-        <Label>Contact Info</Label>
-        <Value>{contact_info || 'N/A'}</Value>
+        <Label>{t('libraryDetails.contactInfo')}</Label>
+        <Value>{contact_info || t('libraryDetails.notAvailable')}</Value>
       </DetailRow>
 
       <DetailRow>
-        <Label>Created At</Label>
+        <Label>{t('libraryDetails.createdAt')}</Label>
         <Value>
-          {formatDistanceToNow(new Date(created_at), { addSuffix: true })}
+          {formatDistanceToNow(new Date(created_at), {
+            addSuffix: true,
+            locale,
+          })}
         </Value>
       </DetailRow>
 
       <DetailRow>
-        <Label>Updated At</Label>
+        <Label>{t('libraryDetails.updatedAt')}</Label>
         <Value>
-          {formatDistanceToNow(new Date(updated_at), { addSuffix: true })}
+          {formatDistanceToNow(new Date(updated_at), {
+            addSuffix: true,
+            locale,
+          })}
         </Value>
       </DetailRow>
     </StyledDetails>

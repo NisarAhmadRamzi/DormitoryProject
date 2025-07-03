@@ -449,5 +449,16 @@
     "errorGeneric": "Something went wrong",
     "submitSuccess": "New complaint “{{title}}” submitted",
     "editSuccess": "Complaint “{{title}}” updated successfully"
+  },
+  "libraryDetails": {
+    "heading": "Library Details",
+    "id": "ID",
+    "name": "Name",
+    "location": "Location",
+    "contactInfo": "Contact Info",
+    "createdAt": "Created At",
+    "updatedAt": "Updated At",
+    "notAvailable": "N/A",
+    "noData": "No library data available."
   }
 }
