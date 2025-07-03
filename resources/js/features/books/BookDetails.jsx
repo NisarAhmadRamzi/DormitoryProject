@@ -1,6 +1,6 @@
-import { formatDistanceToNow, parseISO } from 'date-fns'
-
+import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
+import dayjs from '../../locales/dayjsConfig' // import your configured dayjs
 import Heading from '../../ui/Heading'
 
 const StyledDetails = styled.div`
@@ -43,18 +43,19 @@ const Value = styled.span`
   word-break: break-word;
 `
 
-function formatTimeAgo(dateString) {
+function formatTimeAgo(dateString, locale) {
   try {
-    const isoString = dateString.replace(' ', 'T')
-    const date = parseISO(isoString)
-    return formatDistanceToNow(date, { addSuffix: true })
+    return dayjs(dateString).locale(locale).fromNow()
   } catch {
-    return 'Invalid date'
+    return 'ناسم نېټه' // Pashto for "Invalid date"
   }
 }
 
 function BookDetails({ book }) {
-  if (!book) return <p>No book data available.</p>
+  const { t, i18n } = useTranslation()
+  const locale = i18n.language || 'ps' // fallback to Pashto
+
+  if (!book) return <p>{t('bookTable.noData')}</p>
 
   const {
     id,
@@ -71,57 +72,59 @@ function BookDetails({ book }) {
 
   return (
     <StyledDetails>
-      <Heading as="h3">Book Details</Heading>
+      <Heading as="h3">{t('bookTable.details.title')}</Heading>
 
       <DetailsGrid>
         <DetailItem>
-          <Label>ID</Label>
+          <Label>{t('bookTable.headers.id')}</Label>
           <Value>{id}</Value>
         </DetailItem>
 
         <DetailItem>
-          <Label>Title</Label>
+          <Label>{t('bookTable.headers.title')}</Label>
           <Value>{title}</Value>
         </DetailItem>
 
         <DetailItem>
-          <Label>Author</Label>
+          <Label>{t('bookTable.headers.author')}</Label>
           <Value>{author}</Value>
         </DetailItem>
 
         <DetailItem>
-          <Label>Publication Year</Label>
+          <Label>{t('bookTable.headers.year')}</Label>
           <Value>{publication_year}</Value>
         </DetailItem>
 
         <DetailItem>
-          <Label>Status</Label>
+          <Label>{t('bookTable.headers.status')}</Label>
           <Value>{status}</Value>
         </DetailItem>
 
         <DetailItem>
-          <Label>Total Copies</Label>
+          <Label>{t('bookTable.details.totalCopies')}</Label>
           <Value>{books_total_count}</Value>
         </DetailItem>
 
         <DetailItem>
-          <Label>Total of Borrowed Book</Label>
-          <Value>{borrowed_book_total_count ?? 'N/A'}</Value>
+          <Label>{t('bookTable.details.totalBorrowed')}</Label>
+          <Value>
+            {borrowed_book_total_count ?? t('bookTable.details.na')}
+          </Value>
         </DetailItem>
 
         <DetailItem>
-          <Label>Library ID</Label>
+          <Label>{t('bookTable.details.libraryId')}</Label>
           <Value>{library_id}</Value>
         </DetailItem>
 
         <DetailItem>
-          <Label>Created At</Label>
-          <Value>{formatTimeAgo(created_at)}</Value>
+          <Label>{t('bookTable.details.createdAt')}</Label>
+          <Value>{formatTimeAgo(created_at, locale)}</Value>
         </DetailItem>
 
         <DetailItem>
-          <Label>Updated At</Label>
-          <Value>{formatTimeAgo(updated_at)}</Value>
+          <Label>{t('bookTable.details.updatedAt')}</Label>
+          <Value>{formatTimeAgo(updated_at, locale)}</Value>
         </DetailItem>
       </DetailsGrid>
     </StyledDetails>

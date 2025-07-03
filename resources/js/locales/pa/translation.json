@@ -614,5 +614,24 @@
     "pageInfo": "پاڼه {{currentPage}} له {{totalPages}}",
     "rowsPerPage": "کتارونه په هره پاڼه کې:"
   },
-  "BookError": "د کتابونو په راوړلو کې تېروتنه!"
+  "BookError": "د کتابونو په راوړلو کې تېروتنه!",
+  "bookTable": {
+    "noData": "اطلاعات کتاب موجود نیست.",
+    "details": {
+      "title": "جزئیات کتاب",
+      "totalCopies": "کل نسخه‌ها",
+      "totalBorrowed": "کل کتاب‌های قرض گرفته شده",
+      "libraryId": "شناسه کتابخانه",
+      "createdAt": "ایجاد شده در",
+      "updatedAt": "به‌روزرسانی شده در",
+      "na": "نامشخص"
+    },
+    "headers": {
+      "id": "شناسه",
+      "title": "عنوان",
+      "author": "نویسنده",
+      "year": "سال انتشار",
+      "status": "وضعیت"
+    }
+  }
 }

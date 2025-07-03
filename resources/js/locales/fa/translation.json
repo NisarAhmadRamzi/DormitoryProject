@@ -611,5 +611,24 @@
     "pageInfo": "صفحه {{currentPage}} از {{totalPages}}",
     "rowsPerPage": "تعداد سطرها در هر صفحه:"
   },
-  "BookError": "خطا در بارگذاری کتاب‌ها!"
+  "BookError": "خطا در بارگذاری کتاب‌ها!",
+  "bookTable": {
+    "noData": "No book data available.",
+    "details": {
+      "title": "Book Details",
+      "totalCopies": "Total Copies",
+      "totalBorrowed": "Total of Borrowed Books",
+      "libraryId": "Library ID",
+      "createdAt": "Created At",
+      "updatedAt": "Updated At",
+      "na": "N/A"
+    },
+    "headers": {
+      "id": "ID",
+      "title": "Title",
+      "author": "Author",
+      "year": "Publication Year",
+      "status": "Status"
+    }
+  }
 }
