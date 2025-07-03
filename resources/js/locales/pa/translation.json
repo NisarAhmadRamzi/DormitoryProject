@@ -344,29 +344,6 @@
     "deleteError": "د شکایت حذفول ناکام شو",
     "resourceName": "شکایت"
   },
-  "createComplaintForm": {
-    "title": "سرلیک",
-    "description": "تفصیل",
-    "status": "حالت",
-    "resolvedAt": "حل شوی نېټه (اختیاري)",
-    "cancel": "لغوه کول",
-    "editComplaint": "شکایت سمول",
-    "submitComplaint": "شکایت وړاندې کول",
-    "selectStatus": "-- حالت وټاکئ --",
-    "statusOptions": {
-      "pending": "په تمه",
-      "resolved": "حل شوی",
-      "inProgress": "په پرمختګ کې"
-    },
-    "validation": {
-      "titleRequired": "سرلیک اړین دی",
-      "titleMaxLength": "سرلیک باید د ۲۵۵ کرکټرونو لاندې وي",
-      "descriptionRequired": "تفصیل اړین دی",
-      "descriptionMaxLength": "تفصیل باید د ۱۰۰۰ کرکټرونو لاندې وي",
-      "statusRequired": "حالت اړین دی"
-    },
-    "errorGeneric": "کومه ستونزه رامنځته شوه"
-  },
   "complaintsTable": {
     "searchPlaceholder": "شکایتونه لټون وکړئ...",
     "headers": {
@@ -401,5 +378,78 @@
     "updatedAt": "د تازه کولو نېټه",
     "resolvedAt": "د حل کولو نېټه",
     "na": "موجود نه دی"
+  },
+  "libraries": {
+    "title": "کتابتونونه"
+  },
+  "AddLibraries": {
+    "title": "کتابتونونه",
+    "addNew": "نوې کتابتون اضافه کړئ"
+  },
+  "libraryForm": {
+    "fields": {
+      "name": "د کتابتون نوم",
+      "location": "موقعیت",
+      "contact": "د تماس معلومات"
+    },
+    "validation": {
+      "nameRequired": "د کتابتون نوم اړین دی",
+      "nameMax": "نوم باید د ۲۵۵ توري لاندې وي",
+      "locationRequired": "موقعیت اړین دی"
+    },
+    "buttons": {
+      "create": "نوې کتابتون جوړول",
+      "edit": "تغییرات خوندي کړئ"
+    },
+    "cancel": "لغوه کول",
+    "createSuccess": "نوی کتابتون \"{{name}}\" په بریالیتوب سره جوړ شو",
+    "editSuccess": "د کتابتون \"{{name}}\" بدلونونه په بریالیتوب سره خوندي شول",
+    "error": "یو څه غلط شول"
+  },
+  "libraryRow": {
+    "view": "کتنه",
+    "edit": "سمول",
+    "delete": "پاکول",
+    "deleteSuccess": "کتابتون په بریالیتوب سره حذف شو",
+    "deleteError": "د کتابتون حذف کول ناکام شول",
+    "resource": "کتابتون"
+  },
+  "libraryTable": {
+    "searchPlaceholder": "د کتابتونونو لټون...",
+    "name": "نوم",
+    "location": "ځای",
+    "contactInfo": "اړیکه",
+    "action": "عملیات",
+    "noMatching": "هیڅ کتابتون ونه موندل شو.",
+    "errorLoading": "د کتابتونونو د لوډ کولو ستونزه!",
+    "pageInfo": "مخ {{currentPage}} له {{totalPages}}",
+    "rowsPerPage": "کرښې په هر مخ",
+    "previousPage": "تېر مخ",
+    "nextPage": "راتلونکی مخ"
+  },
+  "createComplaintForm": {
+    "title": "سرلیک",
+    "description": "تفصیل",
+    "status": "حالت",
+    "resolvedAt": "حل شوی نېټه (اختیاري)",
+    "cancel": "لغوه کول",
+    "editComplaint": "شکایت سمول",
+    "submitComplaint": "شکایت وړاندې کول",
+    "selectStatus": "-- حالت وټاکئ --",
+    "statusOptions": {
+      "pending": "په تمه",
+      "resolved": "حل شوی",
+      "inProgress": "په پرمختګ کې"
+    },
+    "validation": {
+      "titleRequired": "سرلیک اړین دی",
+      "titleMaxLength": "سرلیک باید د ۲۵۵ کرکټرونو لاندې وي",
+      "descriptionRequired": "تفصیل اړین دی",
+      "descriptionMaxLength": "تفصیل باید د ۱۰۰۰ کرکټرونو لاندې وي",
+      "statusRequired": "حالت اړین دی"
+    },
+    "errorGeneric": "کومه ستونزه رامنځته شوه",
+    "submitSuccess": "شکایت \"{{title}}\" په بریالیتوب سره ثبت شو",
+    "editSuccess": "شکایت \"{{title}}\" په بریالیتوب سره تازه شو"
   }
 }

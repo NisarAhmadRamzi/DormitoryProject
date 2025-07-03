@@ -1,14 +1,17 @@
+import { useTranslation } from 'react-i18next'
 import AddLibrary from '../features/libraries/AddLibrary'
-import Heading from '../ui/Heading'
 import LibraryTable from '../features/libraries/LibraryTable'
+import Heading from '../ui/Heading'
 import Row from '../ui/Row'
 
 function Libraries() {
+  const { t } = useTranslation()
+
   return (
     <>
       <Row>
         <Heading as="h1" style={{ textAlign: 'center' }}>
-          Libraries
+          {t('libraries.title')}
         </Heading>
         <LibraryTable />
         <AddLibrary />

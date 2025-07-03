@@ -21,17 +21,14 @@ const TableRow = styled.div`
   &:not(:last-child) {
     border-bottom: 1px solid var(--color-grey-100);
   }
-  transition: background-color 0.2s; /* Smooth transition */
+  transition: background-color 0.2s;
 
   &:hover {
     background-color: var(--color-grey-200);
-    cursor: pointer; /* Light mode hover */
+    cursor: pointer;
 
-    /* For dark mode, you can adjust this accordingly */
-    /* Use a different color if needed */
     @media (prefers-color-scheme: dark) {
-      background-color: var(--color-grey-700); /* Dark mode hover */
-      cursor: pointer;
+      background-color: var(--color-grey-700);
     }
   }
 `
@@ -115,7 +112,7 @@ const DropdownItem = styled.button`
 `
 
 function UsersRow({ user }) {
-  const { t } = useTranslation() // <-- initialize t for translation
+  const { t } = useTranslation() // <-- initialize t for translations
   const queryClient = useQueryClient()
   const [isOpen, setIsOpen] = useState(false)
   const [dropdownPosition, setDropdownPosition] = useState(null)
@@ -161,7 +158,6 @@ function UsersRow({ user }) {
     if (isOpen) {
       document.addEventListener('mousedown', handleClickOutside)
     }
-
     return () => {
       document.removeEventListener('mousedown', handleClickOutside)
     }
@@ -173,7 +169,7 @@ function UsersRow({ user }) {
       <Cell>
         <ProfileImg
           src={
-            user?.profile
+            user.profile
               ? `/uploads/${user.profile}`
               : 'https://www.gravatar.com/avatar/?d=mp&f=y'
           }
@@ -229,6 +225,7 @@ function UsersRow({ user }) {
           </Modal.Open>
         </DropdownMenu>
       </DropdownWrapper>
+
       <Modal.Window name={`view-${user.id}`}>
         <UserDetails user={user} />
       </Modal.Window>

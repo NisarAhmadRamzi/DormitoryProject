@@ -1,16 +1,18 @@
+import { useTranslation } from 'react-i18next'
 import Button from '../../ui/Button'
+import Modal from '../../ui/Modal'
 import CreateLibraryForm from './CreateLibraryForm'
-import Modal from '../../ui/Modal' // Now using the default export
-import React from 'react'
 
 const AddLibrary = () => {
+  const { t } = useTranslation()
+
   return (
     <Modal.Provider>
-      <Modal.Open opensWindowName="room-form">
-        <Button>Add new Library</Button>
+      <Modal.Open opensWindowName="library-form">
+        <Button>{t('AddLibraries.addNew')}</Button>
       </Modal.Open>
 
-      <Modal.Window name="room-form">
+      <Modal.Window name="library-form">
         <CreateLibraryForm />
       </Modal.Window>
     </Modal.Provider>

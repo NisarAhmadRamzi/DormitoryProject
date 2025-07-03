@@ -344,29 +344,6 @@
     "deleteError": "حذف شکایت انجام نشد",
     "resourceName": "شکایت"
   },
-  "createComplaintForm": {
-    "title": "عنوان",
-    "description": "شرح",
-    "status": "وضعیت",
-    "resolvedAt": "تاریخ حل شده (اختیاری)",
-    "cancel": "لغو",
-    "editComplaint": "ویرایش شکایت",
-    "submitComplaint": "ارسال شکایت",
-    "selectStatus": "-- وضعیت را انتخاب کنید --",
-    "statusOptions": {
-      "pending": "در انتظار",
-      "resolved": "حل شده",
-      "inProgress": "در حال بررسی"
-    },
-    "validation": {
-      "titleRequired": "عنوان الزامی است",
-      "titleMaxLength": "عنوان باید کمتر از ۲۵۵ کاراکتر باشد",
-      "descriptionRequired": "شرح الزامی است",
-      "descriptionMaxLength": "شرح باید کمتر از ۱۰۰۰ کاراکتر باشد",
-      "statusRequired": "وضعیت الزامی است"
-    },
-    "errorGeneric": "خطایی رخ داده است"
-  },
   "complaintsTable": {
     "searchPlaceholder": "شکایات را جستجو کنید...",
     "headers": {
@@ -396,5 +373,80 @@
     "updatedAt": "تاریخ به‌روزرسانی",
     "resolvedAt": "تاریخ حل‌شدن",
     "na": "ناموجود"
+  },
+  "libraries": {
+    "title": "کتابخانه‌ها"
+  },
+  "AddLibraries": {
+    "title": "کتابخانه‌ها",
+    "addNew": "افزودن کتابخانه جدید"
+  },
+  "libraryForm": {
+    "fields": {
+      "name": "نام کتابخانه",
+      "location": "موقعیت",
+      "contact": "اطلاعات تماس"
+    },
+    "validation": {
+      "nameRequired": "نام کتابخانه الزامی است",
+      "nameMax": "نام نباید بیشتر از ۲۵۵ کاراکتر باشد",
+      "locationRequired": "موقعیت الزامی است"
+    },
+    "buttons": {
+      "create": "ایجاد کتابخانه جدید",
+      "edit": "ذخیره تغییرات"
+    },
+    "cancel": "لغو",
+    "createSuccess": "کتابخانه \"{{name}}\" با موفقیت ایجاد شد",
+    "editSuccess": "کتابخانه \"{{name}}\" با موفقیت به‌روزرسانی شد",
+    "error": "خطایی رخ داد"
+  },
+  "libraryRow": {
+    "view": "نمایش",
+    "edit": "ویرایش",
+    "delete": "حذف",
+    "deleteSuccess": "کتابخانه با موفقیت حذف شد",
+    "deleteError": "حذف کتابخانه موفق نبود",
+    "resource": "کتابخانه"
+  },
+  "libraryTable": {
+    "searchPlaceholder": "جستجوی کتابخانه‌ها...",
+    "name": "نام",
+    "location": "محل",
+    "contactInfo": "اطلاعات تماس",
+    "action": "عملیات",
+    "noMatching": "هیچ کتابخانه‌ای یافت نشد.",
+    "errorLoading": "خطا در بارگذاری کتابخانه‌ها!",
+    "pageInfo": "صفحه {{currentPage}} از {{totalPages}}",
+    "rowsPerPage": "سطرها در هر صفحه",
+    "previousPage": "صفحه قبلی",
+    "nextPage": "صفحه بعدی"
+  },
+  "submitSuccess": "شکایت \"{{title}}\" با موفقیت ارسال شد",
+  "editSuccess": "شکایت \"{{title}}\" با موفقیت ویرایش شد",
+  "createComplaintForm": {
+    "title": "عنوان",
+    "description": "شرح",
+    "status": "وضعیت",
+    "resolvedAt": "تاریخ حل شده (اختیاری)",
+    "cancel": "لغو",
+    "editComplaint": "ویرایش شکایت",
+    "submitComplaint": "ارسال شکایت",
+    "selectStatus": "-- وضعیت را انتخاب کنید --",
+    "statusOptions": {
+      "pending": "در انتظار",
+      "resolved": "حل شده",
+      "inProgress": "در حال بررسی"
+    },
+    "validation": {
+      "titleRequired": "عنوان الزامی است",
+      "titleMaxLength": "عنوان باید کمتر از ۲۵۵ کاراکتر باشد",
+      "descriptionRequired": "شرح الزامی است",
+      "descriptionMaxLength": "شرح باید کمتر از ۱۰۰۰ کاراکتر باشد",
+      "statusRequired": "وضعیت الزامی است"
+    },
+    "errorGeneric": "خطایی رخ داده است",
+    "submitSuccess": "شکایت \"{{title}}\" با موفقیت ثبت شد",
+    "editSuccess": "شکایت \"{{title}}\" با موفقیت ویرایش شد"
   }
 }

@@ -115,7 +115,9 @@ function ComplaintsRow({ complaint }) {
     mutationFn: deleteComplaint,
     onSuccess: () => {
       queryClient.invalidateQueries(['complaints'])
-      toast.success(t('complaintsRow.deleteSuccess'))
+      toast.success(
+        t('complaintsRow.deleteSuccess', { title: complaint.title })
+      )
     },
     onError: (err) => {
       toast.error(err.message || t('complaintsRow.deleteError'))
@@ -192,13 +194,17 @@ function ComplaintsRow({ complaint }) {
       </Modal.Window>
 
       <Modal.Window name={`edit-${complaint.id}`}>
-        <CreateComplaintForm complaintToEdit={complaint} />
+        <CreateComplaintForm
+          complaintToEdit={complaint}
+          onCloseModal={closeDropdown}
+        />
       </Modal.Window>
+
       <Modal.Window name={`delete-${complaint.id}`}>
         <ConfirmDelete
           onConfirm={handleDeleteConfirm}
           resourceName={t('complaintsRow.resourceName')}
-          itemLabel={complaint.name}
+          itemLabel={complaint.title}
         />
       </Modal.Window>
     </TableRow>

@@ -1,13 +1,14 @@
-import { createLibrary, editLibrary } from '../../services/apiLibraries'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
+import React from 'react'
+import { useForm } from 'react-hook-form'
+import toast from 'react-hot-toast'
+import { useTranslation } from 'react-i18next'
+import styled from 'styled-components'
 
+import { createLibrary, editLibrary } from '../../services/apiLibraries'
 import Button from '../../ui/Button'
 import Form from '../../ui/Form'
 import Input from '../../ui/Input'
-import React from 'react'
-import styled from 'styled-components'
-import toast from 'react-hot-toast'
-import { useForm } from 'react-hook-form'
 
 const FormRow = styled.div`
   display: grid;
@@ -45,83 +46,76 @@ const Error = styled.span`
 `
 
 function CreateLibraryForm({ libraryToEdit = {}, onCloseModal }) {
-  const isEditSession = Boolean(libraryToEdit.id)
+  const { t } = useTranslation()
+  const isEdit = Boolean(libraryToEdit.id)
 
-  // Initialize form with defaultValues from libraryToEdit if in edit mode
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
   } = useForm({
-    defaultValues: isEditSession ? libraryToEdit : {}, // Set form values for editing
+    defaultValues: isEdit ? libraryToEdit : {},
   })
 
   const queryClient = useQueryClient()
-
-  // Mutation hook for creating or editing a library
   const { mutate, isLoading } = useMutation({
     mutationFn: (data) =>
-      isEditSession ? editLibrary(libraryToEdit.id, data) : createLibrary(data),
+      isEdit ? editLibrary(libraryToEdit.id, data) : createLibrary(data),
     onSuccess: (res) => {
-      const library = res.data // API response returns { data: {...} }
+      const lib = res.data
       toast.success(
-        isEditSession
-          ? `Library "${library.name}" updated successfully`
-          : `New library "${library.name}" created successfully`
+        isEdit
+          ? t('libraryForm.editSuccess', { name: lib.name })
+          : t('libraryForm.createSuccess', { name: lib.name })
       )
-      queryClient.invalidateQueries({ queryKey: ['libraries'] })
-      reset() // Reset the form after successful submission
+      queryClient.invalidateQueries(['libraries'])
+      reset()
       onCloseModal?.()
     },
     onError: (err) => {
-      toast.error(err.message || 'Something went wrong')
+      toast.error(err.message || t('libraryForm.error'))
     },
   })
 
-  const onSubmit = (data) => mutate(data)
-
-  // If we are in edit mode, ensure the form is reset with proper values
   React.useEffect(() => {
-    if (isEditSession && libraryToEdit) {
-      reset(libraryToEdit)
-    }
-  }, [isEditSession, libraryToEdit, reset])
+    if (isEdit) reset(libraryToEdit)
+  }, [isEdit, libraryToEdit, reset])
+
+  const onSubmit = (data) => mutate(data)
 
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
       <FormRow>
-        <Label htmlFor="name">Library Name</Label>
+        <Label htmlFor="name">{t('libraryForm.fields.name')}</Label>
         <Input
-          type="text"
           id="name"
           {...register('name', {
-            required: 'Library name is required',
+            required: t('libraryForm.validation.nameRequired'),
             maxLength: {
               value: 255,
-              message: 'Name must be under 255 characters',
+              message: t('libraryForm.validation.nameMax'),
             },
           })}
         />
-        {errors?.name && <Error>{errors.name.message}</Error>}
+        {errors.name && <Error>{errors.name.message}</Error>}
       </FormRow>
 
       <FormRow>
-        <Label htmlFor="location">Location</Label>
+        <Label htmlFor="location">{t('libraryForm.fields.location')}</Label>
         <Input
-          type="text"
           id="location"
           {...register('location', {
-            required: 'Location is required',
+            required: t('libraryForm.validation.locationRequired'),
           })}
         />
-        {errors?.location && <Error>{errors.location.message}</Error>}
+        {errors.location && <Error>{errors.location.message}</Error>}
       </FormRow>
 
       <FormRow>
-        <Label htmlFor="contact_info">Contact Info</Label>
-        <Input type="text" id="contact_info" {...register('contact_info')} />
-        {errors?.contact_info && <Error>{errors.contact_info.message}</Error>}
+        <Label htmlFor="contact_info">{t('libraryForm.fields.contact')}</Label>
+        <Input id="contact_info" {...register('contact_info')} />
+        {errors.contact_info && <Error>{errors.contact_info.message}</Error>}
       </FormRow>
 
       <FormRow>
@@ -130,10 +124,12 @@ function CreateLibraryForm({ libraryToEdit = {}, onCloseModal }) {
           type="reset"
           onClick={() => onCloseModal?.()}
         >
-          Cancel
+          {t('libraryForm.cancel')}
         </Button>
         <Button type="submit" disabled={isLoading}>
-          {isEditSession ? 'Edit Library' : 'Create New Library'}
+          {isEdit
+            ? t('libraryForm.buttons.edit')
+            : t('libraryForm.buttons.create')}
         </Button>
       </FormRow>
     </Form>

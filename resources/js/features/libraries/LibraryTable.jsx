@@ -1,20 +1,20 @@
 import { useQuery } from '@tanstack/react-query'
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { FiSearch } from 'react-icons/fi'
-import { RxCaretLeft, RxCaretRight } from 'react-icons/rx'
 import { useSearchParams } from 'react-router-dom'
 import styled from 'styled-components'
+
 import { getLibraries } from '../../services/apiLibraries'
 import Spinner from '../../ui/Spinner'
 import LibraryRow from './LibraryRow'
 
 const PAGE_SIZE_OPTIONS = [5, 10, 25, 50]
 
-// Styled Components with CSS variables for light/dark mode support
 const Table = styled.div`
   border: 1px solid var(--color-grey-200);
   background-color: var(--color-grey-0);
-  border-radius: var(--border-radius-md);
+  border-radius: var(--color-grey-sm);
   overflow: hidden;
   font-size: 1.4rem;
 `
@@ -118,7 +118,7 @@ const RowsPerPage = styled.div`
     padding: 0.4rem 0.8rem;
     font-size: 1.4rem;
     border: 1px solid var(--color-grey-300);
-    border-radius: var(--border-radius-sm);
+    border-radius: var(--color-grey-sm);
     background-color: var(--color-grey-0);
     color: var(--color-grey-900);
 
@@ -139,7 +139,7 @@ const NavButtons = styled.div`
     font-size: 2rem;
     background-color: var(--color-grey-0);
     border: 1px solid var(--color-grey-300);
-    border-radius: var(--border-radius-sm);
+    border-radius: var(--color-grey-sm);
     color: var(--color-grey-900);
     cursor: pointer;
     transition: background-color 0.2s, border-color 0.2s;
@@ -157,6 +157,7 @@ const NavButtons = styled.div`
 `
 
 export default function LibraryTable() {
+  const { t } = useTranslation()
   const [searchParams, setSearchParams] = useSearchParams()
   const currentPage = Number(searchParams.get('page')) || 1
   const [searchText, setSearchText] = useState('')
@@ -164,13 +165,10 @@ export default function LibraryTable() {
   const [sortBy, setSortBy] = useState(null)
   const [sortOrder, setSortOrder] = useState('asc')
 
-  const { isLoading, data, error } = useQuery({
-    queryKey: ['libraries'],
-    queryFn: getLibraries,
-  })
+  const { isLoading, data, error } = useQuery(['libraries'], getLibraries)
 
   if (isLoading) return <Spinner />
-  if (error) return <div>Error loading libraries!</div>
+  if (error) return <div>{t('libraryTable.errorLoading')}</div>
 
   let items = data?.data || []
   if (searchText.trim()) {
@@ -202,12 +200,12 @@ export default function LibraryTable() {
 
   const total = items.length
   const totalPages = Math.ceil(total / rowsPerPage)
-  const pageItems = items.slice(
+  const paginated = items.slice(
     (currentPage - 1) * rowsPerPage,
     (currentPage - 1) * rowsPerPage + rowsPerPage
   )
 
-  const handleSort = (col) => {
+  const toggleSort = (col) => {
     if (sortBy === col) setSortOrder((o) => (o === 'asc' ? 'desc' : 'asc'))
     else {
       setSortBy(col)
@@ -216,10 +214,15 @@ export default function LibraryTable() {
   }
   const renderIcon = (col) =>
     sortBy === col ? (sortOrder === 'asc' ? '↑' : '↓') : '↑↓'
-  const goto = (p) => setSearchParams({ page: p })
+
+  // actually change pages
+  const changePage = (newPage) => {
+    setSearchParams({ page: newPage })
+  }
+
   const changeSize = (e) => {
     setRowsPerPage(+e.target.value)
-    goto(1)
+    changePage(1)
   }
 
   return (
@@ -229,7 +232,8 @@ export default function LibraryTable() {
           <SearchInputContainer>
             <FiSearch />
             <input
-              placeholder="Search libraries..."
+              type="text"
+              placeholder={t('libraryTable.searchPlaceholder')}
               value={searchText}
               onChange={(e) => setSearchText(e.target.value)}
             />
@@ -240,37 +244,48 @@ export default function LibraryTable() {
         <TableHeader role="row">
           <div />
           <SortableHeader
-            onClick={() => handleSort('name')}
+            onClick={() => toggleSort('name')}
             className={sortBy === 'name' ? 'active' : ''}
           >
-            Name <span className="icon">{renderIcon('name')}</span>
+            {t('libraryTable.name')}
+            <span className="icon">{renderIcon('name')}</span>
           </SortableHeader>
           <SortableHeader
-            onClick={() => handleSort('location')}
+            onClick={() => toggleSort('location')}
             className={sortBy === 'location' ? 'active' : ''}
           >
-            Location <span className="icon">{renderIcon('location')}</span>
+            {t('libraryTable.location')}
+            <span className="icon">{renderIcon('location')}</span>
           </SortableHeader>
           <SortableHeader
-            onClick={() => handleSort('contact_info')}
+            onClick={() => toggleSort('contact_info')}
             className={sortBy === 'contact_info' ? 'active' : ''}
           >
-            Contact <span className="icon">{renderIcon('contact_info')}</span>
+            {t('libraryTable.contactInfo')}
+            <span className="icon">{renderIcon('contact_info')}</span>
           </SortableHeader>
-          <div>Action</div>
+          <div>{t('libraryTable.action')}</div>
         </TableHeader>
-        {pageItems.map((lib) => (
+
+        {paginated.map((lib) => (
           <LibraryRow key={lib.id} library={lib} />
         ))}
+
         {items.length === 0 && (
-          <div style={{ padding: '1.6rem' }}>No matching libraries found.</div>
+          <div style={{ padding: '1.6rem' }}>
+            {t('libraryTable.noMatching')}
+          </div>
         )}
+
         <PaginationWrapper>
           <PageInfo>
-            Page {currentPage} of {totalPages || 1}
+            {t('libraryTable.pageInfo', {
+              currentPage,
+              totalPages: totalPages || 1,
+            })}
           </PageInfo>
           <RowsPerPage>
-            Rows per page:
+            {t('libraryTable.rowsPerPage')}:
             <select value={rowsPerPage} onChange={changeSize}>
               {PAGE_SIZE_OPTIONS.map((n) => (
                 <option key={n} value={n}>
@@ -281,16 +296,18 @@ export default function LibraryTable() {
           </RowsPerPage>
           <NavButtons>
             <button
-              onClick={() => goto(Math.max(1, currentPage - 1))}
+              onClick={() => changePage(Math.max(1, currentPage - 1))}
               disabled={currentPage === 1}
+              aria-label={t('libraryTable.previousPage')}
             >
-              <RxCaretLeft />
+              &lt;
             </button>
             <button
-              onClick={() => goto(Math.min(totalPages, currentPage + 1))}
-              disabled={currentPage === totalPages || totalPages === 0}
+              onClick={() => changePage(Math.min(totalPages, currentPage + 1))}
+              disabled={currentPage === totalPages}
+              aria-label={t('libraryTable.nextPage')}
             >
-              <RxCaretRight />
+              &gt;
             </button>
           </NavButtons>
         </PaginationWrapper>
@@ -298,99 +315,3 @@ export default function LibraryTable() {
     </>
   )
 }
-
-// root version
-
-// import { Box, Stack } from '@mui/material'
-// import {
-//   MRT_GlobalFilterTextField,
-//   MRT_ToggleFiltersButton,
-//   MaterialReactTable,
-//   useMaterialReactTable,
-// } from 'material-react-table'
-
-// import ActionsCell from './LibraryRow'
-// import Spinner from '../../ui/Spinner'
-// import { getLibraries } from '../../services/apiLibraries'
-// import { useMemo } from 'react'
-// import { useQuery } from '@tanstack/react-query'
-
-// function LibraryTable({ search }) {
-//   const { isLoading, data, error } = useQuery({
-//     queryKey: ['libraries'],
-//     queryFn: getLibraries,
-//   })
-
-//   const libraries = data?.data || []
-
-//   // Define table columns
-//   const columns = useMemo(
-//     () => [
-//       {
-//         accessorKey: 'id',
-//         header: 'ID',
-//         size: 50,
-//       },
-//       {
-//         accessorKey: 'name',
-//         header: 'Name',
-//       },
-//       {
-//         accessorKey: 'location',
-//         header: 'Location',
-//       },
-//       {
-//         accessorKey: 'contact_info',
-//         header: 'Contact Info',
-//         Cell: ({ cell }) => cell.getValue() || '—',
-//       },
-//       {
-//         id: 'actions',
-//         header: 'Actions',
-//         Cell: ({ row }) => <ActionsCell library={row.original} />,
-//         enableSorting: false,
-//         enableColumnFilter: false,
-//       },
-//     ],
-//     []
-//   )
-
-//   // Set up table instance
-//   const table = useMaterialReactTable({
-//     columns,
-//     data: libraries,
-//     initialState: {
-//       pagination: { pageSize: 10, pageIndex: 0 },
-//       sorting: [{ id: 'name', desc: false }],
-//     },
-//     enableSorting: true,
-//     enableColumnFilters: true,
-//     enableGlobalFilter: true,
-//     globalFilterFn: 'contains',
-//   })
-
-//   if (isLoading) return <Spinner />
-//   if (error) return <div>Error loading libraries!</div>
-
-//   // Optional: filter libraries by `search` prop
-//   const filteredData = search
-//     ? libraries.filter((library) =>
-//         `${library.id} ${library.name} ${library.location} ${library.contact_info}`
-//           .toLowerCase()
-//           .includes(search.toLowerCase())
-//       )
-//     : libraries
-
-//   return (
-//     <Box>
-//       <Stack direction="row" spacing={2} mb={2}>
-//         <MRT_GlobalFilterTextField table={table} />
-//         <MRT_ToggleFiltersButton table={table} />
-//       </Stack>
-
-//       <MaterialReactTable table={table} data={filteredData} />
-//     </Box>
-//   )
-// }
-
-// export default LibraryTable

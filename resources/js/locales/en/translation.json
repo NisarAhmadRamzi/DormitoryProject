@@ -344,6 +344,87 @@
     "deleteError": "Failed to delete complaint",
     "resourceName": "complaint"
   },
+  "complaintsTable": {
+    "searchPlaceholder": "Search complaints...",
+    "headers": {
+      "id": "ID",
+      "student": "Student",
+      "title": "Title",
+      "status": "Status",
+      "createdAt": "Created At",
+      "action": "Action"
+    },
+    "noMatching": "No matching complaints found.",
+    "pagination": {
+      "pageInfo": "Page {{current}} of {{total}}",
+      "rowsPerPage": "Rows per page:"
+    }
+  },
+
+  "complaintDetails": {
+    "heading": "Complaint Details",
+    "noData": "No complaint data available.",
+    "id": "ID",
+    "title": "Title",
+    "description": "Description",
+    "status": "Status",
+    "student": "Student",
+    "unknown": "Unknown",
+    "createdAt": "Created At",
+    "updatedAt": "Updated At",
+    "resolvedAt": "Resolved At",
+    "na": "N/A"
+  },
+  "libraries": {
+    "title": "Libraries"
+  },
+  "AddLibraries": {
+    "title": "Libraries",
+    "addNew": "Add new Library"
+  },
+  "libraryForm": {
+    "fields": {
+      "name": "Library Name",
+      "location": "Location",
+      "contact": "Contact Info"
+    },
+    "validation": {
+      "nameRequired": "Library name is required",
+      "nameMax": "Name must be under 255 characters",
+      "locationRequired": "Location is required"
+    },
+    "buttons": {
+      "create": "Create New Library",
+      "edit": "Save Changes"
+    },
+    "cancel": "Cancel",
+    "createSuccess": "New library \"{{name}}\" created successfully",
+    "editSuccess": "Library \"{{name}}\" updated successfully",
+    "error": "Something went wrong"
+  },
+  "libraryRow": {
+    "view": "View",
+    "edit": "Edit",
+    "delete": "Delete",
+    "deleteSuccess": "Library deleted successfully",
+    "deleteError": "Failed to delete library",
+    "resource": "library"
+  },
+  "libraryTable": {
+    "searchPlaceholder": "Search libraries...",
+    "name": "Name",
+    "location": "Location",
+    "contactInfo": "Contact",
+    "action": "Action",
+    "noMatching": "No matching libraries found.",
+    "errorLoading": "Error loading libraries!",
+    "pageInfo": "Page {{currentPage}} of {{totalPages}}",
+    "rowsPerPage": "Rows per page",
+    "previousPage": "Previous page",
+    "nextPage": "Next page"
+  },
+  "submitConfirmation": "New complaint “{{title}}” submitted",
+  "editConfirmation": "Complaint “{{title}}” updated successfully",
   "createComplaintForm": {
     "title": "Title",
     "description": "Description",
@@ -365,36 +446,8 @@
       "descriptionMaxLength": "Description must be under 1000 characters",
       "statusRequired": "Status is required"
     },
-    "errorGeneric": "Something went wrong"
-  },
-  "complaintsTable": {
-    "searchPlaceholder": "Search complaints...",
-    "headers": {
-      "id": "ID",
-      "student": "Student",
-      "title": "Title",
-      "status": "Status",
-      "createdAt": "Created At",
-      "action": "Action"
-    },
-    "noMatching": "No matching complaints found.",
-    "pagination": {
-      "pageInfo": "Page {{current}} of {{total}}",
-      "rowsPerPage": "Rows per page:"
-    }
-  },
-  "complaintDetails": {
-    "heading": "Complaint Details",
-    "noData": "No complaint data available.",
-    "id": "ID",
-    "title": "Title",
-    "description": "Description",
-    "status": "Status",
-    "student": "Student",
-    "unknown": "Unknown",
-    "createdAt": "Created At",
-    "updatedAt": "Updated At",
-    "resolvedAt": "Resolved At",
-    "na": "N/A"
+    "errorGeneric": "Something went wrong",
+    "submitSuccess": "New complaint “{{title}}” submitted",
+    "editSuccess": "Complaint “{{title}}” updated successfully"
   }
 }
