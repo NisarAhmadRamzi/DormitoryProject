@@ -1,13 +1,14 @@
-import { createFee, editFee } from '../../services/apiFees'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { createFee, editFee } from '../../services/apiFees'
 
+import React from 'react'
+import { useForm } from 'react-hook-form'
+import toast from 'react-hot-toast'
+import { useTranslation } from 'react-i18next'
+import styled from 'styled-components'
 import Button from '../../ui/Button'
 import Form from '../../ui/Form'
 import Input from '../../ui/Input'
-import React from 'react'
-import styled from 'styled-components'
-import toast from 'react-hot-toast'
-import { useForm } from 'react-hook-form'
 
 const FormRow = styled.div`
   display: grid;
@@ -45,6 +46,7 @@ const Error = styled.span`
 `
 
 function CreateFeeForm({ feeToEdit = {}, onCloseModal }) {
+  const { t } = useTranslation()
   const isEditSession = Boolean(feeToEdit.id)
 
   const {
@@ -65,15 +67,15 @@ function CreateFeeForm({ feeToEdit = {}, onCloseModal }) {
       const fee = res.data || res
       toast.success(
         isEditSession
-          ? `Fee record updated successfully`
-          : `New fee record created successfully`
+          ? t('Fees.messages.updatedSuccess')
+          : t('Fees.messages.createdSuccess')
       )
       queryClient.invalidateQueries({ queryKey: ['fees'] })
       reset()
       onCloseModal?.()
     },
     onError: (err) => {
-      toast.error(err.message || 'Something went wrong')
+      toast.error(err.message || t('Fees.messages.error'))
     },
   })
 
@@ -88,68 +90,76 @@ function CreateFeeForm({ feeToEdit = {}, onCloseModal }) {
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
       <FormRow>
-        <Label htmlFor="student_id">Student ID</Label>
+        <Label htmlFor="student_id">{t('Fees.fields.studentId')}</Label>
         <Input
           type="number"
           id="student_id"
-          {...register('student_id', { required: 'Student ID is required' })}
+          {...register('student_id', {
+            required: t('Fees.errors.studentIdRequired'),
+          })}
         />
         {errors?.student_id && <Error>{errors.student_id.message}</Error>}
       </FormRow>
 
       <FormRow>
-        <Label htmlFor="office_pay">Office Pay</Label>
+        <Label htmlFor="office_pay">{t('Fees.fields.officePay')}</Label>
         <Input
           type="number"
           id="office_pay"
           step="0.01"
-          {...register('office_pay', { required: 'Office pay is required' })}
+          {...register('office_pay', {
+            required: t('Fees.errors.officePayRequired'),
+          })}
         />
         {errors?.office_pay && <Error>{errors.office_pay.message}</Error>}
       </FormRow>
 
       <FormRow>
-        <Label htmlFor="office_paid">Office Paid</Label>
+        <Label htmlFor="office_paid">{t('Fees.fields.officePaid')}</Label>
         <Input
           type="text"
           id="office_paid"
-          {...register('office_paid', { required: 'Office paid is required' })}
+          {...register('office_paid', {
+            required: t('Fees.errors.officePaidRequired'),
+          })}
         />
         {errors?.office_paid && <Error>{errors.office_paid.message}</Error>}
       </FormRow>
 
       <FormRow>
-        <Label htmlFor="warranty_pay">Warranty Pay</Label>
+        <Label htmlFor="warranty_pay">{t('Fees.fields.warrantyPay')}</Label>
         <Input
           type="number"
           id="warranty_pay"
           step="0.01"
           {...register('warranty_pay', {
-            required: 'Warranty pay is required',
+            required: t('Fees.errors.warrantyPayRequired'),
           })}
         />
         {errors?.warranty_pay && <Error>{errors.warranty_pay.message}</Error>}
       </FormRow>
 
       <FormRow>
-        <Label htmlFor="warranty_paid">Warranty Paid</Label>
+        <Label htmlFor="warranty_paid">{t('Fees.fields.warrantyPaid')}</Label>
         <Input
           type="text"
           id="warranty_paid"
           {...register('warranty_paid', {
-            required: 'Warranty paid is required',
+            required: t('Fees.errors.warrantyPaidRequired'),
           })}
         />
         {errors?.warranty_paid && <Error>{errors.warranty_paid.message}</Error>}
       </FormRow>
 
       <FormRow>
-        <Label htmlFor="registration_date">Registration Date</Label>
+        <Label htmlFor="registration_date">
+          {t('Fees.fields.registrationDate')}
+        </Label>
         <Input
           type="date"
           id="registration_date"
           {...register('registration_date', {
-            required: 'Registration date is required',
+            required: t('Fees.errors.registrationDateRequired'),
           })}
         />
         {errors?.registration_date && (
@@ -158,19 +168,19 @@ function CreateFeeForm({ feeToEdit = {}, onCloseModal }) {
       </FormRow>
 
       <FormRow>
-        <Label htmlFor="due_date">Due Date</Label>
+        <Label htmlFor="due_date">{t('Fees.fields.dueDate')}</Label>
         <Input
           type="date"
           id="due_date"
           {...register('due_date', {
-            required: 'Due date is required',
+            required: t('Fees.errors.dueDateRequired'),
           })}
         />
         {errors?.due_date && <Error>{errors.due_date.message}</Error>}
       </FormRow>
 
       <FormRow>
-        <Label htmlFor="paid_date">Paid Date (optional)</Label>
+        <Label htmlFor="paid_date">{t('Fees.fields.paidDateOptional')}</Label>
         <Input type="date" id="paid_date" {...register('paid_date')} />
       </FormRow>
 
@@ -180,10 +190,12 @@ function CreateFeeForm({ feeToEdit = {}, onCloseModal }) {
           type="reset"
           onClick={() => onCloseModal?.()}
         >
-          Cancel
+          {t('CommonFees.cancel')}
         </Button>
         <Button type="submit" disabled={isLoading}>
-          {isEditSession ? 'Edit Fee' : 'Create New Fee'}
+          {isEditSession
+            ? t('Fees.buttons.editFee')
+            : t('Fees.buttons.createFee')}
         </Button>
       </FormRow>
     </Form>

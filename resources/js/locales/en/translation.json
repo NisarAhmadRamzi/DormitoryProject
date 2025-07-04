@@ -746,5 +746,41 @@
     "totalCashDonated": "Total Cash Donated",
     "createdAt": "Created At",
     "updatedAt": "Updated At"
+  },
+  "AddFees": {
+    "addNew": "Add new Fees"
+  },
+  "CommonFees": {
+    "cancel": "Cancel"
+  },
+  "Fees": {
+    "fields": {
+      "studentId": "Student ID",
+      "officePay": "Office Pay",
+      "officePaid": "Office Paid",
+      "warrantyPay": "Warranty Pay",
+      "warrantyPaid": "Warranty Paid",
+      "registrationDate": "Registration Date",
+      "dueDate": "Due Date",
+      "paidDateOptional": "Paid Date (optional)"
+    },
+    "errors": {
+      "studentIdRequired": "Student ID is required",
+      "officePayRequired": "Office pay is required",
+      "officePaidRequired": "Office paid is required",
+      "warrantyPayRequired": "Warranty pay is required",
+      "warrantyPaidRequired": "Warranty paid is required",
+      "registrationDateRequired": "Registration date is required",
+      "dueDateRequired": "Due date is required"
+    },
+    "buttons": {
+      "editFee": "Edit Fee",
+      "createFee": "Create New Fee"
+    },
+    "messages": {
+      "updatedSuccess": "Fee record updated successfully",
+      "createdSuccess": "New fee record created successfully",
+      "error": "Something went wrong"
+    }
   }
 }

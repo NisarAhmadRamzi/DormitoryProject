@@ -745,5 +745,41 @@
     "totalCashDonated": "مجموع نقدی کمک شده",
     "createdAt": "ایجاد شده در",
     "updatedAt": "به‌روزرسانی شده در"
+  },
+  "AddFees": {
+    "addNew": "افزودن فیس جدید"
+  },
+  "CommonFees": {
+    "cancel": "لغو"
+  },
+  "Fees": {
+    "fields": {
+      "studentId": "شماره دانشجو",
+      "officePay": "پرداخت اداره",
+      "officePaid": "پرداخت شده اداره",
+      "warrantyPay": "پرداخت ضمانت",
+      "warrantyPaid": "پرداخت شده ضمانت",
+      "registrationDate": "تاریخ ثبت",
+      "dueDate": "تاریخ موعد",
+      "paidDateOptional": "تاریخ پرداخت (اختیاری)"
+    },
+    "errors": {
+      "studentIdRequired": "شماره دانشجو الزامی است",
+      "officePayRequired": "پرداخت اداره الزامی است",
+      "officePaidRequired": "پرداخت شده اداره الزامی است",
+      "warrantyPayRequired": "پرداخت ضمانت الزامی است",
+      "warrantyPaidRequired": "پرداخت شده ضمانت الزامی است",
+      "registrationDateRequired": "تاریخ ثبت الزامی است",
+      "dueDateRequired": "تاریخ موعد الزامی است"
+    },
+    "buttons": {
+      "editFee": "ویرایش فیس",
+      "createFee": "ایجاد فیس جدید"
+    },
+    "messages": {
+      "updatedSuccess": "فیس با موفقیت به‌روزرسانی شد",
+      "createdSuccess": "فیس جدید با موفقیت ایجاد شد",
+      "error": "خطایی رخ داده است"
+    }
   }
 }

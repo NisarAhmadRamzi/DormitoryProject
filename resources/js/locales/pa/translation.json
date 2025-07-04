@@ -749,5 +749,41 @@
     "totalCashDonated": "ټوله ورکړل شوې نغدي مرسته",
     "createdAt": "جوړ شوی",
     "updatedAt": "تازه شوی"
+  },
+  "AddFees": {
+    "addNew": "نوی فیس اضافه کړئ"
+  },
+  "CommonFees": {
+    "cancel": "لغوه کړئ"
+  },
+  "Fees": {
+    "fields": {
+      "studentId": "د زده کوونکي شمېره",
+      "officePay": "دفتر پیسې",
+      "officePaid": "دفتر ورکړل شوي",
+      "warrantyPay": "ضمانت پیسې",
+      "warrantyPaid": "ضمانت ورکړل شوي",
+      "registrationDate": "د ثبت نیټه",
+      "dueDate": "د نیټې نېټه",
+      "paidDateOptional": "د پیسو نیټه (اختیاري)"
+    },
+    "errors": {
+      "studentIdRequired": "د زده کوونکي شمېره اړینه ده",
+      "officePayRequired": "دفتر پیسې اړینې دي",
+      "officePaidRequired": "دفتر ورکړل شوي اړین دي",
+      "warrantyPayRequired": "ضمانت پیسې اړینې دي",
+      "warrantyPaidRequired": "ضمانت ورکړل شوي اړین دي",
+      "registrationDateRequired": "د ثبت نیټه اړینه ده",
+      "dueDateRequired": "د نیټې نېټه اړینه ده"
+    },
+    "buttons": {
+      "editFee": "فیس سمول",
+      "createFee": "نوی فیس جوړول"
+    },
+    "messages": {
+      "updatedSuccess": "فیس په بریالیتوب سره تازه شو",
+      "createdSuccess": "نوی فیس په بریالیتوب سره جوړ شو",
+      "error": "څه غلط شول"
+    }
   }
 }
