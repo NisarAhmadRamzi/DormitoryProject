@@ -857,5 +857,57 @@
     "previousPage": "Previous page",
     "nextPage": "Next page",
     "errorLoading": "Error loading expenses!"
-  }
+  },
+  "AddSupports": {
+    "addNewSupport": "Add new support"
+  },
+  "SupportsForm": {
+    "form": {
+      "type": "Support Type",
+      "details": "Details",
+      "goodsQuantity": "Goods Quantity",
+      "cashQuantity": "Cash Quantity",
+      "helperFullname": "Helper Fullname",
+      "helperNumber": "Helper Number",
+      "helperEmail": "Helper Email",
+      "helpDate": "Help Date",
+      "editSupport": "Edit Support",
+      "createSupport": "Create New Support"
+    },
+    "validation": {
+      "typeRequired": "Support type is required",
+      "typeMaxLength": "Type must be under 255 characters",
+      "detailsRequired": "Details are required",
+      "goodsQuantityMin": "Goods quantity cannot be negative",
+      "cashQuantityMin": "Cash quantity cannot be negative",
+      "helperFullnameRequired": "Helper fullname is required",
+      "helperNumberRequired": "Helper number is required",
+      "helperNumberInvalid": "Invalid phone number format",
+      "helperEmailInvalid": "Invalid email address",
+      "helpDateRequired": "Help date is required"
+    },
+    "messages": {
+      "updated": "Support \"{{type}}\" updated successfully",
+      "created": "New support \"{{type}}\" created successfully",
+      "error": "Something went wrong"
+    }
+  },
+  "AlertSupports": {
+    "resource": "Support",
+    "messages": {
+      "deleted": "Support deleted successfully",
+      "deleteError": "Failed to delete support"
+    }
+  },
+  "searchSupports": "Search supports...",
+  "type": "Type",
+  "details": "Details",
+  "helper": "Helper",
+  "number": "Number",
+  "Email": "Email",
+  "action": "Action",
+  "noRecords": "No matching records.",
+  "page": "Page",
+  "of": "of",
+  "rowsPerPage": "Rows per page"
 }

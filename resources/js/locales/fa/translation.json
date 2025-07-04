@@ -856,5 +856,58 @@
     "previousPage": "صفحه قبلی",
     "nextPage": "صفحه بعدی",
     "errorLoading": "خطا در بارگذاری مصرف‌ها!"
-  }
+  },
+  "AddSupports": {
+    "addNewSupport": "نوې ملاتړ اضافه کړئ"
+  },
+  "SupportsForm": {
+    "form": {
+      "type": "نوع حمایت",
+      "details": "جزئیات",
+      "goodsQuantity": "مقدار کالا",
+      "cashQuantity": "مقدار نقدی",
+      "helperFullname": "نام کامل کمک‌کننده",
+      "helperNumber": "شماره کمک‌کننده",
+      "helperEmail": "ایمیل کمک‌کننده",
+      "helpDate": "تاریخ کمک",
+      "editSupport": "ویرایش حمایت",
+      "createSupport": "ایجاد حمایت جدید"
+    },
+    "validation": {
+      "typeRequired": "نوع حمایت الزامی است",
+      "typeMaxLength": "نوع باید کمتر از ۲۵۵ کاراکتر باشد",
+      "detailsRequired": "جزئیات الزامی است",
+      "goodsQuantityMin": "مقدار کالا نمی‌تواند منفی باشد",
+      "cashQuantityMin": "مقدار نقدی نمی‌تواند منفی باشد",
+      "helperFullnameRequired": "نام کامل کمک‌کننده الزامی است",
+      "helperNumberRequired": "شماره کمک‌کننده الزامی است",
+      "helperNumberInvalid": "فرمت شماره تلفن نامعتبر است",
+      "helperEmailInvalid": "آدرس ایمیل نامعتبر است",
+      "helpDateRequired": "تاریخ کمک الزامی است"
+    },
+    "messages": {
+      "updated": "حمایت «{{type}}» با موفقیت ویرایش شد",
+      "created": "حمایت جدید «{{type}}» با موفقیت ایجاد شد",
+      "error": "مشکلی پیش آمد"
+    }
+  },
+
+  "AlertSupports": {
+    "resource": "حمایت",
+    "messages": {
+      "deleted": "حمایت با موفقیت حذف شد",
+      "deleteError": "حذف حمایت موفق نبود"
+    }
+  },
+  "searchSupports": "جستجوی پشتیبانی‌ها...",
+  "type": "نوع",
+  "details": "جزئیات",
+  "helper": "کمک‌کننده",
+  "number": "شماره",
+  "Email": "ایمیل",
+  "action": "عملیات",
+  "noRecords": "هیچ موردی یافت نشد.",
+  "page": "صفحه",
+  "of": "از",
+  "rowsPerPage": "ردیف در هر صفحه"
 }

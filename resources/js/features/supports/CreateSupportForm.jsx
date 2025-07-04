@@ -1,13 +1,14 @@
-import { createSupport, editSupport } from '../../services/apiSupports'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { createSupport, editSupport } from '../../services/apiSupports'
 
+import React from 'react'
+import { useForm } from 'react-hook-form'
+import toast from 'react-hot-toast'
+import { useTranslation } from 'react-i18next'
+import styled from 'styled-components'
 import Button from '../../ui/Button'
 import Form from '../../ui/Form'
 import Input from '../../ui/Input'
-import React from 'react'
-import styled from 'styled-components'
-import toast from 'react-hot-toast'
-import { useForm } from 'react-hook-form'
 
 const FormRow = styled.div`
   display: grid;
@@ -45,6 +46,7 @@ const Error = styled.span`
 `
 
 function CreateSupportForm({ supportToEdit = {}, onCloseModal }) {
+  const { t } = useTranslation()
   const isEditSession = Boolean(supportToEdit.id)
 
   const {
@@ -64,15 +66,15 @@ function CreateSupportForm({ supportToEdit = {}, onCloseModal }) {
     onSuccess: (support) => {
       toast.success(
         isEditSession
-          ? `Support "${support.type}" updated successfully`
-          : `New support "${support.type}" created successfully`
+          ? t('SupportsForm.messages.updated', { type: support.type })
+          : t('SupportsForm.messages.created', { type: support.type })
       )
       queryClient.invalidateQueries({ queryKey: ['supports'] })
       reset()
       onCloseModal?.()
     },
     onError: (err) => {
-      toast.error(err.message || 'Something went wrong')
+      toast.error(err.message || t('SupportsForm.messages.error'))
     },
   })
 
@@ -87,15 +89,15 @@ function CreateSupportForm({ supportToEdit = {}, onCloseModal }) {
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
       <FormRow>
-        <Label htmlFor="type">Support Type</Label>
+        <Label htmlFor="type">{t('SupportsForm.form.type')}</Label>
         <Input
           type="text"
           id="type"
           {...register('type', {
-            required: 'Support type is required',
+            required: t('SupportsForm.validation.typeRequired'),
             maxLength: {
               value: 255,
-              message: 'Type must be under 255 characters',
+              message: t('SupportsForm.validation.typeMaxLength'),
             },
           })}
         />
@@ -103,26 +105,28 @@ function CreateSupportForm({ supportToEdit = {}, onCloseModal }) {
       </FormRow>
 
       <FormRow>
-        <Label htmlFor="details">Details</Label>
+        <Label htmlFor="details">{t('SupportsForm.form.details')}</Label>
         <Input
           type="text"
           id="details"
           {...register('details', {
-            required: 'Details are required',
+            required: t('SupportsForm.validation.detailsRequired'),
           })}
         />
         {errors?.details && <Error>{errors.details.message}</Error>}
       </FormRow>
 
       <FormRow>
-        <Label htmlFor="goods_quantity">Goods Quantity</Label>
+        <Label htmlFor="goods_quantity">
+          {t('SupportsForm.form.goodsQuantity')}
+        </Label>
         <Input
           type="number"
           id="goods_quantity"
           {...register('goods_quantity', {
             min: {
               value: 0,
-              message: 'Goods quantity cannot be negative',
+              message: t('SupportsForm.validation.goodsQuantityMin'),
             },
           })}
         />
@@ -132,14 +136,16 @@ function CreateSupportForm({ supportToEdit = {}, onCloseModal }) {
       </FormRow>
 
       <FormRow>
-        <Label htmlFor="cash_quantity">Cash Quantity</Label>
+        <Label htmlFor="cash_quantity">
+          {t('SupportsForm.form.cashQuantity')}
+        </Label>
         <Input
           type="number"
           id="cash_quantity"
           {...register('cash_quantity', {
             min: {
               value: 0,
-              message: 'Cash quantity cannot be negative',
+              message: t('SupportsForm.validation.cashQuantityMin'),
             },
           })}
         />
@@ -147,12 +153,14 @@ function CreateSupportForm({ supportToEdit = {}, onCloseModal }) {
       </FormRow>
 
       <FormRow>
-        <Label htmlFor="helper_fullname">Helper Fullname</Label>
+        <Label htmlFor="helper_fullname">
+          {t('SupportsForm.form.helperFullname')}
+        </Label>
         <Input
           type="text"
           id="helper_fullname"
           {...register('helper_fullname', {
-            required: 'Helper fullname is required',
+            required: t('SupportsForm.validation.helperFullnameRequired'),
           })}
         />
         {errors?.helper_fullname && (
@@ -161,15 +169,17 @@ function CreateSupportForm({ supportToEdit = {}, onCloseModal }) {
       </FormRow>
 
       <FormRow>
-        <Label htmlFor="helper_number">Helper Number</Label>
+        <Label htmlFor="helper_number">
+          {t('SupportsForm.form.helperNumber')}
+        </Label>
         <Input
           type="text"
           id="helper_number"
           {...register('helper_number', {
-            required: 'Helper number is required',
+            required: t('SupportsForm.validation.helperNumberRequired'),
             pattern: {
               value: /^[0-9+\-() ]+$/,
-              message: 'Invalid phone number format',
+              message: t('SupportsForm.validation.helperNumberInvalid'),
             },
           })}
         />
@@ -177,14 +187,16 @@ function CreateSupportForm({ supportToEdit = {}, onCloseModal }) {
       </FormRow>
 
       <FormRow>
-        <Label htmlFor="helper_email">Helper Email</Label>
+        <Label htmlFor="helper_email">
+          {t('SupportsForm.form.helperEmail')}
+        </Label>
         <Input
           type="email"
           id="helper_email"
           {...register('helper_email', {
             pattern: {
               value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-              message: 'Invalid email address',
+              message: t('SupportsForm.validation.helperEmailInvalid'),
             },
           })}
         />
@@ -192,12 +204,12 @@ function CreateSupportForm({ supportToEdit = {}, onCloseModal }) {
       </FormRow>
 
       <FormRow>
-        <Label htmlFor="help_date">Help Date</Label>
+        <Label htmlFor="help_date">{t('SupportsForm.form.helpDate')}</Label>
         <Input
           type="date"
           id="help_date"
           {...register('help_date', {
-            required: 'Help date is required',
+            required: t('SupportsForm.validation.helpDateRequired'),
           })}
         />
         {errors?.help_date && <Error>{errors.help_date.message}</Error>}
@@ -209,10 +221,12 @@ function CreateSupportForm({ supportToEdit = {}, onCloseModal }) {
           type="reset"
           onClick={() => onCloseModal?.()}
         >
-          Cancel
+          {t('cancel.cancel')}
         </Button>
         <Button type="submit" disabled={isLoading}>
-          {isEditSession ? 'Edit Support' : 'Create New Support'}
+          {isEditSession
+            ? t('SupportsForm.form.editSupport')
+            : t('SupportsForm.form.createSupport')}
         </Button>
       </FormRow>
     </Form>

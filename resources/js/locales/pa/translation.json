@@ -860,5 +860,58 @@
     "previousPage": "مخکېنۍ پاڼه",
     "nextPage": "راتلونکې پاڼه",
     "errorLoading": "د مصرفونو د لوستلو کې ستونزه!"
-  }
+  },
+  "AddSupports": {
+    "addNewSupport": "افزودن پشتیبانی جدید"
+  },
+  "SupportsForm": {
+    "form": {
+      "type": "د ملاتړ ډول",
+      "details": "تفصیلات",
+      "goodsQuantity": "د توکو مقدار",
+      "cashQuantity": "نغدي مقدار",
+      "helperFullname": "د مرستې کوونکي بشپړ نوم",
+      "helperNumber": "د مرستې کوونکي شمېره",
+      "helperEmail": "د مرستې کوونکي بریښنالیک",
+      "helpDate": "د مرستې نیټه",
+      "editSupport": "مرسته سمول",
+      "createSupport": "نوې مرسته جوړول"
+    },
+    "validation": {
+      "typeRequired": "د ملاتړ ډول اړین دی",
+      "typeMaxLength": "ډول باید د ۲۵۵ کرکټرونو څخه کم وي",
+      "detailsRequired": "تفصیلات اړین دي",
+      "goodsQuantityMin": "د توکو مقدار منفي کېدای نشي",
+      "cashQuantityMin": "نغدي مقدار منفي کېدای نشي",
+      "helperFullnameRequired": "د مرستې کوونکي بشپړ نوم اړین دی",
+      "helperNumberRequired": "د مرستې کوونکي شمېره اړینه ده",
+      "helperNumberInvalid": "د تلیفون شمیرې ناسم بڼه",
+      "helperEmailInvalid": "ناسم بریښنالیک پته",
+      "helpDateRequired": "د مرستې نیټه اړینه ده"
+    },
+    "messages": {
+      "updated": "مرسته \"{{type}}\" په بریالیتوب سره سمون وموند",
+      "created": "نوې مرسته \"{{type}}\" په بریالیتوب سره جوړه شوه",
+      "error": "څه ستونزه رامنځته شوه"
+    }
+  },
+
+  "AlertSupports": {
+    "resource": "مرسته",
+    "messages": {
+      "deleted": "مرسته په بریالیتوب سره حذف شوه",
+      "deleteError": "د مرستې حذفولو کې ستونزه رامنځ ته شوه"
+    }
+  },
+  "searchSupports": "ملاتړونه وپلټئ...",
+  "type": "ډول",
+  "details": "تفصیلات",
+  "helper": "مرستندوی",
+  "number": "شمېره",
+  "Email": "بریښنالیک",
+  "action": "عمل",
+  "noRecords": "هیڅ پایله ونه موندل شوه.",
+  "page": "مخ",
+  "of": "له",
+  "rowsPerPage": "قطارونه په هر مخ کې"
 }

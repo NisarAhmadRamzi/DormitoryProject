@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from 'react'
 import { HiEllipsisVertical, HiEye, HiPencil, HiTrash } from 'react-icons/hi2'
 
 import toast from 'react-hot-toast'
+import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { deleteSupport } from '../../services/apiSupports'
 import ConfirmDelete from '../../ui/ConfirmDelete'
@@ -22,15 +23,14 @@ const TableRow = styled.div`
     border-bottom: 1px solid var(--color-grey-100);
   }
 
-  transition: background-color 0.2s; /* Smooth transition */
+  transition: background-color 0.2s;
 
   &:hover {
-    background-color: var(--color-grey-200); /* Light mode hover */
+    background-color: var(--color-grey-200);
     cursor: pointer;
 
-    /* Dark mode hover */
     @media (prefers-color-scheme: dark) {
-      background-color: var(--color-grey-700); /* Dark mode hover */
+      background-color: var(--color-grey-700);
       cursor: pointer;
     }
   }
@@ -46,7 +46,7 @@ const Id = styled.div`
 const Cell = styled.div`
   font-size: 1.4rem;
   color: var(--color-grey-700);
-  padding: 0.5rem 0; /* Adjusted padding for better spacing */
+  padding: 0.5rem 0;
 `
 
 const DropdownWrapper = styled.div`
@@ -99,12 +99,14 @@ const DropdownItem = styled.button`
   color: var(--color-grey-700);
   cursor: pointer;
   transition: background-color 0.2s;
+
   &:hover {
     background-color: var(--color-grey-50);
   }
 `
 
 function SupportRow({ support }) {
+  const { t } = useTranslation()
   const queryClient = useQueryClient()
   const [isOpen, setIsOpen] = useState(false)
   const [dropdownPosition, setDropdownPosition] = useState(null)
@@ -114,11 +116,11 @@ function SupportRow({ support }) {
     mutationFn: deleteSupport,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['supports'] })
-      toast.success('Support deleted successfully')
+      toast.success(t('AlertSupports.messages.deleted'))
     },
     onError: (err) => {
       console.error('Error during deletion:', err)
-      toast.error(err.message || 'Failed to delete support')
+      toast.error(err.message || t('AlertSupports.messages.deleteError'))
     },
   })
 
@@ -159,34 +161,36 @@ function SupportRow({ support }) {
   return (
     <TableRow role="row">
       <Id>{support.type}</Id>
-      {/* <Cell>{support.details}</Cell> */}
       <Cell>{support.details.split(' ').slice(0, 4).join(' ')}...</Cell>
-
       <Cell>{support.helper_fullname}</Cell>
       <Cell>{support.helper_number}</Cell>
       <Cell>{support.helper_email || '—'}</Cell>
 
       <DropdownWrapper ref={dropdownRef}>
-        <IconButton onClick={toggleDropdown}>
+        <IconButton onClick={toggleDropdown} aria-label={t('actions.actions')}>
           <HiEllipsisVertical />
         </IconButton>
 
-        <DropdownMenu show={isOpen} position={dropdownPosition}>
+        <DropdownMenu show={isOpen} position={dropdownPosition} role="menu">
           <Modal.Open opensWindowName={`view-${support.id}`}>
-            <DropdownItem onClick={closeDropdown}>
-              <HiEye /> View
+            <DropdownItem onClick={closeDropdown} role="menuitem">
+              <HiEye /> {t('actions.view')}
             </DropdownItem>
           </Modal.Open>
 
           <Modal.Open opensWindowName={`edit-${support.id}`}>
-            <DropdownItem onClick={closeDropdown}>
-              <HiPencil /> Edit
+            <DropdownItem onClick={closeDropdown} role="menuitem">
+              <HiPencil /> {t('actions.edit')}
             </DropdownItem>
           </Modal.Open>
 
           <Modal.Open opensWindowName={`delete-${support.id}`}>
-            <DropdownItem onClick={closeDropdown} disabled={isDeleting}>
-              <HiTrash /> Delete
+            <DropdownItem
+              onClick={closeDropdown}
+              disabled={isDeleting}
+              role="menuitem"
+            >
+              <HiTrash /> {t('actions.delete')}
             </DropdownItem>
           </Modal.Open>
         </DropdownMenu>
@@ -199,11 +203,12 @@ function SupportRow({ support }) {
       <Modal.Window name={`edit-${support.id}`}>
         <CreateSupportForm supportToEdit={support} />
       </Modal.Window>
+
       <Modal.Window name={`delete-${support.id}`}>
         <ConfirmDelete
           onConfirm={handleDeleteConfirm}
-          resourceName="support"
-          itemLabel={support.name}
+          resourceName={t('AlertSupports.resource')}
+          itemLabel={support.type}
         />
       </Modal.Window>
     </TableRow>
