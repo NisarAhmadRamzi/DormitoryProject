@@ -1,16 +1,13 @@
 import { useQuery } from '@tanstack/react-query'
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { FiSearch } from 'react-icons/fi'
-import { RxCaretLeft, RxCaretRight } from 'react-icons/rx'
 import { useSearchParams } from 'react-router-dom'
 import styled from 'styled-components'
 import { getFees } from '../../services/apiFees'
 import Spinner from '../../ui/Spinner'
 import FeesRow from './FeesRow'
-
 const PAGE_SIZE_OPTIONS = [5, 10, 25, 50]
-
-// Styled components with CSS variables for dark mode support
 const Table = styled.div`
   border: 1px solid var(--color-grey-200);
   font-size: 1.4rem;
@@ -157,6 +154,7 @@ const NavButtons = styled.div`
 `
 
 export default function FeesTable() {
+  const { t } = useTranslation()
   const [searchParams, setSearchParams] = useSearchParams()
   const currentPage = Number(searchParams.get('page')) || 1
   const sortParam = searchParams.get('sortBy') || 'id-asc'
@@ -171,11 +169,10 @@ export default function FeesTable() {
   })
 
   if (isLoading) return <Spinner />
-  if (error) return <div>Error loading fees!</div>
+  if (error) return <div>{t('FeesHeaders.messages.loadError')}</div>
 
   let filteredFees = data?.data || []
 
-  // Filter
   if (searchText.trim()) {
     const lower = searchText.toLowerCase()
     filteredFees = filteredFees.filter((fee) =>
@@ -185,7 +182,6 @@ export default function FeesTable() {
     )
   }
 
-  // Sort
   filteredFees = [...filteredFees].sort((a, b) => {
     let aVal, bVal
     if (sortByCol === 'student') {
@@ -239,7 +235,7 @@ export default function FeesTable() {
             <FiSearch />
             <input
               type="text"
-              placeholder="Search fees..."
+              placeholder={t('FeesHeaders.searchPlaceholder')}
               value={searchText}
               onChange={(e) => setSearchText(e.target.value)}
             />
@@ -253,43 +249,45 @@ export default function FeesTable() {
             onClick={() => handleSort('id')}
             className={sortByCol === 'id' ? 'active' : ''}
           >
-            ID <span className="icon">{renderSortIcon('id')}</span>
+            {t('FeesHeaders.columns.id')}{' '}
+            <span className="icon">{renderSortIcon('id')}</span>
           </SortableHeader>
           <SortableHeader
             onClick={() => handleSort('student')}
             className={sortByCol === 'student' ? 'active' : ''}
           >
-            Student <span className="icon">{renderSortIcon('student')}</span>
+            {t('FeesHeaders.columns.student')}{' '}
+            <span className="icon">{renderSortIcon('student')}</span>
           </SortableHeader>
           <SortableHeader
             onClick={() => handleSort('office_pay')}
             className={sortByCol === 'office_pay' ? 'active' : ''}
           >
-            Office Pay{' '}
+            {t('FeesHeaders.columns.officePay')}{' '}
             <span className="icon">{renderSortIcon('office_pay')}</span>
           </SortableHeader>
           <SortableHeader
             onClick={() => handleSort('office_paid')}
             className={sortByCol === 'office_paid' ? 'active' : ''}
           >
-            Office Paid{' '}
+            {t('FeesHeaders.columns.officePaid')}{' '}
             <span className="icon">{renderSortIcon('office_paid')}</span>
           </SortableHeader>
           <SortableHeader
             onClick={() => handleSort('warranty_pay')}
             className={sortByCol === 'warranty_pay' ? 'active' : ''}
           >
-            Warranty Pay{' '}
+            {t('FeesHeaders.columns.warrantyPay')}{' '}
             <span className="icon">{renderSortIcon('warranty_pay')}</span>
           </SortableHeader>
           <SortableHeader
             onClick={() => handleSort('total_fee')}
             className={sortByCol === 'total_fee' ? 'active' : ''}
           >
-            Total Fee{' '}
+            {t('FeesHeaders.columns.totalFee')}{' '}
             <span className="icon">{renderSortIcon('total_fee')}</span>
           </SortableHeader>
-          <div>Action</div>
+          <div>{t('FeesHeaders.columns.actions')}</div>
         </TableHeader>
 
         {paginatedFees.map((fee) => (
@@ -297,15 +295,17 @@ export default function FeesTable() {
         ))}
 
         {filteredFees.length === 0 && (
-          <div style={{ padding: '1.6rem' }}>No matching fees found.</div>
+          <div style={{ padding: '1.6rem' }}>
+            {t('FeesHeaders.messages.noMatch')}
+          </div>
         )}
 
         <PaginationWrapper>
           <PageInfo>
-            Page {currentPage} of {totalPages || 1}
+            {t('FeesHeaders.pagination.pageInfo', { currentPage, totalPages })}
           </PageInfo>
           <RowsPerPage>
-            Rows per page:
+            {t('FeesHeaders.pagination.rowsPerPage')}
             <select value={rowsPerPage} onChange={handleRowsPerPageChange}>
               {PAGE_SIZE_OPTIONS.map((size) => (
                 <option key={size} value={size}>
@@ -318,16 +318,18 @@ export default function FeesTable() {
             <button
               onClick={() => handlePageChange(Math.max(1, currentPage - 1))}
               disabled={currentPage === 1}
+              aria-label={t('libraryTable.previousPage')}
             >
-              <RxCaretLeft />
+              &lt;
             </button>
             <button
               onClick={() =>
                 handlePageChange(Math.min(totalPages, currentPage + 1))
               }
-              disabled={currentPage === totalPages && totalPages > 0}
+              disabled={currentPage === totalPages}
+              aria-label={t('libraryTable.nextPage')}
             >
-              <RxCaretRight />
+              &gt;
             </button>
           </NavButtons>
         </PaginationWrapper>

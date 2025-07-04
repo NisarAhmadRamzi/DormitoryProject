@@ -350,20 +350,6 @@ export default function BorrowedBooksTable() {
             </select>
           </RowsPerPage>
           <NavButtons>
-            {/* <button
-              onClick={() => handlePageChange(Math.max(1, currentPage - 1))}
-              disabled={currentPage === 1}
-            >
-              <RxCaretLeft />
-            </button>
-            <button
-              onClick={() =>
-                handlePageChange(Math.min(totalPages, currentPage + 1))
-              }
-              disabled={currentPage === totalPages}
-            >
-              <RxCaretRight />
-            </button> */}
             <button
               onClick={() => handlePageChange(Math.max(1, currentPage - 1))}
               disabled={currentPage === 1}

@@ -781,5 +781,32 @@
       "createdSuccess": "فیس جدید با موفقیت ایجاد شد",
       "error": "خطایی رخ داده است"
     }
+  },
+  "AlertFees": {
+    "resource": "فیس",
+    "messages": {
+      "deletedSuccess": "فیس با موفقیت حذف شد",
+      "deleteError": "حذف فیس ناموفق بود"
+    }
+  },
+  "FeesHeaders": {
+    "columns": {
+      "id": "شناسه",
+      "student": "شاگرد",
+      "officePay": "پرداخت اداری",
+      "officePaid": "پرداخت شده توسط اداره",
+      "warrantyPay": "پرداخت تضمین",
+      "totalFee": "هزینه مجموعی",
+      "actions": "عملیات"
+    },
+    "pagination": {
+      "pageInfo": "صفحه {{currentPage}} از {{totalPages}}",
+      "rowsPerPage": "ردیف‌ها در هر صفحه:"
+    },
+    "searchPlaceholder": "جستجوی فیس‌ها...",
+    "messages": {
+      "noMatch": "هیچ فیس مطابقی یافت نشد.",
+      "loadError": "خطا در بارگذاری فیس‌ها!"
+    }
   }
 }

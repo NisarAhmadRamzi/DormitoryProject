@@ -782,5 +782,32 @@
       "createdSuccess": "New fee record created successfully",
       "error": "Something went wrong"
     }
+  },
+  "AlertFees": {
+    "resource": "fee",
+    "messages": {
+      "deletedSuccess": "Fee deleted successfully",
+      "deleteError": "Failed to delete fee"
+    }
+  },
+  "FeesHeaders": {
+    "columns": {
+      "id": "ID",
+      "student": "Student",
+      "officePay": "Office Pay",
+      "officePaid": "Office Paid",
+      "warrantyPay": "Warranty Pay",
+      "totalFee": "Total Fee",
+      "actions": "Actions"
+    },
+    "pagination": {
+      "pageInfo": "Page {{currentPage}} of {{totalPages}}",
+      "rowsPerPage": "Rows per page:"
+    },
+    "searchPlaceholder": "Search fees...",
+    "messages": {
+      "noMatch": "No matching fees found.",
+      "loadError": "Error loading fees!"
+    }
   }
 }

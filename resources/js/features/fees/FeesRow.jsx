@@ -1,9 +1,10 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useEffect, useRef, useState } from 'react'
-import { HiEllipsisVertical, HiEye, HiPencil, HiTrash } from 'react-icons/hi2'
-
 import toast from 'react-hot-toast'
+import { useTranslation } from 'react-i18next'
+import { HiEllipsisVertical, HiEye, HiPencil, HiTrash } from 'react-icons/hi2'
 import styled from 'styled-components'
+
 import { deleteFee } from '../../services/apiFees'
 import ConfirmDelete from '../../ui/ConfirmDelete'
 import Modal from '../../ui/Modal'
@@ -20,16 +21,12 @@ const TableRow = styled.div`
   &:not(:last-child) {
     border-bottom: 1px solid var(--color-grey-100);
   }
-  transition: background-color 0.2s; /* Smooth transition */
-
+  transition: background-color 0.2s;
   &:hover {
-    background-color: var(--color-grey-200); /* Light mode hover */
+    background-color: var(--color-grey-200);
     cursor: pointer;
-
-    /* For dark mode hover */
     @media (prefers-color-scheme: dark) {
-      background-color: var(--color-grey-700); /* Dark mode hover */
-      cursor: pointer;
+      background-color: var(--color-grey-700);
     }
   }
 `
@@ -94,6 +91,7 @@ const DropdownItem = styled.button`
 `
 
 function FeesRow({ fee }) {
+  const { t } = useTranslation()
   const queryClient = useQueryClient()
   const [isOpen, setIsOpen] = useState(false)
   const [dropdownPosition, setDropdownPosition] = useState(null)
@@ -103,11 +101,11 @@ function FeesRow({ fee }) {
     mutationFn: deleteFee,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['fees'] })
-      toast.success('Fee deleted successfully')
+      toast.success(t('AlertFees.messages.deletedSuccess'))
     },
     onError: (err) => {
       console.error('Error during deletion:', err)
-      toast.error(err.message || 'Failed to delete fee')
+      toast.error(err.message || t('AlertFees.messages.deleteError'))
     },
   })
 
@@ -158,19 +156,19 @@ function FeesRow({ fee }) {
         <DropdownMenu show={isOpen} position={dropdownPosition}>
           <Modal.Open opensWindowName={`view-fee-${fee.id}`}>
             <DropdownItem onClick={closeDropdown}>
-              <HiEye /> View
+              <HiEye /> {t('actions.view')}
             </DropdownItem>
           </Modal.Open>
 
           <Modal.Open opensWindowName={`edit-fee-${fee.id}`}>
             <DropdownItem onClick={closeDropdown}>
-              <HiPencil /> Edit
+              <HiPencil /> {t('actions.edit')}
             </DropdownItem>
           </Modal.Open>
 
           <Modal.Open opensWindowName={`delete-${fee.id}`}>
             <DropdownItem onClick={closeDropdown} disabled={isDeleting}>
-              <HiTrash /> Delete
+              <HiTrash /> {t('actions.delete')}
             </DropdownItem>
           </Modal.Open>
         </DropdownMenu>
@@ -183,11 +181,12 @@ function FeesRow({ fee }) {
       <Modal.Window name={`edit-fee-${fee.id}`}>
         <CreateFeeForm feeToEdit={fee} />
       </Modal.Window>
+
       <Modal.Window name={`delete-${fee.id}`}>
         <ConfirmDelete
           onConfirm={handleDeleteConfirm}
-          resourceName="fee"
-          itemLabel={fee.name}
+          resourceName={t('AlertFees.resource')}
+          itemLabel={`${fee.student?.name} ${fee.student?.last_name}`}
         />
       </Modal.Window>
     </TableRow>

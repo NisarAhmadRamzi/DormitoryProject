@@ -785,5 +785,32 @@
       "createdSuccess": "نوی فیس په بریالیتوب سره جوړ شو",
       "error": "څه غلط شول"
     }
+  },
+  "AlertFees": {
+    "resource": "فیس",
+    "messages": {
+      "deletedSuccess": "فیس په بریالیتوب سره ړنګ شو",
+      "deleteError": "فیس نه شو ړنګیدلی"
+    }
+  },
+  "FeesHeaders": {
+    "columns": {
+      "id": "شمېره",
+      "student": "زدکوونکی",
+      "officePay": "اداري پیسې",
+      "officePaid": "اداري ورکړې پیسې",
+      "warrantyPay": "تضمیني پیسې",
+      "totalFee": "ټول فیس",
+      "actions": "عملیات"
+    },
+    "pagination": {
+      "pageInfo": "مخ {{currentPage}} له {{totalPages}}",
+      "rowsPerPage": "قطارونه په هر مخ:"
+    },
+    "searchPlaceholder": "د فیسونو لټون...",
+    "messages": {
+      "noMatch": "هیڅ فیس ونه موندل شو.",
+      "loadError": "د فیسونو لوستل کې ستونزه!"
+    }
   }
 }
