@@ -1,19 +1,20 @@
-import { HiEllipsisVertical, HiEye, HiPencil, HiTrash } from 'react-icons/hi2'
-import { useEffect, useRef, useState } from 'react'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useEffect, useRef, useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import { HiEllipsisVertical, HiEye, HiPencil, HiTrash } from 'react-icons/hi2'
 
-import BorrowedBookDetails from './BorrowedBookDetails'
-import ConfirmDelete from '../../ui/ConfirmDelete'
-import CreateBorrowedBookForm from './CreateBorrowedBookForm'
-import Modal from '../../ui/Modal'
-import { deleteBorrowedBook } from '../../services/apiBorrowedBooks'
-import styled from 'styled-components'
 import toast from 'react-hot-toast'
+import styled from 'styled-components'
 import { useUser } from '../../context/UserContext'
+import { deleteBorrowedBook } from '../../services/apiBorrowedBooks'
+import ConfirmDelete from '../../ui/ConfirmDelete'
+import Modal from '../../ui/Modal'
+import BorrowedBookDetails from './BorrowedBookDetails'
+import CreateBorrowedBookForm from './CreateBorrowedBookForm'
 
 const TableRow = styled.div`
   display: grid;
-  grid-template-columns: 0.6fr 2fr 2fr 2fr 2fr 0.5fr; /* Match header */
+  grid-template-columns: 0.6fr 2fr 2fr 2fr 2fr 0.5fr;
   column-gap: 0.5rem;
   align-items: center;
   padding: 1.6rem 2.4rem;
@@ -23,16 +24,12 @@ const TableRow = styled.div`
     border-bottom: 1px solid var(--color-grey-100);
   }
 
-  transition: background-color 0.2s; /* Smooth transition */
-
+  transition: background-color 0.2s;
   &:hover {
-    background-color: var(--color-grey-200); /* Light mode hover */
+    background-color: var(--color-grey-200);
     cursor: pointer;
-
-    /* Dark mode hover */
     @media (prefers-color-scheme: dark) {
-      background-color: var(--color-grey-700); /* Dark mode hover */
-      cursor: pointer;
+      background-color: var(--color-grey-700);
     }
   }
 `
@@ -40,7 +37,7 @@ const TableRow = styled.div`
 const Cell = styled.div`
   font-size: 1.4rem;
   color: var(--color-grey-700);
-  padding: 0.5rem 0; /* Adjusted padding for better spacing */
+  padding: 0.5rem 0;
 `
 
 const DropdownWrapper = styled.div`
@@ -99,6 +96,7 @@ const DropdownItem = styled.button`
 `
 
 function BorrowedBookRow({ borrowedBook }) {
+  const { t } = useTranslation()
   const { user } = useUser()
   const role = user?.role
   const queryClient = useQueryClient()
@@ -110,11 +108,11 @@ function BorrowedBookRow({ borrowedBook }) {
     mutationFn: deleteBorrowedBook,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['borrowed-books'] })
-      toast.success('Borrowed book entry deleted successfully')
+      toast.success(t('AletBorrowedBooks.table.successDelete'))
     },
     onError: (err) => {
       console.error('Error during deletion:', err)
-      toast.error(err.message || 'Failed to delete borrowed book entry')
+      toast.error(err.message || t('AletBorrowedBooks.table.errorDelete'))
     },
   })
 
@@ -168,14 +166,14 @@ function BorrowedBookRow({ borrowedBook }) {
         <DropdownMenu show={isOpen} position={dropdownPosition}>
           <Modal.Open opensWindowName={`view-${borrowedBook.id}`}>
             <DropdownItem onClick={closeDropdown}>
-              <HiEye /> View
+              <HiEye /> {t('commons.view')}
             </DropdownItem>
           </Modal.Open>
 
           {role !== 'student' && (
             <Modal.Open opensWindowName={`edit-${borrowedBook.id}`}>
               <DropdownItem onClick={closeDropdown}>
-                <HiPencil /> Edit
+                <HiPencil /> {t('commons.edit')}
               </DropdownItem>
             </Modal.Open>
           )}
@@ -183,7 +181,7 @@ function BorrowedBookRow({ borrowedBook }) {
           {role !== 'student' && (
             <Modal.Open opensWindowName={`delete-${borrowedBook.id}`}>
               <DropdownItem onClick={closeDropdown} disabled={isDeleting}>
-                <HiTrash /> Delete
+                <HiTrash /> {t('common.delete')}
               </DropdownItem>
             </Modal.Open>
           )}
@@ -197,11 +195,12 @@ function BorrowedBookRow({ borrowedBook }) {
       <Modal.Window name={`edit-${borrowedBook.id}`}>
         <CreateBorrowedBookForm borrowedBookToEdit={borrowedBook} />
       </Modal.Window>
+
       <Modal.Window name={`delete-${borrowedBook.id}`}>
         <ConfirmDelete
           onConfirm={handleDeleteConfirm}
-          resourceName="borrowedBook"
-          itemLabel={borrowedBook.name}
+          resourceName={t('borrowedBookss')}
+          itemLabel={borrowedBook.book?.title}
         />
       </Modal.Window>
     </TableRow>

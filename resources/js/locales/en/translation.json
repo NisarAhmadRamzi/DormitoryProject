@@ -654,5 +654,51 @@
   },
   "borrowBooks": {
     "addNew": "Add new BorrowedBook"
+  },
+  "borrowedBookss": "Borrowed Book",
+  "commons": {
+    "view": "View",
+    "edit": "Edit",
+    "delete": "Delete"
+  },
+  "AletBorrowedBooks": {
+    "table": {
+      "successDelete": "Borrowed book entry deleted successfully",
+      "errorDelete": "Failed to delete borrowed book entry"
+    }
+  },
+  "borrowedBooksTable": {
+    "student": "Student",
+    "book": "Book",
+    "borrowDate": "Borrow Date",
+    "returnDate": "Return Date",
+    "booksCount": "Books Count",
+    "action": "Action",
+    "searchPlaceholder": "Search borrowed books...",
+    "noRecords": "No matching records found.",
+    "pageInfo": "Page {{currentPage}} of {{totalPages}}",
+    "rowsPerPage": "Rows per page:",
+    "error": "Error loading borrowed books!"
+  },
+  "createBorrowedBookForm": {
+    "studentId": "Student ID (Optional)",
+    "libraryStudentId": "Library Student ID (Optional)",
+    "bookId": "Book ID",
+    "bookIdRequired": "Book ID is required",
+    "borrowDate": "Borrow Date",
+    "borrowDateRequired": "Borrow date is required",
+    "returnDate": "Return Date (Optional)",
+    "status": "Status",
+    "statusRequired": "Status is required",
+    "selectStatus": "Select status",
+    "borrowed": "Borrowed",
+    "returned": "Returned",
+    "overdue": "Overdue",
+    "cancel": "Cancel",
+    "createButton": "Create Borrowed Book",
+    "editButton": "Edit Borrowed Book",
+    "successCreate": "New borrowed book record created successfully",
+    "successEdit": "Borrowed book updated successfully",
+    "error": "Something went wrong"
   }
 }

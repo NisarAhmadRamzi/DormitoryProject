@@ -653,5 +653,51 @@
   },
   "borrowBooks": {
     "addNew": "افزودن کتاب امانتی جدید"
+  },
+  "borrowedBookss": "کتاب امانت‌گرفته‌شده",
+  "commons": {
+    "view": "مشاهده",
+    "edit": "ویرایش",
+    "delete": "حذف"
+  },
+  "AletBorrowedBooks": {
+    "table": {
+      "successDelete": "کتاب امانت گرفته شده با موفقیت حذف شد",
+      "errorDelete": "حذف کتاب امانت گرفته شده ناموفق بود"
+    }
+  },
+  "borrowedBooksTable": {
+    "student": "محصل",
+    "book": "کتاب",
+    "borrowDate": "تاریخ قرض‌گیری",
+    "returnDate": "تاریخ برگشت",
+    "booksCount": "تعداد کتاب‌ها",
+    "action": "عملیات",
+    "searchPlaceholder": "جستجوی کتاب‌های قرضی...",
+    "noRecords": "هیچ رکورد مطابقی یافت نشد.",
+    "pageInfo": "صفحه {{currentPage}} از {{totalPages}}",
+    "rowsPerPage": "تعداد ردیف در هر صفحه:",
+    "error": "خطا در بارگذاری کتاب‌های قرضی!"
+  },
+  "createBorrowedBookForm": {
+    "studentId": "شناسه دانشجو (اختیاری)",
+    "libraryStudentId": "شناسه دانشجوی کتابخانه (اختیاری)",
+    "bookId": "شناسه کتاب",
+    "bookIdRequired": "شناسه کتاب ضروری است",
+    "borrowDate": "تاریخ امانت",
+    "borrowDateRequired": "تاریخ امانت ضروری است",
+    "returnDate": "تاریخ بازگشت (اختیاری)",
+    "status": "وضعیت",
+    "statusRequired": "وضعیت ضروری است",
+    "selectStatus": "انتخاب وضعیت",
+    "borrowed": "امانت داده شده",
+    "returned": "بازگشته",
+    "overdue": "تاخیر کرده",
+    "cancel": "لغو",
+    "createButton": "ایجاد امانت جدید",
+    "editButton": "ویرایش امانت",
+    "successCreate": "رکورد جدید امانت با موفقیت ایجاد شد",
+    "successEdit": "اطلاعات امانت با موفقیت ویرایش شد",
+    "error": "مشکلی رخ داده است"
   }
 }

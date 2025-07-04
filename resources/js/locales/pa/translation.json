@@ -656,5 +656,51 @@
   },
   "borrowBooks": {
     "addNew": "نوی پور شوی کتاب اضافه کړئ"
+  },
+  "borrowedBookss": "پورته شوی کتاب",
+  "commons": {
+    "view": "کتل",
+    "edit": "سمول",
+    "delete": "ړنګول"
+  },
+  "AletBorrowedBooks": {
+    "table": {
+      "successDelete": "د پورته شوي کتاب معلومات په بریالیتوب سره ړنګ شول",
+      "errorDelete": "د پورته شوي کتاب معلومات ړنګول پاتې شول"
+    }
+  },
+  "borrowedBooksTable": {
+    "student": "محصل",
+    "book": "کتاب",
+    "borrowDate": "د پور اخیستنې نیټه",
+    "returnDate": "د بیرته ورکولو نیټه",
+    "booksCount": "د کتابونو شمېر",
+    "action": "عمل",
+    "searchPlaceholder": "پور شوي کتابونه وپلټئ...",
+    "noRecords": "هیڅ سمون لرونکی ریکارډ ونه موندل شو.",
+    "pageInfo": "مخ {{currentPage}} له {{totalPages}} څخه",
+    "rowsPerPage": "لیکې په هر مخ:",
+    "error": "د پور شوو کتابونو په ترلاسه کولو کې ستونزه!"
+  },
+  "createBorrowedBookForm": {
+    "studentId": "د زده کوونکي شمېره (اختیاري)",
+    "libraryStudentId": "د کتابتون زده کوونکي شمېره (اختیاري)",
+    "bookId": "د کتاب شمېره",
+    "bookIdRequired": "د کتاب شمېره اړینه ده",
+    "borrowDate": "د امانت نېټه",
+    "borrowDateRequired": "د امانت نېټه اړینه ده",
+    "returnDate": "د راستنولو نېټه (اختیاري)",
+    "status": "حالت",
+    "statusRequired": "حالت اړین دی",
+    "selectStatus": "حالت غوره کړئ",
+    "borrowed": "اخیستل شوی",
+    "returned": "راستانه شوی",
+    "overdue": "وخت تیر شوی",
+    "cancel": "لغوه",
+    "createButton": "نوی امانت ثبت کړئ",
+    "editButton": "امانت سم کړئ",
+    "successCreate": "نوی امانت په بریالیتوب سره ثبت شو",
+    "successEdit": "امانت بریالیتوب سره سم شو",
+    "error": "یوه تېروتنه وشوه"
   }
 }

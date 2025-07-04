@@ -1,14 +1,13 @@
-import { RxCaretLeft, RxCaretRight } from 'react-icons/rx'
-import { FiSearch } from 'react-icons/fi'
-import BorrowedBooksRow from './BorrowedBooksRow'
-import Spinner from '../../ui/Spinner'
-import { getBorrowedBooks } from '../../services/apiBorrowedBooks'
-import styled from 'styled-components'
 import { useQuery } from '@tanstack/react-query'
-import { useSearchParams } from 'react-router-dom'
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import { FiSearch } from 'react-icons/fi'
+import { useSearchParams } from 'react-router-dom'
+import styled from 'styled-components'
+import { getBorrowedBooks } from '../../services/apiBorrowedBooks'
+import Spinner from '../../ui/Spinner'
+import BorrowedBooksRow from './BorrowedBooksRow'
 
-// Styled Components with CSS variables for dark mode support
 const Table = styled.div`
   border: 1px solid var(--color-grey-200);
   font-size: 1.4rem;
@@ -154,6 +153,7 @@ const NavButtons = styled.div`
 `
 
 export default function BorrowedBooksTable() {
+  const { t } = useTranslation()
   const [searchParams, setSearchParams] = useSearchParams()
   const currentPage = Number(searchParams.get('page')) || 1
   const [rowsPerPage, setRowsPerPage] = useState(
@@ -169,11 +169,10 @@ export default function BorrowedBooksTable() {
   })
 
   if (isLoading) return <Spinner />
-  if (error) return <div>Error loading borrowed books!</div>
+  if (error) return <div>{t('borrowedBooksTable.error')}</div>
 
   let borrowedBooks = data?.data || []
 
-  // Filter
   if (searchText.trim()) {
     const lower = searchText.toLowerCase()
     borrowedBooks = borrowedBooks.filter((entry) => {
@@ -187,7 +186,6 @@ export default function BorrowedBooksTable() {
     })
   }
 
-  // Sort
   if (sortBy) {
     borrowedBooks = [...borrowedBooks].sort((a, b) => {
       let aVal, bVal
@@ -280,7 +278,7 @@ export default function BorrowedBooksTable() {
             <FiSearch />
             <input
               type="text"
-              placeholder="Search borrowed books..."
+              placeholder={t('borrowedBooksTable.searchPlaceholder')}
               value={searchText}
               onChange={(e) => setSearchText(e.target.value)}
             />
@@ -294,36 +292,38 @@ export default function BorrowedBooksTable() {
             onClick={() => handleSort('student')}
             className={sortBy === 'student' ? 'active' : ''}
           >
-            Student <span className="icon">{renderSortIcon('student')}</span>
+            {t('borrowedBooksTable.student')}{' '}
+            <span className="icon">{renderSortIcon('student')}</span>
           </SortableHeader>
           <SortableHeader
             onClick={() => handleSort('book')}
             className={sortBy === 'book' ? 'active' : ''}
           >
-            Book <span className="icon">{renderSortIcon('book')}</span>
+            {t('borrowedBooksTable.book')}{' '}
+            <span className="icon">{renderSortIcon('book')}</span>
           </SortableHeader>
           <SortableHeader
             onClick={() => handleSort('borrow_date')}
             className={sortBy === 'borrow_date' ? 'active' : ''}
           >
-            Borrow Date{' '}
+            {t('borrowedBooksTable.borrowDate')}{' '}
             <span className="icon">{renderSortIcon('borrow_date')}</span>
           </SortableHeader>
           <SortableHeader
             onClick={() => handleSort('return_date')}
             className={sortBy === 'return_date' ? 'active' : ''}
           >
-            Return Date{' '}
+            {t('borrowedBooksTable.returnDate')}{' '}
             <span className="icon">{renderSortIcon('return_date')}</span>
           </SortableHeader>
           <SortableHeader
             onClick={() => handleSort('books_count')}
             className={sortBy === 'books_count' ? 'active' : ''}
           >
-            Books Count{' '}
+            {t('borrowedBooksTable.booksCount')}{' '}
             <span className="icon">{renderSortIcon('books_count')}</span>
           </SortableHeader>
-          <div>Action</div>
+          <div>{t('borrowedBooksTable.action')}</div>
         </TableHeader>
 
         {paginatedData.map((entry) => (
@@ -331,15 +331,17 @@ export default function BorrowedBooksTable() {
         ))}
 
         {borrowedBooks.length === 0 && (
-          <div style={{ padding: '1.6rem' }}>No matching records found.</div>
+          <div style={{ padding: '1.6rem' }}>
+            {t('borrowedBooksTable.noRecords')}
+          </div>
         )}
 
         <PaginationWrapper>
           <PageInfo>
-            Page {currentPage} of {totalPages}
+            {t('borrowedBooksTable.pageInfo', { currentPage, totalPages })}
           </PageInfo>
           <RowsPerPage>
-            Rows per page:
+            {t('borrowedBooksTable.rowsPerPage')}
             <select value={rowsPerPage} onChange={handleRowsPerPageChange}>
               <option value={5}>5</option>
               <option value={10}>10</option>
@@ -348,7 +350,7 @@ export default function BorrowedBooksTable() {
             </select>
           </RowsPerPage>
           <NavButtons>
-            <button
+            {/* <button
               onClick={() => handlePageChange(Math.max(1, currentPage - 1))}
               disabled={currentPage === 1}
             >
@@ -361,6 +363,22 @@ export default function BorrowedBooksTable() {
               disabled={currentPage === totalPages}
             >
               <RxCaretRight />
+            </button> */}
+            <button
+              onClick={() => handlePageChange(Math.max(1, currentPage - 1))}
+              disabled={currentPage === 1}
+              aria-label={t('libraryTable.previousPage')}
+            >
+              &lt;
+            </button>
+            <button
+              onClick={() =>
+                handlePageChange(Math.min(totalPages, currentPage + 1))
+              }
+              disabled={currentPage === totalPages}
+              aria-label={t('libraryTable.nextPage')}
+            >
+              &gt;
             </button>
           </NavButtons>
         </PaginationWrapper>

@@ -1,17 +1,18 @@
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import {
   createBorrowedBook,
   editBorrowedBook,
 } from '../../services/apiBorrowedBooks'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
 
+import React from 'react'
+import { useForm } from 'react-hook-form'
+import toast from 'react-hot-toast'
+import { useTranslation } from 'react-i18next'
+import styled from 'styled-components'
 import Button from '../../ui/Button'
 import Form from '../../ui/Form'
 import Input from '../../ui/Input'
-import React from 'react'
 import Select from '../../ui/Select'
-import styled from 'styled-components'
-import toast from 'react-hot-toast'
-import { useForm } from 'react-hook-form'
 
 const FormRow = styled.div`
   display: grid;
@@ -45,6 +46,7 @@ const Error = styled.span`
 `
 
 function CreateBorrowedBookForm({ borrowedBookToEdit = {}, onCloseModal }) {
+  const { t } = useTranslation()
   const isEditSession = Boolean(borrowedBookToEdit.id)
 
   const {
@@ -66,26 +68,22 @@ function CreateBorrowedBookForm({ borrowedBookToEdit = {}, onCloseModal }) {
     onSuccess: () => {
       toast.success(
         isEditSession
-          ? `Borrowed book updated successfully`
-          : `New borrowed book record created successfully`
+          ? t('createBorrowedBookForm.successEdit')
+          : t('createBorrowedBookForm.successCreate')
       )
       queryClient.invalidateQueries({ queryKey: ['borrowed-books'] })
       reset()
       onCloseModal?.()
     },
     onError: (err) => {
-      // Show detailed backend validation errors if available
       const message = err.response?.data?.errors
         ? Object.values(err.response.data.errors).flat().join(', ')
-        : err.response?.data?.message || 'Something went wrong'
+        : err.response?.data?.message || t('createBorrowedBookForm.error')
       toast.error(message)
     },
   })
 
-  const onSubmit = (data) => {
-    // Optionally, you can preprocess data here if needed
-    mutate(data)
-  }
+  const onSubmit = (data) => mutate(data)
 
   React.useEffect(() => {
     if (isEditSession && borrowedBookToEdit) {
@@ -96,14 +94,16 @@ function CreateBorrowedBookForm({ borrowedBookToEdit = {}, onCloseModal }) {
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
       <FormRow>
-        <Label htmlFor="student_id">Student ID (Optional)</Label>
+        <Label htmlFor="student_id">
+          {t('createBorrowedBookForm.studentId')}
+        </Label>
         <Input type="number" id="student_id" {...register('student_id')} />
         {errors?.student_id && <Error>{errors.student_id.message}</Error>}
       </FormRow>
 
       <FormRow>
         <Label htmlFor="library_student_id">
-          Library Student ID (Optional)
+          {t('createBorrowedBookForm.libraryStudentId')}
         </Label>
         <Input
           type="number"
@@ -116,42 +116,54 @@ function CreateBorrowedBookForm({ borrowedBookToEdit = {}, onCloseModal }) {
       </FormRow>
 
       <FormRow>
-        <Label htmlFor="book_id">Book ID</Label>
+        <Label htmlFor="book_id">{t('createBorrowedBookForm.bookId')}</Label>
         <Input
           type="number"
           id="book_id"
-          {...register('book_id', { required: 'Book ID is required' })}
+          {...register('book_id', {
+            required: t('createBorrowedBookForm.bookIdRequired'),
+          })}
         />
         {errors?.book_id && <Error>{errors.book_id.message}</Error>}
       </FormRow>
 
       <FormRow>
-        <Label htmlFor="borrow_date">Borrow Date</Label>
+        <Label htmlFor="borrow_date">
+          {t('createBorrowedBookForm.borrowDate')}
+        </Label>
         <Input
           type="date"
           id="borrow_date"
-          {...register('borrow_date', { required: 'Borrow date is required' })}
+          {...register('borrow_date', {
+            required: t('createBorrowedBookForm.borrowDateRequired'),
+          })}
         />
         {errors?.borrow_date && <Error>{errors.borrow_date.message}</Error>}
       </FormRow>
 
       <FormRow>
-        <Label htmlFor="return_date">Return Date (Optional)</Label>
+        <Label htmlFor="return_date">
+          {t('createBorrowedBookForm.returnDate')}
+        </Label>
         <Input type="date" id="return_date" {...register('return_date')} />
       </FormRow>
 
       <FormRow>
-        <Label htmlFor="status">Status</Label>
+        <Label htmlFor="status">{t('createBorrowedBookForm.status')}</Label>
         <Select
           id="status"
           {...register('status', {
-            required: 'Status is required',
+            required: t('createBorrowedBookForm.statusRequired'),
           })}
         >
-          <option value="">Select status</option>
-          <option value="Borrowed">Borrowed</option>
-          <option value="Returned">Returned</option>
-          <option value="Overdue">Overdue</option>
+          <option value="">{t('createBorrowedBookForm.selectStatus')}</option>
+          <option value="Borrowed">
+            {t('createBorrowedBookForm.borrowed')}
+          </option>
+          <option value="Returned">
+            {t('createBorrowedBookForm.returned')}
+          </option>
+          <option value="Overdue">{t('createBorrowedBookForm.overdue')}</option>
         </Select>
         {errors?.status && <Error>{errors.status.message}</Error>}
       </FormRow>
@@ -163,10 +175,12 @@ function CreateBorrowedBookForm({ borrowedBookToEdit = {}, onCloseModal }) {
           onClick={() => onCloseModal?.()}
           disabled={isLoading}
         >
-          Cancel
+          {t('createBorrowedBookForm.cancel')}
         </Button>
         <Button type="submit" disabled={isLoading}>
-          {isEditSession ? 'Edit Borrowed Book' : 'Create Borrowed Book'}
+          {isEditSession
+            ? t('createBorrowedBookForm.editButton')
+            : t('createBorrowedBookForm.createButton')}
         </Button>
       </FormRow>
     </Form>
