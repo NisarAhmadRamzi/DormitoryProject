@@ -699,5 +699,51 @@
     "successCreate": "رکورد جدید امانت با موفقیت ایجاد شد",
     "successEdit": "اطلاعات امانت با موفقیت ویرایش شد",
     "error": "مشکلی رخ داده است"
+  },
+  "fee": {
+    "feeDetails": "جزئیات فیس",
+    "studentName": "نام محصل",
+    "studentId": "شماره محصل",
+    "officePay": "فیس اداری",
+    "officePaid": "فیس پرداخت‌شده اداری",
+    "warrantyPay": "فیس تضمین",
+    "totalFee": "فیس مجموعی",
+    "createdAt": "تاریخ ایجاد",
+    "updatedAt": "تاریخ به‌روزرسانی",
+    "noFeeData": "اطلاعات فیس موجود نیست."
+  },
+  "expense": {
+    "expenseDetails": "جزئیات مصارف",
+    "noData": "هیچ اطلاعاتی در مورد مصرف موجود نیست.",
+    "id": "شماره",
+    "type": "نوع",
+    "expenseCash": "مصارف نقدی",
+    "goodsQuantity": "تعداد اجناس",
+    "description": "توضیحات",
+    "expenseDate": "تاریخ مصرف",
+    "totalExpense": "مصارف مجموعی",
+    "totalQuantity": "مجموع تعداد",
+    "totalDonations": "مجموع کمک‌ها",
+    "cashBeforeExpense": "نقدی قبل از مصرف",
+    "cashBeforeLastExpense": "نقدی قبل از آخرین مصرف",
+    "cashAfterLastExpense": "نقدی بعد از آخرین مصرف",
+    "createdAt": "ایجاد شده در",
+    "updatedAt": "به‌روزرسانی شده در"
+  },
+  "support": {
+    "supportDetails": "جزئیات کمک",
+    "noData": "هیچ اطلاعاتی در مورد کمک موجود نیست.",
+    "id": "شماره",
+    "type": "نوع",
+    "details": "جزئیات",
+    "goodsQuantity": "تعداد اجناس",
+    "cashQuantity": "مقدار نقدی",
+    "helperFullname": "نام مکمل کمک کننده",
+    "helperNumber": "شماره کمک کننده",
+    "helperEmail": "ایمیل کمک کننده",
+    "helperDate": "تاریخ کمک",
+    "totalCashDonated": "مجموع نقدی کمک شده",
+    "createdAt": "ایجاد شده در",
+    "updatedAt": "به‌روزرسانی شده در"
   }
 }

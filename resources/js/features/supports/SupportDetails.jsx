@@ -1,4 +1,6 @@
+import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
+import dayjs from '../../locales/dayjsConfig'
 import Heading from '../../ui/Heading'
 
 const StyledDetails = styled.div`
@@ -42,7 +44,9 @@ const Value = styled.span`
 `
 
 function SupportDetails({ support }) {
-  if (!support) return <p>No support data available.</p>
+  const { t, i18n } = useTranslation()
+
+  if (!support) return <p>{t('support.noData')}</p>
 
   const {
     id,
@@ -59,69 +63,72 @@ function SupportDetails({ support }) {
     updated_at,
   } = support
 
+  const lang = i18n.language
+  dayjs.locale(lang)
+
   return (
     <StyledDetails>
-      <Heading as="h3">Support Details</Heading>
+      <Heading as="h3">{t('support.supportDetails')}</Heading>
 
       <DetailsGrid>
         <DetailItem>
-          <Label>ID</Label>
+          <Label>{t('support.id')}</Label>
           <Value>{id}</Value>
         </DetailItem>
 
         <DetailItem>
-          <Label>Type</Label>
+          <Label>{t('support.type')}</Label>
           <Value>{type}</Value>
         </DetailItem>
 
         <DetailItem>
-          <Label>Details</Label>
+          <Label>{t('support.details')}</Label>
           <Value>{details}</Value>
         </DetailItem>
 
         <DetailItem>
-          <Label>Goods Quantity</Label>
+          <Label>{t('support.goodsQuantity')}</Label>
           <Value>{goods_quantity}</Value>
         </DetailItem>
 
         <DetailItem>
-          <Label>Cash Quantity</Label>
+          <Label>{t('support.cashQuantity')}</Label>
           <Value>{cash_quantity}</Value>
         </DetailItem>
 
         <DetailItem>
-          <Label>Helper Fullname</Label>
+          <Label>{t('support.helperFullname')}</Label>
           <Value>{helper_fullname || 'N/A'}</Value>
         </DetailItem>
 
         <DetailItem>
-          <Label>Helper Number</Label>
+          <Label>{t('support.helperNumber')}</Label>
           <Value>{helper_number || 'N/A'}</Value>
         </DetailItem>
 
         <DetailItem>
-          <Label>Helper Email</Label>
+          <Label>{t('support.helperEmail')}</Label>
           <Value>{helper_email || 'N/A'}</Value>
         </DetailItem>
 
         <DetailItem>
-          <Label>Helper Date</Label>
+          <Label>{t('support.helperDate')}</Label>
           <Value>{helper_date || 'N/A'}</Value>
         </DetailItem>
 
         <DetailItem>
-          <Label>Total Cash Donated</Label>
+          <Label>{t('support.totalCashDonated')}</Label>
           <Value>{total_cash_donated || 'N/A'}</Value>
         </DetailItem>
 
         <DetailItem>
-          <Label>Created At</Label>
-          <Value>{created_at}</Value>
+          <Label>{t('support.createdAt')}</Label>
+          <Value>{dayjs(created_at).fromNow()}</Value>
         </DetailItem>
 
         <DetailItem>
-          <Label>Updated At</Label>
-          <Value>{updated_at || 'N/A'}</Value>
+          <Label>{t('support.updatedAt')}</Label>
+          <Value>{dayjs(updated_at).fromNow()}</Value>
         </DetailItem>
       </DetailsGrid>
     </StyledDetails>

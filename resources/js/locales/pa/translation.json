@@ -702,5 +702,52 @@
     "successCreate": "نوی امانت په بریالیتوب سره ثبت شو",
     "successEdit": "امانت بریالیتوب سره سم شو",
     "error": "یوه تېروتنه وشوه"
+  },
+
+  "fee": {
+    "feeDetails": "د فیس تفصیلات",
+    "studentName": "د محصل نوم",
+    "studentId": "د محصل شمېره",
+    "officePay": "د دفتر فیس",
+    "officePaid": "ورکړل شوی دفتر فیس",
+    "warrantyPay": "د تضمین فیس",
+    "totalFee": "ټول فیس",
+    "createdAt": "جوړ شوی نېټه",
+    "updatedAt": "تازه شوی نېټه",
+    "noFeeData": "د فیس معلومات نشته."
+  },
+  "expense": {
+    "expenseDetails": "د مصرف جزئیات",
+    "noData": "د مصرف هیڅ معلومات شتون نلري.",
+    "id": "شمېره",
+    "type": "ډول",
+    "expenseCash": "نغدي مصرف",
+    "goodsQuantity": "د اجناسو اندازه",
+    "description": "تفصیل",
+    "expenseDate": "د مصرف نېټه",
+    "totalExpense": "ټولیز مصرف",
+    "totalQuantity": "ټوله اندازه",
+    "totalDonations": "ټولې مرستې",
+    "cashBeforeExpense": "نغدي مخکې له مصرفه",
+    "cashBeforeLastExpense": "نغدي مخکې له وروستي مصرفه",
+    "cashAfterLastExpense": "نغدي وروسته له وروستي مصرفه",
+    "createdAt": "جوړ شوی",
+    "updatedAt": "تازه شوی"
+  },
+  "support": {
+    "supportDetails": "د مرستې جزئیات",
+    "noData": "د مرستې هیڅ معلومات شتون نلري.",
+    "id": "شمېره",
+    "type": "ډول",
+    "details": "تفصیل",
+    "goodsQuantity": "د اجناسو اندازه",
+    "cashQuantity": "نغدي اندازه",
+    "helperFullname": "د مرسته کوونکي بشپړ نوم",
+    "helperNumber": "د مرسته کوونکي شمېره",
+    "helperEmail": "د مرسته کوونکي برېښنالیک",
+    "helperDate": "د مرستې نېټه",
+    "totalCashDonated": "ټوله ورکړل شوې نغدي مرسته",
+    "createdAt": "جوړ شوی",
+    "updatedAt": "تازه شوی"
   }
 }

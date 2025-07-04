@@ -1,5 +1,7 @@
-import Heading from '../../ui/Heading'
+import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
+import dayjs from '../../locales/dayjsConfig'
+import Heading from '../../ui/Heading'
 
 const StyledDetails = styled.div`
   background-color: var(--color-grey-0);
@@ -34,7 +36,9 @@ const Value = styled.span`
 `
 
 function FeeDetails({ fee }) {
-  if (!fee) return <p>No fee data available.</p>
+  const { t, i18n } = useTranslation()
+
+  if (!fee) return <p>{t('fee.noFeeData')}</p>
 
   const {
     student,
@@ -46,58 +50,53 @@ function FeeDetails({ fee }) {
     updated_at,
   } = fee
 
+  // ✅ Set locale based on current language
+  dayjs.locale(i18n.language)
+
   return (
     <StyledDetails>
-      <Heading as="h3">Fee Details</Heading>
+      <Heading as="h3">{t('fee.feeDetails')}</Heading>
 
       <DetailRow>
-        <Label>Student Name</Label>
+        <Label>{t('fee.studentName')}</Label>
         <Value>
           {student?.name} {student?.last_name}
         </Value>
       </DetailRow>
+
       <DetailRow>
-        <Label>Student ID</Label>
+        <Label>{t('fee.studentId')}</Label>
         <Value>{student?.id}</Value>
       </DetailRow>
 
       <DetailRow>
-        <Label>Office Pay</Label>
+        <Label>{t('fee.officePay')}</Label>
         <Value>{office_pay}</Value>
       </DetailRow>
 
       <DetailRow>
-        <Label>Office Paid</Label>
+        <Label>{t('fee.officePaid')}</Label>
         <Value>{office_paid}</Value>
       </DetailRow>
 
       <DetailRow>
-        <Label>Warranty Pay</Label>
+        <Label>{t('fee.warrantyPay')}</Label>
         <Value>{warranty_pay}</Value>
       </DetailRow>
 
       <DetailRow>
-        <Label>Total Fee</Label>
+        <Label>{t('fee.totalFee')}</Label>
         <Value>{total_fee}</Value>
       </DetailRow>
 
-      {/* <DetailRow>
-        <Label>Created At</Label>
-        <Value>{new Date(created_at).toLocaleString()}</Value>
+      <DetailRow>
+        <Label>{t('fee.createdAt')}</Label>
+        <Value>{dayjs(created_at).fromNow()}</Value>
       </DetailRow>
 
       <DetailRow>
-        <Label>Updated At</Label>
-        <Value>{new Date(updated_at).toLocaleString()}</Value>
-      </DetailRow> */}
-      <DetailRow>
-        <Label>Created At</Label>
-        <Value>{created_at}</Value>
-      </DetailRow>
-
-      <DetailRow>
-        <Label>Updated At</Label>
-        <Value>{updated_at}</Value>
+        <Label>{t('fee.updatedAt')}</Label>
+        <Value>{dayjs(updated_at).fromNow()}</Value>
       </DetailRow>
     </StyledDetails>
   )

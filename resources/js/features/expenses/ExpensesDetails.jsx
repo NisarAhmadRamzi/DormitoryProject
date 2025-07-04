@@ -1,4 +1,6 @@
+import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
+import dayjs from '../../locales/dayjsConfig'
 import Heading from '../../ui/Heading'
 
 const StyledDetails = styled.div`
@@ -6,8 +8,8 @@ const StyledDetails = styled.div`
   padding: 2.4rem;
   border-radius: 8px;
   box-shadow: var(--shadow-md);
-  max-height: 80vh; /* Optional: limit height */
-  overflow-y: auto; /* Optional: scroll if content too long */
+  max-height: 80vh;
+  overflow-y: auto;
 `
 
 const DetailsGrid = styled.div`
@@ -39,7 +41,9 @@ const Value = styled.span`
 `
 
 function ExpensesDetails({ expense }) {
-  if (!expense) return <p>No expense data available.</p>
+  const { t, i18n } = useTranslation()
+
+  if (!expense) return <p>{t('expense.noData')}</p>
 
   const {
     id,
@@ -58,79 +62,81 @@ function ExpensesDetails({ expense }) {
     updated_at,
   } = expense
 
+  dayjs.locale(i18n.language)
+
   return (
     <StyledDetails>
-      <Heading as="h3">Expense Details</Heading>
+      <Heading as="h3">{t('expense.expenseDetails')}</Heading>
 
       <DetailsGrid>
         <DetailItem>
-          <Label>ID</Label>
+          <Label>{t('expense.id')}</Label>
           <Value>{id}</Value>
         </DetailItem>
 
         <DetailItem>
-          <Label>Type</Label>
+          <Label>{t('expense.type')}</Label>
           <Value>{type}</Value>
         </DetailItem>
 
         <DetailItem>
-          <Label>Expense Cash</Label>
+          <Label>{t('expense.expenseCash')}</Label>
           <Value>{expense_cash}</Value>
         </DetailItem>
 
         <DetailItem>
-          <Label>Goods Quantity</Label>
+          <Label>{t('expense.goodsQuantity')}</Label>
           <Value>{goods_quantity}</Value>
         </DetailItem>
 
         <DetailItem>
-          <Label>Description</Label>
+          <Label>{t('expense.description')}</Label>
           <Value>{description}</Value>
         </DetailItem>
 
         <DetailItem>
-          <Label>Expense Date</Label>
+          <Label>{t('expense.expenseDate')}</Label>
           <Value>{expense_date}</Value>
         </DetailItem>
 
         <DetailItem>
-          <Label>Total Expense</Label>
+          <Label>{t('expense.totalExpense')}</Label>
           <Value>{total_expense}</Value>
         </DetailItem>
 
         <DetailItem>
-          <Label>Total Quantity</Label>
+          <Label>{t('expense.totalQuantity')}</Label>
           <Value>{total_quantity}</Value>
         </DetailItem>
 
         <DetailItem>
-          <Label>Total Donations</Label>
+          <Label>{t('expense.totalDonations')}</Label>
           <Value>{total_amount_of_donations}</Value>
         </DetailItem>
 
         <DetailItem>
-          <Label>Cash Before Expense</Label>
+          <Label>{t('expense.cashBeforeExpense')}</Label>
           <Value>{total_amount_of_cash_before_expense}</Value>
         </DetailItem>
 
         <DetailItem>
-          <Label>Cash Before Last Expense</Label>
+          <Label>{t('expense.cashBeforeLastExpense')}</Label>
           <Value>{total_amount_of_cash_before_last_expense}</Value>
         </DetailItem>
 
         <DetailItem>
-          <Label>Cash After Last Expense</Label>
+          <Label>{t('expense.cashAfterLastExpense')}</Label>
           <Value>{total_amount_of_cash_after_last_expense}</Value>
         </DetailItem>
 
         <DetailItem>
-          <Label>Created At</Label>
-          <Value>{created_at}</Value>
+          <Label>{t('expense.createdAt')}</Label>
+          <Value>{dayjs(created_at).fromNow()}</Value>
         </DetailItem>
 
         <DetailItem>
-          <Label>Updated At</Label>
-          <Value>{updated_at}</Value>
+          <Label>{t('expense.updatedAt')}</Label>
+          <Value>{dayjs(updated_at).fromNow()}</Value>
         </DetailItem>
       </DetailsGrid>
     </StyledDetails>

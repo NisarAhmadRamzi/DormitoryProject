@@ -700,5 +700,51 @@
     "successCreate": "New borrowed book record created successfully",
     "successEdit": "Borrowed book updated successfully",
     "error": "Something went wrong"
+  },
+  "fee": {
+    "feeDetails": "Fee Details",
+    "studentName": "Student Name",
+    "studentId": "Student ID",
+    "officePay": "Office Pay",
+    "officePaid": "Office Paid",
+    "warrantyPay": "Warranty Pay",
+    "totalFee": "Total Fee",
+    "createdAt": "Created At",
+    "updatedAt": "Updated At",
+    "noFeeData": "No fee data available."
+  },
+  "expense": {
+    "expenseDetails": "Expense Details",
+    "noData": "No expense data available.",
+    "id": "ID",
+    "type": "Type",
+    "expenseCash": "Expense Cash",
+    "goodsQuantity": "Goods Quantity",
+    "description": "Description",
+    "expenseDate": "Expense Date",
+    "totalExpense": "Total Expense",
+    "totalQuantity": "Total Quantity",
+    "totalDonations": "Total Donations",
+    "cashBeforeExpense": "Cash Before Expense",
+    "cashBeforeLastExpense": "Cash Before Last Expense",
+    "cashAfterLastExpense": "Cash After Last Expense",
+    "createdAt": "Created At",
+    "updatedAt": "Updated At"
+  },
+  "support": {
+    "supportDetails": "Support Details",
+    "noData": "No support data available.",
+    "id": "ID",
+    "type": "Type",
+    "details": "Details",
+    "goodsQuantity": "Goods Quantity",
+    "cashQuantity": "Cash Quantity",
+    "helperFullname": "Helper Fullname",
+    "helperNumber": "Helper Number",
+    "helperEmail": "Helper Email",
+    "helperDate": "Helper Date",
+    "totalCashDonated": "Total Cash Donated",
+    "createdAt": "Created At",
+    "updatedAt": "Updated At"
   }
 }
