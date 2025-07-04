@@ -1,13 +1,13 @@
-import { createExpense, editExpense } from '../../services/apiExpenses'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-
+import React from 'react'
+import { useForm } from 'react-hook-form'
+import toast from 'react-hot-toast'
+import { useTranslation } from 'react-i18next'
+import styled from 'styled-components'
+import { createExpense, editExpense } from '../../services/apiExpenses'
 import Button from '../../ui/Button'
 import Form from '../../ui/Form'
 import Input from '../../ui/Input'
-import React from 'react'
-import styled from 'styled-components'
-import toast from 'react-hot-toast'
-import { useForm } from 'react-hook-form'
 
 const Select = styled.select`
   padding: 0.8rem 1.2rem;
@@ -26,19 +26,15 @@ const FormRow = styled.div`
   grid-template-columns: 24rem 1fr 1.2fr;
   gap: 2.4rem;
   padding: 1.2rem 0;
-
   &:first-child {
     padding-top: 0;
   }
-
   &:last-child {
     padding-bottom: 0;
   }
-
   &:not(:last-child) {
     border-bottom: 1px solid var(--color-grey-100);
   }
-
   &:has(button) {
     display: flex;
     justify-content: flex-end;
@@ -56,9 +52,9 @@ const Error = styled.span`
 `
 
 function CreateExpensesForm({ expenseToEdit = {}, onCloseModal }) {
+  const { t } = useTranslation()
   const isEditSession = Boolean(expenseToEdit.id)
 
-  // 🛠️ Process default values to handle number/null values
   const processedExpenseToEdit = isEditSession
     ? {
         ...expenseToEdit,
@@ -87,19 +83,18 @@ function CreateExpensesForm({ expenseToEdit = {}, onCloseModal }) {
   const { mutate, isLoading } = useMutation({
     mutationFn: (data) =>
       isEditSession ? editExpense(expenseToEdit.id, data) : createExpense(data),
-    onSuccess: (res) => {
-      const expense = res.data
+    onSuccess: () => {
       toast.success(
         isEditSession
-          ? `Expense updated successfully`
-          : `New expense created successfully`
+          ? t('ExpensesForm.successUpdate')
+          : t('ExpensesForm.successCreate')
       )
       queryClient.invalidateQueries({ queryKey: ['expenses'] })
       reset()
       onCloseModal?.()
     },
     onError: (err) => {
-      toast.error(err.message || 'Something went wrong')
+      toast.error(err.message || t('ExpensesForm.error'))
     },
   })
 
@@ -114,36 +109,38 @@ function CreateExpensesForm({ expenseToEdit = {}, onCloseModal }) {
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
       <FormRow>
-        <Label htmlFor="type">Type</Label>
+        <Label htmlFor="type">{t('ExpensesForm.type')}</Label>
         <Select
           id="type"
-          {...register('type', { required: 'Type is required' })}
+          {...register('type', { required: t('ExpensesForm.requiredType') })}
         >
-          <option value="cash">Cash</option>
-          <option value="goods">Goods</option>
+          <option value="cash">{t('ExpensesForm.cash')}</option>
+          <option value="goods">{t('ExpensesForm.goods')}</option>
         </Select>
         {errors?.type && <Error>{errors.type.message}</Error>}
       </FormRow>
 
       <FormRow>
-        <Label htmlFor="expense_cash">Expense Cash</Label>
+        <Label htmlFor="expense_cash">{t('ExpensesForm.expenseCash')}</Label>
         <Input
           type="number"
           id="expense_cash"
           {...register('expense_cash', {
-            required: 'Expense cash is required',
+            required: t('ExpensesForm.requiredExpenseCash'),
           })}
         />
         {errors?.expense_cash && <Error>{errors.expense_cash.message}</Error>}
       </FormRow>
 
       <FormRow>
-        <Label htmlFor="goods_quantity">Goods Quantity</Label>
+        <Label htmlFor="goods_quantity">
+          {t('ExpensesForm.goodsQuantity')}
+        </Label>
         <Input
           type="number"
           id="goods_quantity"
           {...register('goods_quantity', {
-            required: 'Goods quantity is required',
+            required: t('ExpensesForm.requiredGoodsQuantity'),
           })}
         />
         {errors?.goods_quantity && (
@@ -152,22 +149,24 @@ function CreateExpensesForm({ expenseToEdit = {}, onCloseModal }) {
       </FormRow>
 
       <FormRow>
-        <Label htmlFor="description">Description</Label>
+        <Label htmlFor="description">{t('ExpensesForm.description')}</Label>
         <Input
           type="text"
           id="description"
-          {...register('description', { required: 'Description is required' })}
+          {...register('description', {
+            required: t('ExpensesForm.requiredDescription'),
+          })}
         />
         {errors?.description && <Error>{errors.description.message}</Error>}
       </FormRow>
 
       <FormRow>
-        <Label htmlFor="expense_date">Expense Date</Label>
+        <Label htmlFor="expense_date">{t('ExpensesForm.expenseDate')}</Label>
         <Input
           type="date"
           id="expense_date"
           {...register('expense_date', {
-            required: 'Expense date is required',
+            required: t('ExpensesForm.requiredExpenseDate'),
           })}
         />
         {errors?.expense_date && <Error>{errors.expense_date.message}</Error>}
@@ -179,10 +178,10 @@ function CreateExpensesForm({ expenseToEdit = {}, onCloseModal }) {
           type="reset"
           onClick={() => onCloseModal?.()}
         >
-          Cancel
+          {t('cancel.cancel')}
         </Button>
         <Button type="submit" disabled={isLoading}>
-          {isEditSession ? 'Edit Expense' : 'Create New Expense'}
+          {isEditSession ? t('ExpensesForm.edit') : t('ExpensesForm.create')}
         </Button>
       </FormRow>
     </Form>

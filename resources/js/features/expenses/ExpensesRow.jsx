@@ -1,8 +1,8 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useEffect, useRef, useState } from 'react'
-import { HiEllipsisVertical, HiEye, HiPencil, HiTrash } from 'react-icons/hi2'
-
 import toast from 'react-hot-toast'
+import { useTranslation } from 'react-i18next'
+import { HiEllipsisVertical, HiEye, HiPencil, HiTrash } from 'react-icons/hi2'
 import styled from 'styled-components'
 import { deleteExpense } from '../../services/apiExpenses'
 import ConfirmDelete from '../../ui/ConfirmDelete'
@@ -17,21 +17,17 @@ const TableRow = styled.div`
   align-items: center;
   padding: 1.6rem 2.4rem;
   position: relative;
-
   &:not(:last-child) {
     border-bottom: 1px solid var(--color-grey-100);
   }
-
-  transition: background-color 0.2s; /* Smooth transition */
+  transition: background-color 0.2s;
 
   &:hover {
-    background-color: var(--color-grey-200); /* Light mode hover */
+    background-color: var(--color-grey-200);
     cursor: pointer;
 
-    /* Dark mode hover */
     @media (prefers-color-scheme: dark) {
-      background-color: var(--color-grey-700); /* Dark mode hover */
-      cursor: pointer;
+      background-color: var(--color-grey-700);
     }
   }
 `
@@ -39,7 +35,7 @@ const TableRow = styled.div`
 const Cell = styled.div`
   font-size: 1.4rem;
   color: var(--color-grey-700);
-  padding: 0.5rem 0; /* Adjusted padding for better spacing */
+  padding: 0.5rem 0;
 `
 
 const DropdownWrapper = styled.div`
@@ -98,6 +94,7 @@ const DropdownItem = styled.button`
 `
 
 function ExpenseRow({ expense }) {
+  const { t } = useTranslation()
   const queryClient = useQueryClient()
   const [isOpen, setIsOpen] = useState(false)
   const [dropdownPosition, setDropdownPosition] = useState(null)
@@ -107,11 +104,11 @@ function ExpenseRow({ expense }) {
     mutationFn: deleteExpense,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['expenses'] })
-      toast.success('Expense deleted successfully')
+      toast.success(t('ExpensesAlert.deleteSuccess'))
     },
     onError: (err) => {
       console.error('Error during deletion:', err)
-      toast.error(err.message || 'Failed to delete expense')
+      toast.error(err.message || t('ExpensesAlert.deleteError'))
     },
   })
 
@@ -165,19 +162,19 @@ function ExpenseRow({ expense }) {
         <DropdownMenu show={isOpen} position={dropdownPosition}>
           <Modal.Open opensWindowName={`view-${expense.id}`}>
             <DropdownItem onClick={closeDropdown}>
-              <HiEye /> View
+              <HiEye /> {t('actions.view')}
             </DropdownItem>
           </Modal.Open>
 
           <Modal.Open opensWindowName={`edit-${expense.id}`}>
             <DropdownItem onClick={closeDropdown}>
-              <HiPencil /> Edit
+              <HiPencil /> {t('actions.edit')}
             </DropdownItem>
           </Modal.Open>
 
           <Modal.Open opensWindowName={`delete-${expense.id}`}>
             <DropdownItem onClick={closeDropdown} disabled={isDeleting}>
-              <HiTrash /> Delete
+              <HiTrash /> {t('actions.delete')}
             </DropdownItem>
           </Modal.Open>
         </DropdownMenu>
@@ -190,10 +187,11 @@ function ExpenseRow({ expense }) {
       <Modal.Window name={`edit-${expense.id}`}>
         <CreateExpensesForm expenseToEdit={expense} />
       </Modal.Window>
+
       <Modal.Window name={`delete-${expense.id}`}>
         <ConfirmDelete
           onConfirm={handleDeleteConfirm}
-          resourceName="expense"
+          resourceName={t('resource.expense')} 
           itemLabel={expense.name}
         />
       </Modal.Window>

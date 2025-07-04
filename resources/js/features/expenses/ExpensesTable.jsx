@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { FiSearch } from 'react-icons/fi'
-import { RxCaretLeft, RxCaretRight } from 'react-icons/rx'
 import { useSearchParams } from 'react-router-dom'
 import styled from 'styled-components'
 import { getExpenses } from '../../services/apiExpenses'
@@ -10,7 +10,6 @@ import ExpenseRow from './ExpensesRow'
 
 const PAGE_SIZE_OPTIONS = [5, 10, 25, 50]
 
-// Styled Components with CSS variables for light/dark mode support
 const Table = styled.div`
   border: 1px solid var(--color-grey-200);
   font-size: 1.4rem;
@@ -157,6 +156,7 @@ const NavButtons = styled.div`
 `
 
 export default function ExpenseTable() {
+  const { t } = useTranslation()
   const [searchParams, setSearchParams] = useSearchParams()
   const currentPage = Number(searchParams.get('page')) || 1
   const [searchText, setSearchText] = useState('')
@@ -170,11 +170,10 @@ export default function ExpenseTable() {
   })
 
   if (isLoading) return <Spinner />
-  if (error) return <div>Error loading expenses!</div>
+  if (error) return <div>{t('ExpensesHeader.errorLoading')}</div>
 
   let filteredExpenses = data?.data || []
 
-  // Search filter
   if (searchText.trim()) {
     const lower = searchText.toLowerCase()
     filteredExpenses = filteredExpenses.filter((expense) =>
@@ -182,7 +181,6 @@ export default function ExpenseTable() {
     )
   }
 
-  // Sort
   if (sortBy) {
     filteredExpenses = [...filteredExpenses].sort((a, b) => {
       let aVal = a[sortBy]
@@ -234,9 +232,10 @@ export default function ExpenseTable() {
             <FiSearch />
             <input
               type="text"
-              placeholder="Search expenses..."
+              placeholder={t('ExpensesHeader.searchPlaceholder')}
               value={searchText}
               onChange={(e) => setSearchText(e.target.value)}
+              aria-label={t('ExpensesHeader.searchPlaceholder')}
             />
           </SearchInputContainer>
         </SearchWrapper>
@@ -247,38 +246,89 @@ export default function ExpenseTable() {
           <SortableHeader
             onClick={() => handleSort('type')}
             className={sortBy === 'type' ? 'active' : ''}
+            role="columnheader"
+            tabIndex={0}
+            aria-sort={
+              sortBy === 'type'
+                ? sortOrder === 'asc'
+                  ? 'ascending'
+                  : 'descending'
+                : 'none'
+            }
           >
-            Type <span className="icon">{renderSortIcon('type')}</span>
+            {t('ExpensesHeader.type')}{' '}
+            <span className="icon">{renderSortIcon('type')}</span>
           </SortableHeader>
+
           <SortableHeader
             onClick={() => handleSort('expense_cash')}
             className={sortBy === 'expense_cash' ? 'active' : ''}
+            role="columnheader"
+            tabIndex={0}
+            aria-sort={
+              sortBy === 'expense_cash'
+                ? sortOrder === 'asc'
+                  ? 'ascending'
+                  : 'descending'
+                : 'none'
+            }
           >
-            Expense Cash{' '}
+            {t('ExpensesHeader.expenseCash')}{' '}
             <span className="icon">{renderSortIcon('expense_cash')}</span>
           </SortableHeader>
+
           <SortableHeader
             onClick={() => handleSort('description')}
             className={sortBy === 'description' ? 'active' : ''}
+            role="columnheader"
+            tabIndex={0}
+            aria-sort={
+              sortBy === 'description'
+                ? sortOrder === 'asc'
+                  ? 'ascending'
+                  : 'descending'
+                : 'none'
+            }
           >
-            Description{' '}
+            {t('ExpensesHeader.description')}{' '}
             <span className="icon">{renderSortIcon('description')}</span>
           </SortableHeader>
+
           <SortableHeader
             onClick={() => handleSort('expense_date')}
             className={sortBy === 'expense_date' ? 'active' : ''}
+            role="columnheader"
+            tabIndex={0}
+            aria-sort={
+              sortBy === 'expense_date'
+                ? sortOrder === 'asc'
+                  ? 'ascending'
+                  : 'descending'
+                : 'none'
+            }
           >
-            Expense Date{' '}
+            {t('ExpensesHeader.expenseDate')}{' '}
             <span className="icon">{renderSortIcon('expense_date')}</span>
           </SortableHeader>
+
           <SortableHeader
             onClick={() => handleSort('goods_quantity')}
             className={sortBy === 'goods_quantity' ? 'active' : ''}
+            role="columnheader"
+            tabIndex={0}
+            aria-sort={
+              sortBy === 'goods_quantity'
+                ? sortOrder === 'asc'
+                  ? 'ascending'
+                  : 'descending'
+                : 'none'
+            }
           >
-            Goods Quantity{' '}
+            {t('ExpensesHeader.goodsQuantity')}{' '}
             <span className="icon">{renderSortIcon('goods_quantity')}</span>
           </SortableHeader>
-          <div>Action</div>
+
+          <div>{t('ExpensesHeader.action')}</div>
         </TableHeader>
 
         {paginatedExpenses.map((expense) => (
@@ -286,16 +336,21 @@ export default function ExpenseTable() {
         ))}
 
         {filteredExpenses.length === 0 && (
-          <div style={{ padding: '1.6rem' }}>No matching expenses found.</div>
+          <div style={{ padding: '1.6rem' }}>{t('ExpensesHeader.noMatch')}</div>
         )}
 
         <PaginationWrapper>
           <PageInfo>
-            Page {currentPage} of {totalPages || 1}
+            {t('ExpensesHeader.page')} {currentPage} {t('ExpensesHeader.of')}{' '}
+            {totalPages || 1}
           </PageInfo>
           <RowsPerPage>
-            Rows per page:
-            <select value={rowsPerPage} onChange={handleRowsPerPageChange}>
+            {t('ExpensesHeader.rowsPerPage')}
+            <select
+              value={rowsPerPage}
+              onChange={handleRowsPerPageChange}
+              aria-label={t('ExpensesHeader.rowsPerPage')}
+            >
               {PAGE_SIZE_OPTIONS.map((size) => (
                 <option key={size} value={size}>
                   {size}
@@ -307,16 +362,18 @@ export default function ExpenseTable() {
             <button
               onClick={() => handlePageChange(Math.max(1, currentPage - 1))}
               disabled={currentPage === 1}
+              aria-label={t('ExpensesHeader.previousPage')}
             >
-              <RxCaretLeft />
+              &lt;
             </button>
             <button
               onClick={() =>
                 handlePageChange(Math.min(totalPages, currentPage + 1))
               }
               disabled={currentPage === totalPages || totalPages === 0}
+              aria-label={t('ExpensesHeader.nextPage')}
             >
-              <RxCaretRight />
+              &gt;
             </button>
           </NavButtons>
         </PaginationWrapper>

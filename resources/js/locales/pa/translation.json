@@ -812,5 +812,53 @@
       "noMatch": "هیڅ فیس ونه موندل شو.",
       "loadError": "د فیسونو لوستل کې ستونزه!"
     }
+  },
+  "AddExpenses": {
+    "addNew": "نوی مصرف اضافه کړئ"
+  },
+  "ExpensesForm": {
+    "type": "ډول",
+    "cash": "نغدي",
+    "goods": "توکي",
+    "expenseCash": "د نغدو مصرف",
+    "goodsQuantity": "د توکو مقدار",
+    "description": "تفصیل",
+    "expenseDate": "د مصرف نېټه",
+    "create": "نوی مصرف جوړ کړئ",
+    "edit": "مصرف سم کړئ",
+    "successCreate": "نوی مصرف په بریالیتوب سره ثبت شو",
+    "successUpdate": "مصرف په بریالیتوب سره سم شو",
+    "error": "یو څه غلط شول",
+    "requiredType": "ډول اړین دی",
+    "requiredExpenseCash": "د نغدو مصرف اړین دی",
+    "requiredGoodsQuantity": "د توکو مقدار اړین دی",
+    "requiredDescription": "تفصیل اړین دی",
+    "requiredExpenseDate": "د مصرف نېټه اړینه ده"
+  },
+  "cancel": {
+    "cancel": "لغوه"
+  },
+  "ExpensesAlert": {
+    "deleteSuccess": "مصرف په بریالیتوب سره حذف شو",
+    "deleteError": "د مصرف حذف ناکام شو"
+  },
+  "resource": {
+    "expense": "مصرف"
+  },
+  "ExpensesHeader": {
+    "searchPlaceholder": "د مصرفونو لټون...",
+    "type": "ډول",
+    "expenseCash": "نغدي مصرف",
+    "description": "تفصیل",
+    "expenseDate": "د مصرف نېټه",
+    "goodsQuantity": "د مالونو مقدار",
+    "action": "عمل",
+    "noMatch": "هیڅ مطابقت مصرف ونه موندل شو.",
+    "page": "پاڼه",
+    "of": "د",
+    "rowsPerPage": "په هر پاڼه کې کرښې:",
+    "previousPage": "مخکېنۍ پاڼه",
+    "nextPage": "راتلونکې پاڼه",
+    "errorLoading": "د مصرفونو د لوستلو کې ستونزه!"
   }
 }

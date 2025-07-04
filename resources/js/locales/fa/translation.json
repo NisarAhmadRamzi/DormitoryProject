@@ -808,5 +808,53 @@
       "noMatch": "هیچ فیس مطابقی یافت نشد.",
       "loadError": "خطا در بارگذاری فیس‌ها!"
     }
+  },
+  "AddExpenses": {
+    "addNew": "مصرف جدید اضافه کنید"
+  },
+  "ExpensesForm": {
+    "type": "نوع",
+    "cash": "پول نقد",
+    "goods": "اجناس",
+    "expenseCash": "مصرف نقدی",
+    "goodsQuantity": "مقدار اجناس",
+    "description": "توضیحات",
+    "expenseDate": "تاریخ مصرف",
+    "create": "مصرف جدید ایجاد کنید",
+    "edit": "ویرایش مصرف",
+    "successCreate": "مصرف جدید موفقانه ثبت شد",
+    "successUpdate": "مصرف موفقانه ویرایش شد",
+    "error": "مشکلی پیش آمد",
+    "requiredType": "نوع ضروری است",
+    "requiredExpenseCash": "مصرف نقدی ضروری است",
+    "requiredGoodsQuantity": "مقدار اجناس ضروری است",
+    "requiredDescription": "توضیحات ضروری است",
+    "requiredExpenseDate": "تاریخ مصرف ضروری است"
+  },
+  "cancel": {
+    "cancel": "لغو"
+  },
+  "ExpensesAlert": {
+    "deleteSuccess": "مصرف موفقانه حذف شد",
+    "deleteError": "حذف مصرف ناکام شد"
+  },
+  "resource": {
+    "expense": "مصرف"
+  },
+  "ExpensesHeader": {
+    "searchPlaceholder": "جستجوی مصرف‌ها...",
+    "type": "نوع",
+    "expenseCash": "هزینه نقدی",
+    "description": "شرح",
+    "expenseDate": "تاریخ مصرف",
+    "goodsQuantity": "مقدار کالا",
+    "action": "عملیات",
+    "noMatch": "مصرفی یافت نشد.",
+    "page": "صفحه",
+    "of": "از",
+    "rowsPerPage": "ردیف‌ها در هر صفحه:",
+    "previousPage": "صفحه قبلی",
+    "nextPage": "صفحه بعدی",
+    "errorLoading": "خطا در بارگذاری مصرف‌ها!"
   }
 }

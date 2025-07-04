@@ -809,5 +809,53 @@
       "noMatch": "No matching fees found.",
       "loadError": "Error loading fees!"
     }
+  },
+  "AddExpenses": {
+    "addNew": "Add new Expense"
+  },
+  "ExpensesForm": {
+    "type": "Type",
+    "cash": "Cash",
+    "goods": "Goods",
+    "expenseCash": "Expense Cash",
+    "goodsQuantity": "Goods Quantity",
+    "description": "Description",
+    "expenseDate": "Expense Date",
+    "create": "Create New Expense",
+    "edit": "Edit Expense",
+    "successCreate": "New expense created successfully",
+    "successUpdate": "Expense updated successfully",
+    "error": "Something went wrong",
+    "requiredType": "Type is required",
+    "requiredExpenseCash": "Expense cash is required",
+    "requiredGoodsQuantity": "Goods quantity is required",
+    "requiredDescription": "Description is required",
+    "requiredExpenseDate": "Expense date is required"
+  },
+  "cancel": {
+    "cancel": "Cancel"
+  },
+  "ExpensesAlert": {
+    "deleteSuccess": "Expense deleted successfully",
+    "deleteError": "Failed to delete expense"
+  },
+  "resource": {
+    "expense": "Expense"
+  },
+  "ExpensesHeader": {
+    "searchPlaceholder": "Search expenses...",
+    "type": "Type",
+    "expenseCash": "Expense Cash",
+    "description": "Description",
+    "expenseDate": "Expense Date",
+    "goodsQuantity": "Goods Quantity",
+    "action": "Action",
+    "noMatch": "No matching expenses found.",
+    "page": "Page",
+    "of": "of",
+    "rowsPerPage": "Rows per page:",
+    "previousPage": "Previous page",
+    "nextPage": "Next page",
+    "errorLoading": "Error loading expenses!"
   }
 }
