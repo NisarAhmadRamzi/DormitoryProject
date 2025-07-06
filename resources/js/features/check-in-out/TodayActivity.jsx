@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import {
   HiOutlineArrowTrendingUp,
   HiOutlineCurrencyDollar,
@@ -85,53 +86,60 @@ const TodayItem = styled.li`
 `
 
 function Today() {
+  const { t } = useTranslation()
+
   return (
     <StyledToday>
       <Row type="horizontal">
-        <Heading as="h2">Today</Heading>
+        <Heading as="h2">{t('today.title')}</Heading>
       </Row>
 
       <TodayList>
         <TodayItem color="indigo">
           <HiOutlineUserGroup />
           <div className="info">
-            <span className="label">4 students checked in</span>
-            <span className="detail">Rooms 301, 302, 303, 305</span>
+            <span className="label">{t('today.studentsCheckedIn')}</span>
+            <span className="detail">{t('today.roomsCheckedIn')}</span>
           </div>
         </TodayItem>
+
         <TodayItem color="yellow">
           <HiOutlineExclamationTriangle />
           <div className="info">
-            <span className="label">2 new complaints</span>
-            <span className="detail">Leaky faucet in Room 201</span>
+            <span className="label">{t('today.newComplaints')}</span>
+            <span className="detail">{t('today.complaintDetail')}</span>
           </div>
         </TodayItem>
+
         <TodayItem color="green">
           <HiOutlineCurrencyDollar />
           <div className="info">
-            <span className="label">3 fees paid</span>
-            <span className="detail">Total: $450</span>
+            <span className="label">{t('today.feesPaid')}</span>
+            <span className="detail">{t('today.totalPaid')}</span>
           </div>
         </TodayItem>
+
         <TodayItem color="blue">
           <HiOutlineArrowTrendingUp />
           <div className="info">
-            <span className="label">1 support resolved</span>
-            <span className="detail">The Door Firxed in Third Floor</span>
+            <span className="label">{t('today.supportResolved')}</span>
+            <span className="detail">{t('today.supportDetail')}</span>
           </div>
         </TodayItem>
+
         <TodayItem color="indigo">
           <HiOutlineUserGroup />
           <div className="info">
-            <span className="label">2 students checked out</span>
-            <span className="detail">Room 301 & 308</span>
+            <span className="label">{t('today.studentsCheckedOut')}</span>
+            <span className="detail">{t('today.roomsCheckedOut')}</span>
           </div>
         </TodayItem>
+
         <TodayItem color="yellow">
           <HiOutlineExclamationTriangle />
           <div className="info">
-            <span className="label">1 complaint closed</span>
-            <span className="detail">Water issue in First Floor resolved</span>
+            <span className="label">{t('today.complaintClosed')}</span>
+            <span className="detail">{t('today.complaintResolvedDetail')}</span>
           </div>
         </TodayItem>
       </TodayList>

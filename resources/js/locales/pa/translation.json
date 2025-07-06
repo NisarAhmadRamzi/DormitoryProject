@@ -913,5 +913,91 @@
   "noRecords": "هیڅ پایله ونه موندل شوه.",
   "page": "مخ",
   "of": "له",
-  "rowsPerPage": "قطارونه په هر مخ کې"
+  "rowsPerPage": "قطارونه په هر مخ کې",
+  "stats": {
+    "allUsers": "ټول کارونکي",
+    "allStudents": "ټول زده‌کوونکي",
+    "allLibraryStudents": "ټول د کتابتون زده‌کوونکي",
+    "totalAssets": "ټول شتمنۍ",
+    "roomOverview": "د خونې کتنه",
+    "complaintsOverview": "د شکایتونو کتنه",
+    "donationsOverview": "د مرستو کتنه",
+    "expensesOverview": "د لګښتونو کتنه",
+    "booksOverview": "د کتابونو کتنه",
+    "feesOverview": "د فیسونو کتنه",
+    "errorLoading": "په بار کې تېروتنه!"
+  },
+  "statsGroup": {
+    "labels": {
+      "open": "خلاص",
+      "closed": "بند",
+      "pending": "منتظر",
+      "approved": "منظور شوی",
+      "rejected": "رد شوی"
+    }
+  },
+  "Dashboard": {
+    "errorLoading": "د بارولو تېروتنه!",
+    "allUsers": "ټول کاروونکي",
+    "allStudents": "ټول زده‌کوونکي",
+    "allLibraryStudents": "کتابتون زده‌کوونکي",
+    "totalAssets": "ټول شتمني",
+    "roomOverview": "د خونې کتنه",
+    "complaintsOverview": "د شکایتونو کتنه",
+    "donationsOverview": "د مرستو کتنه",
+    "expensesOverview": "د لګښتونو کتنه",
+    "booksOverview": "د کتابونو کتنه",
+    "feesOverview": "د فیسونو کتنه",
+    "keys": {
+      "total": "ټول",
+      "available": "شته",
+      "occupied": "اشغال شوی",
+      "utilization_rate_percent": "د استعمال کچه (%)",
+      "pending": "منتظر",
+      "in_progress": "په جریان کې",
+      "resolved": "حل شوی",
+      "total_cash_donated": "ټول نغدي مرسته",
+      "total_goods_quantity": "ټول توکي",
+      "total_cash_donated_cumulative": "ټولیز نغدي مرسته",
+      "latest_donation_date": "وروستۍ د مرستې نیټه",
+      "latest_expense_date": "وروستۍ د لګښت نیټه",
+      "total_office_paid": "اداري فیس تادیه شوی",
+      "total_warranty_paid": "د ضمانت فیس تادیه شوی",
+      "borrowed": "پور اخیستل شوی",
+      "overdue": "ناوخته"
+    }
+  },
+  "dashboard1": {
+    "title": "ډاشبورډ",
+    "loginSuccess": "بریالی ننوت!"
+  },
+  "today": {
+    "title": "نن",
+    "studentsCheckedIn": "۴ محصلین داخل شول",
+    "roomsCheckedIn": "خونې ۳۰۱، ۳۰۲، ۳۰۳، ۳۰۵",
+    "newComplaints": "۲ نوې شکایتونه",
+    "complaintDetail": "په ۲۰۱ خونې کې نل خراب دی",
+    "feesPaid": "۳ فیسونه ورکړل شول",
+    "totalPaid": "ټول: $۴۵۰",
+    "supportResolved": "۱ مرسته حل شوه",
+    "supportDetail": "دروازه په دریم منزل کې ترمیم شوه",
+    "studentsCheckedOut": "۲ محصلین خارج شول",
+    "roomsCheckedOut": "خونه ۳۰۱ او ۳۰۸",
+    "complaintClosed": "۱ شکایت بند شو",
+    "complaintResolvedDetail": "د اوبو ستونزه په لومړي منزل کې حل شوه"
+  },
+  "durationChart": {
+    "title": "د پاتې کېدو موده خلاصه",
+    "noData": "د پاتې کېدو د مودې کوم معلومات نشته.",
+    "labels": {
+      "1 night": "۱ شپه",
+      "2 nights": "۲ شپې",
+      "3 nights": "۳ شپې",
+      "4-5 nights": "۴-۵ شپې",
+      "6-7 nights": "۶-۷ شپې",
+      "8-14 nights": "۸-۱۴ شپې",
+      "15-21 nights": "۱۵-۲۱ شپې",
+      "21+ nights": "۲۱+ شپې"
+    }
+  }
 }

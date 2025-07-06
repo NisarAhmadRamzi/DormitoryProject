@@ -1,18 +1,20 @@
-import DashboardFilter from '../features/dashboard/DashboardFilter'
+import { useEffect } from 'react'
+import { toast } from 'react-hot-toast'
+import { useTranslation } from 'react-i18next'
 import DashboardLayout from '../features/dashboard/DashboardLayout'
 import Heading from '../ui/Heading'
 import Row from '../ui/Row'
-import { toast } from 'react-hot-toast'
-import { useEffect } from 'react'
 
 function Dashboard() {
+  const { t } = useTranslation()
+
   useEffect(() => {
     const loginSuccess = localStorage.getItem('loginSuccess')
     if (loginSuccess === 'true') {
-      toast.success('Login successful!')
-      localStorage.removeItem('loginSuccess') // ✅ Clear the flag after showing toast
+      toast.success(t('dashboard1.loginSuccess'))
+      localStorage.removeItem('loginSuccess')
     }
-  }, [])
+  }, [t])
 
   return (
     <>
@@ -24,8 +26,8 @@ function Dashboard() {
           width: '100%',
         }}
       >
-        <Heading as="h1">Dashboard</Heading>
-        <DashboardFilter />
+        <Heading as="h1">{t('dashboard1.title')}</Heading>
+        {/* <DashboardFilter /> */}
       </Row>
       <Row>
         <DashboardLayout />

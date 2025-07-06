@@ -1,20 +1,19 @@
+// ✅ GroupedStat.jsx
+import { useTranslation } from 'react-i18next'
 import { HiCheckCircle, HiExclamationCircle, HiXCircle } from 'react-icons/hi'
 import styled, { keyframes } from 'styled-components'
 import SpinnerMini from '../../ui/SpinnerMini'
 
-// Fade animation
 const fadeIn = keyframes`
   from { opacity: 0 }
   to { opacity: 1 }
 `
 
-// Format date utility
 function formatDate(dateStr) {
   const parsed = new Date(dateStr)
   return isNaN(parsed) ? dateStr : parsed.toLocaleString()
 }
 
-// Helpers
 function isDateString(value) {
   return (
     typeof value === 'string' && !isNaN(Date.parse(value)) && value.length >= 10
@@ -28,7 +27,6 @@ function getIcon(value) {
   return <HiXCircle />
 }
 
-// Styled Components
 const StyledGroupedStat = styled.div`
   background-color: var(--color-grey-0);
   border: 1px solid var(--color-grey-100);
@@ -37,7 +35,7 @@ const StyledGroupedStat = styled.div`
   display: flex;
   flex-direction: column;
   grid-column: span 1;
-  max-height: 270px;
+  max-height: 290px;
   max-width: 400px;
   overflow-y: auto;
 `
@@ -108,6 +106,8 @@ const LoadingWrapper = styled.div`
 `
 
 function GroupedStat({ title, data = {}, isLoading = false, marginTop }) {
+  const { t } = useTranslation()
+
   return (
     <StyledGroupedStat marginTop={marginTop}>
       <Title>{title}</Title>
@@ -127,7 +127,7 @@ function GroupedStat({ title, data = {}, isLoading = false, marginTop }) {
                 <IconWrapper value={typeof value === 'number' ? value : null}>
                   {getIcon(typeof value === 'number' ? value : 0)}
                 </IconWrapper>
-                <Label>{key.replace(/_/g, ' ')}</Label>
+                <Label>{t(`Dashboard.keys.${key}`)}</Label>
                 <Value value={typeof value === 'number' ? value : null}>
                   {formattedValue}
                 </Value>

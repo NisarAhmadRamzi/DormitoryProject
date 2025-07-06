@@ -909,5 +909,91 @@
   "noRecords": "هیچ موردی یافت نشد.",
   "page": "صفحه",
   "of": "از",
-  "rowsPerPage": "ردیف در هر صفحه"
+  "rowsPerPage": "ردیف در هر صفحه",
+  "stats": {
+    "allUsers": "تمام کاربران",
+    "allStudents": "تمام دانشجویان",
+    "allLibraryStudents": "تمام دانشجویان کتابخانه",
+    "totalAssets": "دارایی‌های کل",
+    "roomOverview": "مرور اتاق‌ها",
+    "complaintsOverview": "مرور شکایات",
+    "donationsOverview": "مرور کمک‌ها",
+    "expensesOverview": "مرور مصارف",
+    "booksOverview": "مرور کتاب‌ها",
+    "feesOverview": "مرور پرداخت‌ها",
+    "errorLoading": "خطا در بارگذاری!"
+  },
+  "statsGroup": {
+    "labels": {
+      "open": "باز",
+      "closed": "بسته",
+      "pending": "در انتظار",
+      "approved": "تایید شده",
+      "rejected": "رد شده"
+    }
+  },
+  "Dashboard": {
+    "errorLoading": "خطا در بارگذاری!",
+    "allUsers": "تمام کاربران",
+    "allStudents": "تمام دانشجویان",
+    "allLibraryStudents": "دانشجویان کتابخانه",
+    "totalAssets": "کل دارایی‌ها",
+    "roomOverview": "بررسی اتاق‌ها",
+    "complaintsOverview": "بررسی شکایات",
+    "donationsOverview": "بررسی کمک‌ها",
+    "expensesOverview": "بررسی هزینه‌ها",
+    "booksOverview": "بررسی کتاب‌ها",
+    "feesOverview": "بررسی پرداخت‌ها",
+    "keys": {
+      "total": "مجموع",
+      "available": "دردسترس",
+      "occupied": "اشغال‌شده",
+      "utilization_rate_percent": "نرخ استفاده (%)",
+      "pending": "در انتظار",
+      "in_progress": "در حال انجام",
+      "resolved": "حل شده",
+      "total_cash_donated": "مقدار نقدی کمک‌شده",
+      "total_goods_quantity": "مقدار کالای کمک‌شده",
+      "total_cash_donated_cumulative": "جمع کل کمک‌های نقدی",
+      "latest_donation_date": "تاریخ آخرین کمک",
+      "latest_expense_date": "تاریخ آخرین هزینه",
+      "total_office_paid": "پرداخت اداری",
+      "total_warranty_paid": "پرداخت ضمانتی",
+      "borrowed": "قرض‌گرفته شده",
+      "overdue": "دیرکرد"
+    }
+  },
+  "dashboard1": {
+    "title": "داشبورد",
+    "loginSuccess": "ورود موفقانه بود!"
+  },
+  "today": {
+    "title": "امروز",
+    "studentsCheckedIn": "۴ دانشجو وارد شدند",
+    "roomsCheckedIn": "اتاق‌های ۳۰۱، ۳۰۲، ۳۰۳، ۳۰۵",
+    "newComplaints": "۲ شکایت جدید",
+    "complaintDetail": "شیر آب در اتاق ۲۰۱ خراب است",
+    "feesPaid": "۳ فیس پرداخت شد",
+    "totalPaid": "مجموع: ۴۵۰ دلار",
+    "supportResolved": "۱ کمک حل شد",
+    "supportDetail": "در در طبقه سوم ترمیم شد",
+    "studentsCheckedOut": "۲ دانشجو خارج شدند",
+    "roomsCheckedOut": "اتاق ۳۰۱ و ۳۰۸",
+    "complaintClosed": "۱ شکایت بسته شد",
+    "complaintResolvedDetail": "مشکل آب در طبقه اول حل شد"
+  },
+  "durationChart": {
+    "title": "خلاصهٔ مدت اقامت",
+    "noData": "هیچ اطلاعاتی در مورد مدت اقامت موجود نیست.",
+    "labels": {
+      "1 night": "۱ شب",
+      "2 nights": "۲ شب",
+      "3 nights": "۳ شب",
+      "4-5 nights": "۴ تا ۵ شب",
+      "6-7 nights": "۶ تا ۷ شب",
+      "8-14 nights": "۸ تا ۱۴ شب",
+      "15-21 nights": "۱۵ تا ۲۱ شب",
+      "21+ nights": "۲۱+ شب"
+    }
+  }
 }

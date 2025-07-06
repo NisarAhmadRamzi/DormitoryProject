@@ -909,5 +909,91 @@
   "noRecords": "No matching records.",
   "page": "Page",
   "of": "of",
-  "rowsPerPage": "Rows per page"
+  "rowsPerPage": "Rows per page",
+  "stats": {
+    "allUsers": "All users",
+    "allStudents": "All students",
+    "allLibraryStudents": "All library students",
+    "totalAssets": "Total Assets",
+    "roomOverview": "Room Overview",
+    "complaintsOverview": "Complaints Overview",
+    "donationsOverview": "Donations Overview",
+    "expensesOverview": "Expenses Overview",
+    "booksOverview": "Books Overview",
+    "feesOverview": "Fees Overview",
+    "errorLoading": "Error loading!"
+  },
+  "statsGroup": {
+    "labels": {
+      "open": "Open",
+      "closed": "Closed",
+      "pending": "Pending",
+      "approved": "Approved",
+      "rejected": "Rejected"
+    }
+  },
+  "Dashboard": {
+    "errorLoading": "Error loading!",
+    "allUsers": "All users",
+    "allStudents": "All students",
+    "allLibraryStudents": "All library students",
+    "totalAssets": "Total assets",
+    "roomOverview": "Room Overview",
+    "complaintsOverview": "Complaints Overview",
+    "donationsOverview": "Donations Overview",
+    "expensesOverview": "Expenses Overview",
+    "booksOverview": "Books Overview",
+    "feesOverview": "Fees Overview",
+    "keys": {
+      "total": "Total",
+      "available": "Available",
+      "occupied": "Occupied",
+      "utilization_rate_percent": "Utilization Rate (%)",
+      "pending": "Pending",
+      "in_progress": "In Progress",
+      "resolved": "Resolved",
+      "total_cash_donated": "Total Cash Donated",
+      "total_goods_quantity": "Total Goods Quantity",
+      "total_cash_donated_cumulative": "Cumulative Cash Donated",
+      "latest_donation_date": "Latest Donation Date",
+      "latest_expense_date": "Latest Expense Date",
+      "total_office_paid": "Office Fees Paid",
+      "total_warranty_paid": "Warranty Fees Paid",
+      "borrowed": "Borrowed",
+      "overdue": "Overdue"
+    }
+  },
+  "dashboard1": {
+    "title": "Dashboard",
+    "loginSuccess": "Login successful!"
+  },
+  "today": {
+    "title": "Today",
+    "studentsCheckedIn": "4 students checked in",
+    "roomsCheckedIn": "Rooms 301, 302, 303, 305",
+    "newComplaints": "2 new complaints",
+    "complaintDetail": "Leaky faucet in Room 201",
+    "feesPaid": "3 fees paid",
+    "totalPaid": "Total: $450",
+    "supportResolved": "1 support resolved",
+    "supportDetail": "The Door fixed on Third Floor",
+    "studentsCheckedOut": "2 students checked out",
+    "roomsCheckedOut": "Room 301 & 308",
+    "complaintClosed": "1 complaint closed",
+    "complaintResolvedDetail": "Water issue in First Floor resolved"
+  },
+  "durationChart": {
+    "title": "Stay duration summary",
+    "noData": "No stay duration data available.",
+    "labels": {
+      "1 night": "1 night",
+      "2 nights": "2 nights",
+      "3 nights": "3 nights",
+      "4-5 nights": "4-5 nights",
+      "6-7 nights": "6-7 nights",
+      "8-14 nights": "8-14 nights",
+      "15-21 nights": "15-21 nights",
+      "21+ nights": "21+ nights"
+    }
+  }
 }
