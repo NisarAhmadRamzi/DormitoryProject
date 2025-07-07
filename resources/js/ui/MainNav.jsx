@@ -7,20 +7,19 @@ import {
   PiWarningLight,
 } from 'react-icons/pi'
 
+import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { BsCurrencyDollar } from 'react-icons/bs'
 import { HiOutlineHomeModern } from 'react-icons/hi2'
 import { IoIosArrowForward } from 'react-icons/io'
 import { IoKeyOutline } from 'react-icons/io5'
 import { MdOutlineLibraryBooks } from 'react-icons/md'
-import { NavLink } from 'react-router-dom'
 import { RxDashboard } from 'react-icons/rx'
-import { TbDatabaseDollar } from 'react-icons/tb'
 import { TfiSupport } from 'react-icons/tfi'
 import { VscAccount } from 'react-icons/vsc'
+import { NavLink } from 'react-router-dom'
 import styled, { css } from 'styled-components'
-import { useState } from 'react'
 import { useUser } from '../context/UserContext'
-import { useTranslation } from 'react-i18next'
 
 const NavList = styled.ul`
   display: flex;
@@ -248,14 +247,14 @@ function MainNav() {
                 <span>{t('rooms')}</span>
               </StyledNavlink>
             </li>
-            {role !== 'student' && (
+            {/* {role !== 'student' && (
               <li>
                 <StyledNavlink to="/assets">
                   <TbDatabaseDollar />
                   <span>{t('assets')}</span>
                 </StyledNavlink>
               </li>
-            )}
+            )} */}
             {role !== 'student' && (
               <li>
                 <StyledNavlink to="/complaints">
