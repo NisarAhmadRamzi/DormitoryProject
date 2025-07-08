@@ -1,6 +1,6 @@
 // ✅ GroupedStat.jsx
 import { useTranslation } from 'react-i18next'
-import { HiCheckCircle, HiExclamationCircle, HiXCircle } from 'react-icons/hi'
+import { HiCheckCircle } from 'react-icons/hi'
 import styled, { keyframes } from 'styled-components'
 import SpinnerMini from '../../ui/SpinnerMini'
 
@@ -20,11 +20,9 @@ function isDateString(value) {
   )
 }
 
-function getIcon(value) {
-  if (typeof value !== 'number') return <HiExclamationCircle />
-  if (value > 0) return <HiCheckCircle />
-  if (value === 0) return <HiExclamationCircle />
-  return <HiXCircle />
+// ✅ Always return green tick icon
+function getIcon() {
+  return <HiCheckCircle />
 }
 
 const StyledGroupedStat = styled.div`
@@ -64,6 +62,7 @@ const StatItem = styled.li`
   color: var(--color-grey-700);
 `
 
+// ✅ Force green styling for all icons
 const IconWrapper = styled.span`
   display: flex;
   align-items: center;
@@ -71,14 +70,8 @@ const IconWrapper = styled.span`
   width: 2.4rem;
   height: 2.4rem;
   border-radius: 50%;
-  background-color: ${({ value }) =>
-    typeof value === 'number' && value > 0
-      ? 'var(--color-green-100)'
-      : 'var(--color-red-100)'};
-  color: ${({ value }) =>
-    typeof value === 'number' && value > 0
-      ? 'var(--color-green-700)'
-      : 'var(--color-red-700)'};
+  background-color: var(--color-green-100);
+  color: var(--color-green-700);
 `
 
 const Label = styled.span`
@@ -124,9 +117,7 @@ function GroupedStat({ title, data = {}, isLoading = false, marginTop }) {
 
             return (
               <StatItem key={key}>
-                <IconWrapper value={typeof value === 'number' ? value : null}>
-                  {getIcon(typeof value === 'number' ? value : 0)}
-                </IconWrapper>
+                <IconWrapper>{getIcon()}</IconWrapper>
                 <Label>{t(`Dashboard.keys.${key}`)}</Label>
                 <Value value={typeof value === 'number' ? value : null}>
                   {formattedValue}
