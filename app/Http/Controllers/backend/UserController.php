@@ -55,7 +55,7 @@ class UserController extends Controller
             'email' => 'required|email|unique:users,email',
             'password' => 'required|min:4',
             'cpassword' => 'required|same:password',
-            'role' => 'nullable|in:admin,second_admin,student', // Role should be a valid name, not an ID
+            'role' => 'nullable|in:admin,second_admin,student,library_student,library_admin', // Role should be a valid name, not an ID
             'profile' => 'nullable|file|mimes:jpg,jpeg,png|max:2048'
         ]);
 
@@ -103,7 +103,7 @@ class UserController extends Controller
             'email' => 'required|email|unique:users,email,' . $id, // Allow updating email but prevent duplicate
             'password' => 'nullable|min:4', // Password is optional during update
             'cpassword' => 'nullable|same:password', // Ensure confirmation matches if password is provided
-            'role' => 'nullable|in:admin,second_admin,student', // Role should be a valid name, not an ID
+            'role' => 'nullable|in:admin,second_admin,student,library_student,library_admin', // Role should be a valid name, not an ID
             'profile' => 'nullable|file|mimes:jpg,jpeg,png|max:2048' // Profile image validation
         ]);
 
