@@ -62,9 +62,9 @@ const CategoryHeader = styled.div`
     background-color: var(--color-grey-50);
     border-radius: var(--border-radius-sm);
     ${({ dir }) =>
-      dir === 'rtl'
-        ? `border-right-color: var(--color-brand-600);`
-        : `border-left-color: var(--color-brand-600);`}
+    dir === 'rtl'
+      ? `border-right-color: var(--color-brand-600);`
+      : `border-left-color: var(--color-brand-600);`}
   }
 
   & svg {
@@ -180,12 +180,6 @@ function MainNav() {
               </li>
             )}
             <li>
-              <StyledNavlink to="/settings">
-                <IoSettingsOutline />
-                <span>{t('settings')}</span>
-              </StyledNavlink>
-            </li>
-            <li>
               <StyledNavlink to="/accounts">
                 <VscAccount />
                 <span>{t('accounts')}</span>
@@ -197,7 +191,7 @@ function MainNav() {
         {/* User Management */}
         <Category>
           <CategoryHeader onClick={() => toggleCategory('users')} dir={dir}>
-            {t('rolesTitle')}
+            {t('userManagement')}
             <ArrowIcon open={openCategory === 'users'} dir={dir} />
           </CategoryHeader>
           <SubMenu open={openCategory === 'users'}>
@@ -206,22 +200,6 @@ function MainNav() {
                 <StyledNavlink to="/users">
                   <LuUsers />
                   <span>{t('users')}</span>
-                </StyledNavlink>
-              </li>
-            )}
-            {role !== 'student' && (
-              <li>
-                <StyledNavlink to="/roles">
-                  <LuBadgeCheck />
-                  <span>{t('rolesTitle')}</span>
-                </StyledNavlink>
-              </li>
-            )}
-            {role !== 'student' && (
-              <li>
-                <StyledNavlink to="/permissions">
-                  <IoKeyOutline />
-                  <span>{t('permissions')}</span>
                 </StyledNavlink>
               </li>
             )}
@@ -330,6 +308,33 @@ function MainNav() {
                   <span>{t('supports')}</span>
                 </StyledNavlink>
               </li>
+            </SubMenu>
+          </Category>
+        )}
+        {/* Settings */}
+        {role !== 'student' && (
+          <Category>
+            <CategoryHeader onClick={() => toggleCategory('settings')} dir={dir}>
+              {t('settings')}
+              <ArrowIcon open={openCategory === 'settings'} dir={dir} />
+            </CategoryHeader>
+            <SubMenu open={openCategory === 'settings'}>
+              {role !== 'student' && (
+                <li>
+                  <StyledNavlink to="/roles">
+                    <LuBadgeCheck />
+                    <span>{t('rolesTitle')}</span>
+                  </StyledNavlink>
+                </li>
+              )}
+              {role !== 'student' && (
+                <li>
+                  <StyledNavlink to="/permissions">
+                    <IoKeyOutline />
+                    <span>{t('permissions')}</span>
+                  </StyledNavlink>
+                </li>
+              )}
             </SubMenu>
           </Category>
         )}
