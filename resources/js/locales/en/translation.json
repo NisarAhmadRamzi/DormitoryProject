@@ -1032,6 +1032,27 @@
       "Borrowed": "Borrowed"
     }
   },
+  "libraryStudentDashboard": {
+    "title": "Library Student Dashboard",
+    "studentInfo": "Student Info",
+    "name": "Name",
+    "email": "Email",
+    "phone": "Phone",
+    "address": "Address",
+    "gender": "Gender",
+    "membershipStatus": "Membership Status",
+    "academicInfo": "Academic Info",
+    "registrationDate": "Registration Date",
+    "registrationDeadline": "Registration Deadline",
+    "borrowedSummary": "Borrowed Books Summary",
+    "totalBorrowed": "Total Borrowed",
+    "activeBorrowed": "Active Borrowed",
+    "overdueBorrowed": "Overdue",
+    "returnedBorrowed": "Returned",
+    "borrowedBooksList": "Borrowed Books List",
+    "borrowDate": "Borrow Date",
+    "returnDate": "Return Date"
+  },
   "dashboardError": {
     "errorLoading": "Failed to load dashboard data."
   }

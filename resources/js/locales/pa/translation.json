@@ -1036,6 +1036,27 @@
       "Borrowed": "پورته شوي"
     }
   },
+  "libraryStudentDashboard": {
+    "title": "د کتابتون د محصل ډشبورډ",
+    "studentInfo": "د محصل معلومات",
+    "name": "نوم",
+    "email": "بریښنالیک",
+    "phone": "ټیلیفون",
+    "address": "پته",
+    "gender": "جنسیت",
+    "membershipStatus": "د غړیتوب حالت",
+    "academicInfo": "تعلیمي معلومات",
+    "registrationDate": "د نوم لیکنې نیټه",
+    "registrationDeadline": "د نوم لیکنې وروستۍ نیټه",
+    "borrowedSummary": "د پورته شوي کتابونو خلاصه",
+    "totalBorrowed": "ټول پورته شوي",
+    "activeBorrowed": "فعاله پورته شوي",
+    "overdueBorrowed": "وروستۍ نیټه تیره شوې",
+    "returnedBorrowed": "بېرته ورکړل شوي",
+    "borrowedBooksList": "د پورته شويو کتابونو لیست",
+    "borrowDate": "د پورته کولو نیټه",
+    "returnDate": "د بېرته ورکولو نیټه"
+  },
   "dashboardError": {
     "errorLoading": "د ډشبورډ معلوماتو لوستل ناکام شو."
   }

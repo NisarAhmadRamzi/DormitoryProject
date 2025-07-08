@@ -6,6 +6,7 @@ import { Toaster } from 'react-hot-toast'
 import { DarkModeProvider } from '../context/DarkModeContext'
 import { UserProvider } from '../context/userContext'
 import LibraryAdminDashboard from '../features/dashboard/LibraryAdminDashboard'
+import LibraryStudentDashboard from '../features/dashboard/LibraryStudentDashboard'
 import SecondAdminDashboard from '../features/dashboard/SecondAdminDashboard'
 import Account from '../pages/Account'
 import Assets from '../pages/Assets'
@@ -72,6 +73,10 @@ const Main = () => {
                 <Route
                   path="library-admin-dashboard"
                   element={<LibraryAdminDashboard />}
+                />
+                <Route
+                  path="library-student-dashboard"
+                  element={<LibraryStudentDashboard />}
                 />
                 <Route path="roles" element={<Roles />} />
                 <Route path="permissions" element={<Permissions />} />

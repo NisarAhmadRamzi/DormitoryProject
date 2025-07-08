@@ -1032,6 +1032,27 @@
       "Borrowed": "امانت گرفته شده"
     }
   },
+  "libraryStudentDashboard": {
+    "title": "داشبورد دانشجوی کتابخانه",
+    "studentInfo": "اطلاعات دانشجو",
+    "name": "نام",
+    "email": "ایمیل",
+    "phone": "تلفن",
+    "address": "آدرس",
+    "gender": "جنسیت",
+    "membershipStatus": "وضعیت عضویت",
+    "academicInfo": "اطلاعات تحصیلی",
+    "registrationDate": "تاریخ ثبت نام",
+    "registrationDeadline": "مهلت ثبت نام",
+    "borrowedSummary": "خلاصه کتاب‌های امانت گرفته شده",
+    "totalBorrowed": "کل امانت‌ها",
+    "activeBorrowed": "امانت‌های فعال",
+    "overdueBorrowed": "تاخیر در بازگشت",
+    "returnedBorrowed": "بازگردانده شده",
+    "borrowedBooksList": "لیست کتاب‌های امانت گرفته شده",
+    "borrowDate": "تاریخ امانت",
+    "returnDate": "تاریخ بازگشت"
+  },
   "dashboardError": {
     "errorLoading": "بارگذاری داده‌های داشبورد با شکست مواجه شد."
   }
