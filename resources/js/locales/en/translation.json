@@ -997,32 +997,42 @@
     }
   },
   "secondDashboard": {
-    "title": "داشبورد مدیر دوم",
-    "totalUsers": "کل کاربران",
-    "totalStudents": "کل دانشجویان",
-    "libraryStudents": "دانشجویان کتابخانه",
-    "roomsTotal": "کل اتاق‌ها",
-    "roomsAvailable": "اتاق‌های آزاد",
-    "roomsOccupied": "اتاق‌های اشغال شده",
-    "roomsUtilization": "نرخ استفاده از اتاق‌ها",
-    "complaintsPending": "شکایات در انتظار",
-    "complaintsInProgress": "شکایات در حال بررسی",
-    "complaintsResolved": "شکایات حل شده",
-    "cashDonated": "مبلغ نقدی اهدایی",
-    "goodsDonated": "کالاهای اهدایی",
-    "cashDonatedCumulative": "مجموع مبلغ نقدی اهدایی",
-    "latestDonation": "آخرین اهدایی",
-    "totalExpenses": "کل هزینه‌ها",
-    "latestExpense": "آخرین هزینه",
-    "totalAssets": "کل دارایی‌ها",
-    "booksTotal": "کل کتاب‌ها",
-    "booksBorrowed": "کتاب‌های امانت گرفته شده",
-    "booksAvailable": "کتاب‌های موجود",
-    "booksOverdue": "کتاب‌های معوقه",
-    "feesOfficePaid": "هزینه‌های پرداخت شده دفتر",
-    "feesWarrantyPaid": "هزینه‌های پرداخت شده ضمانت"
+    "title": "Second Admin Dashboard",
+    "totalUsers": "Total Users",
+    "totalStudents": "Total Students",
+    "libraryStudents": "Library Students",
+    "roomsTotal": "Total Rooms",
+    "roomsAvailable": "Available Rooms",
+    "roomsOccupied": "Occupied Rooms",
+    "roomsUtilization": "Room Utilization",
+    "complaintsPending": "Pending Complaints",
+    "complaintsInProgress": "Complaints In Progress",
+    "complaintsResolved": "Resolved Complaints",
+    "cashDonated": "Cash Donated",
+    "goodsDonated": "Goods Donated",
+    "cashDonatedCumulative": "Cumulative Cash Donated",
+    "latestDonation": "Latest Donation",
+    "totalExpenses": "Total Expenses",
+    "latestExpense": "Latest Expense",
+    "totalAssets": "Total Assets",
+    "booksTotal": "Total Books",
+    "booksBorrowed": "Borrowed Books",
+    "booksAvailable": "Available Books",
+    "booksOverdue": "Overdue Books",
+    "feesOfficePaid": "Office Fees Paid",
+    "feesWarrantyPaid": "Warranty Fees Paid"
+  },
+  "libraryDashboard": {
+    "title": "Library Admin Dashboard",
+    "booksTotal": "Total Books",
+    "booksBorrowed": "Borrowed Books",
+    "booksAvailable": "Available Books",
+    "libraryStudents": "Library Students",
+    "borrowedBookStatus": {
+      "Borrowed": "Borrowed"
+    }
   },
   "dashboardError": {
-    "errorLoading": "بارگذاری داده‌های داشبورد با شکست مواجه شد."
+    "errorLoading": "Failed to load dashboard data."
   }
 }

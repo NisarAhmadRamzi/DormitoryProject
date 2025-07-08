@@ -1026,6 +1026,16 @@
     "feesOfficePaid": "دفتر فیسونه تادیه شوي",
     "feesWarrantyPaid": "وارنټي فیسونه تادیه شوي"
   },
+  "libraryDashboard": {
+    "title": "د کتابتون مدیر ډشبورډ",
+    "booksTotal": "ټولې کتابونه",
+    "booksBorrowed": "پورته شوي کتابونه",
+    "booksAvailable": "موجود کتابونه",
+    "libraryStudents": "د کتابتون محصلین",
+    "borrowedBookStatus": {
+      "Borrowed": "پورته شوي"
+    }
+  },
   "dashboardError": {
     "errorLoading": "د ډشبورډ معلوماتو لوستل ناکام شو."
   }

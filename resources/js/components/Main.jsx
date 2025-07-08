@@ -5,6 +5,7 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { Toaster } from 'react-hot-toast'
 import { DarkModeProvider } from '../context/DarkModeContext'
 import { UserProvider } from '../context/userContext'
+import LibraryAdminDashboard from '../features/dashboard/LibraryAdminDashboard'
 import SecondAdminDashboard from '../features/dashboard/SecondAdminDashboard'
 import Account from '../pages/Account'
 import Assets from '../pages/Assets'
@@ -67,6 +68,10 @@ const Main = () => {
                 <Route
                   path="second-admin-dashboard"
                   element={<SecondAdminDashboard />}
+                />
+                <Route
+                  path="library-admin-dashboard"
+                  element={<LibraryAdminDashboard />}
                 />
                 <Route path="roles" element={<Roles />} />
                 <Route path="permissions" element={<Permissions />} />

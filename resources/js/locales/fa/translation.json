@@ -1022,6 +1022,16 @@
     "feesOfficePaid": "هزینه‌های پرداخت شده دفتر",
     "feesWarrantyPaid": "هزینه‌های پرداخت شده ضمانت"
   },
+  "libraryDashboard": {
+    "title": "داشبورد مدیر کتابخانه",
+    "booksTotal": "کل کتاب‌ها",
+    "booksBorrowed": "کتاب‌های امانت گرفته شده",
+    "booksAvailable": "کتاب‌های موجود",
+    "libraryStudents": "دانشجویان کتابخانه",
+    "borrowedBookStatus": {
+      "Borrowed": "امانت گرفته شده"
+    }
+  },
   "dashboardError": {
     "errorLoading": "بارگذاری داده‌های داشبورد با شکست مواجه شد."
   }
