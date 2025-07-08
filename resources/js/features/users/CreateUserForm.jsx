@@ -1,7 +1,5 @@
-
-
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
 import { useTranslation } from 'react-i18next'
@@ -62,12 +60,31 @@ function CreateUserForm({ userToEdit = {}, onCloseModal }) {
     register,
     handleSubmit,
     reset,
+    watch,
+    setValue,
     formState: { errors },
   } = useForm({
-    defaultValues: isEdit
-      ? { ...userToEdit, role: userToEdit.role || 'student' }
-      : { role: 'student' },
+    defaultValues: {
+      name: '',
+      email: '',
+      role: 'student',
+    },
   })
+
+  // Watch role for controlled select input
+  const selectedRole = watch('role')
+
+  // Set default values when editing
+  useEffect(() => {
+    if (isEdit && userToEdit) {
+      reset({
+        name: userToEdit.name || '',
+        email: userToEdit.email || '',
+      })
+      const normalizedRole = userToEdit.role?.toLowerCase() || 'student'
+      setValue('role', normalizedRole)
+    }
+  }, [isEdit, userToEdit, reset, setValue])
 
   const queryClient = useQueryClient()
 
@@ -140,10 +157,12 @@ function CreateUserForm({ userToEdit = {}, onCloseModal }) {
 
       <FormRow>
         <Label>{t('userForm.role')}</Label>
-        <SelectInput {...register('role')}>
-          <option value="student">{t('roles.student')}</option>
-          <option value="second_admin">{t('roles.second_admin')}</option>
+        <SelectInput {...register('role')} value={selectedRole} onChange={(e) => setValue('role', e.target.value)}>
           <option value="admin">{t('roles.admin')}</option>
+          <option value="second_admin">{t('roles.second_admin')}</option>
+          <option value="student">{t('roles.student')}</option>
+          <option value="library_admin">{t('roles.library_admin')}</option>
+          <option value="library_student">{t('roles.library_student')}</option>
         </SelectInput>
       </FormRow>
 

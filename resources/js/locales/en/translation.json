@@ -45,10 +45,10 @@
   "guest": "Guest",
   "user": "User",
   "roles": {
-    "admin": "Administrator",
-    "second_admin": "Second Administrator",
+    "admin": "Admin",
+    "second_admin": "Second Admin",
     "student": "Student",
-    "library_admin": "Library Administrator",
+    "library_admin": "Library Admin",
     "library_student": "Library Student",
     "guest": "Guest"
   },

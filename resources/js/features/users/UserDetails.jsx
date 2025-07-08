@@ -1,7 +1,28 @@
+
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import dayjs from '../../locales/dayjsConfig' // your centralized config file
 import Heading from '../../ui/Heading'
+
+const LabelColumn = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  margin-top: 1rem;
+
+  & > div {
+    display: grid;
+    grid-template-columns: 20rem 1fr;
+    align-items: start;
+    gap: 1.6rem;
+  }
+
+  @media (max-width: 600px) {
+    & > div {
+      grid-template-columns: 1fr;
+    }
+  }
+`
 
 const ModalFrame = styled.div`
   background-color: var(--color-grey-0);
@@ -92,10 +113,7 @@ const DetailRow = styled.div`
 function UserDetails({ user, onClose }) {
   const { t, i18n } = useTranslation()
   const currentLang = i18n.language
-  const isRtl = ['fa', 'ps'].includes(currentLang)
-
-  // Set locale for dayjs based on current language
-  dayjs.locale(currentLang === 'ps' ? 'ps' : currentLang) // use 'ps' locale, not 'fa' for Pashto
+  dayjs.locale(currentLang === 'ps' ? 'ps' : currentLang)
 
   if (!user) return <p>{t('noUserData')}</p>
 
@@ -116,11 +134,7 @@ function UserDetails({ user, onClose }) {
     gender === 'male' ? t('he') : gender === 'female' ? t('she') : t('they')
 
   return (
-    <ModalFrame isRtl={isRtl}>
-      <CloseButton isRtl={isRtl} onClick={onClose}>
-        &times;
-      </CloseButton>
-
+    <ModalFrame>
       <Heading as="h3">{t('userProfile')}</Heading>
 
       <ProfileSection>
@@ -165,22 +179,24 @@ function UserDetails({ user, onClose }) {
             <Value>{student.gender ?? t('unknown')}</Value>
           </DetailRow>
         </>
-      ) : (
-        <DetailRow>
-          <Label>{t('studentInfo')}</Label>
-          <Value>{`${pronoun} ${t('notStudent')}`}</Value>
-        </DetailRow>
-      )}
+      ) : null}
 
-      <DetailRow>
-        <Label>{t('accountCreated')}</Label>
-        <Value>{dayjs(created_at).fromNow()}</Value>
-      </DetailRow>
-
-      <DetailRow>
-        <Label>{t('lastUpdated')}</Label>
-        <Value>{dayjs(updated_at).fromNow()}</Value>
-      </DetailRow>
+      <LabelColumn>
+        {!student && (
+          <div>
+            <Label>{t('studentInfo')}</Label>
+            <Value>{`${pronoun} ${t('notStudent')}`}</Value>
+          </div>
+        )}
+        <div>
+          <Label>{t('accountCreated')}</Label>
+          <Value>{dayjs(created_at).fromNow()}</Value>
+        </div>
+        <div>
+          <Label>{t('lastUpdated')}</Label>
+          <Value>{dayjs(updated_at).fromNow()}</Value>
+        </div>
+      </LabelColumn>
     </ModalFrame>
   )
 }
