@@ -1055,5 +1055,29 @@
   },
   "dashboardError": {
     "errorLoading": "Failed to load dashboard data."
+  },
+  "studentDashboard": {
+    "title": "Student Dashboard",
+    "name": "Full Name",
+    "gender": "Gender",
+    "registrationDate": "Registration Date",
+    "registrationDeadline": "Registration Deadline",
+    "officePaid": "Office Fee Status",
+    "warrantyPaid": "Warranty Fee Status",
+    "totalFee": "Total Fee",
+    "feeDueDate": "Fee Due Date",
+    "roomAssignment": "Room Assignment",
+    "noRoom": "No room assigned",
+    "totalComplaints": "Total Complaints",
+    "pendingComplaints": "Pending Complaints",
+    "resolvedComplaints": "Resolved Complaints"
+  },
+  "paymentStatus": {
+    "paid": "Paid",
+    "notPaid": "Not Paid"
+  },
+  "genders": {
+    "male": "Male",
+    "female": "Female"
   }
 }

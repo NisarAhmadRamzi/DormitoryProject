@@ -8,6 +8,7 @@ import { UserProvider } from '../context/userContext'
 import LibraryAdminDashboard from '../features/dashboard/LibraryAdminDashboard'
 import LibraryStudentDashboard from '../features/dashboard/LibraryStudentDashboard'
 import SecondAdminDashboard from '../features/dashboard/SecondAdminDashboard'
+import StudentDashboard from '../features/dashboard/StudentDashboard'
 import Account from '../pages/Account'
 import Assets from '../pages/Assets'
 import Bookings from '../pages/Bookings'
@@ -69,6 +70,10 @@ const Main = () => {
                 <Route
                   path="second-admin-dashboard"
                   element={<SecondAdminDashboard />}
+                />
+                <Route
+                  path="students-dashboard"
+                  element={<StudentDashboard />}
                 />
                 <Route
                   path="library-admin-dashboard"

@@ -1055,5 +1055,29 @@
   },
   "dashboardError": {
     "errorLoading": "بارگذاری داده‌های داشبورد با شکست مواجه شد."
+  },
+  "studentDashboard": {
+    "title": "داشبورد محصل",
+    "name": "نام کامل",
+    "gender": "جنسیت",
+    "registrationDate": "تاریخ ثبت‌نام",
+    "registrationDeadline": "مهلت ثبت‌نام",
+    "officePaid": "وضعیت فیس اداری",
+    "warrantyPaid": "وضعیت فیس ضمانتی",
+    "totalFee": "مجموع فیس",
+    "feeDueDate": "تاریخ سررسید فیس",
+    "roomAssignment": "اتاق اختصاص داده‌شده",
+    "noRoom": "اتاق تعیین نشده",
+    "totalComplaints": "مجموع شکایات",
+    "pendingComplaints": "شکایات در انتظار",
+    "resolvedComplaints": "شکایات حل‌شده"
+  },
+  "paymentStatus": {
+    "paid": "پرداخت شده",
+    "notPaid": "پرداخت نشده"
+  },
+  "genders": {
+    "male": "مرد",
+    "female": "زن"
   }
 }

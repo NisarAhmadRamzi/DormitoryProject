@@ -1,9 +1,9 @@
+import { useMutation } from '@tanstack/react-query'
+import { useContext } from 'react'
+import { toast } from 'react-hot-toast'
+import { useNavigate } from 'react-router-dom'
 import { AppContext } from '../../context/AppContext'
 import { login as loginApi } from '../../services/apiAuth'
-import { toast } from 'react-hot-toast'
-import { useContext } from 'react'
-import { useMutation } from '@tanstack/react-query'
-import { useNavigate } from 'react-router-dom'
 
 export function useLogin({ onErrorReset } = {}) {
   const navigate = useNavigate()
@@ -18,7 +18,8 @@ export function useLogin({ onErrorReset } = {}) {
 
       // ✅ Navigate based on role
       if (user.role === 'admin') window.location.href = '/dashboard'
-      else if (user.role === 'student') window.location.href = '/rooms'
+      else if (user.role === 'student')
+        window.location.href = '/students-dashboard'
       else if (user.role === 'second_admin') navigate('/dashboard')
       else if (user.role === 'library_admin') navigate('/dashboard')
       else if (user.role === 'library_student') navigate('/rooms')

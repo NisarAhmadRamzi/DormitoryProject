@@ -1059,5 +1059,29 @@
   },
   "dashboardError": {
     "errorLoading": "د ډشبورډ معلوماتو لوستل ناکام شو."
+  },
+  "studentDashboard": {
+    "title": "د محصل ډشبورډ",
+    "name": "بشپړ نوم",
+    "gender": "جنس",
+    "registrationDate": "د ثبت‌نام نېټه",
+    "registrationDeadline": "د ثبت‌نام وروستۍ نېټه",
+    "officePaid": "د ادارې فیس وضعیت",
+    "warrantyPaid": "د ضمانت فیس وضعیت",
+    "totalFee": "ټول فیس",
+    "feeDueDate": "د فیس سررسید نېټه",
+    "roomAssignment": "تخصیص شوې کوټه",
+    "noRoom": "کوټه نه ده ټاکل شوې",
+    "totalComplaints": "ټول شکایتونه",
+    "pendingComplaints": "شکایتونه منتظر",
+    "resolvedComplaints": "حل شوي شکایتونه"
+  },
+  "paymentStatus": {
+    "paid": "تادیه شوی",
+    "notPaid": "تادیه شوی نه دی"
+  },
+  "genders": {
+    "male": "نارینه",
+    "female": "ښځه"
   }
 }
