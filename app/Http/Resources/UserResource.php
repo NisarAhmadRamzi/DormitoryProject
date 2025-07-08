@@ -31,6 +31,16 @@ class UserResource extends JsonResource
             'profile' => $this->profile,
             'role_name' => $this->roles->pluck('name')->first(),
             'role_id' => $this->roles->pluck('id')->first(),
+            'roles' => $this->roles->map(function ($role) {
+                return [
+                    'id' => $role->id,
+                    'name' => $role->name,
+                ];
+            }),
+            'current_role' => $this->roles->first() ? [
+                'id' => $this->roles->first()->id,
+                'name' => $this->roles->first()->name,
+            ] : null,
             'student' => $this->student ? [
                 'id' => $this->student->id,
                 'name' => $this->student->name,
@@ -58,6 +68,5 @@ class UserResource extends JsonResource
             'created_at' => $this->created_at->diffForHumans(),
             'updated_at' => $this->updated_at->diffForHumans(),
         ];
-        
     }
 }

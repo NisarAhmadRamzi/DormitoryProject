@@ -81,7 +81,7 @@ function CreateUserForm({ userToEdit = {}, onCloseModal }) {
         name: userToEdit.name || '',
         email: userToEdit.email || '',
       })
-      const normalizedRole = userToEdit.role?.toLowerCase() || 'student'
+      const normalizedRole = userToEdit.role?.user_role || userToEdit.role_name || 'student'
       setValue('role', normalizedRole)
     }
   }, [isEdit, userToEdit, reset, setValue])
