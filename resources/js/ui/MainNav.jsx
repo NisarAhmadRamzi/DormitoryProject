@@ -10,6 +10,7 @@ import {
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { BsCurrencyDollar } from 'react-icons/bs'
+
 import { HiOutlineHomeModern } from 'react-icons/hi2'
 import { IoIosArrowForward } from 'react-icons/io'
 import { IoKeyOutline } from 'react-icons/io5'
@@ -20,6 +21,7 @@ import { VscAccount } from 'react-icons/vsc'
 import { NavLink } from 'react-router-dom'
 import styled, { css } from 'styled-components'
 import { useUser } from '../context/UserContext'
+import { TbDatabaseDollar } from 'react-icons/tb'
 
 const NavList = styled.ul`
   display: flex;
@@ -203,12 +205,6 @@ function MainNav() {
                 </StyledNavlink>
               </li>
             )}
-            <li>
-              <StyledNavlink to="/students">
-                <PiGraduationCapLight />
-                <span>{t('students')}</span>
-              </StyledNavlink>
-            </li>
           </SubMenu>
         </Category>
 
@@ -219,20 +215,28 @@ function MainNav() {
             <ArrowIcon open={openCategory === 'dormitory'} dir={dir} />
           </CategoryHeader>
           <SubMenu open={openCategory === 'dormitory'}>
+            {role !== 'student' && (
+              <li>
+                <StyledNavlink to="/students">
+                  <PiGraduationCapLight />
+                  <span>{t('students')}</span>
+                </StyledNavlink>
+              </li>
+            )}
             <li>
               <StyledNavlink to="/rooms">
                 <IoBedOutline />
                 <span>{t('rooms')}</span>
               </StyledNavlink>
             </li>
-            {/* {role !== 'student' && (
+            {role !== 'student' && (
               <li>
                 <StyledNavlink to="/assets">
                   <TbDatabaseDollar />
                   <span>{t('assets')}</span>
                 </StyledNavlink>
               </li>
-            )} */}
+            )}
             {role !== 'student' && (
               <li>
                 <StyledNavlink to="/complaints">
