@@ -999,5 +999,34 @@
       "15-21 nights": "۱۵-۲۱ شپې",
       "21+ nights": "۲۱+ شپې"
     }
+  },
+  "secondDashboard": {
+    "title": "دوهم مدیر ډشبورډ",
+    "totalUsers": "ټول کارونکي",
+    "totalStudents": "ټول محصلین",
+    "libraryStudents": "د کتابتون محصلین",
+    "roomsTotal": "ټول خونې",
+    "roomsAvailable": "خونې خالي",
+    "roomsOccupied": "اشغال شوې خونې",
+    "roomsUtilization": "د خونې کارول",
+    "complaintsPending": "ترلاسه شوې شکایتونه",
+    "complaintsInProgress": "په جریان کې شکایتونه",
+    "complaintsResolved": "حل شوې شکایتونه",
+    "cashDonated": "نغدي مرستې",
+    "goodsDonated": "توکي مرستې",
+    "cashDonatedCumulative": "ټولې نغدي مرستې",
+    "latestDonation": "وروستۍ مرسته",
+    "totalExpenses": "ټول لګښتونه",
+    "latestExpense": "وروستی لګښت",
+    "totalAssets": "ټولې شتمنۍ",
+    "booksTotal": "ټولې کتابونه",
+    "booksBorrowed": "پورته شوي کتابونه",
+    "booksAvailable": "موجود کتابونه",
+    "booksOverdue": "ناوخته کتابونه",
+    "feesOfficePaid": "دفتر فیسونه تادیه شوي",
+    "feesWarrantyPaid": "وارنټي فیسونه تادیه شوي"
+  },
+  "dashboardError": {
+    "errorLoading": "د ډشبورډ معلوماتو لوستل ناکام شو."
   }
 }

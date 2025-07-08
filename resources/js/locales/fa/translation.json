@@ -995,5 +995,34 @@
       "15-21 nights": "۱۵ تا ۲۱ شب",
       "21+ nights": "۲۱+ شب"
     }
+  },
+  "secondDashboard": {
+    "title": "داشبورد مدیر دوم",
+    "totalUsers": "کل کاربران",
+    "totalStudents": "کل دانشجویان",
+    "libraryStudents": "دانشجویان کتابخانه",
+    "roomsTotal": "کل اتاق‌ها",
+    "roomsAvailable": "اتاق‌های آزاد",
+    "roomsOccupied": "اتاق‌های اشغال شده",
+    "roomsUtilization": "نرخ استفاده از اتاق‌ها",
+    "complaintsPending": "شکایات در انتظار",
+    "complaintsInProgress": "شکایات در حال بررسی",
+    "complaintsResolved": "شکایات حل شده",
+    "cashDonated": "مبلغ نقدی اهدایی",
+    "goodsDonated": "کالاهای اهدایی",
+    "cashDonatedCumulative": "مجموع مبلغ نقدی اهدایی",
+    "latestDonation": "آخرین اهدایی",
+    "totalExpenses": "کل هزینه‌ها",
+    "latestExpense": "آخرین هزینه",
+    "totalAssets": "کل دارایی‌ها",
+    "booksTotal": "کل کتاب‌ها",
+    "booksBorrowed": "کتاب‌های امانت گرفته شده",
+    "booksAvailable": "کتاب‌های موجود",
+    "booksOverdue": "کتاب‌های معوقه",
+    "feesOfficePaid": "هزینه‌های پرداخت شده دفتر",
+    "feesWarrantyPaid": "هزینه‌های پرداخت شده ضمانت"
+  },
+  "dashboardError": {
+    "errorLoading": "بارگذاری داده‌های داشبورد با شکست مواجه شد."
   }
 }
