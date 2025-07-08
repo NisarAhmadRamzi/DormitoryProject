@@ -94,9 +94,9 @@ class UserSeeder extends Seeder
         $user2->assignRole($adminRole);
         $user3->assignRole($adminRole);
         $user4->assignRole($secondAdminRole);
-        $user5->assignRole($studentRole);
+        // $user5->assignRole($studentRole);
         $user6->assignRole($libraryAdminRole);
-        $user7->assignRole($libraryStudentRole);
+        // $user7->assignRole($libraryStudentRole);
         $user8->assignRole($adminRole);
 
 
