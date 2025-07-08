@@ -114,7 +114,7 @@ function CreateRoomForm({ roomToEdit = {}, onCloseModal }) {
           {...register('room_number', {
             required: t('form.required'),
             min: { value: 301, message: t('roomForm.roomNumberMin') },
-            max: { value: 310, message: t('roomForm.roomNumberMax') },
+            max: { value: 314, message: t('roomForm.roomNumberMax') },
           })}
         />
         {errors?.room_number && <Error>{errors.room_number.message}</Error>}

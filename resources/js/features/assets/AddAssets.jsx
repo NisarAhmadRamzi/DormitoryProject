@@ -1,5 +1,6 @@
 import Button from '../../ui/Button'
 import Modal from '../../ui/Modal' // Now using the default export
+import CreateAssetsForm from './CreateAssetsForm'
 
 const AddAssets = () => {
   return (
@@ -9,7 +10,7 @@ const AddAssets = () => {
       </Modal.Open>
 
       <Modal.Window name="room-form">
-        {/* <CreateLibraryForm /> */}
+        <CreateAssetsForm />
       </Modal.Window>
     </Modal.Provider>
   )
