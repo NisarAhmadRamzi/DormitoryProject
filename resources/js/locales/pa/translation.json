@@ -1083,5 +1083,53 @@
   "genders": {
     "male": "نارینه",
     "female": "ښځه"
+  },
+  "AddAssets": {
+    "addNew": "نوې شتمني زیات کړئ"
+  },
+  "assetsAlert": {
+    "asset": "شتمني",
+    "deletedSuccess": "شتمني په بریالیتوب سره ړنګ شوه",
+    "deleteFailed": "شتمني ړنګول پاتې شو"
+  },
+  "asset": {
+    "quantity": "مقدار",
+    "description": "تفصیل",
+    "totalQuantity": "ټول مقدار",
+    "page": "مخ",
+    "of": "د",
+    "rowsPerPage": "قطارونه په هر مخ کې",
+    "noMatch": "هیڅ شتمني ونه موندل شوه.",
+    "searchPlaceholder": "شتمني ولټوئ...",
+    "errorLoading": "شتمني لوستل کې تېروتنه!"
+  },
+  "Action": {
+    "action": "عمل"
+  },
+  "assetsForm": {
+    "quantity": "مقدار",
+    "description": "تفصیل",
+    "quantityRequired": "مقدار داخلول ضروري دي",
+    "quantityMin": "مقدار باید لږ تر لږه ۱ وي",
+    "descriptionRequired": "تفصیل داخلول ضروري دي",
+    "descriptionMax": "تفصیل باید له ۵۰۰ تورو څخه کم وي",
+    "editAsset": "شئ سمول",
+    "createAsset": "نوی شئ جوړول",
+    "assetCreated": "نوی شئ په بریالیتوب جوړ شو",
+    "assetUpdated": "شئ په بریالیتوب سم شو",
+    "assetError": "څه تېروتنه وشوه"
+  },
+  "assetD": {
+    "noData": "د شتمنۍ معلومات شتون نلري.",
+    "assetDetails": "د شتمنۍ تفصیلات",
+    "id": "شمېره",
+    "quantity": "مقدار",
+    "description": "تشریح",
+    "totalQuantity": "ټول مقدار",
+    "totalDonations": "ټولې مرسته شوې پیسې",
+    "totalCashBeforeExpense": "د مصرف مخکې ټولې نغدې پیسې",
+    "totalCashAfterExpense": "د مصرف وروسته ټولې نغدې پیسې",
+    "createdAt": "جوړ شوی وخت",
+    "updatedAt": "وروستی تازه شوی وخت"
   }
 }

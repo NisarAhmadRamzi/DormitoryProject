@@ -1079,5 +1079,53 @@
   "genders": {
     "male": "مرد",
     "female": "زن"
+  },
+  "AddAssets": {
+    "addNew": "دارایی جدید اضافه کنید"
+  },
+  "assetsAlert": {
+    "asset": "دارایی",
+    "deletedSuccess": "دارایی با موفقیت حذف شد",
+    "deleteFailed": "حذف دارایی ناموفق بود"
+  },
+  "asset": {
+    "quantity": "مقدار",
+    "description": "توضیحات",
+    "totalQuantity": "مقدار کل",
+    "page": "صفحه",
+    "of": "از",
+    "rowsPerPage": "ردیف در هر صفحه",
+    "noMatch": "هیچ دارایی یافت نشد.",
+    "searchPlaceholder": "جستجوی دارایی‌ها...",
+    "errorLoading": "خطا در بارگذاری دارایی‌ها!"
+  },
+  "Action": {
+    "action": "عملیات"
+  },
+  "assetsForm": {
+    "quantity": "مقدار",
+    "description": "توضیحات",
+    "quantityRequired": "وارد کردن مقدار الزامی است",
+    "quantityMin": "مقدار باید حداقل ۱ باشد",
+    "descriptionRequired": "وارد کردن توضیحات الزامی است",
+    "descriptionMax": "توضیحات باید کمتر از ۵۰۰ حرف باشد",
+    "editAsset": "ویرایش دارایی",
+    "createAsset": "ایجاد دارایی جدید",
+    "assetCreated": "دارایی جدید با موفقیت ایجاد شد",
+    "assetUpdated": "دارایی با موفقیت ویرایش شد",
+    "assetError": "مشکلی رخ داده است"
+  },
+  "assetD": {
+    "noData": "اطلاعات دارایی موجود نیست.",
+    "assetDetails": "جزئیات دارایی",
+    "id": "شناسه",
+    "quantity": "مقدار",
+    "description": "توضیحات",
+    "totalQuantity": "مجموع مقدار",
+    "totalDonations": "کل کمک‌ها",
+    "totalCashBeforeExpense": "کل پول نقد قبل از هزینه",
+    "totalCashAfterExpense": "کل پول نقد پس از هزینه",
+    "createdAt": "تاریخ ایجاد",
+    "updatedAt": "تاریخ به‌روزرسانی"
   }
 }

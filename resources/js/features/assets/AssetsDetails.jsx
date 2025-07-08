@@ -1,6 +1,6 @@
-
-import { formatDistanceToNow } from 'date-fns' // Import this for formatting
+import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
+import dayjs from '../../locales/dayjsConfig'
 import Heading from '../../ui/Heading'
 
 const StyledDetails = styled.div`
@@ -13,30 +13,38 @@ const StyledDetails = styled.div`
   gap: 1.6rem;
 `
 
-const DetailRow = styled.div`
+const DetailsGrid = styled.div`
   display: grid;
-  grid-template-columns: 24rem 1fr;
-  align-items: start;
-  gap: 1.6rem;
+  grid-template-columns: repeat(auto-fit, minmax(28rem, 1fr));
+  gap: 2.4rem;
+`
 
-  &:not(:last-child) {
-    padding-bottom: 1.6rem;
-    border-bottom: 1px solid var(--color-grey-100);
-  }
+const DetailItem = styled.div`
+  background-color: var(--color-grey-50);
+  padding: 1.2rem;
+  border-radius: 6px;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
 `
 
 const Label = styled.span`
-  font-weight: 500;
+  font-weight: 600;
   color: var(--color-grey-600);
+  font-size: 1.4rem;
 `
 
 const Value = styled.span`
   color: var(--color-grey-800);
   font-size: 1.6rem;
+  word-break: break-word;
 `
 
 function AssetsDetails({ asset }) {
-  if (!asset) return <p>No asset data available.</p>
+  const { t, i18n } = useTranslation()
+
+  if (!asset) return <p>{t('assetD.noData')}</p>
 
   const {
     id,
@@ -50,67 +58,59 @@ function AssetsDetails({ asset }) {
     updated_at,
   } = asset
 
+  const lang = i18n.language
+  dayjs.locale(lang)
+
   return (
     <StyledDetails>
-      <Heading as="h3">Asset Details</Heading>
+      <Heading as="h3">{t('assetD.assetDetails')}</Heading>
 
-      <DetailRow>
-        <Label>ID</Label>
-        <Value>{id}</Value>
-      </DetailRow>
+      <DetailsGrid>
+        <DetailItem>
+          <Label>{t('assetD.id')}</Label>
+          <Value>{id}</Value>
+        </DetailItem>
 
-      <DetailRow>
-        <Label>Quantity</Label>
-        <Value>{quantity}</Value>
-      </DetailRow>
+        <DetailItem>
+          <Label>{t('assetD.quantity')}</Label>
+          <Value>{quantity}</Value>
+        </DetailItem>
 
-      <DetailRow>
-        <Label>Description</Label>
-        <Value>{description || 'N/A'}</Value>
-      </DetailRow>
+        <DetailItem>
+          <Label>{t('assetD.description')}</Label>
+          <Value>{description || 'N/A'}</Value>
+        </DetailItem>
 
-      <DetailRow>
-        <Label>Total Quantity</Label>
-        <Value>{total_quantity}</Value>
-      </DetailRow>
+        <DetailItem>
+          <Label>{t('assetD.totalQuantity')}</Label>
+          <Value>{total_quantity}</Value>
+        </DetailItem>
 
-      <DetailRow>
-        <Label>Total Donations</Label>
-        <Value>{total_amount_of_donations}</Value>
-      </DetailRow>
+        <DetailItem>
+          <Label>{t('assetD.totalDonations')}</Label>
+          <Value>{total_amount_of_donations}</Value>
+        </DetailItem>
 
-      <DetailRow>
-        <Label>Total Cash Before Expense</Label>
-        <Value>{total_amount_of_cash_before_expense}</Value>
-      </DetailRow>
+        <DetailItem>
+          <Label>{t('assetD.totalCashBeforeExpense')}</Label>
+          <Value>{total_amount_of_cash_before_expense}</Value>
+        </DetailItem>
 
-      <DetailRow>
-        <Label>Total Cash After Expense</Label>
-        <Value>{total_amount_of_cash_after_expense}</Value>
-      </DetailRow>
+        <DetailItem>
+          <Label>{t('assetD.totalCashAfterExpense')}</Label>
+          <Value>{total_amount_of_cash_after_expense}</Value>
+        </DetailItem>
 
-      {/* Added created_at and updated_at in "x time ago" format */}
-      <DetailRow>
-        <Label>Created At</Label>
-        <Value>
-          {created_at
-            ? `${formatDistanceToNow(new Date(created_at), {
-                addSuffix: true,
-              })}`
-            : 'N/A'}
-        </Value>
-      </DetailRow>
+        <DetailItem>
+          <Label>{t('assetD.createdAt')}</Label>
+          <Value>{created_at ? dayjs(created_at).fromNow() : 'N/A'}</Value>
+        </DetailItem>
 
-      <DetailRow>
-        <Label>Updated At</Label>
-        <Value>
-          {updated_at
-            ? `${formatDistanceToNow(new Date(updated_at), {
-                addSuffix: true,
-              })}`
-            : 'N/A'}
-        </Value>
-      </DetailRow>
+        <DetailItem>
+          <Label>{t('assetD.updatedAt')}</Label>
+          <Value>{updated_at ? dayjs(updated_at).fromNow() : 'N/A'}</Value>
+        </DetailItem>
+      </DetailsGrid>
     </StyledDetails>
   )
 }

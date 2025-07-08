@@ -4,7 +4,9 @@ import { createAsset, editAsset } from '../../services/apiAssets'
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
+import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
+
 import Button from '../../ui/Button'
 import Form from '../../ui/Form'
 import Input from '../../ui/Input'
@@ -45,6 +47,7 @@ const Error = styled.span`
 `
 
 function CreateAssetsForm({ assetToEdit = {}, onCloseModal }) {
+  const { t } = useTranslation()
   const isEditSession = Boolean(assetToEdit.id)
 
   const {
@@ -62,18 +65,17 @@ function CreateAssetsForm({ assetToEdit = {}, onCloseModal }) {
     mutationFn: (data) =>
       isEditSession ? editAsset(assetToEdit.id, data) : createAsset(data),
     onSuccess: (res) => {
-      const asset = res.data
       toast.success(
         isEditSession
-          ? `Asset updated successfully`
-          : `New asset created successfully`
+          ? t('assetsForm.assetUpdated')
+          : t('assetsForm.assetCreated')
       )
       queryClient.invalidateQueries({ queryKey: ['assets'] })
       reset()
       onCloseModal?.()
     },
     onError: (err) => {
-      toast.error(err.message || 'Something went wrong')
+      toast.error(err.message || t('assetsForm.assetError'))
     },
   })
 
@@ -88,15 +90,15 @@ function CreateAssetsForm({ assetToEdit = {}, onCloseModal }) {
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
       <FormRow>
-        <Label htmlFor="quantity">Quantity</Label>
+        <Label htmlFor="quantity">{t('assetsForm.quantity')}</Label>
         <Input
           type="number"
           id="quantity"
           {...register('quantity', {
-            required: 'Quantity is required',
+            required: t('assetsForm.quantityRequired'),
             min: {
               value: 1,
-              message: 'Quantity must be at least 1',
+              message: t('assetsForm.quantityMin'),
             },
           })}
         />
@@ -104,15 +106,15 @@ function CreateAssetsForm({ assetToEdit = {}, onCloseModal }) {
       </FormRow>
 
       <FormRow>
-        <Label htmlFor="description">Description</Label>
+        <Label htmlFor="description">{t('assetsForm.description')}</Label>
         <Input
           type="text"
           id="description"
           {...register('description', {
-            required: 'Description is required',
+            required: t('assetsForm.descriptionRequired'),
             maxLength: {
               value: 500,
-              message: 'Description must be under 500 characters',
+              message: t('assetsForm.descriptionMax'),
             },
           })}
         />
@@ -125,10 +127,12 @@ function CreateAssetsForm({ assetToEdit = {}, onCloseModal }) {
           type="reset"
           onClick={() => onCloseModal?.()}
         >
-          Cancel
+          {t('cancel.cancel')}
         </Button>
         <Button type="submit" disabled={isLoading}>
-          {isEditSession ? 'Edit Asset' : 'Create New Asset'}
+          {isEditSession
+            ? t('assetsForm.editAsset')
+            : t('assetsForm.createAsset')}
         </Button>
       </FormRow>
     </Form>

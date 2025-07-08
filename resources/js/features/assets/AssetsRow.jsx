@@ -3,8 +3,9 @@ import { useEffect, useRef, useState } from 'react'
 import { HiEllipsisVertical, HiEye, HiPencil, HiTrash } from 'react-icons/hi2'
 
 import toast from 'react-hot-toast'
+import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
-import { deleteAsset } from '../../services/apiAssets' // delete asset API
+import { deleteAsset } from '../../services/apiAssets'
 import ConfirmDelete from '../../ui/ConfirmDelete'
 import Modal from '../../ui/Modal'
 import AssetsDetails from './AssetsDetails'
@@ -17,18 +18,19 @@ const TableRow = styled.div`
   align-items: center;
   padding: 1.6rem 2.4rem;
   position: relative;
+
   &:not(:last-child) {
     border-bottom: 1px solid var(--color-grey-100);
   }
+
   transition: background-color 0.2s;
 
   &:hover {
-    background-color: var(--color-grey-200); /* Light mode hover */
+    background-color: var(--color-grey-200);
     cursor: pointer;
 
-    /* Dark mode hover */
     @media (prefers-color-scheme: dark) {
-      background-color: var(--color-grey-700); /* Dark mode hover */
+      background-color: var(--color-grey-700);
       cursor: pointer;
     }
   }
@@ -83,9 +85,8 @@ const DropdownMenu = styled.ul`
   display: ${({ show }) => (show ? 'block' : 'none')};
   min-width: 180px;
 
-  /* Dark mode styles */
   @media (prefers-color-scheme: dark) {
-    background-color: var(--color-grey-800); /* Dark background */
+    background-color: var(--color-grey-800);
   }
 `
 
@@ -102,12 +103,14 @@ const DropdownItem = styled.button`
   color: var(--color-grey-700);
   cursor: pointer;
   transition: background-color 0.2s;
+
   &:hover {
     background-color: var(--color-grey-50);
   }
 `
 
 function AssetsRow({ asset }) {
+  const { t } = useTranslation()
   const queryClient = useQueryClient()
   const [isOpen, setIsOpen] = useState(false)
   const [dropdownPosition, setDropdownPosition] = useState(null)
@@ -117,11 +120,11 @@ function AssetsRow({ asset }) {
     mutationFn: deleteAsset,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['assets'] })
-      toast.success('Asset deleted successfully')
+      toast.success(t('assetsAlert.deletedSuccess'))
     },
     onError: (err) => {
       console.error('Error during deletion:', err)
-      toast.error(err.message || 'Failed to delete asset')
+      toast.error(err.message || t('assetsAlert.deleteFailed'))
     },
   })
 
@@ -158,7 +161,6 @@ function AssetsRow({ asset }) {
       document.removeEventListener('mousedown', handleClickOutside)
     }
   }, [isOpen])
-  // console.log(asset)
 
   return (
     <TableRow role="row">
@@ -175,19 +177,19 @@ function AssetsRow({ asset }) {
         <DropdownMenu show={isOpen} position={dropdownPosition}>
           <Modal.Open opensWindowName={`view-${asset.id}`}>
             <DropdownItem onClick={closeDropdown}>
-              <HiEye /> View
+              <HiEye /> {t('actions.view')}
             </DropdownItem>
           </Modal.Open>
 
           <Modal.Open opensWindowName={`edit-${asset.id}`}>
             <DropdownItem onClick={closeDropdown}>
-              <HiPencil /> Edit
+              <HiPencil /> {t('actions.edit')}
             </DropdownItem>
           </Modal.Open>
 
           <Modal.Open opensWindowName={`delete-${asset.id}`}>
             <DropdownItem onClick={closeDropdown} disabled={isDeleting}>
-              <HiTrash /> Delete
+              <HiTrash /> {t('actions.delete')}
             </DropdownItem>
           </Modal.Open>
         </DropdownMenu>
@@ -200,10 +202,11 @@ function AssetsRow({ asset }) {
       <Modal.Window name={`edit-${asset.id}`}>
         <CreateAssetsForm assetToEdit={asset} />
       </Modal.Window>
+
       <Modal.Window name={`delete-${asset.id}`}>
         <ConfirmDelete
           onConfirm={handleDeleteConfirm}
-          resourceName="asset"
+          resourceName={t('assetsAlert.asset')}
           itemLabel={asset.name}
         />
       </Modal.Window>

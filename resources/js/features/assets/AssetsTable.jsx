@@ -1,14 +1,14 @@
 import { useQuery } from '@tanstack/react-query'
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { FiSearch } from 'react-icons/fi'
 import { RxCaretLeft, RxCaretRight } from 'react-icons/rx'
 import { useSearchParams } from 'react-router-dom'
+
 import styled from 'styled-components'
 import { getAssets } from '../../services/apiAssets'
 import Spinner from '../../ui/Spinner'
 import AssetsRow from './AssetsRow'
-
-// Styled components with CSS variables for dark mode support
 const Table = styled.div`
   border: 1px solid var(--color-grey-200);
   font-size: 1.4rem;
@@ -150,8 +150,10 @@ const NavButtons = styled.div`
     }
   }
 `
+// (not repeated here for brevity)
 
 export default function AssetsTable() {
+  const { t } = useTranslation()
   const [searchParams, setSearchParams] = useSearchParams()
   const currentPage = Number(searchParams.get('page')) || 1
   const [rowsPerPage, setRowsPerPage] = useState(10)
@@ -165,7 +167,7 @@ export default function AssetsTable() {
   })
 
   if (isLoading) return <Spinner />
-  if (error) return <div>Error loading assets!</div>
+  if (error) return <div>{t('asset.errorLoading')}</div>
 
   let assets = data?.data || []
 
@@ -225,7 +227,7 @@ export default function AssetsTable() {
           <FiSearch />
           <input
             type="text"
-            placeholder="Search assets..."
+            placeholder={t('asset.searchPlaceholder')}
             value={searchText}
             onChange={(e) => setSearchText(e.target.value)}
           />
@@ -239,23 +241,24 @@ export default function AssetsTable() {
             onClick={() => handleSort('quantity')}
             className={sortBy === 'quantity' ? 'active' : ''}
           >
-            Quantity <span className="icon">{renderSortIcon('quantity')}</span>
+            {t('asset.quantity')}{' '}
+            <span className="icon">{renderSortIcon('quantity')}</span>
           </SortableHeader>
           <SortableHeader
             onClick={() => handleSort('description')}
             className={sortBy === 'description' ? 'active' : ''}
           >
-            Description{' '}
+            {t('asset.description')}{' '}
             <span className="icon">{renderSortIcon('description')}</span>
           </SortableHeader>
           <SortableHeader
             onClick={() => handleSort('total_quantity')}
             className={sortBy === 'total_quantity' ? 'active' : ''}
           >
-            Total Quantity{' '}
+            {t('asset.totalQuantity')}{' '}
             <span className="icon">{renderSortIcon('total_quantity')}</span>
           </SortableHeader>
-          <div>Action</div>
+          <div>{t('Action.action')}</div>
         </TableHeader>
 
         {paginatedAssets.map((asset) => (
@@ -263,16 +266,16 @@ export default function AssetsTable() {
         ))}
 
         {assets.length === 0 && (
-          <div style={{ padding: '1.6rem' }}>No matching assets found.</div>
+          <div style={{ padding: '1.6rem' }}>{t('asset.noMatch')}</div>
         )}
 
         <PaginationWrapper>
           <PageInfo>
-            Page {currentPage} of {totalPages}
+            {t('asset.page')} {currentPage} {t('asset.of')} {totalPages}
           </PageInfo>
 
           <RowsPerPage>
-            Rows per page:
+            {t('asset.rowsPerPage')}:
             <select value={rowsPerPage} onChange={handleRowsPerPageChange}>
               <option value={5}>5</option>
               <option value={10}>10</option>

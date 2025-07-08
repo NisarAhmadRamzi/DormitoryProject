@@ -1079,5 +1079,53 @@
   "genders": {
     "male": "Male",
     "female": "Female"
+  },
+  "AddAssets": {
+    "addNew": "Add new Asset"
+  },
+  "assetsAlert": {
+    "asset": "Asset",
+    "deletedSuccess": "Asset deleted successfully",
+    "deleteFailed": "Failed to delete asset"
+  },
+  "asset": {
+    "quantity": "Quantity",
+    "description": "Description",
+    "totalQuantity": "Total Quantity",
+    "page": "Page",
+    "of": "of",
+    "rowsPerPage": "Rows per page",
+    "noMatch": "No matching assets found.",
+    "searchPlaceholder": "Search assets...",
+    "errorLoading": "Error loading assets!"
+  },
+  "Action": {
+    "action": "Action"
+  },
+  "assetsForm": {
+    "quantity": "Quantity",
+    "description": "Description",
+    "quantityRequired": "Quantity is required",
+    "quantityMin": "Quantity must be at least 1",
+    "descriptionRequired": "Description is required",
+    "descriptionMax": "Description must be under 500 characters",
+    "editAsset": "Edit Asset",
+    "createAsset": "Create New Asset",
+    "assetCreated": "New asset created successfully",
+    "assetUpdated": "Asset updated successfully",
+    "assetError": "Something went wrong"
+  },
+  "assetD": {
+    "noData": "No asset data available.",
+    "assetDetails": "Asset Details",
+    "id": "ID",
+    "quantity": "Quantity",
+    "description": "Description",
+    "totalQuantity": "Total Quantity",
+    "totalDonations": "Total Donations",
+    "totalCashBeforeExpense": "Total Cash Before Expense",
+    "totalCashAfterExpense": "Total Cash After Expense",
+    "createdAt": "Created At",
+    "updatedAt": "Updated At"
   }
 }
