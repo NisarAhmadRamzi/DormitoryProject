@@ -58,13 +58,13 @@ class UserSeeder extends Seeder
             'profile' => 'uploads/4.jpg'
         ]);
 
-        $user5 = User::create([
-            'name' => 'student',
-            'email' => 'student@gmail.com',
-            'password' => Hash::make('12345678'),
-            'role' => $studentRole->name,
-            'profile' => 'uploads/4.jpg'
-        ]);
+        // $user5 = User::create([
+        //     'name' => 'student',
+        //     'email' => 'student@gmail.com',
+        //     'password' => Hash::make('12345678'),
+        //     'role' => $studentRole->name,
+        //     'profile' => 'uploads/4.jpg'
+        // ]);
 
         $user6 = User::create([
             'name' => 'libraryAdmin',
@@ -73,13 +73,13 @@ class UserSeeder extends Seeder
             'role' => $libraryAdminRole->name,
             'profile' => 'uploads/4.jpg'
         ]);
-        $user7 = User::create([
-            'name' => 'libraryStudent',
-            'email' => 'libraryStudent@gmail.com',
-            'password' => Hash::make('12345678'),
-            'role' => $libraryStudentRole->name,
-            'profile' => 'uploads/4.jpg'
-        ]);
+        // $user7 = User::create([
+        //     'name' => 'libraryStudent',
+        //     'email' => 'libraryStudent@gmail.com',
+        //     'password' => Hash::make('12345678'),
+        //     'role' => $libraryStudentRole->name,
+        //     'profile' => 'uploads/4.jpg'
+        // ]);
 
         $user8 = User::create([
             'name' => 'admin',

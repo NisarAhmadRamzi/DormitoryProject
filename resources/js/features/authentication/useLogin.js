@@ -20,6 +20,8 @@ export function useLogin({ onErrorReset } = {}) {
       if (user.role === 'admin') window.location.href = '/dashboard'
       else if (user.role === 'student') window.location.href = '/rooms'
       else if (user.role === 'second_admin') navigate('/dashboard')
+      else if (user.role === 'library_admin') navigate('/dashboard')
+      else if (user.role === 'library_student') navigate('/rooms')
       else navigate('/')
     },
 
