@@ -1,4 +1,4 @@
-import { IoBedOutline, IoSettingsOutline } from 'react-icons/io5'
+import { IoBedOutline } from 'react-icons/io5'
 import { LuBadgeCheck, LuUsers } from 'react-icons/lu'
 import {
   PiCurrencyDollarSimpleBold,
@@ -16,12 +16,12 @@ import { IoIosArrowForward } from 'react-icons/io'
 import { IoKeyOutline } from 'react-icons/io5'
 import { MdOutlineLibraryBooks } from 'react-icons/md'
 import { RxDashboard } from 'react-icons/rx'
+import { TbDatabaseDollar } from 'react-icons/tb'
 import { TfiSupport } from 'react-icons/tfi'
 import { VscAccount } from 'react-icons/vsc'
 import { NavLink } from 'react-router-dom'
 import styled, { css } from 'styled-components'
 import { useUser } from '../context/UserContext'
-import { TbDatabaseDollar } from 'react-icons/tb'
 
 const NavList = styled.ul`
   display: flex;
@@ -34,7 +34,6 @@ const Category = styled.div`
   flex-direction: column;
 `
 
-// Helper for direction-aware border and padding
 const directionStyles = ({ dir }) =>
   dir === 'rtl'
     ? css`
@@ -64,9 +63,9 @@ const CategoryHeader = styled.div`
     background-color: var(--color-grey-50);
     border-radius: var(--border-radius-sm);
     ${({ dir }) =>
-    dir === 'rtl'
-      ? `border-right-color: var(--color-brand-600);`
-      : `border-left-color: var(--color-brand-600);`}
+      dir === 'rtl'
+        ? `border-right-color: var(--color-brand-600);`
+        : `border-left-color: var(--color-brand-600);`}
   }
 
   & svg {
@@ -88,7 +87,6 @@ const ArrowIcon = styled(IoIosArrowForward)`
   height: 1.6rem;
   flex-shrink: 0;
 
-  /* Position arrow on the opposite side of text */
   ${({ dir }) =>
     dir === 'rtl'
       ? css`
@@ -157,11 +155,23 @@ function MainNav() {
   const { user } = useUser()
   const role = user?.role
   const { t, i18n } = useTranslation()
-  const dir = i18n.dir() // 'ltr' or 'rtl'
+  const dir = i18n.dir()
 
   const toggleCategory = (category) => {
     setOpenCategory(openCategory === category ? '' : category)
   }
+
+  // Map role to dashboard route
+  const dashboardRouteMap = {
+    student: '/students-dashboard',
+    admin: '/dashboard',
+    'second-admin': '/second-admin-dashboard',
+    'library-admin': '/library-admin-dashboard',
+    'library-student': '/library-student-dashboard',
+  }
+
+  // Compute dashboard route based on role
+  const dashboardRoute = dashboardRouteMap[role] || '/dashboard' // fallback
 
   return (
     <nav>
@@ -173,14 +183,14 @@ function MainNav() {
             <ArrowIcon open={openCategory === 'general'} dir={dir} />
           </CategoryHeader>
           <SubMenu open={openCategory === 'general'}>
-            {role !== 'student' && (
-              <li>
-                <StyledNavlink to="/dashboard">
-                  <RxDashboard />
-                  <span>{t('dashboard')}</span>
-                </StyledNavlink>
-              </li>
-            )}
+            {/* Show only the dashboard link appropriate to user role */}
+            <li>
+              <StyledNavlink to={dashboardRoute}>
+                <RxDashboard />
+                <span>{t('dashboard')}</span>
+              </StyledNavlink>
+            </li>
+
             <li>
               <StyledNavlink to="/accounts">
                 <VscAccount />
@@ -197,6 +207,7 @@ function MainNav() {
             <ArrowIcon open={openCategory === 'users'} dir={dir} />
           </CategoryHeader>
           <SubMenu open={openCategory === 'users'}>
+            {/* Hide user management for students */}
             {role !== 'student' && (
               <li>
                 <StyledNavlink to="/users">
@@ -256,20 +267,20 @@ function MainNav() {
           </CategoryHeader>
           <SubMenu open={openCategory === 'library'}>
             {role !== 'student' && (
-              <li>
-                <StyledNavlink to="/libraries">
-                  <HiOutlineHomeModern />
-                  <span>{t('library')}</span>
-                </StyledNavlink>
-              </li>
-            )}
-            {role !== 'student' && (
-              <li>
-                <StyledNavlink to="/library-students">
-                  <PiGraduationCapDuotone />
-                  <span>{t('libraryStudents')}</span>
-                </StyledNavlink>
-              </li>
+              <>
+                <li>
+                  <StyledNavlink to="/libraries">
+                    <HiOutlineHomeModern />
+                    <span>{t('library')}</span>
+                  </StyledNavlink>
+                </li>
+                <li>
+                  <StyledNavlink to="/library-students">
+                    <PiGraduationCapDuotone />
+                    <span>{t('libraryStudents')}</span>
+                  </StyledNavlink>
+                </li>
+              </>
             )}
             <li>
               <StyledNavlink to="/books">
@@ -315,29 +326,33 @@ function MainNav() {
             </SubMenu>
           </Category>
         )}
+
         {/* Settings */}
         {role !== 'student' && (
           <Category>
-            <CategoryHeader onClick={() => toggleCategory('settings')} dir={dir}>
+            <CategoryHeader
+              onClick={() => toggleCategory('settings')}
+              dir={dir}
+            >
               {t('settings')}
               <ArrowIcon open={openCategory === 'settings'} dir={dir} />
             </CategoryHeader>
             <SubMenu open={openCategory === 'settings'}>
               {role !== 'student' && (
-                <li>
-                  <StyledNavlink to="/roles">
-                    <LuBadgeCheck />
-                    <span>{t('rolesTitle')}</span>
-                  </StyledNavlink>
-                </li>
-              )}
-              {role !== 'student' && (
-                <li>
-                  <StyledNavlink to="/permissions">
-                    <IoKeyOutline />
-                    <span>{t('permissions')}</span>
-                  </StyledNavlink>
-                </li>
+                <>
+                  <li>
+                    <StyledNavlink to="/roles">
+                      <LuBadgeCheck />
+                      <span>{t('rolesTitle')}</span>
+                    </StyledNavlink>
+                  </li>
+                  <li>
+                    <StyledNavlink to="/permissions">
+                      <IoKeyOutline />
+                      <span>{t('permissions')}</span>
+                    </StyledNavlink>
+                  </li>
+                </>
               )}
             </SubMenu>
           </Category>
