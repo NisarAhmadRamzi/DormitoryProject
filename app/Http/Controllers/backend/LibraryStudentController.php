@@ -142,12 +142,7 @@ class LibraryStudentController extends Controller
     // Retrieve all trashed (soft deleted) library students
     public function trashedStudents()
     {
-        Log::info('Checking trashed students...');
-
         $trashedStudents = LibraryStudent::onlyTrashed()->get();
-
-        Log::info('Found:', ['count' => $trashedStudents->count()]);
-
         return response()->json([
             'trashed' => $trashedStudents
         ], 200);
