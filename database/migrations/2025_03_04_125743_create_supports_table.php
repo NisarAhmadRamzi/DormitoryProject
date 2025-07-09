@@ -19,7 +19,7 @@ return new class extends Migration
             $table->integer('goods_quantity')->default(0)->nullable(); // Goods quantity (e.g., food packs)
             $table->integer('cash_quantity')->default(0)->nullable(); // Cash amount donated
             $table->string('helper_fullname');
-            $table->integer('helper_number');
+            $table->unsignedBigInteger('helper_number');
             $table->string('helper_email')->nullable();
             $table->date('help_date'); // Date of donation
             //total_cash_donated

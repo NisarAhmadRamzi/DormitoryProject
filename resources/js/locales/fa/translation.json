@@ -882,16 +882,25 @@
       "createSupport": "ایجاد حمایت جدید"
     },
     "validation": {
-      "typeRequired": "نوع حمایت الزامی است",
-      "typeMaxLength": "نوع باید کمتر از ۲۵۵ کاراکتر باشد",
-      "detailsRequired": "جزئیات الزامی است",
+      "typeRequired": "نوع حمایت ضروری است",
+      "typeMaxLength": "نوع باید کمتر از ۲۵۵ حرف باشد",
+      "detailsRequired": "جزئیات ضروری است",
+      "goodsQuantityRequired": "مقدار کالا ضروری است",
       "goodsQuantityMin": "مقدار کالا نمی‌تواند منفی باشد",
-      "cashQuantityMin": "مقدار نقدی نمی‌تواند منفی باشد",
-      "helperFullnameRequired": "نام کامل کمک‌کننده الزامی است",
-      "helperNumberRequired": "شماره کمک‌کننده الزامی است",
-      "helperNumberInvalid": "فرمت شماره تلفن نامعتبر است",
+      "cashQuantityRequired": "مقدار وجه نقد ضروری است",
+      "cashQuantityMin": "وجه نقد نمی‌تواند منفی باشد",
+      "helperFullnameRequired": "نام کامل کمک‌کننده ضروری است",
+      "helperNumberRequired": "شماره تماس کمک‌کننده ضروری است",
+      "helperNumberInvalid": "شماره باید با +۹۳ شروع شود و حداکثر ۱۳ رقم داشته باشد",
+      "helperNumberMax": "شماره نمی‌تواند بیش از ۱۳ رقم باشد",
+      "helperEmailRequired": "ایمیل کمک‌کننده ضروری است",
       "helperEmailInvalid": "آدرس ایمیل نامعتبر است",
-      "helpDateRequired": "تاریخ کمک الزامی است"
+      "helperNumberPlaceholder": "مثلاً 70XXXXXXX)",
+      "helpDateRequired": "تاریخ کمک ضروری است",
+      "type": "نوع حمایت",
+      "cash": "نقدی",
+      "goods": "کالا",
+      "other": "سایر"
     },
     "messages": {
       "updated": "حمایت «{{type}}» با موفقیت ویرایش شد",

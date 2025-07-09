@@ -158,6 +158,7 @@ function SupportRow({ support }) {
     }
   }, [isOpen])
 
+  console.log(support)
   return (
     <TableRow role="row">
       <Id>{support.type}</Id>
