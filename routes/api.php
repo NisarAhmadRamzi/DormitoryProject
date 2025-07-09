@@ -91,8 +91,8 @@ Route::resource('library-students', LibraryStudentController::class);
 Route::post('/library-students/{libraryStudent}/restore', [LibraryStudentController::class, 'restore'])->name('library-students.restore');
 Route::delete('/library-students/{libraryStudent}/forceDelete', [LibraryStudentController::class, 'forceDelete'])->name('library-students.forceDelete');
 Route::get('/library-students/trashed/{libraryStudent}', [LibraryStudentController::class, 'trashedStudent'])->name('library-student.trashed');
-Route::get('/library-students/trashed', [LibraryStudentController::class, 'trashedStudents'])->name('library-students.trashed'); // Get only deleted library students
-Route::get('/library-students/all', [LibraryStudentController::class, 'allStudents'])->name('library-students.withtrashed'); // Get all
+Route::post('/library-students/trashed', [LibraryStudentController::class, 'trashedStudents'])->name('library-students.trashed'); // Get only deleted library students
+Route::post('/library-students/all', [LibraryStudentController::class, 'allStudents'])->name('library-students.withtrashed'); // Get all
 
 Route::resource('borrowed-books', BorrowedBookController::class);
 

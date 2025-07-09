@@ -7,6 +7,7 @@ use App\Http\Resources\LibraryStudentResource;
 use App\Models\LibraryStudent;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Log;
 
 class LibraryStudentController extends Controller
 {
@@ -141,14 +142,14 @@ class LibraryStudentController extends Controller
     // Retrieve all trashed (soft deleted) library students
     public function trashedStudents()
     {
-        $trashedStudents = LibraryStudent::onlyTrashed()->get();
-        if ($trashedStudents->isEmpty()) {
-            return response()->json([
-                'message' => 'No trashed library students found',
-                'data' => []
-            ], 200);
-        }
+        Log::info('Checking trashed students...');
 
-        return response()->json($trashedStudents, 200);
+        $trashedStudents = LibraryStudent::onlyTrashed()->get();
+
+        Log::info('Found:', ['count' => $trashedStudents->count()]);
+
+        return response()->json([
+            'trashed' => $trashedStudents
+        ], 200);
     }
 }
