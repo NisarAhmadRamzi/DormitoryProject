@@ -110,16 +110,16 @@ function CreateExpensesForm({ expenseToEdit = {}, onCloseModal }) {
     <Form onSubmit={handleSubmit(onSubmit)}>
       <FormRow>
         <Label htmlFor="type">{t('ExpensesForm.type')}</Label>
-        <Select
-          id="type"
-          {...register('type', { required: t('ExpensesForm.requiredType') })}
-        >
-          <option value="cash">{t('ExpensesForm.cash')}</option>
-          <option value="goods">{t('ExpensesForm.goods')}</option>
-        </Select>
+        <Input
+          type="text"
+          id="cash"
+          value="cash"
+          {...register('type', {
+            required: t('ExpensesForm.requiredType'),
+          })}
+        />
         {errors?.type && <Error>{errors.type.message}</Error>}
       </FormRow>
-
       <FormRow>
         <Label htmlFor="expense_cash">{t('ExpensesForm.expenseCash')}</Label>
         <Input
@@ -127,25 +127,15 @@ function CreateExpensesForm({ expenseToEdit = {}, onCloseModal }) {
           id="expense_cash"
           {...register('expense_cash', {
             required: t('ExpensesForm.requiredExpenseCash'),
+            min: {
+              value: 0,
+              message:
+                t('ExpensesForm.minExpenseCash') ||
+                'Value must be 0 or greater',
+            },
           })}
         />
         {errors?.expense_cash && <Error>{errors.expense_cash.message}</Error>}
-      </FormRow>
-
-      <FormRow>
-        <Label htmlFor="goods_quantity">
-          {t('ExpensesForm.goodsQuantity')}
-        </Label>
-        <Input
-          type="number"
-          id="goods_quantity"
-          {...register('goods_quantity', {
-            required: t('ExpensesForm.requiredGoodsQuantity'),
-          })}
-        />
-        {errors?.goods_quantity && (
-          <Error>{errors.goods_quantity.message}</Error>
-        )}
       </FormRow>
 
       <FormRow>

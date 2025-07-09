@@ -771,7 +771,14 @@
       "warrantyPayRequired": "Warranty pay is required",
       "warrantyPaidRequired": "Warranty paid is required",
       "registrationDateRequired": "Registration date is required",
-      "dueDateRequired": "Due date is required"
+      "dueDateRequired": "Due date is required",
+      "officePaidTooMuch": "Office paid amount must be less than or equal to office pay",
+      "warrantyPaidTooMuch": "Warranty paid amount must be less than or equal to warranty pay",
+      "dueDateBeforeRegistration": "Due Date cannot be before Registration Date",
+      "officePayMinZero": "Office pay cannot be less than zero.",
+      "officePaidMinZero": "Office paid cannot be less than zero.",
+      "warrantyPayMinZero": "Warranty pay cannot be less than zero.",
+      "warrantyPaidMinZero": "Warranty paid cannot be less than zero."
     },
     "buttons": {
       "editFee": "Edit Fee",
@@ -828,6 +835,7 @@
     "error": "Something went wrong",
     "requiredType": "Type is required",
     "requiredExpenseCash": "Expense cash is required",
+    "minExpenseCash": "The expense cash cannot be less than 0.",
     "requiredGoodsQuantity": "Goods quantity is required",
     "requiredDescription": "Description is required",
     "requiredExpenseDate": "Expense date is required"
@@ -878,13 +886,22 @@
       "typeRequired": "Support type is required",
       "typeMaxLength": "Type must be under 255 characters",
       "detailsRequired": "Details are required",
+      "goodsQuantityRequired": "Goods quantity is required",
       "goodsQuantityMin": "Goods quantity cannot be negative",
+      "cashQuantityRequired": "Cash quantity is required",
       "cashQuantityMin": "Cash quantity cannot be negative",
       "helperFullnameRequired": "Helper fullname is required",
       "helperNumberRequired": "Helper number is required",
-      "helperNumberInvalid": "Invalid phone number format",
+      "helperNumberInvalid": "Phone number must start with +93 and be up to 13 digits",
+      "helperNumberMax": "Phone number must not exceed 13 digits",
+      "helperEmailRequired": "Helper email is required",
       "helperEmailInvalid": "Invalid email address",
-      "helpDateRequired": "Help date is required"
+      "helpDateRequired": "Help date is required",
+      "helperNumberPlaceholder": "Enter 70XXXXXXX)",
+      "type": "Support Type",
+      "cash": "Cash",
+      "goods": "Goods",
+      "other": "Other"
     },
     "messages": {
       "updated": "Support \"{{type}}\" updated successfully",
@@ -1127,5 +1144,6 @@
     "totalCashAfterExpense": "Total Cash After Expense",
     "createdAt": "Created At",
     "updatedAt": "Updated At"
-  }
+  },
+  "selectStudent": "Select a student"
 }

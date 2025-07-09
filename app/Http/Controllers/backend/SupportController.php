@@ -34,7 +34,7 @@ class SupportController extends Controller
             'goods_quantity' => 'nullable|integer|min:0',
             'cash_quantity' => 'nullable|integer|min:0',
             'helper_fullname' => 'required|string',
-            'helper_number' => 'required|string',
+            'helper_number' => 'required|integer',
             'helper_email' => 'nullable|string|email',
             'help_date' => 'required|date',
         ]);
@@ -58,7 +58,7 @@ class SupportController extends Controller
             'goods_quantity' => 'nullable|integer|min:0',
             'cash_quantity' => 'nullable|integer|min:0',
             'helper_fullname' => 'required|string',
-            'helper_number' => 'required|string',
+            'helper_number' => 'required|integer',
             'helper_email' => 'nullable|string|email',
             'help_date' => 'required|date',
         ]);

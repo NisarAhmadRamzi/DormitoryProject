@@ -34,7 +34,7 @@ class ExpenseController extends Controller
         $validated = $request->validate([
             'type' => 'required|in:cash,goods',
             'expense_cash' => 'nullable|numeric|min:0',
-            'goods_quantity' => 'nullable|numeric|min:0',
+            // 'goods_quantity' => 'nullable|numeric|min:0',
             'description' => 'nullable|string',
             'expense_date' => 'required|date',
         ]);
@@ -56,7 +56,7 @@ class ExpenseController extends Controller
         $validated = $request->validate([
             'type' => 'required|in:cash,goods',
             'expense_cash' => 'nullable|numeric|min:0',
-            'goods_quantity' => 'nullable|numeric|min:0',
+            // 'goods_quantity' => 'nullable|numeric|min:0',
             'description' => 'nullable|string',
             'expense_date' => 'required|date',
         ]);

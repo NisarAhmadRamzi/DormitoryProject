@@ -769,12 +769,19 @@
     },
     "errors": {
       "studentIdRequired": "د زده کوونکي شمېره اړینه ده",
-      "officePayRequired": "دفتر پیسې اړینې دي",
-      "officePaidRequired": "دفتر ورکړل شوي اړین دي",
-      "warrantyPayRequired": "ضمانت پیسې اړینې دي",
-      "warrantyPaidRequired": "ضمانت ورکړل شوي اړین دي",
+      "officePayRequired": "د دفتر پیسې اړینې دي",
+      "officePaidRequired": "د دفتر ورکړل شوې پیسې اړینې دي",
+      "warrantyPayRequired": "د تضمین پیسې اړینې دي",
+      "warrantyPaidRequired": "د تضمین ورکړل شوې پیسې اړینې دي",
       "registrationDateRequired": "د ثبت نیټه اړینه ده",
-      "dueDateRequired": "د نیټې نېټه اړینه ده"
+      "dueDateRequired": "د تادیې نیټه اړینه ده",
+      "officePaidTooMuch": "د دفتر ورکړل شوې اندازه باید د دفتر پیسو سره مساوي یا کمه وي",
+      "warrantyPaidTooMuch": "د تضمین ورکړل شوې اندازه باید د تضمین پیسو سره مساوي یا کمه وي",
+      "dueDateBeforeRegistration": "د تادیې نیټه باید د ثبت نیټې مخکې نه وي",
+      "officePayMinZero": "د دفتر پیسې له صفر څخه کمې نه شي",
+      "officePaidMinZero": "د دفتر ورکړل شوې پیسې له صفر څخه کمې نه شي",
+      "warrantyPayMinZero": "د تضمین پیسې له صفر څخه کمې نه شي",
+      "warrantyPaidMinZero": "د تضمین ورکړل شوې پیسې له صفر څخه کمې نه شي"
     },
     "buttons": {
       "editFee": "فیس سمول",
@@ -831,6 +838,7 @@
     "error": "یو څه غلط شول",
     "requiredType": "ډول اړین دی",
     "requiredExpenseCash": "د نغدو مصرف اړین دی",
+    "minExpenseCash": "د لګښت نغدي ارزښت باید له صفر څخه کم نه وي.",
     "requiredGoodsQuantity": "د توکو مقدار اړین دی",
     "requiredDescription": "تفصیل اړین دی",
     "requiredExpenseDate": "د مصرف نېټه اړینه ده"
@@ -878,16 +886,25 @@
       "createSupport": "نوې مرسته جوړول"
     },
     "validation": {
-      "typeRequired": "د ملاتړ ډول اړین دی",
-      "typeMaxLength": "ډول باید د ۲۵۵ کرکټرونو څخه کم وي",
-      "detailsRequired": "تفصیلات اړین دي",
-      "goodsQuantityMin": "د توکو مقدار منفي کېدای نشي",
-      "cashQuantityMin": "نغدي مقدار منفي کېدای نشي",
-      "helperFullnameRequired": "د مرستې کوونکي بشپړ نوم اړین دی",
-      "helperNumberRequired": "د مرستې کوونکي شمېره اړینه ده",
-      "helperNumberInvalid": "د تلیفون شمیرې ناسم بڼه",
-      "helperEmailInvalid": "ناسم بریښنالیک پته",
-      "helpDateRequired": "د مرستې نیټه اړینه ده"
+      "typeRequired": "د مرستې ډول اړین دی",
+      "typeMaxLength": "ډول باید تر ۲۵۵ حروفو کم وي",
+      "detailsRequired": "جزئیات اړین دي",
+      "goodsQuantityRequired": "د توکو اندازه اړینه ده",
+      "goodsQuantityMin": "د توکو اندازه منفي نشي کېدلای",
+      "cashQuantityRequired": "د نغدو پیسو اندازه اړینه ده",
+      "cashQuantityMin": "نغدي پیسې منفي نشي کېدلای",
+      "helperFullnameRequired": "د مرستندوی بشپړ نوم اړین دی",
+      "helperNumberRequired": "د مرستندوی شمېره اړینه ده",
+      "helperNumberInvalid": "شمیری باید د +93 سره پیل شي او تر ۱۳ عددو زیات نه وي",
+      "helperNumberMax": "شمېره باید تر ۱۳ عددو زیات نه وي",
+      "helperEmailRequired": "برېښنالیک اړین دی",
+      "helperEmailInvalid": "ناسم برېښنالیک",
+      "helpDateRequired": "د مرستې نېټه اړینه ده",
+      "helperNumberPlaceholder": "(لکه ۷۰XXXXXXX)",
+      "type": "د مرستې ډول",
+      "cash": "نغدي",
+      "goods": "توکي",
+      "other": "نور"
     },
     "messages": {
       "updated": "مرسته \"{{type}}\" په بریالیتوب سره سمون وموند",
@@ -1131,5 +1148,12 @@
     "totalCashAfterExpense": "د مصرف وروسته ټولې نغدې پیسې",
     "createdAt": "جوړ شوی وخت",
     "updatedAt": "وروستی تازه شوی وخت"
+  },
+  "selectStudent": "یو محصل انتخاب کړئ",
+  "Fee": {
+    "errors": {
+      "officePaidTooMuch": "د دفتر ورکړل شوې اندازه باید د دفتر له مقدار څخه کمه یا مساوي وي",
+      "warrantyPaidTooMuch": "د تضمین ورکړل شوې اندازه باید د تضمین له مقدار څخه کمه یا مساوي وي"
+    }
   }
 }

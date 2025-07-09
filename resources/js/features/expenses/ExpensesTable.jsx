@@ -62,11 +62,10 @@ const SearchInputContainer = styled.div`
     }
   }
 `
-
 const TableHeader = styled.header`
   display: grid;
   grid-template-columns: 0.6fr 2fr 2fr 2fr 2fr 0.5fr;
-  gap: 0.5rem;
+  column-gap: 2.4rem;
   align-items: center;
   background-color: var(--color-grey-50);
   border-bottom: 1px solid var(--color-grey-100);
@@ -310,24 +309,6 @@ export default function ExpenseTable() {
             {t('ExpensesHeader.expenseDate')}{' '}
             <span className="icon">{renderSortIcon('expense_date')}</span>
           </SortableHeader>
-
-          <SortableHeader
-            onClick={() => handleSort('goods_quantity')}
-            className={sortBy === 'goods_quantity' ? 'active' : ''}
-            role="columnheader"
-            tabIndex={0}
-            aria-sort={
-              sortBy === 'goods_quantity'
-                ? sortOrder === 'asc'
-                  ? 'ascending'
-                  : 'descending'
-                : 'none'
-            }
-          >
-            {t('ExpensesHeader.goodsQuantity')}{' '}
-            <span className="icon">{renderSortIcon('goods_quantity')}</span>
-          </SortableHeader>
-
           <div>{t('ExpensesHeader.action')}</div>
         </TableHeader>
 

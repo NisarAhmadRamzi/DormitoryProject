@@ -38,9 +38,9 @@ class FeeController extends Controller
         $validated = $request->validate([
             'student_id' => 'required|exists:students,id',
             'office_pay' => 'required|numeric|min:0', // Payment amount
-            'office_paid' => 'required|string', // Payment status
+            'office_paid' => 'required|numeric|min:0', // Payment status
             'warranty_pay' => 'required|numeric|min:0', // Payment amount
-            'warranty_paid' => 'required|string', // Payment status
+            'warranty_paid' => 'required|numeric|min:0', // Payment status
             'registration_date' => 'required|date', // Registration date
             'paid_date' => 'nullable|date', // Nullable paid date
             'due_date' => 'required|date', // Due date
@@ -102,9 +102,9 @@ class FeeController extends Controller
         $validated = $request->validate([
             'student_id' => 'required|exists:students,id',
             'office_pay' => 'required|numeric|min:0', // Payment amount
-            'office_paid' => 'required|string', // Payment status
+            'office_paid' => 'required|numeric|min:0', // Payment status
             'warranty_pay' => 'required|numeric|min:0', // Payment amount
-            'warranty_paid' => 'required|string', // Payment status
+            'warranty_paid' => 'required|numeric|min:0  ', // Payment status
             'registration_date' => 'required|date', // Registration date
             'paid_date' => 'nullable|date', // Nullable paid date
             'due_date' => 'required|date', // Due date

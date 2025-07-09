@@ -13,12 +13,13 @@ return new class extends Migration
     {
         Schema::create('supports', function (Blueprint $table) {
             $table->id();
-            $table->string('type'); // Can be cash, food, furniture, etc.
+            $table->enum('type', ['cash' , 'goods' , 'others'])->default('cash'); // Type of support, can be cash, goods, or others
+            // $table->string('type'); // Can be cash, food, furniture, etc.
             $table->text('details'); // Holds complete information about the support
             $table->integer('goods_quantity')->default(0)->nullable(); // Goods quantity (e.g., food packs)
             $table->integer('cash_quantity')->default(0)->nullable(); // Cash amount donated
             $table->string('helper_fullname');
-            $table->string('helper_number');
+            $table->unsignedBigInteger('helper_number');
             $table->string('helper_email')->nullable();
             $table->date('help_date'); // Date of donation
             //total_cash_donated

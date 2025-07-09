@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('expenses', function (Blueprint $table) {
             $table->id();
-            $table->enum('type', ['cash', 'goods']); // Expense type
+            $table->enum('type', ['cash']); // Expense type
             $table->integer('expense_cash')->nullable(); // Money spent
-            $table->integer('goods_quantity')->nullable(); // Goods spent
+            // $table->integer('goods_quantity')->nullable(); // Goods spent
             $table->text('description')->nullable();
             $table->date('expense_date'); // Date of expense
 
