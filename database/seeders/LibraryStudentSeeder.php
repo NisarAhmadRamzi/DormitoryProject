@@ -35,7 +35,6 @@ class LibraryStudentSeeder extends Seeder
             'registration_date' => Carbon::now(),
             'registration_deadline' => Carbon::now()->addYear(),
             'gender' => 'Male',
-            'membership_status' => 'Active',
         ]);
 
         $LibraryStudent2 = LibraryStudent::create([
@@ -51,7 +50,6 @@ class LibraryStudentSeeder extends Seeder
             'registration_date' => Carbon::now(),
             'registration_deadline' => Carbon::now()->addYear(),
             'gender' => 'Male',
-            'membership_status' => 'Active',
         ]);
 
         // Assign role to users

@@ -10,15 +10,15 @@ use Illuminate\Support\Facades\Artisan;
 
 class LibraryStudentController extends Controller
 {
-    public function __construct()
-    {
-        Artisan::call('permission:cache-reset');
-        $this->middleware('permission:all library students')->only(['index']);
-        $this->middleware('permission:view library student')->only(['show']);
-        $this->middleware('permission:create library student')->only(['store']);
-        $this->middleware('permission:edit library student')->only(['update']);
-        $this->middleware('permission:delete library student')->only(['destroy']);
-    }
+    // public function __construct()
+    // {
+    //     Artisan::call('permission:cache-reset');
+    //     $this->middleware('permission:all library students')->only(['index']);
+    //     $this->middleware('permission:view library student')->only(['show']);
+    //     $this->middleware('permission:create library student')->only(['store']);
+    //     $this->middleware('permission:edit library student')->only(['update']);
+    //     $this->middleware('permission:delete library student')->only(['destroy']);
+    // }
     // Get all library students
     public function index()
     {
@@ -82,10 +82,73 @@ class LibraryStudentController extends Controller
         return new LibraryStudentResource($libraryStudent);
     }
 
-    // Delete a library student
-    public function destroy(LibraryStudent $libraryStudent)
+    // Soft delete a library student
+    public function destroy($id)
     {
-        $libraryStudent->delete();
-        return response()->json(['message' => 'Library student deleted successfully.']);
+        $student = LibraryStudent::find($id);
+
+        if ($student) {
+            $student->delete();
+            return response()->json(['message' => "Library student {$id} soft deleted successfully!"]);
+        }
+
+        return response()->json(['message' => 'Library student not found'], 404);
+    }
+
+    // Restore a soft deleted library student
+    public function restore($id)
+    {
+        $student = LibraryStudent::withTrashed()->findOrFail($id);
+        $student->restore();
+        return response()->json(['message' => "Library student {$id} restored successfully"]);
+    }
+
+    /**
+     * Permanently delete a library student.
+     */
+    public function forceDelete($id)
+    {
+        $student = LibraryStudent::withTrashed()->findOrFail($id);
+        $student->forceDelete();
+        return response()->json(['message' => "Library student {$id} permanently deleted"]);
+    }
+
+
+    // Retrieve all library students (including soft deleted)
+    public function allStudents()
+    {
+        $allStudents = LibraryStudent::withTrashed()->get();
+
+        if ($allStudents->isEmpty()) {
+            return response()->json([
+                'message' => 'No library students found',
+                'data' => []
+            ], 200);
+        }
+
+        return response()->json($allStudents, 200);
+    }
+
+    // Retrieve a single trashed (soft deleted) library student
+    public function trashedStudent($id)
+    {
+        $student = LibraryStudent::onlyTrashed()->where('id', $id)->first();
+        if (!$student) {
+            return response()->json(['message' => 'Library student not found in trashed records'], 404);
+        }
+        return response()->json($student, 200);
+    }
+    // Retrieve all trashed (soft deleted) library students
+    public function trashedStudents()
+    {
+        $trashedStudents = LibraryStudent::onlyTrashed()->get();
+        if ($trashedStudents->isEmpty()) {
+            return response()->json([
+                'message' => 'No trashed library students found',
+                'data' => []
+            ], 200);
+        }
+
+        return response()->json($trashedStudents, 200);
     }
 }

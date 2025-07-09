@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
@@ -11,8 +12,9 @@ use Spatie\Permission\Traits\HasRoles;
 
 class LibraryStudent extends Model
 {
-    use HasFactory;
-    use HasRoles;
+    use HasFactory, HasRoles, SoftDeletes;
+
+    protected $dates = ['deleted_at']; // Optional in newer Laravel versions
 
     protected $fillable = [
         'library_id',
@@ -29,6 +31,7 @@ class LibraryStudent extends Model
         'gender',
         'membership_status'
     ];
+
 
     // A library student belongs to one library
     public function library()

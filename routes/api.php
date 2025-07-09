@@ -54,50 +54,57 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
 
-Route::middleware('auth:sanctum')->group(function () {
-    Route::apiResource('rooms', RoomController::class);
+// Route::middleware('auth:sanctum')->group(function () {
+//     Route::apiResource('rooms', RoomController::class);
 
-    // user routes
-    Route::apiResource('users', UserController::class);
-    Route::post('/users/updateUsers/{user}', [UserController::class, 'updateUser']);
-    Route::put('/users/{user}/assign', [UserController::class, 'assign'])->name('role.assign');
-    Route::get('test', [UserController::class, 'test']);
-    // student routes
-    Route::apiResource('students', StudentController::class);
-    Route::delete('/students/{id}', [StudentController::class, 'destroy'])->name('students.destroy');
-    Route::post('/students/{student}/restore', [StudentController::class, 'restore'])->name('students.restore');
-    Route::delete('/students/{student}/forceDelete', [StudentController::class, 'forceDelete'])->name('students.forceDelete');
-    Route::get('/students/trashed/{student}', [StudentController::class, 'trashedStudent'])->name('student.trashed');
-    Route::get('/students/trashed', [StudentController::class, 'trashedStudents'])->name('students.trashed'); // Get only deleted students
-    Route::get('/students/all', [StudentController::class, 'allStudents'])->name('students.withtrashed'); // Get all students including deleted
-    Route::get('/students/test', [StudentController::class, 'test']);
-    // all other routes
+// user routes
+Route::apiResource('users', UserController::class);
+Route::post('/users/updateUsers/{user}', [UserController::class, 'updateUser']);
+Route::put('/users/{user}/assign', [UserController::class, 'assign'])->name('role.assign');
 
-    Route::apiResource('complaints', ComplaintController::class);
-    Route::apiResource('fees', FeeController::class);
-    // role and permissions route
-    Route::apiResource('roles', RoleController::class);
-    Route::put('/roles/{role}/assign', [RoleController::class, 'assign'])->name('permissions.assign');
-    Route::apiResource('permissions', PermissionController::class);
-    // calculation routes
-    Route::apiResource('supports', SupportController::class);
-    Route::apiResource('assets', AssetController::class);
-    Route::apiResource('expenses', ExpenseController::class);
-    // library routes
-    Route::apiResource('libraries', LibraryController::class);
-    Route::apiResource('books', BookController::class);
-    Route::resource('library-students', LibraryStudentController::class);
-    Route::resource('borrowed-books', BorrowedBookController::class);
+// Route::get('test', [UserController::class, 'test']);
+// student routes
+Route::apiResource('students', StudentController::class);
+Route::delete('/students/{id}', [StudentController::class, 'destroy'])->name('students.destroy');
+Route::post('/students/{student}/restore', [StudentController::class, 'restore'])->name('students.restore');
+Route::delete('/students/{student}/forceDelete', [StudentController::class, 'forceDelete'])->name('students.forceDelete');
+Route::get('/students/trashed/{student}', [StudentController::class, 'trashedStudent'])->name('student.trashed');
+Route::get('/students/trashed', [StudentController::class, 'trashedStudents'])->name('students.trashed'); // Get only deleted students
+Route::get('/students/all', [StudentController::class, 'allStudents'])->name('students.withtrashed'); // Get all students including deleted
+Route::get('/students/test', [StudentController::class, 'test']);
+// all other routes
+
+Route::apiResource('complaints', ComplaintController::class);
+Route::apiResource('fees', FeeController::class);
+// role and permissions route
+Route::apiResource('roles', RoleController::class);
+Route::put('/roles/{role}/assign', [RoleController::class, 'assign'])->name('permissions.assign');
+Route::apiResource('permissions', PermissionController::class);
+// calculation routes
+Route::apiResource('supports', SupportController::class);
+Route::apiResource('assets', AssetController::class);
+Route::apiResource('expenses', ExpenseController::class);
+// library routes
+Route::apiResource('libraries', LibraryController::class);
+Route::apiResource('books', BookController::class);
+Route::resource('library-students', LibraryStudentController::class);
+Route::post('/library-students/{libraryStudent}/restore', [LibraryStudentController::class, 'restore'])->name('library-students.restore');
+Route::delete('/library-students/{libraryStudent}/forceDelete', [LibraryStudentController::class, 'forceDelete'])->name('library-students.forceDelete');
+Route::get('/library-students/trashed/{libraryStudent}', [LibraryStudentController::class, 'trashedStudent'])->name('library-student.trashed');
+Route::get('/library-students/trashed', [LibraryStudentController::class, 'trashedStudents'])->name('library-students.trashed'); // Get only deleted library students
+Route::get('/library-students/all', [LibraryStudentController::class, 'allStudents'])->name('library-students.withtrashed'); // Get all
+
+Route::resource('borrowed-books', BorrowedBookController::class);
 
 
-    Route::get('/profile', [ProfileController::class, 'show']);
-    Route::post('/profile', [ProfileController::class, 'update']);
-    Route::delete('/profile/photo', [ProfileController::class, 'deletePhoto']);
-    Route::put('/profile/password', [ProfileController::class, 'updatePassword']);
+Route::get('/profile', [ProfileController::class, 'show']);
+Route::post('/profile', [ProfileController::class, 'update']);
+Route::delete('/profile/photo', [ProfileController::class, 'deletePhoto']);
+Route::put('/profile/password', [ProfileController::class, 'updatePassword']);
 
-    Route::get('/dashboard-stats', [DashboardController::class, 'stats']);
-    Route::get('/dashboard/second-admin', [DashboardController::class, 'stats']);
-    Route::get('/dashboard/student', [DashboardController::class, 'studentDashboard']);
-    Route::get('/dashboard/library-admin', [DashboardController::class, 'libraryAdminDashboard']);
-    Route::get('/dashboard/library-student', [DashboardController::class, 'libraryStudentDashboard']);
-});
+Route::get('/dashboard-stats', [DashboardController::class, 'stats']);
+Route::get('/dashboard/second-admin', [DashboardController::class, 'stats']);
+Route::get('/dashboard/student', [DashboardController::class, 'studentDashboard']);
+Route::get('/dashboard/library-admin', [DashboardController::class, 'libraryAdminDashboard']);
+Route::get('/dashboard/library-student', [DashboardController::class, 'libraryStudentDashboard']);
+// });
