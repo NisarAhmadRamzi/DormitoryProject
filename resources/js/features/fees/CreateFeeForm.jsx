@@ -46,10 +46,26 @@ const Error = styled.span`
 `
 
 const Select = styled.select`
-  padding: 0.8rem 1.2rem;
   font-size: 1.6rem;
+  padding: 0.8rem 1.2rem;
+  border-radius: var(--border-radius-sm);
   border: 1px solid var(--color-grey-300);
-  border-radius: 5px;
+  width: 100%;
+  box-sizing: border-box;
+
+  color: var(--color-grey-700);
+  background-color: var(--color-grey-0);
+
+  &:focus {
+    border-color: var(--color-brand-600);
+    outline: none;
+    box-shadow: 0 0 0 2px var(--color-blue-100);
+  }
+
+  &:disabled {
+    background-color: var(--color-grey-200);
+    color: var(--color-grey-500);
+  }
 `
 
 function CreateFeeForm({ feeToEdit = {}, onCloseModal }) {
