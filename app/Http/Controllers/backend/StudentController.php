@@ -210,27 +210,21 @@ class StudentController extends Controller
         return response()->json(['message' => "Student {$id} permanently deleted"]);
     }
 
-
-    public function test()
-    {
-        return "hello test from student controller";
-    }
     public function trashedStudents()
     {
-        return 'hi';
-        // $students = Student::onlyTrashed()->get();
+        $students = Student::onlyTrashed()->get();
 
-        // if ($students->isEmpty()) {
-        //     return response()->json([
-        //         'message' => 'No soft-deleted students found',
-        //         'data' => []
-        //     ], 200);
-        // }
+        if ($students->isEmpty()) {
+            return response()->json([
+                'message' => 'No soft-deleted students found',
+                'data' => []
+            ], 200);
+        }
 
-        // return response()->json([
-        //     'message' => 'Trashed students retrieved successfully',
-        //     'data' => $students
-        // ], 200);
+        return response()->json([
+            'message' => 'Trashed students retrieved successfully',
+            'data' => $students
+        ], 200);
     }
 
     // Retrieve All Students (Including Deleted)

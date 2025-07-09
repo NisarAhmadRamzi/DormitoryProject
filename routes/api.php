@@ -69,9 +69,8 @@ Route::delete('/students/{id}', [StudentController::class, 'destroy'])->name('st
 Route::post('/students/{student}/restore', [StudentController::class, 'restore'])->name('students.restore');
 Route::delete('/students/{student}/forceDelete', [StudentController::class, 'forceDelete'])->name('students.forceDelete');
 Route::get('/students/trashed/{student}', [StudentController::class, 'trashedStudent'])->name('student.trashed');
-Route::get('/students/trashed', [StudentController::class, 'trashedStudents'])->name('students.trashed'); // Get only deleted students
-Route::get('/students/all', [StudentController::class, 'allStudents'])->name('students.withtrashed'); // Get all students including deleted
-Route::get('/students/test', [StudentController::class, 'test']);
+Route::post('/students/trashed', [StudentController::class, 'trashedStudents'])->name('students.trashed'); // Get only deleted students
+Route::post('/students/all', [StudentController::class, 'allStudents'])->name('students.withtrashed'); // Get all students including deleted
 // all other routes
 
 Route::apiResource('complaints', ComplaintController::class);

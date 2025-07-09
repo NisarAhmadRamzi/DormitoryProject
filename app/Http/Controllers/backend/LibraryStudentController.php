@@ -11,15 +11,15 @@ use Illuminate\Support\Facades\Log;
 
 class LibraryStudentController extends Controller
 {
-    // public function __construct()
-    // {
-    //     Artisan::call('permission:cache-reset');
-    //     $this->middleware('permission:all library students')->only(['index']);
-    //     $this->middleware('permission:view library student')->only(['show']);
-    //     $this->middleware('permission:create library student')->only(['store']);
-    //     $this->middleware('permission:edit library student')->only(['update']);
-    //     $this->middleware('permission:delete library student')->only(['destroy']);
-    // }
+    public function __construct()
+    {
+        Artisan::call('permission:cache-reset');
+        $this->middleware('permission:all library students')->only(['index']);
+        $this->middleware('permission:view library student')->only(['show']);
+        $this->middleware('permission:create library student')->only(['store']);
+        $this->middleware('permission:edit library student')->only(['update']);
+        $this->middleware('permission:delete library student')->only(['destroy']);
+    }
     // Get all library students
     public function index()
     {
