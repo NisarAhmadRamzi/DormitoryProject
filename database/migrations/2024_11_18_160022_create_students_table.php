@@ -28,8 +28,8 @@ return new class extends Migration
             $table->enum('gender', ['Male', 'Female', 'Other']);
             // $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('room_id')->nullable()->constrained('rooms')->onDelete('set null');
-            $table->softDeletes();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

@@ -29,7 +29,7 @@ class LibraryStudent extends Model
         'registration_date',
         'registration_deadline',
         'gender',
-        'membership_status'
+        'membership_status',
     ];
 
 
@@ -58,22 +58,26 @@ class LibraryStudent extends Model
 
         static::created(function ($libraryStudent) {
             DB::transaction(function () use ($libraryStudent) {
-                $user = new User();
-                $user->name = $libraryStudent->name;
-                $user->email = $libraryStudent->email;
+                // Only create user if not already exists
+                $existingUser = User::where('email', $libraryStudent->email)->first();
+                if (!$existingUser) {
+                    $user = new User();
+                    $user->name = $libraryStudent->name;
+                    $user->email = $libraryStudent->email;
 
-                // ✅ Use the password directly from libraryStudent (already hashed)
-                if (Hash::needsRehash($libraryStudent->password)) {
-                    $user->password = bcrypt($libraryStudent->password);
-                } else {
-                    $user->password = $libraryStudent->password;
+                    if (Hash::needsRehash($libraryStudent->password)) {
+                        $user->password = bcrypt($libraryStudent->password);
+                    } else {
+                        $user->password = $libraryStudent->password;
+                    }
+
+                    $role = Role::where('name', 'library_student')->first();
+                    $user->role = $role ? $role->name : null;
+                    $user->save();
+                    if ($role) {
+                        $user->assignRole($role);
+                    }
                 }
-
-                // Assign role
-                $role = Role::where('name', 'library_student')->first();
-                $user->role = $role->name;
-                $user->save();
-                $user->assignRole($role);
             });
         });
 
