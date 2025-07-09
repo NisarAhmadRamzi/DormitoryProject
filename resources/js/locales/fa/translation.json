@@ -770,7 +770,14 @@
       "warrantyPayRequired": "پرداخت ضمانت الزامی است",
       "warrantyPaidRequired": "پرداخت شده ضمانت الزامی است",
       "registrationDateRequired": "تاریخ ثبت الزامی است",
-      "dueDateRequired": "تاریخ موعد الزامی است"
+      "dueDateRequired": "تاریخ موعد الزامی است",
+      "officePaidTooMuch": "مقدار پرداخت شده اداره باید کمتر یا مساوی پرداخت اداره باشد",
+      "warrantyPaidTooMuch": "مقدار پرداخت شده ضمانت باید کمتر یا مساوی پرداخت ضمانت باشد",
+      "dueDateBeforeRegistration": "تاریخ موعد نمی‌تواند قبل از تاریخ ثبت باشد",
+      "officePayMinZero": "پرداخت اداره نمی‌تواند کمتر از صفر باشد.",
+      "officePaidMinZero": "پرداخت شده اداره نمی‌تواند کمتر از صفر باشد.",
+      "warrantyPayMinZero": "پرداخت ضمانت نمی‌تواند کمتر از صفر باشد.",
+      "warrantyPaidMinZero": "پرداخت شده ضمانت نمی‌تواند کمتر از صفر باشد."
     },
     "buttons": {
       "editFee": "ویرایش فیس",
@@ -1127,5 +1134,12 @@
     "totalCashAfterExpense": "کل پول نقد پس از هزینه",
     "createdAt": "تاریخ ایجاد",
     "updatedAt": "تاریخ به‌روزرسانی"
+  },
+  "selectStudent": "یک محصل را انتخاب کنید",
+  "Fee": {
+    "errors": {
+      "officePaidTooMuch": "مقدار پرداخت‌شده دفتر نباید از مبلغ دفتر بیشتر باشد",
+      "warrantyPaidTooMuch": "مقدار پرداخت‌شده ضمانت نباید از مبلغ ضمانت بیشتر باشد"
+    }
   }
 }

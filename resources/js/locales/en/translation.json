@@ -771,7 +771,14 @@
       "warrantyPayRequired": "Warranty pay is required",
       "warrantyPaidRequired": "Warranty paid is required",
       "registrationDateRequired": "Registration date is required",
-      "dueDateRequired": "Due date is required"
+      "dueDateRequired": "Due date is required",
+      "officePaidTooMuch": "Office paid amount must be less than or equal to office pay",
+      "warrantyPaidTooMuch": "Warranty paid amount must be less than or equal to warranty pay",
+      "dueDateBeforeRegistration": "Due Date cannot be before Registration Date",
+      "officePayMinZero": "Office pay cannot be less than zero.",
+      "officePaidMinZero": "Office paid cannot be less than zero.",
+      "warrantyPayMinZero": "Warranty pay cannot be less than zero.",
+      "warrantyPaidMinZero": "Warranty paid cannot be less than zero."
     },
     "buttons": {
       "editFee": "Edit Fee",
@@ -1127,5 +1134,6 @@
     "totalCashAfterExpense": "Total Cash After Expense",
     "createdAt": "Created At",
     "updatedAt": "Updated At"
-  }
+  },
+  "selectStudent": "Select a student"
 }
