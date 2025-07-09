@@ -835,6 +835,7 @@
     "error": "Something went wrong",
     "requiredType": "Type is required",
     "requiredExpenseCash": "Expense cash is required",
+    "minExpenseCash": "The expense cash cannot be less than 0.",
     "requiredGoodsQuantity": "Goods quantity is required",
     "requiredDescription": "Description is required",
     "requiredExpenseDate": "Expense date is required"

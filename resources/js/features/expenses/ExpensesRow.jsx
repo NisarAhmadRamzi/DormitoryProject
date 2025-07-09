@@ -13,7 +13,7 @@ import ExpensesDetails from './ExpensesDetails'
 const TableRow = styled.div`
   display: grid;
   grid-template-columns: 0.6fr 2fr 2fr 2fr 2fr 0.5fr;
-  column-gap: 0.5rem;
+  column-gap: 2.4rem;
   align-items: center;
   padding: 1.6rem 2.4rem;
   position: relative;
@@ -36,6 +36,7 @@ const Cell = styled.div`
   font-size: 1.4rem;
   color: var(--color-grey-700);
   padding: 0.5rem 0;
+  text-align: ${({ align }) => align || 'left'};
 `
 
 const DropdownWrapper = styled.div`
@@ -149,11 +150,9 @@ function ExpenseRow({ expense }) {
   return (
     <TableRow role="row">
       <Cell>{expense.type}</Cell>
-      <Cell>{expense.expense_cash}</Cell>
+      <Cell align="center">{expense.expense_cash}</Cell>
       <Cell>{expense.description || '—'}</Cell>
       <Cell>{expense.expense_date}</Cell>
-      <Cell>{expense.goods_quantity ?? '—'}</Cell>
-
       <DropdownWrapper ref={dropdownRef}>
         <IconButton onClick={toggleDropdown}>
           <HiEllipsisVertical />
@@ -191,7 +190,7 @@ function ExpenseRow({ expense }) {
       <Modal.Window name={`delete-${expense.id}`}>
         <ConfirmDelete
           onConfirm={handleDeleteConfirm}
-          resourceName={t('resource.expense')} 
+          resourceName={t('resource.expense')}
           itemLabel={expense.name}
         />
       </Modal.Window>

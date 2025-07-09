@@ -838,6 +838,7 @@
     "error": "یو څه غلط شول",
     "requiredType": "ډول اړین دی",
     "requiredExpenseCash": "د نغدو مصرف اړین دی",
+    "minExpenseCash": "د لګښت نغدي ارزښت باید له صفر څخه کم نه وي.",
     "requiredGoodsQuantity": "د توکو مقدار اړین دی",
     "requiredDescription": "تفصیل اړین دی",
     "requiredExpenseDate": "د مصرف نېټه اړینه ده"

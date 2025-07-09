@@ -834,6 +834,7 @@
     "error": "مشکلی پیش آمد",
     "requiredType": "نوع ضروری است",
     "requiredExpenseCash": "مصرف نقدی ضروری است",
+    "minExpenseCash": "مقدار نقدی مصارف نمی‌تواند کمتر از صفر باشد.",
     "requiredGoodsQuantity": "مقدار اجناس ضروری است",
     "requiredDescription": "توضیحات ضروری است",
     "requiredExpenseDate": "تاریخ مصرف ضروری است"
