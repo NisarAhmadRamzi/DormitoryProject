@@ -115,7 +115,7 @@ function CreateExpensesForm({ expenseToEdit = {}, onCloseModal }) {
           {...register('type', { required: t('ExpensesForm.requiredType') })}
         >
           <option value="cash">{t('ExpensesForm.cash')}</option>
-          <option value="goods">{t('ExpensesForm.goods')}</option>
+          {/* <option value="goods">{t('ExpensesForm.goods')}</option> */}
         </Select>
         {errors?.type && <Error>{errors.type.message}</Error>}
       </FormRow>
@@ -131,7 +131,7 @@ function CreateExpensesForm({ expenseToEdit = {}, onCloseModal }) {
         />
         {errors?.expense_cash && <Error>{errors.expense_cash.message}</Error>}
       </FormRow>
-
+      {/* 
       <FormRow>
         <Label htmlFor="goods_quantity">
           {t('ExpensesForm.goodsQuantity')}
@@ -146,7 +146,7 @@ function CreateExpensesForm({ expenseToEdit = {}, onCloseModal }) {
         {errors?.goods_quantity && (
           <Error>{errors.goods_quantity.message}</Error>
         )}
-      </FormRow>
+      </FormRow> */}
 
       <FormRow>
         <Label htmlFor="description">{t('ExpensesForm.description')}</Label>
