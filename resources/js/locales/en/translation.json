@@ -1173,5 +1173,28 @@
     "staff": "Staff",
     "login": "Login",
     "contact": "Contact"
+  },
+  "hero": {
+    "title": "Welcome to Our Library",
+    "subtitle": "Explore thousands of books and resources",
+    "cta": "Get Started"
+  },
+  "about": {
+    "title": "About our dormitory",
+    "items": {
+      "wifi": {
+        "title": "High-Speed Wi-Fi",
+        "text": "Reliable internet throughout the dormitory for all residents."
+      },
+      "meal": {
+        "title": "Meal Services",
+        "text": "Nutritious daily meals prepared with student health in mind."
+      },
+      "rooms": {
+        "title": "Comfortable Rooms",
+        "text": "Furnished rooms with essential amenities for studying and resting."
+      }
+    },
+    "imageAlt": "About Dormitory"
   }
 }
