@@ -36,9 +36,9 @@ class LibraryController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|string|max:255',
-            'location' => 'required|string',
-            'contact_info' => 'nullable|string',
+            'name' => 'required|string|max:255|regex:/[a-zA-Z]/',
+            'location' => 'required|string|regex:/[a-zA-Z]/',
+            'contact_info' => 'nullable|string|regex:/[a-zA-Z]/',
         ]);
 
         $library = Library::create($request->all());
@@ -49,9 +49,9 @@ class LibraryController extends Controller
     public function update(Request $request, Library $library)
     {
         $request->validate([
-            'name' => 'required|string|max:255',
-            'location' => 'required|string',
-            'contact_info' => 'nullable|string',
+            'name' => 'required|string|max:255|regex:/[a-zA-Z]/',
+            'location' => 'required|string|regex:/[a-zA-Z]/',
+            'contact_info' => 'nullable|string|regex:/[a-zA-Z]/',
         ]);
 
         $library->update($request->all());
