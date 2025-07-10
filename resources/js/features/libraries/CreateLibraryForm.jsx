@@ -96,6 +96,10 @@ function CreateLibraryForm({ libraryToEdit = {}, onCloseModal }) {
               value: 255,
               message: t('libraryForm.validation.nameMax'),
             },
+            pattern: {
+              value: /[a-zA-Z]/,
+              message: t('libraryForm.validation.namePattern'),
+            },
           })}
         />
         {errors.name && <Error>{errors.name.message}</Error>}
@@ -107,6 +111,10 @@ function CreateLibraryForm({ libraryToEdit = {}, onCloseModal }) {
           id="location"
           {...register('location', {
             required: t('libraryForm.validation.locationRequired'),
+            pattern: {
+              value: /[a-zA-Z]/,
+              message: t('libraryForm.validation.locationPattern'),
+            },
           })}
         />
         {errors.location && <Error>{errors.location.message}</Error>}
@@ -114,7 +122,15 @@ function CreateLibraryForm({ libraryToEdit = {}, onCloseModal }) {
 
       <FormRow>
         <Label htmlFor="contact_info">{t('libraryForm.fields.contact')}</Label>
-        <Input id="contact_info" {...register('contact_info')} />
+        <Input
+          id="contact_info"
+          {...register('contact_info', {
+            pattern: {
+              value: /[a-zA-Z]/,
+              message: t('libraryForm.validation.contactPattern'),
+            },
+          })}
+        />
         {errors.contact_info && <Error>{errors.contact_info.message}</Error>}
       </FormRow>
 

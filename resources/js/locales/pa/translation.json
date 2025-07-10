@@ -402,22 +402,25 @@
   "libraryForm": {
     "fields": {
       "name": "د کتابتون نوم",
-      "location": "موقعیت",
-      "contact": "د تماس معلومات"
+      "location": "ځای",
+      "contact": "ایمیل آدرس"
     },
     "validation": {
       "nameRequired": "د کتابتون نوم اړین دی",
-      "nameMax": "نوم باید د ۲۵۵ توري لاندې وي",
-      "locationRequired": "موقعیت اړین دی"
+      "nameMax": "نوم باید له ۲۵۵ تورو څخه زیات نه وي",
+      "namePattern": "د کتابتون نوم باید توري ولري",
+      "locationRequired": "ځای اړین دی",
+      "locationPattern": "ځای باید توري ولري",
+      "contactPattern": "د اړیکې معلومات باید توري ولري"
     },
     "buttons": {
-      "create": "نوې کتابتون جوړول",
-      "edit": "تغییرات خوندي کړئ"
+      "create": "نوی کتابتون جوړ کړئ",
+      "edit": "بدلونونه ثبت کړئ"
     },
     "cancel": "لغوه کول",
-    "createSuccess": "نوی کتابتون \"{{name}}\" په بریالیتوب سره جوړ شو",
-    "editSuccess": "د کتابتون \"{{name}}\" بدلونونه په بریالیتوب سره خوندي شول",
-    "error": "یو څه غلط شول"
+    "createSuccess": "نوی کتابتون \"{{name}}\" بریالی جوړ شو",
+    "editSuccess": "کتابتون \"{{name}}\" بریالی تازه شو",
+    "error": "یوه ستونزه رامنځته شوه"
   },
   "libraryRow": {
     "view": "کتنه",

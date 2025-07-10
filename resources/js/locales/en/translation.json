@@ -399,12 +399,15 @@
     "fields": {
       "name": "Library Name",
       "location": "Location",
-      "contact": "Contact Info"
+      "contact": "Email address"
     },
     "validation": {
       "nameRequired": "Library name is required",
       "nameMax": "Name must be under 255 characters",
-      "locationRequired": "Location is required"
+      "namePattern": "Library name must contain alphabetic characters",
+      "locationRequired": "Location is required",
+      "locationPattern": "Location must contain alphabetic characters",
+      "contactPattern": "Contact info must contain alphabetic characters"
     },
     "buttons": {
       "create": "Create New Library",
