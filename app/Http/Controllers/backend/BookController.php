@@ -38,8 +38,8 @@ class BookController extends Controller
     {
         $request->validate([
             'library_id' => 'required|exists:libraries,id',
-            'title' => 'required|string|max:255',
-            'author' => 'required|string|max:255',
+            'title' => 'required|string|max:255|regex:/[a-zA-Z]/',
+            'author' => 'required|string|max:255|regex:/[a-zA-Z]/',
             'publication_year' => 'required|date_format:Y',
             'status' => 'required|in:Available,Borrowed',
             'books_total_count' => 'required|integer|min:1',
@@ -54,8 +54,8 @@ class BookController extends Controller
     {
         $request->validate([
             'library_id' => 'required|exists:libraries,id',
-            'title' => 'required|string|max:255',
-            'author' => 'required|string|max:255',
+            'title' => 'required|string|max:255|regex:/[a-zA-Z]/',
+            'author' => 'required|string|max:255|regex:/[a-zA-Z]/',
             'publication_year' => 'required|date_format:Y',
             'status' => 'required|in:Available,Borrowed',
             'books_total_count' => 'required|integer|min:1',
