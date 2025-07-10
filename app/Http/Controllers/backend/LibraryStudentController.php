@@ -48,7 +48,6 @@ class LibraryStudentController extends Controller
             'registration_date' => 'required|date',
             'registration_deadline' => 'required|date',
             'gender' => 'required|in:Male,Female,Other',
-            // 'membership_status' => 'required|in:Active,Expired',
         ]);
 
         $data = $request->all();

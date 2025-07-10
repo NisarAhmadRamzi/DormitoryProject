@@ -10,9 +10,9 @@ class CreateRoomsTable extends Migration
     {
         Schema::create('rooms', function (Blueprint $table) {
             $table->id();
-            $table->string('room_number', 10);
+            $table->integer('room_number')->unique(); // Room number as an integer
             $table->enum('type', ['4 people', '6 people', '8 people']);
-            $table->integer('capacity');
+            $table->integer('capacity'); // Capacity as an integer
             $table->integer('current_occupancy')->default(0);
             $table->decimal('price', 10, 2); // Room price per month
             $table->enum('status', ['Available', 'Occupied'])->default('Available');
