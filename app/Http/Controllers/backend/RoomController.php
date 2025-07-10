@@ -34,11 +34,11 @@ class RoomController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'room_number' => 'required|string|max:10|unique:rooms,room_number',
+            'room_number' => 'required|integer|unique:rooms,room_number',
             'type' => 'required|in:4 people,6 people,8 people',
-            'capacity' => 'required|integer',
+            'capacity' => 'required|in:4,6,8', // Changed to 'in' validation for consistency
             'current_occupancy' => 'nullable|integer',
-            'price' => 'required|numeric|min:0',
+            'price' => 'required|integer|min:0',
             'status' => 'required|in:Available,Occupied',
             'floor' => 'required|in:Third Floor,Fourth Floor',
         ]);
@@ -61,11 +61,11 @@ class RoomController extends Controller
     public function update(Request $request, Room $room)
     {
         $validated = $request->validate([
-            'room_number' => 'required|string|max:10|unique:rooms,room_number,' . $room->id,
+            'room_number' => 'required|integer|unique:rooms,room_number',
             'type' => 'required|in:4 people,6 people,8 people',
-            'capacity' => 'required|integer',
+            'capacity' => 'required|in:4,6,8',
             'current_occupancy' => 'nullable|integer',
-            'price' => 'sometimes|numeric|min:0', // Optional
+            'price' => 'required|integer|min:0', // Optional
             'status' => 'required|in:Available,Occupied',
             'floor' => 'required|in:Third Floor,Fourth Floor',
         ]);
