@@ -143,132 +143,132 @@ class RoomSeeder extends Seeder
             ],
 
 
-            // [
-            //     'room_number' => '401',
-            //     'type' => '4 people',
-            //     'capacity' => 4,
-            //     'current_occupancy' => 0,
-            //     'price' => 3500,
-            //     'status' => 'Available',
-            //     'floor' => 'Forth Floor'
-            // ],
-            // [
-            //     'room_number' => '402',
-            //     'type' => '4 people',
-            //     'capacity' => 4,
-            //     'current_occupancy' => 0,
-            //     'price' => 3500,
-            //     'status' => 'Available',
-            //     'floor' => 'Forth Floor'
-            // ],
-            // [
-            //     'room_number' => '403',
-            //     'type' => '4 people',
-            //     'capacity' => 4,
-            //     'current_occupancy' => 0,
-            //     'price' => 3500,
-            //     'status' => 'Available',
-            //     'floor' => 'Forth Floor'
-            // ],
-            // [
-            //     'room_number' => '404',
-            //     'type' => '4 people',
-            //     'capacity' => 4,
-            //     'current_occupancy' => 0,
-            //     'price' => 3500,
-            //     'status' => 'Available',
-            //     'floor' => 'Forth Floor'
-            // ],
-            // [
-            //     'room_number' => '405',
-            //     'type' => '6 people',
-            //     'capacity' => 6,
-            //     'current_occupancy' => 0,
-            //     'price' => 3400,
-            //     'status' => 'Available',
-            //     'floor' => 'Forth Floor'
-            // ],
-            // [
-            //     'room_number' => '406',
-            //     'type' => '6 people',
-            //     'capacity' => 6,
-            //     'current_occupancy' => 0,
-            //     'price' => 3400,
-            //     'status' => 'Available',
-            //     'floor' => 'Forth Floor'
-            // ],
-            // [
-            //     'room_number' => '407',
-            //     'type' => '6 people',
-            //     'capacity' => 6,
-            //     'current_occupancy' => 0,
-            //     'price' => 3400,
-            //     'status' => 'Available',
-            //     'floor' => 'Forth Floor'
-            // ],
-            // [
-            //     'room_number' => '408',
-            //     'type' => '6 people',
-            //     'capacity' => 6,
-            //     'current_occupancy' => 0,
-            //     'price' => 3400,
-            //     'status' => 'Available',
-            //     'floor' => 'Forth Floor'
-            // ],
-            // [
-            //     'room_number' => '409',
-            //     'type' => '8 people',
-            //     'capacity' => 8,
-            //     'current_occupancy' => 0,
-            //     'price' => 3200,
-            //     'status' => 'Available',
-            //     'floor' => 'Forth Floor'
-            // ],
-            // [
-            //     'room_number' => '410',
-            //     'type' => '8 people',
-            //     'capacity' => 8,
-            //     'current_occupancy' => 0,
-            //     'price' => 3200,
-            //     'status' => 'Available',
-            //     'floor' => 'Forth Floor'
-            // ],
-            // [
-            //     'room_number' => '411',
-            //     'type' => '8 people',
-            //     'capacity' => 8,
-            //     'current_occupancy' => 0,
-            //     'price' => 3200,
-            //     'status' => 'Available',
-            //     'floor' => 'Forth Floor'
-            // ],
-            // [
-            //     'room_number' => '412',
-            //     'type' => '8 people',
-            //     'capacity' => 8,
-            //     'current_occupancy' => 0,
-            //     'price' => 3200,
-            //     'status' => 'Available',
-            //     'floor' => 'Forth Floor'
-            // ],
-            // [
-            //     'room_number' => '413',
-            //     'type' => '8 people',
-            //     'capacity' => 8,
-            //     'current_occupancy' => 0,
-            //     'price' => 3200,
-            //     'status' => 'Available',
-            //     'floor' => 'Forth Floor'
-            // ],
-            // [
-            //     'room_number' => '414',
-            //     'type' => '8 people',
-            //     'capacity' => 8,
-            //     'current_occupancy' => 0,
-            //     'price' => 3200,
-            //     'status' => 'Available',
-            //     'floor' => 'Forth Floor'
-            // ],
+            [
+                'room_number' => '401',
+                'type' => '4 people',
+                'capacity' => 4,
+                'current_occupancy' => 0,
+                'price' => 3500,
+                'status' => 'Available',
+                'floor' => 'Fourth Floor'
+            ],
+            [
+                'room_number' => '402',
+                'type' => '4 people',
+                'capacity' => 4,
+                'current_occupancy' => 0,
+                'price' => 3500,
+                'status' => 'Available',
+                'floor' => 'Fourth Floor'
+            ],
+            [
+                'room_number' => '403',
+                'type' => '4 people',
+                'capacity' => 4,
+                'current_occupancy' => 0,
+                'price' => 3500,
+                'status' => 'Available',
+                'floor' => 'Fourth Floor'
+            ],
+            [
+                'room_number' => '404',
+                'type' => '4 people',
+                'capacity' => 4,
+                'current_occupancy' => 0,
+                'price' => 3500,
+                'status' => 'Available',
+                'floor' => 'Fourth Floor'
+            ],
+            [
+                'room_number' => '405',
+                'type' => '6 people',
+                'capacity' => 6,
+                'current_occupancy' => 0,
+                'price' => 3400,
+                'status' => 'Available',
+                'floor' => 'Fourth Floor'
+            ],
+            [
+                'room_number' => '406',
+                'type' => '6 people',
+                'capacity' => 6,
+                'current_occupancy' => 0,
+                'price' => 3400,
+                'status' => 'Available',
+                'floor' => 'Fourth Floor'
+            ],
+            [
+                'room_number' => '407',
+                'type' => '6 people',
+                'capacity' => 6,
+                'current_occupancy' => 0,
+                'price' => 3400,
+                'status' => 'Available',
+                'floor' => 'Fourth Floor'
+            ],
+            [
+                'room_number' => '408',
+                'type' => '6 people',
+                'capacity' => 6,
+                'current_occupancy' => 0,
+                'price' => 3400,
+                'status' => 'Available',
+                'floor' => 'Fourth Floor'
+            ],
+            [
+                'room_number' => '409',
+                'type' => '8 people',
+                'capacity' => 8,
+                'current_occupancy' => 0,
+                'price' => 3200,
+                'status' => 'Available',
+                'floor' => 'Fourth Floor'
+            ],
+            [
+                'room_number' => '410',
+                'type' => '8 people',
+                'capacity' => 8,
+                'current_occupancy' => 0,
+                'price' => 3200,
+                'status' => 'Available',
+                'floor' => 'Fourth Floor'
+            ],
+            [
+                'room_number' => '411',
+                'type' => '8 people',
+                'capacity' => 8,
+                'current_occupancy' => 0,
+                'price' => 3200,
+                'status' => 'Available',
+                'floor' => 'Fourth Floor'
+            ],
+            [
+                'room_number' => '412',
+                'type' => '8 people',
+                'capacity' => 8,
+                'current_occupancy' => 0,
+                'price' => 3200,
+                'status' => 'Available',
+                'floor' => 'Fourth Floor'
+            ],
+            [
+                'room_number' => '413',
+                'type' => '8 people',
+                'capacity' => 8,
+                'current_occupancy' => 0,
+                'price' => 3200,
+                'status' => 'Available',
+                'floor' => 'Fourth Floor'
+            ],
+            [
+                'room_number' => '414',
+                'type' => '8 people',
+                'capacity' => 8,
+                'current_occupancy' => 0,
+                'price' => 3200,
+                'status' => 'Available',
+                'floor' => 'Fourth Floor'
+            ]
         ];
 
         foreach ($rooms as $room) {
