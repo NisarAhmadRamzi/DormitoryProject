@@ -24,9 +24,7 @@ class StudentController extends Controller
         $this->middleware('permission:delete student')->only(['destroy', 'forceDelete']);
         $this->middleware('permission:restore student')->only(['restore']);
     }
-    /**
-     * Display a listing of the resource.
-     */
+
     public function index()
     {
         // Fetch all students and return them as a resource collection
@@ -46,8 +44,8 @@ class StudentController extends Controller
             'from' => ['required', 'string', 'max:255'],
             'dob' => ['required', 'date', 'before:today'],
             'id_number' => ['required', 'integer', 'digits_between:1,20'],
-            'academic_info' => ['nullable', 'string'],
-            'phone' => ['required', 'string', 'regex:/^[0-9]{10,15}$/'],
+            'academic_info' => ['required', 'in:School_Student,University_Student,Kankor_Student,Course_Student'],
+            'phone' => ['required', 'numeric', 'digits_between:10,15', 'unique:students'],
             'registration_date' => ['required', 'date'],
             'registration_deadline' => ['required', 'date', 'after_or_equal:registration_date'],
             'gender' => ['required', 'in:Male,Female,Other'],
@@ -111,8 +109,8 @@ class StudentController extends Controller
             'from' => ['required', 'string', 'max:255'],
             'dob' => ['required', 'date', 'before:today'],
             'id_number' => ['required', 'integer', 'digits_between:1,20'],
-            'academic_info' => ['nullable', 'string'],
-            'phone' => ['required', 'string', 'regex:/^[0-9]{10,15}$/'],
+            'academic_info' => ['nullable', 'in:School_Student,University_Student,Kankor_Student,Course_Student'],
+            'phone' => ['required', 'numeric', 'digits_between:10,15', 'unique:students'],
             'registration_date' => ['required', 'date'],
             'registration_deadline' => ['required', 'date', 'after_or_equal:registration_date'],
             'gender' => ['required', 'in:Male,Female,Other'],
