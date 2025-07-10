@@ -19,9 +19,9 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->string('address');
-            $table->string('id_number')->nullable();
-            $table->text('academic_info')->nullable();
-            $table->string('phone');
+            $table->integer('id_number')->unique(); // ID number must be unique
+            $table->enum('academic_info', ['School_Student', 'University_Student', 'Kankor_Student', 'Course_Student', 'Others']);
+            $table->unsignedBigInteger('phone'); // Phone number must be unique
             $table->date('registration_date');
             $table->date('registration_deadline');
             $table->enum('gender', ['Male', 'Female', 'Other']);
