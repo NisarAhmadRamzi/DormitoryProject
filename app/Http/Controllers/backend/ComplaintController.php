@@ -36,8 +36,8 @@ class ComplaintController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'required|string|max:1000',
+            'title' => ['required', 'string', 'max:255', 'regex:/[a-zA-Z]/'],
+            'description' => ['required', 'string', 'max:1000', 'regex:/[a-zA-Z]/'],
         ]);
 
         // This example hardcodes student ID for demonstration; replace with auth logic as needed
@@ -68,8 +68,8 @@ class ComplaintController extends Controller
     public function update(Request $request, Complaint $complaint)
     {
         $validated = $request->validate([
-            'title' => 'sometimes|required|string|max:255',
-            'description' => 'sometimes|required|string|max:1000',
+            'title' => 'required|string|max:255|regex:/[a-zA-Z]/',
+            'description' => 'required|string|max:1000|regex:/[a-zA-Z]/',
             'status' => 'required|string|in:Pending,In Progress,Resolved',
             'resolved_at' => 'nullable|date',
         ]);
