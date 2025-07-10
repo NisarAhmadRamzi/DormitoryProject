@@ -150,7 +150,7 @@
     "lastName": "Last Name",
     "email": "Email",
     "password": "Password",
-    "origin": "From",
+    "origin": "Address",
     "dob": "Date of Birth",
     "idNumber": "ID Number",
     "academicInfo": "Academic Info",
@@ -176,11 +176,18 @@
       "password": "Password is required",
       "origin": "Origin is required",
       "dob": "Date of birth is required",
+      "dobFuture": "Date of birth cannot be in the future",
       "idNumber": "ID number is required",
       "registrationDate": "Registration date is required",
       "registrationDeadline": "Registration deadline is required",
+      "deadlineBeforeRegDate": "Registration deadline must be after registration date",
       "phone": "Phone is required",
-      "gender": "Gender is required"
+      "gender": "Gender is required",
+      "errors": {
+        "academic_info": "Please select a valid academic information.",
+        "selectOption": "Please select an option.",
+        "deadlineBeforeRegDate": "Registration deadline must be after or equal to registration date."
+      }
     }
   },
   "studentDetails": {

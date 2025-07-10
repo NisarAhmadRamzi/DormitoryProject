@@ -1,13 +1,10 @@
-
-
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { useTranslation } from 'react-i18next'
-import { createStudent, editStudent } from '../../services/apiStudents'
-
 import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
+import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
+import { createStudent, editStudent } from '../../services/apiStudents'
 import Button from '../../ui/Button'
 import Form from '../../ui/Form'
 import Input from '../../ui/Input'
@@ -59,6 +56,7 @@ function CreateStudentForm({ studentToEdit = {}, onCloseModal }) {
     register,
     handleSubmit,
     reset,
+    watch,
     formState: { errors },
   } = useForm({
     defaultValues: isEditSession
@@ -98,7 +96,16 @@ function CreateStudentForm({ studentToEdit = {}, onCloseModal }) {
       onCloseModal?.()
       reset()
     },
-    onError: (err) => toast.error(err.message || t('studentForm.error')),
+    onError: (err) => {
+      const errorData = err?.response?.data?.errors
+      if (errorData) {
+        Object.entries(errorData).forEach(([field, messages]) => {
+          toast.error(`${field}: ${messages[0]}`)
+        })
+      } else {
+        toast.error(err.message || t('studentForm.error'))
+      }
+    },
   })
 
   const onSubmit = (data) => {
@@ -116,6 +123,7 @@ function CreateStudentForm({ studentToEdit = {}, onCloseModal }) {
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
       <FormGrid>
+        {/* Name */}
         <FormRow>
           <Label htmlFor="name">{t('studentForm.name')}</Label>
           <Input
@@ -125,6 +133,7 @@ function CreateStudentForm({ studentToEdit = {}, onCloseModal }) {
           {errors.name && <Error>{errors.name.message}</Error>}
         </FormRow>
 
+        {/* Father Name */}
         <FormRow>
           <Label htmlFor="f_name">{t('studentForm.fatherName')}</Label>
           <Input
@@ -136,6 +145,7 @@ function CreateStudentForm({ studentToEdit = {}, onCloseModal }) {
           {errors.f_name && <Error>{errors.f_name.message}</Error>}
         </FormRow>
 
+        {/* Last Name */}
         <FormRow>
           <Label htmlFor="last_name">{t('studentForm.lastName')}</Label>
           <Input
@@ -147,16 +157,20 @@ function CreateStudentForm({ studentToEdit = {}, onCloseModal }) {
           {errors.last_name && <Error>{errors.last_name.message}</Error>}
         </FormRow>
 
+        {/* Email */}
         <FormRow>
           <Label htmlFor="email">{t('studentForm.email')}</Label>
           <Input
             id="email"
             type="email"
-            {...register('email', { required: t('studentForm.errors.email') })}
+            {...register('email', {
+              required: t('studentForm.errors.email'),
+            })}
           />
           {errors.email && <Error>{errors.email.message}</Error>}
         </FormRow>
 
+        {/* Password */}
         {!isEditSession && (
           <FormRow>
             <Label htmlFor="password">{t('studentForm.password')}</Label>
@@ -171,6 +185,7 @@ function CreateStudentForm({ studentToEdit = {}, onCloseModal }) {
           </FormRow>
         )}
 
+        {/* From */}
         <FormRow>
           <Label htmlFor="from">{t('studentForm.origin')}</Label>
           <Input
@@ -180,33 +195,72 @@ function CreateStudentForm({ studentToEdit = {}, onCloseModal }) {
           {errors.from && <Error>{errors.from.message}</Error>}
         </FormRow>
 
+        {/* DOB */}
         <FormRow>
           <Label htmlFor="dob">{t('studentForm.dob')}</Label>
           <Input
             id="dob"
             type="date"
-            {...register('dob', { required: t('studentForm.errors.dob') })}
+            {...register('dob', {
+              required: t('studentForm.errors.dob'),
+              validate: (value) => {
+                const selectedDate = new Date(value)
+                const today = new Date()
+                return selectedDate <= today
+                  ? true
+                  : t('studentForm.errors.dobFuture')
+              },
+            })}
           />
           {errors.dob && <Error>{errors.dob.message}</Error>}
         </FormRow>
 
+        {/* ID Number */}
         <FormRow>
           <Label htmlFor="id_number">{t('studentForm.idNumber')}</Label>
           <Input
             id="id_number"
-            type="number"
+            type="text"
             {...register('id_number', {
               required: t('studentForm.errors.idNumber'),
+              pattern: {
+                value: /^\d+$/,
+                message: t('studentForm.errors.idNumberInvalid'),
+              },
+              minLength: {
+                value: 1,
+                message: t('studentForm.errors.idNumberLength'),
+              },
+              maxLength: {
+                value: 20,
+                message: t('studentForm.errors.idNumberLength'),
+              },
             })}
           />
           {errors.id_number && <Error>{errors.id_number.message}</Error>}
         </FormRow>
 
+        {/* Academic Info */}
         <FormRow>
           <Label htmlFor="academic_info">{t('studentForm.academicInfo')}</Label>
-          <Input id="academic_info" {...register('academic_info')} />
+          <SelectInput
+            id="academic_info"
+            {...register('academic_info', {
+              required: t('studentForm.errors.academic_info'),
+            })}
+          >
+            <option value="">{t('studentForm.errors.selectOption')}</option>
+            <option value="School_Student">School_Student</option>
+            <option value="University_Student">University_Student</option>
+            <option value="Kankor_Student">Kankor_Student</option>
+            <option value="Course_Student">Course_Student</option>
+          </SelectInput>
+          {errors.academic_info && (
+            <Error>{errors.academic_info.message}</Error>
+          )}
         </FormRow>
 
+        {/* Registration Date */}
         <FormRow>
           <Label htmlFor="registration_date">
             {t('studentForm.registrationDate')}
@@ -222,16 +276,29 @@ function CreateStudentForm({ studentToEdit = {}, onCloseModal }) {
             <Error>{errors.registration_date.message}</Error>
           )}
         </FormRow>
-
         <FormRow>
           <Label htmlFor="phone">{t('studentForm.phone')}</Label>
           <Input
+            type="text"
             id="phone"
-            {...register('phone', { required: t('studentForm.errors.phone') })}
+            placeholder="+93xxxxxxxxx"
+            defaultValue="+93" // <-- This pre-fills the input with "+93"
+            {...register('phone', {
+              required: t('studentForm.errors.phone'),
+              pattern: {
+                value: /^\+93\d{9}$/,
+                message: t('studentForm.errors.phoneLength'),
+              },
+              maxLength: {
+                value: 13,
+                message: t('studentForm.errors.phoneLength'),
+              },
+            })}
           />
-          {errors.phone && <Error>{errors.phone.message}</Error>}
+          {errors?.phone && <Error>{errors.phone.message}</Error>}
         </FormRow>
 
+        {/* Registration Deadline */}
         <FormRow>
           <Label htmlFor="registration_deadline">
             {t('studentForm.registrationDeadline')}
@@ -241,6 +308,13 @@ function CreateStudentForm({ studentToEdit = {}, onCloseModal }) {
             type="date"
             {...register('registration_deadline', {
               required: t('studentForm.errors.registrationDeadline'),
+              validate: (value) => {
+                const deadline = new Date(value)
+                const regDate = new Date(watch('registration_date'))
+                return deadline >= regDate
+                  ? true
+                  : t('studentForm.errors.deadlineBeforeRegDate')
+              },
             })}
           />
           {errors.registration_deadline && (
@@ -248,6 +322,7 @@ function CreateStudentForm({ studentToEdit = {}, onCloseModal }) {
           )}
         </FormRow>
 
+        {/* Gender */}
         <FormRow>
           <Label htmlFor="gender">{t('studentForm.gender')}</Label>
           <SelectInput
