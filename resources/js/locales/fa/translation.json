@@ -301,6 +301,7 @@
     "errorLoading": "خطا در بارگذاری اتاق‌ها."
   },
   "roomForm": {
+    "selectRoomNumber": "شماره اتاق را انتخاب کنید",
     "roomNumber": "شماره اتاق",
     "roomNumberMin": "شماره اتاق باید حداقل ۳۰۱ باشد",
     "roomNumberMax": "شماره اتاق نمی‌تواند بیشتر از ۳۱۰ باشد",

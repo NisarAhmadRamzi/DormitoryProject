@@ -301,6 +301,7 @@
     "errorLoading": "د خونو د پورته کولو تېروتنه."
   },
   "roomForm": {
+    "selectRoomNumber": "د خونې شمېره وټاکئ",
     "roomNumber": "د خونې شمېره",
     "roomNumberMin": "د خونې شمېره باید لږ تر لږه ۳۰۱ وي",
     "roomNumberMax": "د خونې شمېره نشي کولی له ۳۱۰ زیاته وي",

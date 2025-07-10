@@ -301,6 +301,7 @@
     "errorLoading": "Error loading rooms."
   },
   "roomForm": {
+    "selectRoomNumber": "Choose room number",
     "roomNumber": "Room Number",
     "roomNumberMin": "Room Number should be at least 301",
     "roomNumberMax": "Room Number cannot be more than 310",

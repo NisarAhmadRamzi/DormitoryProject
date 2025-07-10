@@ -1,9 +1,10 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
-import { createRoom, editRoom } from '../../services/apiCabins'
+import { createRoom, editRoom, getCabins } from '../../services/apiCabins'
 import Button from '../../ui/Button'
 import Form from '../../ui/Form'
 import Input from '../../ui/Input'
@@ -17,11 +18,9 @@ const StyledSelect = styled.select`
   outline: none;
   background-color: var(--color-grey-0);
   color: var(--color-grey-700);
-
   &:focus {
     border-color: var(--color-primary);
   }
-
   @media (prefers-color-scheme: dark) {
     background-color: var(--color-grey-800);
     color: var(--color-grey-300);
@@ -35,19 +34,9 @@ const FormRow = styled.div`
   grid-template-columns: 24rem 1fr 1.2fr;
   gap: 2.4rem;
   padding: 1.2rem 0;
-
-  &:first-child {
-    padding-top: 0;
-  }
-
-  &:last-child {
-    padding-bottom: 0;
-  }
-
   &:not(:last-child) {
     border-bottom: 1px solid var(--color-grey-100);
   }
-
   &:has(button) {
     display: flex;
     justify-content: flex-end;
@@ -66,20 +55,30 @@ const Error = styled.span`
 
 function CreateRoomForm({ roomToEdit = {}, onCloseModal }) {
   const { t } = useTranslation()
-  const { id, editId, ...editValues } = roomToEdit
+  const { id: editId, ...editValues } = roomToEdit
   const isEditSession = Boolean(roomToEdit.id)
+
+  const queryClient = useQueryClient()
+
+  const { data: cabinData } = useQuery({
+    queryKey: ['cabins'],
+    queryFn: getCabins,
+  })
+
+  const existingRoomNumbers = (cabinData?.data || [])
+    .filter((r) => r.id !== editId)
+    .map((room) => Number(room.room_number))
 
   const {
     register,
     handleSubmit,
     reset,
-    getValues,
+    watch,
+    setValue,
     formState: { errors },
   } = useForm({
     defaultValues: isEditSession ? editValues : {},
   })
-
-  const queryClient = useQueryClient()
 
   const { mutate, isLoading } = useMutation({
     mutationFn: (data) =>
@@ -97,29 +96,56 @@ function CreateRoomForm({ roomToEdit = {}, onCloseModal }) {
     onError: (err) => toast.error(err.message),
   })
 
+  const type = watch('type')
+
+  useEffect(() => {
+    if (type === '4 people') setValue('capacity', 4)
+    else if (type === '6 people') setValue('capacity', 6)
+    else if (type === '8 people') setValue('capacity', 8)
+  }, [type, setValue])
+
   const onSubmit = (data) => mutate(data)
   const onError = (err) => console.log(err)
+
+  const renderRoomOptions = () => {
+    const range = (start, end) =>
+      Array.from({ length: end - start + 1 }, (_, i) => start + i)
+
+    const allRoomNumbers = [...range(301, 314), ...range(401, 414)]
+
+    return allRoomNumbers
+      .filter((num) => !existingRoomNumbers.includes(num))
+      .map((num) => (
+        <option key={num} value={num}>
+          {num}
+        </option>
+      ))
+  }
 
   return (
     <Form
       onSubmit={handleSubmit(onSubmit, onError)}
       type={onCloseModal ? 'modal' : 'regular'}
     >
+      {/* Room Number */}
       <FormRow>
         <Label htmlFor="room_number">{t('roomForm.roomNumber')}</Label>
-        <Input
-          type="number"
+        <StyledSelect
           id="room_number"
-          defaultValue={301}
           {...register('room_number', {
             required: t('form.required'),
-            min: { value: 301, message: t('roomForm.roomNumberMin') },
-            max: { value: 314, message: t('roomForm.roomNumberMax') },
+            validate: (value) =>
+              !existingRoomNumbers.includes(Number(value)) ||
+              t('roomForm.roomNumberExists'),
           })}
-        />
+        >
+          <option value="">{t('roomForm.selectRoomNumber')}</option>
+          {renderRoomOptions()}
+        </StyledSelect>
         {errors?.room_number && <Error>{errors.room_number.message}</Error>}
       </FormRow>
 
+      {/* Room Type */}
       <FormRow>
         <Label htmlFor="type">{t('roomForm.type')}</Label>
         <StyledSelect
@@ -134,12 +160,12 @@ function CreateRoomForm({ roomToEdit = {}, onCloseModal }) {
         {errors?.type && <Error>{errors.type.message}</Error>}
       </FormRow>
 
+      {/* Capacity */}
       <FormRow>
         <Label htmlFor="capacity">{t('roomForm.capacity')}</Label>
         <Input
           type="number"
           id="capacity"
-          defaultValue={4}
           {...register('capacity', {
             required: t('form.required'),
             validate: (value) => value >= 0 || t('roomForm.capacityMin'),
@@ -148,6 +174,7 @@ function CreateRoomForm({ roomToEdit = {}, onCloseModal }) {
         {errors?.capacity && <Error>{errors.capacity.message}</Error>}
       </FormRow>
 
+      {/* Occupancy */}
       <FormRow>
         <Label htmlFor="current_occupancy">{t('roomForm.occupancy')}</Label>
         <Input
@@ -164,6 +191,7 @@ function CreateRoomForm({ roomToEdit = {}, onCloseModal }) {
         )}
       </FormRow>
 
+      {/* Price */}
       <FormRow>
         <Label htmlFor="price">{t('roomForm.price')}</Label>
         <Input
@@ -178,6 +206,7 @@ function CreateRoomForm({ roomToEdit = {}, onCloseModal }) {
         {errors?.price && <Error>{errors.price.message}</Error>}
       </FormRow>
 
+      {/* Status */}
       <FormRow>
         <Label htmlFor="status">{t('roomForm.status')}</Label>
         <StyledSelect
@@ -191,6 +220,7 @@ function CreateRoomForm({ roomToEdit = {}, onCloseModal }) {
         {errors?.status && <Error>{errors.status.message}</Error>}
       </FormRow>
 
+      {/* Floor */}
       <FormRow>
         <Label htmlFor="floor">{t('roomForm.floor')}</Label>
         <StyledSelect
@@ -204,6 +234,7 @@ function CreateRoomForm({ roomToEdit = {}, onCloseModal }) {
         {errors?.floor && <Error>{errors.floor.message}</Error>}
       </FormRow>
 
+      {/* Buttons */}
       <FormRow>
         <Button
           variation="secondary"

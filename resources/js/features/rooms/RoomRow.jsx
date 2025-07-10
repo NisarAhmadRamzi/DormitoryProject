@@ -159,8 +159,6 @@ function RoomRow({ cabin }) {
       document.removeEventListener('mousedown', handleClickOutside)
     }
   }, [isOpen])
-  console.log(cabin.created_at)
-  console.log(cabin.updated_at)
   return (
     <TableRow role="row">
       <Id>{cabin.id}</Id>
