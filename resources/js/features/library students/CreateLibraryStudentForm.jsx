@@ -75,10 +75,13 @@ function CreateLibraryStudentForm({ studentToEdit = {}, onCloseModal }) {
     register,
     handleSubmit,
     reset,
+    watch,
     formState: { errors },
   } = useForm({
     defaultValues: isEditSession ? studentToEdit : {},
   })
+
+  const registrationDate = watch('registration_date')
 
   const queryClient = useQueryClient()
 
@@ -204,24 +207,50 @@ function CreateLibraryStudentForm({ studentToEdit = {}, onCloseModal }) {
         <FormRow>
           <Label htmlFor="id_number">{t('libraryStudentForm.idNumber')}</Label>
           <Input
-            type="text"
+            type="number"
             id="id_number"
             {...register('id_number', {
               required: t('libraryStudentForm.validation.idNumberRequired'),
+              min: {
+                value: 0,
+                message: t('libraryStudentForm.validation.idNumberNonNegative'),
+              },
+              validate: (value) =>
+                !isNaN(value) && Number(value) >= 0
+                  ? true
+                  : t('libraryStudentForm.validation.idNumberNonNegative'),
             })}
           />
+
           {errors?.id_number && <Error>{errors.id_number.message}</Error>}
         </FormRow>
 
         <FormRow>
-          <Label htmlFor="academic_info">
-            {t('libraryStudentForm.academicInfo')}
-          </Label>
-          <Input
-            type="text"
+          <Label htmlFor="academic_info">{t('studentForm.academicInfo')}</Label>
+          <StyledSelect
             id="academic_info"
-            {...register('academic_info')}
-          />
+            {...register('academic_info', {
+              required: t('studentForm.errors.academic_info'),
+            })}
+          >
+            <option value="">{t('studentForm.errors.selectOption')}</option>
+            <option value="School_Student">
+              {t('studentForm.errors.school_student')}
+            </option>
+            <option value="University_Student">
+              {t('studentForm.errors.university_student')}
+            </option>
+            <option value="Kankor_Student">
+              {t('studentForm.errors.kankor_student')}
+            </option>
+            <option value="Course_Student">
+              {t('studentForm.errors.course_student')}
+            </option>
+            <option value="Others">{t('studentForm.errors.others')}</option>
+          </StyledSelect>
+          {errors.academic_info && (
+            <Error>{errors.academic_info.message}</Error>
+          )}
         </FormRow>
 
         <FormRow>
@@ -243,12 +272,22 @@ function CreateLibraryStudentForm({ studentToEdit = {}, onCloseModal }) {
         </FormRow>
 
         <FormRow>
-          <Label htmlFor="phone">{t('libraryStudentForm.phone')}</Label>
+          <Label htmlFor="phone">{t('studentForm.phone')}</Label>
           <Input
             type="text"
             id="phone"
+            placeholder="+93xxxxxxxxx"
+            defaultValue="+93"
             {...register('phone', {
-              required: t('libraryStudentForm.validation.phoneRequired'),
+              required: t('studentForm.errors.phone'),
+              pattern: {
+                value: /^\+93\d{9}$/,
+                message: t('studentForm.errors.phoneLength'),
+              },
+              maxLength: {
+                value: 13,
+                message: t('studentForm.errors.phoneLength'),
+              },
             })}
           />
           {errors?.phone && <Error>{errors.phone.message}</Error>}
@@ -263,6 +302,14 @@ function CreateLibraryStudentForm({ studentToEdit = {}, onCloseModal }) {
             id="registration_deadline"
             {...register('registration_deadline', {
               required: t('libraryStudentForm.validation.deadlineRequired'),
+              validate: (value) => {
+                const deadline = new Date(value)
+                const regDate = new Date(registrationDate)
+                if (isNaN(deadline) || isNaN(regDate)) return true
+                return deadline >= regDate
+                  ? true
+                  : t('studentForm.errors.deadlineBeforeRegDate')
+              },
             })}
           />
           {errors?.registration_deadline && (
@@ -285,6 +332,9 @@ function CreateLibraryStudentForm({ studentToEdit = {}, onCloseModal }) {
             <option value="Female">
               {t('libraryStudentForm.genderOptions.female')}
             </option>
+            {/* <option value="Other">
+              {t('libraryStudentForm.genderOptions.other')}
+            </option> */}
             <option value="Other">
               {t('libraryStudentForm.genderOptions.other')}
             </option>
@@ -292,15 +342,13 @@ function CreateLibraryStudentForm({ studentToEdit = {}, onCloseModal }) {
           {errors?.gender && <Error>{errors.gender.message}</Error>}
         </FormRow>
 
-        <FormRow>
+        {/* <FormRow>
           <Label htmlFor="membership_status">
             {t('libraryStudentForm.membershipStatus')}
           </Label>
           <StyledSelect
             id="membership_status"
-            {...register('membership_status', {
-              required: t('libraryStudentForm.validation.statusRequired'),
-            })}
+            {...register('membership_status')}
           >
             <option value="">{t('libraryStudentForm.selectStatus')}</option>
             <option value="Active">
@@ -310,10 +358,7 @@ function CreateLibraryStudentForm({ studentToEdit = {}, onCloseModal }) {
               {t('libraryStudentForm.statusOptions.expired')}
             </option>
           </StyledSelect>
-          {errors?.membership_status && (
-            <Error>{errors.membership_status.message}</Error>
-          )}
-        </FormRow>
+        </FormRow> */}
 
         <ButtonRow>
           <Button

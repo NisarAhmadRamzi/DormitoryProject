@@ -634,7 +634,7 @@ function CreateStudentForm({ studentToEdit = {}, onCloseModal }) {
             <option value="Course_Student">
               {t('studentForm.errors.course_student')}
             </option>
-            <option value="Other">{t('studentForm.errors.other')}</option>
+            <option value="Others">{t('studentForm.errors.other')}</option>
           </SelectInput>
           {errors.academic_info && (
             <Error>{errors.academic_info.message}</Error>
