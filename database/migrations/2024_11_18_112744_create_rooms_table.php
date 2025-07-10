@@ -12,7 +12,7 @@ class CreateRoomsTable extends Migration
             $table->id();
             $table->integer('room_number')->unique(); // Room number as an integer
             $table->enum('type', ['4 people', '6 people', '8 people']);
-            $table->enum('capacity', [4, 6, 8]); // Capacity as an enum
+            $table->integer('capacity'); // Capacity as an integer
             $table->integer('current_occupancy')->default(0);
             $table->decimal('price', 10, 2); // Room price per month
             $table->enum('status', ['Available', 'Occupied'])->default('Available');

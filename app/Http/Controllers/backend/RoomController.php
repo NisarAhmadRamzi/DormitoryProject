@@ -63,7 +63,7 @@ class RoomController extends Controller
         $validated = $request->validate([
             'room_number' => 'required|integer|unique:rooms,room_number|in:301,302,303,304,305,306,307,308,309,310,311,312,313,314,401,402,403,404,405,406,407,408,409,410,411,412,413,414',
             'type' => 'required|in:4 people,6 people,8 people',
-            'capacity' => 'required|in:4,6,8',
+            'capacity' => 'required|integer|in:4,6,8',
             'current_occupancy' => 'nullable|integer',
             'price' => 'required|integer|min:0', // Optional
             'status' => 'required|in:Available,Occupied',
