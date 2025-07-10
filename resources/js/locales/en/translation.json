@@ -183,11 +183,16 @@
       "deadlineBeforeRegDate": "Registration deadline must be after registration date",
       "phone": "Phone is required",
       "gender": "Gender is required",
-      "errors": {
-        "academic_info": "Please select a valid academic information.",
-        "selectOption": "Please select an option.",
-        "deadlineBeforeRegDate": "Registration deadline must be after or equal to registration date."
-      }
+      "academic_info": "Please select a valid academic information.",
+      "selectOption": "Please select an option.",
+      "phoneLength": "Phone number must be exactly 13 characters starting with +93.",
+      "idNumberInvalid": "ID Number must be positive number.",
+      "dobTooYoung": "Student must be at least 10 years old.",
+      "school_student": "School Student",
+      "university_student": "University Student",
+      "kankor_student": "Kankor Student",
+      "course_student": "Course Student",
+      "other": "Other"
     }
   },
   "studentDetails": {
