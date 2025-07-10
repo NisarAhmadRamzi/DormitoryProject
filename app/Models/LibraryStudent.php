@@ -29,7 +29,6 @@ class LibraryStudent extends Model
         'registration_date',
         'registration_deadline',
         'gender',
-        'membership_status',
     ];
 
 
