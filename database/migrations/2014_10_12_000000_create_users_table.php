@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('profile')->default('uploads/default.png'); // Add this line for profile
             $table->rememberToken();
             $table->timestamps();
+            $table->softDeletes(); // This adds 'deleted_at' column
         });
     }
 

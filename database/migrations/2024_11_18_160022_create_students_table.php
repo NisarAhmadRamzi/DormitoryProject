@@ -20,16 +20,16 @@ return new class extends Migration
             $table->string('password');
             $table->string('from');
             $table->date('dob');
-            $table->integer('id_number');
-            $table->text('academic_info')->nullable(); // Optional
-            $table->string('phone', 15);
+            $table->integer('id_number')->unique(); // ID number must be unique
+            $table->enum('academic_info', ['School_Student', 'University_Student', 'Kankor_Student', 'Course_Student']);
+            $table->unsignedBigInteger('phone'); // Phone number must be unique
             $table->date('registration_date');
             $table->date('registration_deadline');
             $table->enum('gender', ['Male', 'Female', 'Other']);
             // $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('room_id')->nullable()->constrained('rooms')->onDelete('set null');
-            $table->softDeletes();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

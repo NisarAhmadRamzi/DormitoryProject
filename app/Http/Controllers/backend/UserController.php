@@ -145,29 +145,6 @@ class UserController extends Controller
         return UserResource::make($user);
     }
 
-
-
-
-
-    // Find the user by ID
-    // $user = User::findOrFail($id);
-
-    // Update the user with new data
-    // if (isset($fields['name'])) $user->name = $fields['name'];
-    // if (isset($fields['email'])) $user->email = $fields['email'];
-    // if (isset($fields['password'])) $user->password = Hash::make($fields['password']);
-    // if (isset($fields['role'])) $user->user_role = $fields['role'];
-    // $user->save();
-
-
-    //second method
-    // $user = User::findOrFail($id);
-    // $user->update($fields);
-
-    // Return the updated user as a resource
-    // return UserResource::make($user);
-
-
     /**
      * Remove the specified resource from storage.
      */
@@ -182,7 +159,7 @@ class UserController extends Controller
 
         // Delete the user
         $user->delete();
-        return response()->json(['message' => 'User deleted successfully'], 200);
+        return response()->json(['message' => 'User Soft deleted successfully'], 200);
     }
     public function show($id)
     {
@@ -192,6 +169,61 @@ class UserController extends Controller
         return response()->json([
             'user' => $user,
             'roles' => $roles,
+        ], 200);
+    }
+    // Restore a soft deleted user
+    public function restore($id)
+    {
+        $user = User::withTrashed()->findOrFail($id);
+        $user->restore();
+        return response()->json(['message' => "User {$id} restored successfully"]);
+    }
+
+    /**
+     * Permanently delete a user.
+     */
+    public function forceDelete($id)
+    {
+        $user = User::withTrashed()->findOrFail($id);
+        // Delete the user's profile image if it exists
+        if ($user->profile) {
+            Storage::disk('public')->delete($user->profile);
+        }
+        $user->forceDelete();
+        return response()->json(['message' => "User {$id} permanently deleted"]);
+    }
+
+    // Retrieve all users (including soft deleted)
+    public function allUsers()
+    {
+        $allUsers = User::withTrashed()->get();
+
+        if ($allUsers->isEmpty()) {
+            return response()->json([
+                'message' => 'No users found',
+                'data' => []
+            ], 200);
+        }
+
+        return response()->json($allUsers, 200);
+    }
+
+    // Retrieve a single trashed (soft deleted) user
+    public function trashedUser($id)
+    {
+        $user = User::onlyTrashed()->where('id', $id)->first();
+        if (!$user) {
+            return response()->json(['message' => 'User not found in trashed records'], 404);
+        }
+        return response()->json($user, 200);
+    }
+
+    // Retrieve all trashed (soft deleted) users
+    public function trashedUsers()
+    {
+        $trashedUsers = User::onlyTrashed()->get();
+        return response()->json([
+            'trashed' => $trashedUsers
         ], 200);
     }
 
@@ -216,66 +248,4 @@ class UserController extends Controller
         // ], 200);
         return UserResourceAssign::make($user);
     }
-
-
-    //     public function test()
-    // {
-    //     $users = User::all()->map(function ($user) {
-    //         $user->profile = $user->profile ? asset('storage/' . $user->profile) : null; // Full URL
-    //         return $user;
-    //     });
-
-    //     return response()->json($users);
-    // }
 }
-
-
-
-        // Assign Role Using Spatie (defaults to 'student' if no role is provided)
-        // $user->assignRole($request->role ?? 'student');
-
-        // Assign Role Using Spatie
-        // if ($request->role) {
-        //     $user->assignRole($request->role); // Assign role to user
-        // } else {
-        //     $user->assignRole('student'); // Assign role to user
-        // }
-
-
-
-        // public function updateUser(Request $request, $id)
-        // {
-        //     // Validate incoming data
-        //     $fields = $request->validate([
-        //         'name' => 'required',
-        //         'email' => 'required|email',
-        //         'password' => 'required|min:4',
-        //         'cpassword' => 'required|same:password',
-        //         'profile' => 'nullable|file|mimes:jpg,jpeg,png|max:2048' // Ensure valid file type and size
-        //     ]);
-    
-        //     // Find the user
-        //     $user = User::findOrFail($id);
-    
-        //     // Delete the old profile picture if a new one is uploaded and the old one exists
-        //     if ($request->hasFile('profile') && $user->profile) {
-        //         // Delete the old profile picture from storage
-        //         Storage::disk('public')->delete($user->profile);
-        //     }
-    
-        //     // Update user fields
-        //     $user->name = $request->name;
-        //     $user->email = $request->email;
-        //     $user->password = Hash::make($request->password);
-    
-        //     // Save the new profile picture if provided
-        //     $file = $request->file('profile');
-        //     $path = $file ? $file->store('uploads', 'public') : $user->profile; // Retain old profile if no new file is provided
-        //     $user->profile = $path;
-    
-        //     // Save the updated user
-        //     $user->save();
-    
-        //     // Return the updated user resource
-        //     return UserResource::make($user);
-        // }

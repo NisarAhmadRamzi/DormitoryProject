@@ -29,9 +29,9 @@ class StudentSeeder extends Seeder
             'password' => '12345678', // It's better to hash the password
             'from' => 'Ghazni',
             'dob' => '2000-01-01',
-            'id_number' => '123456789',
-            'academic_info' => 'Student of university',
-            'phone' => '0796666095',
+            'id_number' => 111,
+            'academic_info' => 'University_Student',
+            'phone' => 799738595,
             'registration_date' => Carbon::now(), // Set to today'
             'registration_deadline' => Carbon::now()->addMonths(6), // Set to 6 months from now
             'gender' => 'Male',
@@ -60,9 +60,9 @@ class StudentSeeder extends Seeder
             'password' => '12345678', // It's better to hash the password
             'from' => 'Ghazni',
             'dob' => '2000-01-01',
-            'id_number' => '123456789',
-            'academic_info' => 'Student of university',
-            'phone' => '0799738095',
+            'id_number' => 222,
+            'academic_info' => 'School_Student',
+            'phone' => 799738095,
             'registration_date' => Carbon::now(), // Set to today'
             'registration_deadline' => Carbon::now()->addMonths(6), // Set to 6 months from now
             'gender' => 'Male',
