@@ -10,15 +10,15 @@ use Illuminate\Support\Facades\Artisan;
 
 class RoomController extends Controller
 {
-    // public function __construct()
-    // {
-    //     Artisan::call('permission:cache-reset');
-    //     $this->middleware('permission:all rooms')->only(['index']);
-    //     $this->middleware('permission:view room')->only(['show']);
-    //     $this->middleware('permission:create room')->only(['store']);
-    //     $this->middleware('permission:edit room')->only(['update']);
-    //     $this->middleware('permission:delete room')->only(['destroy']);
-    // }
+    public function __construct()
+    {
+        Artisan::call('permission:cache-reset');
+        $this->middleware('permission:all rooms')->only(['index']);
+        $this->middleware('permission:view room')->only(['show']);
+        $this->middleware('permission:create room')->only(['store']);
+        $this->middleware('permission:edit room')->only(['update']);
+        $this->middleware('permission:delete room')->only(['destroy']);
+    }
     /**
      * Display a listing of the rooms.
      */
