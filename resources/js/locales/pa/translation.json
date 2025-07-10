@@ -479,6 +479,7 @@
     "addButton": "په کتابتون کې نوی زده‌کوونکی اضافه کړئ"
   },
   "libraryStudentForm": {
+    "idNumberNonNegative": "د آی ډي نمبر باید منفي عدد نه وي",
     "name": "نوم",
     "lastName": "تخلص",
     "email": "بریښنالیک",

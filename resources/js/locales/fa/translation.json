@@ -476,6 +476,7 @@
     "addButton": "افزودن شاگرد جدید در کتابخانه"
   },
   "libraryStudentForm": {
+    "idNumberNonNegative": "آی دی نمبر نیمتواند عدد منفی باشد",
     "name": "نام",
     "lastName": "نام خانوادگی",
     "email": "ایمیل",

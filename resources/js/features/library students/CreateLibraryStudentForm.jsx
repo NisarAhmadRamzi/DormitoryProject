@@ -210,15 +210,15 @@ function CreateLibraryStudentForm({ studentToEdit = {}, onCloseModal }) {
             type="number"
             id="id_number"
             {...register('id_number', {
-              required: t('libraryStudentForm.validation.idNumberRequired'),
+              required: t('libraryStudentForm.idNumberRequired'),
               min: {
                 value: 0,
-                message: t('libraryStudentForm.validation.idNumberNonNegative'),
+                message: t('libraryStudentForm.idNumberNonNegative'),
               },
               validate: (value) =>
                 !isNaN(value) && Number(value) >= 0
                   ? true
-                  : t('libraryStudentForm.validation.idNumberNonNegative'),
+                  : t('libraryStudentForm.idNumberNonNegative'),
             })}
           />
 
