@@ -84,7 +84,7 @@ function RoomDetails({ room }) {
           <strong>{t('roomDetails.floor')}:</strong> {room.floor}
         </DetailItem>
         <DetailItem>
-          <strong>{t('roomDetails.price')}:</strong> ${room.price}
+          <strong>{t('roomDetails.price')}:</strong> {room.price}
         </DetailItem>
         <DetailItem>
           <strong>{t('roomDetails.created')}:</strong>{' '}

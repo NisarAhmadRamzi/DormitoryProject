@@ -9,7 +9,6 @@ import { useUser } from '../../context/UserContext'
 import { deleteRoom } from '../../services/apiCabins'
 import ConfirmDelete from '../../ui/ConfirmDelete'
 import Modal from '../../ui/Modal'
-import { formatCurrency } from '../../utils/helpers'
 import CreateRoomForm from './CreateRoomForm'
 import RoomDetails from './RoomDetails'
 
@@ -160,14 +159,15 @@ function RoomRow({ cabin }) {
       document.removeEventListener('mousedown', handleClickOutside)
     }
   }, [isOpen])
-
+  console.log(cabin.created_at)
+  console.log(cabin.updated_at)
   return (
     <TableRow role="row">
       <Id>{cabin.id}</Id>
       <Cell>{cabin.room_number}</Cell>
       <Cell>{cabin.type}</Cell>
       <Cell>{cabin.capacity}</Cell>
-      <Price>{formatCurrency(cabin.price)}</Price>
+      <Price>{cabin.price}</Price>
 
       <DropdownWrapper ref={dropdownRef}>
         <IconButton onClick={toggleDropdown}>
