@@ -1,7 +1,9 @@
-import { NavLink, useLocation } from 'react-router-dom' // Correct imports
+import { NavLink, useLocation } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 
 const MyNavbar = () => {
   const location = useLocation()
+  const { t } = useTranslation()
 
   const isLoginPage = location.pathname === '/login'
 
@@ -9,7 +11,8 @@ const MyNavbar = () => {
     <nav className="navbar navbar-expand-lg navbar-light bg-white sticky-top">
       <div className="container">
         <a className="navbar-brand" href="#">
-          Fanos Dormitory<span className="dot">.</span>
+          {t('navbar.brand')}
+          <span className="dot">.</span>
         </a>
         <button
           className="navbar-toggler"
@@ -18,7 +21,7 @@ const MyNavbar = () => {
           data-bs-target="#navbarNav"
           aria-controls="navbarNav"
           aria-expanded="false"
-          aria-label="Toggle navigation"
+          aria-label={t('navbar.toggle')}
         >
           <span className="navbar-toggler-icon" />
         </button>
@@ -26,37 +29,36 @@ const MyNavbar = () => {
           <ul className="navbar-nav mx-auto d-flex justify-content-center">
             <li className="nav-item">
               <NavLink to="/" className="nav-link" end>
-                Home
+                {t('navbar.home')}
               </NavLink>
             </li>
             <li className="nav-item">
               <a className="nav-link" href="#about">
-                About
+                {t('navbar.about')}
               </a>
             </li>
             <li className="nav-item">
               <a className="nav-link" href="#facilities">
-                Facilities
+                {t('navbar.facilities')}
               </a>
             </li>
             <li className="nav-item">
               <a className="nav-link" href="#rooms">
-                Rooms
+                {t('navbar.rooms')}
               </a>
             </li>
             <li className="nav-item">
               <a className="nav-link" href="#staff">
-                Staff
+                {t('navbar.staff')}
               </a>
             </li>
             <li className="nav-item">
               <NavLink className="nav-link" to="/login">
-                Login
+                {t('navbar.login')}
               </NavLink>
             </li>
           </ul>
 
-          {/* Show Contact button only if NOT on login page */}
           {!isLoginPage && (
             <a
               href="#"
@@ -64,7 +66,7 @@ const MyNavbar = () => {
               data-bs-target="#exampleModal"
               className="btn btn-brand ms-lg-3"
             >
-              Contact
+              {t('navbar.contact')}
             </a>
           )}
         </div>

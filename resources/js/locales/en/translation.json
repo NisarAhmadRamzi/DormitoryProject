@@ -1145,5 +1145,16 @@
     "createdAt": "Created At",
     "updatedAt": "Updated At"
   },
-  "selectStudent": "Select a student"
+  "selectStudent": "Select a student",
+  "navbar": {
+    "brand": "Fanos Dormitory",
+    "toggle": "Toggle navigation",
+    "home": "Home",
+    "about": "About",
+    "facilities": "Facilities",
+    "rooms": "Rooms",
+    "staff": "Staff",
+    "login": "Login",
+    "contact": "Contact"
+  }
 }
