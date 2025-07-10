@@ -10,15 +10,15 @@ use Illuminate\Support\Facades\Artisan;
 
 class RoomController extends Controller
 {
-    public function __construct()
-    {
-        Artisan::call('permission:cache-reset');
-        $this->middleware('permission:all rooms')->only(['index']);
-        $this->middleware('permission:view room')->only(['show']);
-        $this->middleware('permission:create room')->only(['store']);
-        $this->middleware('permission:edit room')->only(['update']);
-        $this->middleware('permission:delete room')->only(['destroy']);
-    }
+    // public function __construct()
+    // {
+    //     Artisan::call('permission:cache-reset');
+    //     $this->middleware('permission:all rooms')->only(['index']);
+    //     $this->middleware('permission:view room')->only(['show']);
+    //     $this->middleware('permission:create room')->only(['store']);
+    //     $this->middleware('permission:edit room')->only(['update']);
+    //     $this->middleware('permission:delete room')->only(['destroy']);
+    // }
     /**
      * Display a listing of the rooms.
      */
@@ -34,7 +34,7 @@ class RoomController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'room_number' => 'required|integer|unique:rooms,room_number',
+            'room_number' => 'required|integer|unique:rooms,room_number|in:301,302,303,304,305,306,307,308,309,310,311,312,313,314,401,402,403,404,405,406,407,408,409,410,411,412,413,414',
             'type' => 'required|in:4 people,6 people,8 people',
             'capacity' => 'required|in:4,6,8', // Changed to 'in' validation for consistency
             'current_occupancy' => 'nullable|integer',
@@ -61,7 +61,7 @@ class RoomController extends Controller
     public function update(Request $request, Room $room)
     {
         $validated = $request->validate([
-            'room_number' => 'required|integer|unique:rooms,room_number',
+            'room_number' => 'required|integer|unique:rooms,room_number|in:301,302,303,304,305,306,307,308,309,310,311,312,313,314,401,402,403,404,405,406,407,408,409,410,411,412,413,414',
             'type' => 'required|in:4 people,6 people,8 people',
             'capacity' => 'required|in:4,6,8',
             'current_occupancy' => 'nullable|integer',
