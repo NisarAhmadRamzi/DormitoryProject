@@ -630,22 +630,22 @@
   },
   "BookError": "خطا در بارگذاری کتاب‌ها!",
   "bookTable": {
-    "noData": "No book data available.",
+    "noData": "هیچ اطلاعاتی از کتاب موجود نیست.",
     "details": {
-      "title": "Book Details",
-      "totalCopies": "Total Copies",
-      "totalBorrowed": "Total of Borrowed Books",
-      "libraryId": "Library ID",
-      "createdAt": "Created At",
-      "updatedAt": "Updated At",
-      "na": "N/A"
+      "title": "جزئیات کتاب",
+      "totalCopies": "تعداد کل نسخه‌ها",
+      "totalBorrowed": "تعداد کل کتاب‌های قرض گرفته‌شده",
+      "libraryId": "شناسه کتابخانه",
+      "createdAt": "تاریخ ایجاد",
+      "updatedAt": "تاریخ به‌روزرسانی",
+      "na": "ناموجود"
     },
     "headers": {
-      "id": "ID",
-      "title": "Title",
-      "author": "Author",
-      "year": "Publication Year",
-      "status": "Status"
+      "id": "شماره",
+      "title": "عنوان",
+      "author": "نویسنده",
+      "year": "سال نشر",
+      "status": "وضعیت"
     }
   },
   "borrowedBook": {
@@ -697,25 +697,27 @@
     "error": "خطا در بارگذاری کتاب‌های قرضی!"
   },
   "createBorrowedBookForm": {
-    "studentId": "شناسه دانشجو (اختیاری)",
-    "libraryStudentId": "شناسه دانشجوی کتابخانه (اختیاری)",
-    "bookId": "شناسه کتاب",
-    "bookIdRequired": "شناسه کتاب ضروری است",
-    "borrowDate": "تاریخ امانت",
-    "borrowDateRequired": "تاریخ امانت ضروری است",
+    "selectOption": "یک گزینه را انتخاب کنید",
+    "studentId": "آی‌دی محصل (اختیاری)",
+    "libraryStudentId": "آی‌دی محصل کتابخانه (اختیاری)",
+    "bookId": "آی‌دی کتاب",
+    "bookIdRequired": "آی‌دی کتاب ضروری است",
+    "borrowDate": "تاریخ امانت‌گیری",
+    "borrowDateRequired": "تاریخ امانت‌گیری ضروری است",
     "returnDate": "تاریخ بازگشت (اختیاری)",
+    "returnDateValidation": "تاریخ بازگشت نمی‌تواند قبل از تاریخ امانت باشد",
     "status": "وضعیت",
     "statusRequired": "وضعیت ضروری است",
     "selectStatus": "انتخاب وضعیت",
-    "borrowed": "امانت داده شده",
-    "returned": "بازگشته",
-    "overdue": "تاخیر کرده",
+    "borrowed": "امانت‌گرفته شده",
+    "returned": "برگشته شده",
+    "overdue": "دیرکرده",
     "cancel": "لغو",
-    "createButton": "ایجاد امانت جدید",
-    "editButton": "ویرایش امانت",
-    "successCreate": "رکورد جدید امانت با موفقیت ایجاد شد",
-    "successEdit": "اطلاعات امانت با موفقیت ویرایش شد",
-    "error": "مشکلی رخ داده است"
+    "createButton": "ثبت کتاب امانت‌گرفته‌شده",
+    "editButton": "ویرایش کتاب امانت‌گرفته‌شده",
+    "successCreate": "رکورد جدید کتاب امانت‌گرفته‌شده موفقانه ثبت شد",
+    "successEdit": "کتاب امانت‌گرفته‌شده موفقانه ویرایش شد",
+    "error": "چیزی اشتباه رخ داد"
   },
   "fee": {
     "feeDetails": "جزئیات فیس",
@@ -1179,5 +1181,149 @@
     "staff": "کارمندان",
     "login": "ورود",
     "contact": "تماس"
+  },
+  "hero": {
+    "title": "به کتابخانه ما خوش آمدید",
+    "subtitle": "هزاران کتاب و منبع را کاوش کنید",
+    "cta": "شروع کنید"
+  },
+  "about": {
+    "title": "درباره خوابگاه ما",
+    "items": {
+      "wifi": {
+        "title": "وای‌فای پرسرعت",
+        "text": "اینترنت قابل اعتماد در سراسر خوابگاه برای همه ساکنین."
+      },
+      "meal": {
+        "title": "سرویس غذای روزانه",
+        "text": "غذاهای مقوی روزانه با در نظر گرفتن سلامتی دانشجویان."
+      },
+      "rooms": {
+        "title": "اتاق‌های راحت",
+        "text": "اتاق‌های مبله با امکانات ضروری برای مطالعه و استراحت."
+      }
+    },
+    "imageAlt": "درباره خوابگاه"
+  },
+  "permission": {
+    "id": "شماره",
+    "name": "نام",
+    "createdAt": "ایجاد شده در",
+    "updatedAt": "به‌روزرسانی شده در",
+    "actions": "عملیات",
+    "notFound": "هیچ اجازه‌ای مطابق با جستجو یافت نشد."
+  },
+  "errors": {
+    "loading": "خطا در بارگیری داده‌ها"
+  },
+  "permissions2": {
+    "resourceName": "اجازه",
+    "deleteBtn": "حذف اجازه",
+    "deletedSuccess": "اجازه موفقانه حذف شد",
+    "deleteError": "حذف اجازه ناکام شد"
+  },
+  "permissions3": {
+    "addNew": "اجازه جدید اضافه کنید"
+  },
+  "permissions4": {
+    "resourceName": "اجازه",
+    "deleteBtn": "حذف اجازه",
+    "deletedSuccess": "اجازه موفقانه حذف شد",
+    "deleteError": "حذف اجازه ناکام شد"
+  },
+  "permissions5": {
+    "nameLabel": "نام اجازه",
+    "nameRequired": "وارد کردن نام اجازه ضروری است",
+    "addBtn": "اجازه جدید اضافه کنید",
+    "updateBtn": "ویرایش اجازه",
+    "createSuccess": "اجازه با موفقیت اضافه شد",
+    "updateSuccess": "اجازه با موفقیت ویرایش شد",
+    "submitError": "مشکلی پیش آمده است"
+  },
+  "Permissions": {
+    "AdminDashboard": "داشبورد مدیر",
+    "StudentDashboard": "داشبورد محصل",
+    "LibraryAdminDashboard": "داشبورد مدیر کتابخانه",
+    "LibraryStudentDashboard": "داشبورد محصل کتابخانه",
+    "all users": "همه کاربران",
+    "view user": "مشاهده کاربر",
+    "create user": "ایجاد کاربر",
+    "edit user": "ویرایش کاربر",
+    "delete user": "حذف کاربر",
+    "assign user role": "تخصیص نقش به کاربر",
+    "all students": "همه محصلان",
+    "view student": "مشاهده محصل",
+    "create student": "ایجاد محصل",
+    "edit student": "ویرایش محصل",
+    "delete student": "حذف محصل",
+    "restore student": "بازگرداندن محصل",
+    "all roles": "همه نقش‌ها",
+    "view role": "مشاهده نقش",
+    "create role": "ایجاد نقش",
+    "edit role": "ویرایش نقش",
+    "delete role": "حذف نقش",
+    "assign role permissions": "تخصیص دسترسی به نقش",
+    "all permissions": "همه دسترسی‌ها",
+    "view permission": "مشاهده دسترسی",
+    "create permission": "ایجاد دسترسی",
+    "edit permission": "ویرایش دسترسی",
+    "delete permission": "حذف دسترسی",
+    "all rooms": "همه اتاق‌ها",
+    "view room": "مشاهده اتاق",
+    "create room": "ایجاد اتاق",
+    "edit room": "ویرایش اتاق",
+    "delete room": "حذف اتاق",
+    "all library students": "همه محصلان کتابخانه",
+    "view library student": "مشاهده محصل کتابخانه",
+    "create library student": "ایجاد محصل کتابخانه",
+    "edit library student": "ویرایش محصل کتابخانه",
+    "delete library student": "حذف محصل کتابخانه",
+    "all libraries": "همه کتابخانه‌ها",
+    "view library": "مشاهده کتابخانه",
+    "create library": "ایجاد کتابخانه",
+    "edit library": "ویرایش کتابخانه",
+    "delete library": "حذف کتابخانه",
+    "all fees": "همه فیس‌ها",
+    "view fee": "مشاهده فیس",
+    "create fee": "ایجاد فیس",
+    "edit fee": "ویرایش فیس",
+    "delete fee": "حذف فیس",
+    "all assets": "همه دارایی‌ها",
+    "view asset": "مشاهده دارایی",
+    "create asset": "ایجاد دارایی",
+    "edit asset": "ویرایش دارایی",
+    "delete asset": "حذف دارایی",
+    "all supports": "همه حمایتها",
+    "view support": "مشاهده حمایت",
+    "create support": "ایجاد حمایت",
+    "edit support": "ویرایش حمایت",
+    "delete support": "حذف حمایت",
+    "all expenses": "همه مصارف",
+    "view expense": "مشاهده مصرف",
+    "create expense": "ایجاد مصرف",
+    "edit expense": "ویرایش مصرف",
+    "delete expense": "حذف مصرف",
+    "all complaints": "همه شکایات",
+    "view complaint": "مشاهده شکایت",
+    "create complaint": "ثبت شکایت",
+    "edit complaint": "ویرایش شکایت",
+    "delete complaint": "حذف شکایت",
+    "all borrowed books": "همه کتاب‌های گرفته‌شده",
+    "view borrowed book": "مشاهده کتاب گرفته‌شده",
+    "create borrowed book": "ثبت کتاب گرفته‌شده",
+    "edit borrowed book": "ویرایش کتاب گرفته‌شده",
+    "delete borrowed book": "حذف کتاب گرفته‌شده",
+    "all books": "همه کتاب‌ها",
+    "view book": "مشاهده کتاب",
+    "create book": "ثبت کتاب",
+    "edit book": "ویرایش کتاب",
+    "delete book": "حذف کتاب"
+  },
+  "Roles": {
+    "admin": "مدیر",
+    "second_admin": "معاون مدیر",
+    "student": "محصل",
+    "library_admin": "مدیر کتابخانه",
+    "library_student": "محصل کتابخانه"
   }
 }

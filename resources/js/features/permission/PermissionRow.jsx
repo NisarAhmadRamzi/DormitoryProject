@@ -1,11 +1,11 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-
-import ConfirmDelete from '../../ui/ConfirmDelete'
-import CreatePermissionForm from './CreatePermissionForm'
-import Modal from '../../ui/Modal'
-import { deletePermission } from '../../services/apiPermission'
-import styled from 'styled-components'
 import toast from 'react-hot-toast'
+import { useTranslation } from 'react-i18next'
+import styled from 'styled-components'
+import { deletePermission } from '../../services/apiPermission'
+import ConfirmDelete from '../../ui/ConfirmDelete'
+import Modal from '../../ui/Modal'
+import CreatePermissionForm from './CreatePermissionForm'
 
 const TableRow = styled.div`
   display: grid;
@@ -34,15 +34,16 @@ const DeleteButton = styled.button`
 
 function PermissionRow({ permission }) {
   const queryClient = useQueryClient()
+  const { t } = useTranslation()
 
   const { mutate: deleteMutate, isLoading: isDeleting } = useMutation({
     mutationFn: deletePermission,
     onSuccess: () => {
       queryClient.invalidateQueries(['permissions'])
-      toast.success('permission deleted successfully')
+      toast.success(t('permissions4.deletedSuccess'))
     },
     onError: (err) => {
-      toast.error(err.message || 'Failed to delete permission')
+      toast.error(err.message || t('permissions4.deleteError'))
     },
   })
 
@@ -59,13 +60,15 @@ function PermissionRow({ permission }) {
 
       <div>
         <Modal.Open opensWindowName={`delete-permission-${permission.id}`}>
-          <DeleteButton disabled={isDeleting}>Delete permission</DeleteButton>
+          <DeleteButton disabled={isDeleting}>
+            {t('permissions4.deleteBtn')}
+          </DeleteButton>
         </Modal.Open>
 
         <Modal.Window name={`delete-permission-${permission.id}`}>
           <ConfirmDelete
             onConfirm={handleDeleteConfirm}
-            resourceName="permission"
+            resourceName={t('permissions4.resourceName')}
             itemLabel={permission.name}
           />
         </Modal.Window>

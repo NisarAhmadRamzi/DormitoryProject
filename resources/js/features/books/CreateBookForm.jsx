@@ -113,16 +113,33 @@ function CreateBookForm({ bookToEdit = {}, onCloseModal }) {
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
       <FormRow>
-        <Label htmlFor="library_id">{t('createBookForm.libraryId')}</Label>
+        <Label htmlFor="library_id" style={{ fontWeight: 'bold' }}>
+          {t('createBookForm.libraryId')}
+        </Label>
+
         <Input
           type="number"
           id="library_id"
+          value={1}
+          readOnly
+          style={{
+            backgroundColor: '#e0f7fa',
+            border: '2px solid #0288d1',
+            fontWeight: 'bold',
+            padding: '0.5rem',
+            borderRadius: '5px',
+          }}
           {...register('library_id', {
             required: t('createBookForm.libraryIdRequired'),
             valueAsNumber: true,
           })}
         />
-        {errors?.library_id && <Error>{errors.library_id.message}</Error>}
+
+        {errors?.library_id && (
+          <Error style={{ color: 'red', fontSize: '0.875rem' }}>
+            {errors.library_id.message}
+          </Error>
+        )}
       </FormRow>
 
       <FormRow>

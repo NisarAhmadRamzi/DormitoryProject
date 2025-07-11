@@ -11,10 +11,10 @@ import {
 
 import CountUp from 'react-countup'
 import { FaXTwitter } from 'react-icons/fa6'
+import { useInView } from 'react-intersection-observer'
+import hero from '../../../../public/hero7.webp'
 import Footer from '../../components/Footer'
 import MyNavbar from '../../components/MyNavbar'
-import hero from '../../../../public/hero7.webp'
-import { useInView } from 'react-intersection-observer'
 
 function Home() {
   const { ref, inView } = useInView({ triggerOnce: true })

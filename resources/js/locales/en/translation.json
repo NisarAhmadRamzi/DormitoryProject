@@ -629,24 +629,23 @@
     "pageInfo": "Page {{currentPage}} of {{totalPages}}",
     "rowsPerPage": "Rows per page:"
   },
-  "BookError": "Error loading books!",
   "bookTable": {
-    "noData": "د کتاب معلومات شتون نلري",
+    "noData": "No book data available.",
     "details": {
-      "title": "د کتاب تفصيل",
-      "totalCopies": "ټول نسخې",
-      "totalBorrowed": "ټول پورته شوي کتابونه",
-      "libraryId": "د کتابتون شمېره",
-      "createdAt": "جوړ شوی وخت",
-      "updatedAt": "تازه شوی وخت",
+      "title": "Book Details",
+      "totalCopies": "Total Copies",
+      "totalBorrowed": "Total of Borrowed Books",
+      "libraryId": "Library ID",
+      "createdAt": "Created At",
+      "updatedAt": "Updated At",
       "na": "N/A"
     },
     "headers": {
-      "id": "شناخت",
-      "title": "سرلیک",
-      "author": "لیکوال",
-      "year": "کال",
-      "status": "حالت"
+      "id": "ID",
+      "title": "Title",
+      "author": "Author",
+      "year": "Publication Year",
+      "status": "Status"
     }
   },
   "borrowedBook": {
@@ -698,6 +697,7 @@
     "error": "Error loading borrowed books!"
   },
   "createBorrowedBookForm": {
+    "selectOption": "Select an option",
     "studentId": "Student ID (Optional)",
     "libraryStudentId": "Library Student ID (Optional)",
     "bookId": "Book ID",
@@ -705,6 +705,7 @@
     "borrowDate": "Borrow Date",
     "borrowDateRequired": "Borrow date is required",
     "returnDate": "Return Date (Optional)",
+    "returnDateValidation": "Return date cannot be before borrow date",
     "status": "Status",
     "statusRequired": "Status is required",
     "selectStatus": "Select status",
@@ -1067,6 +1068,7 @@
     }
   },
   "libraryStudentDashboard": {
+    "selectOption": "Select an option",
     "title": "Library Student Dashboard",
     "studentInfo": "Student Info",
     "name": "Name",
@@ -1173,5 +1175,149 @@
     "staff": "Staff",
     "login": "Login",
     "contact": "Contact"
+  },
+  "hero": {
+    "title": "Welcome to Our Library",
+    "subtitle": "Explore thousands of books and resources",
+    "cta": "Get Started"
+  },
+  "about": {
+    "title": "About our dormitory",
+    "items": {
+      "wifi": {
+        "title": "High-Speed Wi-Fi",
+        "text": "Reliable internet throughout the dormitory for all residents."
+      },
+      "meal": {
+        "title": "Meal Services",
+        "text": "Nutritious daily meals prepared with student health in mind."
+      },
+      "rooms": {
+        "title": "Comfortable Rooms",
+        "text": "Furnished rooms with essential amenities for studying and resting."
+      }
+    },
+    "imageAlt": "About Dormitory"
+  },
+  "permission": {
+    "id": "ID",
+    "name": "Name",
+    "createdAt": "Created At",
+    "updatedAt": "Updated At",
+    "actions": "Actions",
+    "notFound": "No matching permissions found."
+  },
+  "errors": {
+    "loading": "Error loading data"
+  },
+  "permissions2": {
+    "resourceName": "permission",
+    "deleteBtn": "Delete permission",
+    "deletedSuccess": "Permission deleted successfully",
+    "deleteError": "Failed to delete permission"
+  },
+  "permissions3": {
+    "addNew": "Add new Permission"
+  },
+  "permissions4": {
+    "resourceName": "permission",
+    "deleteBtn": "Delete permission",
+    "deletedSuccess": "Permission deleted successfully",
+    "deleteError": "Failed to delete permission"
+  },
+  "permissions5": {
+    "nameLabel": "Permission Name",
+    "nameRequired": "Permission name is required",
+    "addBtn": "Add Permission",
+    "updateBtn": "Update Permission",
+    "createSuccess": "Permission created successfully",
+    "updateSuccess": "Permission updated successfully",
+    "submitError": "Something went wrong"
+  },
+  "Permissions": {
+    "AdminDashboard": "Admin Dashboard",
+    "StudentDashboard": "Student Dashboard",
+    "LibraryAdminDashboard": "Library Admin Dashboard",
+    "LibraryStudentDashboard": "Library Student Dashboard",
+    "all users": "All Users",
+    "view user": "View User",
+    "create user": "Create User",
+    "edit user": "Edit User",
+    "delete user": "Delete User",
+    "assign user role": "Assign User Role",
+    "all students": "All Students",
+    "view student": "View Student",
+    "create student": "Create Student",
+    "edit student": "Edit Student",
+    "delete student": "Delete Student",
+    "restore student": "Restore Student",
+    "all roles": "All Roles",
+    "view role": "View Role",
+    "create role": "Create Role",
+    "edit role": "Edit Role",
+    "delete role": "Delete Role",
+    "assign role permissions": "Assign Role Permissions",
+    "all permissions": "All Permissions",
+    "view permission": "View Permission",
+    "create permission": "Create Permission",
+    "edit permission": "Edit Permission",
+    "delete permission": "Delete Permission",
+    "all rooms": "All Rooms",
+    "view room": "View Room",
+    "create room": "Create Room",
+    "edit room": "Edit Room",
+    "delete room": "Delete Room",
+    "all library students": "All Library Students",
+    "view library student": "View Library Student",
+    "create library student": "Create Library Student",
+    "edit library student": "Edit Library Student",
+    "delete library student": "Delete Library Student",
+    "all libraries": "All Libraries",
+    "view library": "View Library",
+    "create library": "Create Library",
+    "edit library": "Edit Library",
+    "delete library": "Delete Library",
+    "all fees": "All Fees",
+    "view fee": "View Fee",
+    "create fee": "Create Fee",
+    "edit fee": "Edit Fee",
+    "delete fee": "Delete Fee",
+    "all assets": "All Assets",
+    "view asset": "View Asset",
+    "create asset": "Create Asset",
+    "edit asset": "Edit Asset",
+    "delete asset": "Delete Asset",
+    "all supports": "All Supports",
+    "view support": "View Support",
+    "create support": "Create Support",
+    "edit support": "Edit Support",
+    "delete support": "Delete Support",
+    "all expenses": "All Expenses",
+    "view expense": "View Expense",
+    "create expense": "Create Expense",
+    "edit expense": "Edit Expense",
+    "delete expense": "Delete Expense",
+    "all complaints": "All Complaints",
+    "view complaint": "View Complaint",
+    "create complaint": "Create Complaint",
+    "edit complaint": "Edit Complaint",
+    "delete complaint": "Delete Complaint",
+    "all borrowed books": "All Borrowed Books",
+    "view borrowed book": "View Borrowed Book",
+    "create borrowed book": "Create Borrowed Book",
+    "edit borrowed book": "Edit Borrowed Book",
+    "delete borrowed book": "Delete Borrowed Book",
+    "all books": "All Books",
+    "view book": "View Book",
+    "create book": "Create Book",
+    "edit book": "Edit Book",
+    "delete book": "Delete Book"
+  },
+  "Roles": {
+    "admin": "Admin",
+    "second_admin": "Assistant Admin",
+    "student": "Student",
+    "library_admin": "Library Admin",
+    "library_student": "Library Student"
   }
 }

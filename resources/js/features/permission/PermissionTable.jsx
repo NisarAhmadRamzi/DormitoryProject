@@ -1,8 +1,9 @@
-import PermissionRow from './PermissionRow'
-import Spinner from '../../ui/Spinner'
-import { getPermission } from '../../services/apiPermission'
-import styled from 'styled-components'
 import { useQuery } from '@tanstack/react-query'
+import { useTranslation } from 'react-i18next'
+import styled from 'styled-components'
+import { getPermission } from '../../services/apiPermission'
+import Spinner from '../../ui/Spinner'
+import PermissionRow from './PermissionRow'
 
 const Table = styled.div`
   border: 1px solid var(--color-grey-200);
@@ -23,17 +24,24 @@ const TableHeader = styled.header`
 `
 
 function PermissionTable({ search = '' }) {
+  const { t } = useTranslation()
+
   const { data, isLoading, isError, error } = useQuery(
     ['permissions'],
     getPermission,
     {
-      refetchOnWindowFocus: true, // This ensures fresh data on window focus
-      refetchOnReconnect: true, // Optional: refetch when reconnecting
+      refetchOnWindowFocus: true,
+      refetchOnReconnect: true,
     }
   )
 
   if (isLoading) return <Spinner />
-  if (isError) return <p>Error: {error.message}</p>
+  if (isError)
+    return (
+      <p>
+        {t('errors.loading')} : {error.message}
+      </p>
+    )
 
   const permissions = Array.isArray(data?.data) ? data.data : []
 
@@ -41,17 +49,16 @@ function PermissionTable({ search = '' }) {
     permission.name.toLowerCase().includes(search.toLowerCase())
   )
 
-  if (filteredPermissions.length === 0)
-    return <p>No matching permissions found.</p>
+  if (filteredPermissions.length === 0) return <p>{t('permission.notFound')}</p>
 
   return (
     <Table role="table">
       <TableHeader role="row">
-        <div>ID</div>
-        <div>Name</div>
-        <div>Created At</div>
-        <div>Updated At</div>
-        <div>Actions</div>
+        <div>{t('permission.id')}</div>
+        <div>{t('permission.name')}</div>
+        <div>{t('permission.createdAt')}</div>
+        <div>{t('permission.updatedAt')}</div>
+        <div>{t('permission.actions')}</div>
       </TableHeader>
 
       {filteredPermissions.map((permission) => (

@@ -633,21 +633,21 @@
   },
   "BookError": "د کتابونو په راوړلو کې تېروتنه!",
   "bookTable": {
-    "noData": "اطلاعات کتاب موجود نیست.",
+    "noData": "هیڅ د کتاب معلومات نشته.",
     "details": {
-      "title": "جزئیات کتاب",
-      "totalCopies": "کل نسخه‌ها",
-      "totalBorrowed": "کل کتاب‌های قرض گرفته شده",
-      "libraryId": "شناسه کتابخانه",
-      "createdAt": "ایجاد شده در",
-      "updatedAt": "به‌روزرسانی شده در",
-      "na": "نامشخص"
+      "title": "د کتاب تفصیلات",
+      "totalCopies": "ټولې نسخې",
+      "totalBorrowed": "ټول پور شوي کتابونه",
+      "libraryId": "د کتابتون پېژند شمېر",
+      "createdAt": "د جوړېدو نېټه",
+      "updatedAt": "د نوي کولو نېټه",
+      "na": "شتون نه لري"
     },
     "headers": {
-      "id": "شناسه",
-      "title": "عنوان",
-      "author": "نویسنده",
-      "year": "سال انتشار",
+      "id": "شمېره",
+      "title": "سرلیک",
+      "author": "لیکوال",
+      "year": "د خپرېدو کال",
       "status": "وضعیت"
     }
   },
@@ -700,27 +700,28 @@
     "error": "د پور شوو کتابونو په ترلاسه کولو کې ستونزه!"
   },
   "createBorrowedBookForm": {
-    "studentId": "د زده کوونکي شمېره (اختیاري)",
-    "libraryStudentId": "د کتابتون زده کوونکي شمېره (اختیاري)",
-    "bookId": "د کتاب شمېره",
-    "bookIdRequired": "د کتاب شمېره اړینه ده",
-    "borrowDate": "د امانت نېټه",
-    "borrowDateRequired": "د امانت نېټه اړینه ده",
-    "returnDate": "د راستنولو نېټه (اختیاري)",
+    "selectOption": "یوه گزینه وټاکئ",
+    "studentId": "د زده کوونکي آی‌ډي (اختیاري)",
+    "libraryStudentId": "د کتابتون زده کوونکي آی‌ډي (اختیاري)",
+    "bookId": "د کتاب آی‌ډي",
+    "bookIdRequired": "د کتاب آی‌ډي اړین دی",
+    "borrowDate": "د پور نېټه",
+    "borrowDateRequired": "د پور نېټه اړینه ده",
+    "returnDate": "د بیرته ورکولو نېټه (اختیاري)",
+    "returnDateValidation": "د بیرته ورکولو نېټه باید د پور نېټې نه مخکې نه وي",
     "status": "حالت",
-    "statusRequired": "حالت اړین دی",
-    "selectStatus": "حالت غوره کړئ",
-    "borrowed": "اخیستل شوی",
-    "returned": "راستانه شوی",
-    "overdue": "وخت تیر شوی",
-    "cancel": "لغوه",
-    "createButton": "نوی امانت ثبت کړئ",
-    "editButton": "امانت سم کړئ",
-    "successCreate": "نوی امانت په بریالیتوب سره ثبت شو",
-    "successEdit": "امانت بریالیتوب سره سم شو",
-    "error": "یوه تېروتنه وشوه"
+    "statusRequired": "حالت لازمي دی",
+    "selectStatus": "حالت انتخاب کړئ",
+    "borrowed": "پور شوی",
+    "returned": "بیرته شوی",
+    "overdue": "ناوخته شوی",
+    "cancel": "لغوه کول",
+    "createButton": "د پور شوی کتاب ثبت کړئ",
+    "editButton": "د پور شوی کتاب سم کړئ",
+    "successCreate": "نوی پور شوی کتاب بریالۍ سره ثبت شو",
+    "successEdit": "پور شوی کتاب بریالۍ سره سم شو",
+    "error": "یو څه ستونزه پېښه شوې"
   },
-
   "fee": {
     "feeDetails": "د فیس تفصیلات",
     "studentName": "د محصل نوم",
@@ -1183,5 +1184,149 @@
     "staff": "کارکوونکي",
     "login": "ننوتل",
     "contact": "اړیکه"
+  },
+  "hero": {
+    "title": "زموږ کتابتون ته ښه راغلاست",
+    "subtitle": "زرګونه کتابونه او منابع ولټوئ",
+    "cta": "پیل وکړئ"
+  },
+  "about": {
+    "title": "زموږ د لیلیې په اړه",
+    "items": {
+      "wifi": {
+        "title": "لوړ سرعت وای‌فای",
+        "text": "په ټولې لیلیه کې د اوسېدونکو لپاره باور وړ انټرنټ."
+      },
+      "meal": {
+        "title": "د خوړو خدمتونه",
+        "text": "روغتیایي خواړه چې د محصلینو د روغتیا لپاره چمتو شوي."
+      },
+      "rooms": {
+        "title": "راحت کوټې",
+        "text": "فرنیچر لرونکي کوټې د مطالعې او استراحت لپاره."
+      }
+    },
+    "imageAlt": "د لیلیې په اړه"
+  },
+  "permission": {
+    "id": "شمېره",
+    "name": "نوم",
+    "createdAt": "جوړ شو په",
+    "updatedAt": "تازه شو په",
+    "actions": "عملیات",
+    "notFound": "هیڅ اجازه د لټون سره برابره نه ده موندل شوې."
+  },
+  "errors": {
+    "loading": "د معلوماتو په ترلاسه کولو کې ستونزه"
+  },
+  "permissions2": {
+    "resourceName": "اجازه",
+    "deleteBtn": "اجازه ړنګ کړئ",
+    "deletedSuccess": "اجازه په بریالیتوب سره ړنګ شوه",
+    "deleteError": "د اجازې ړنګول ناکامه شوه"
+  },
+  "permissions3": {
+    "addNew": "نوې اجازه اضافه کړئ"
+  },
+  "permissions4": {
+    "resourceName": "اجازه",
+    "deleteBtn": "اجازه ړنګ کړئ",
+    "deletedSuccess": "اجازه په بریالیتوب سره ړنګ شوه",
+    "deleteError": "د اجازې ړنګول ناکامه شوه"
+  },
+  "permissions5": {
+    "nameLabel": "د اجازې نوم",
+    "nameRequired": "د اجازې نوم باید ورکړل شي",
+    "addBtn": "نوې اجازه اضافه کړئ",
+    "updateBtn": "اجازه تازه کړئ",
+    "createSuccess": "اجازه په بریالیتوب سره اضافه شوه",
+    "updateSuccess": "اجازه په بریالیتوب سره تازه شوه",
+    "submitError": "یو څه ستونزه پېښه شوه"
+  },
+  "Permissions": {
+    "AdminDashboard": "د مدیر ډشبورډ",
+    "StudentDashboard": "د محصل ډشبورډ",
+    "LibraryAdminDashboard": "د کتابتون مدیر ډشبورډ",
+    "LibraryStudentDashboard": "د کتابتون محصل ډشبورډ",
+    "all users": "ټول کاروونکي",
+    "view user": "کاروونکی کتل",
+    "create user": "کاروونکی جوړول",
+    "edit user": "کاروونکی سمول",
+    "delete user": "کاروونکی ړنګول",
+    "assign user role": "کاروونکي ته رول ورکول",
+    "all students": "ټول محصلین",
+    "view student": "محصل کتل",
+    "create student": "محصل جوړول",
+    "edit student": "محصل سمول",
+    "delete student": "محصل ړنګول",
+    "restore student": "محصل بېرته راوستل",
+    "all roles": "ټول رولونه",
+    "view role": "رول کتل",
+    "create role": "رول جوړول",
+    "edit role": "رول سمول",
+    "delete role": "رول ړنګول",
+    "assign role permissions": "رول ته اجازې ورکول",
+    "all permissions": "ټولې اجازې",
+    "view permission": "اجازه کتل",
+    "create permission": "اجازه جوړول",
+    "edit permission": "اجازه سمول",
+    "delete permission": "اجازه ړنګول",
+    "all rooms": "ټولې کوټې",
+    "view room": "کوټه کتل",
+    "create room": "کوټه جوړول",
+    "edit room": "کوټه سمول",
+    "delete room": "کوټه ړنګول",
+    "all library students": "ټول د کتابتون محصلین",
+    "view library student": "د کتابتون محصل کتل",
+    "create library student": "د کتابتون محصل جوړول",
+    "edit library student": "د کتابتون محصل سمول",
+    "delete library student": "د کتابتون محصل ړنګول",
+    "all libraries": "ټول کتابتونونه",
+    "view library": "کتابتون کتل",
+    "create library": "کتابتون جوړول",
+    "edit library": "کتابتون سمول",
+    "delete library": "کتابتون ړنګول",
+    "all fees": "ټولې فیسونه",
+    "view fee": "فیس کتل",
+    "create fee": "فیس جوړول",
+    "edit fee": "فیس سمول",
+    "delete fee": "فیس ړنګول",
+    "all assets": "ټول شتمنۍ",
+    "view asset": "شتمني کتل",
+    "create asset": "شتمني جوړول",
+    "edit asset": "شتمني سمول",
+    "delete asset": "شتمني ړنګول",
+    "all supports": "ټول ملاتړونه",
+    "view support": "ملاتړ کتل",
+    "create support": "ملاتړ جوړول",
+    "edit support": "ملاتړ سمول",
+    "delete support": "ملاتړ ړنګول",
+    "all expenses": "ټولې لګښتونه",
+    "view expense": "لګښت کتل",
+    "create expense": "لګښت جوړول",
+    "edit expense": "لګښت سمول",
+    "delete expense": "لګښت ړنګول",
+    "all complaints": "ټولې شکایتونه",
+    "view complaint": "شکایت کتل",
+    "create complaint": "شکایت ثبتول",
+    "edit complaint": "شکایت سمول",
+    "delete complaint": "شکایت ړنګول",
+    "all borrowed books": "ټول پور شوي کتابونه",
+    "view borrowed book": "پور شوی کتاب کتل",
+    "create borrowed book": "پور شوی کتاب ثبتول",
+    "edit borrowed book": "پور شوی کتاب سمول",
+    "delete borrowed book": "پور شوی کتاب ړنګول",
+    "all books": "ټول کتابونه",
+    "view book": "کتاب کتل",
+    "create book": "کتاب جوړول",
+    "edit book": "کتاب سمول",
+    "delete book": "کتاب ړنګول"
+  },
+  "Roles": {
+    "admin": "مدیر",
+    "second_admin": "مرستیال مدیر",
+    "student": "محصل",
+    "library_admin": "د کتابتون مدیر",
+    "library_student": "د کتابتون محصل"
   }
 }
