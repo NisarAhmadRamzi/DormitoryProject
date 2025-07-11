@@ -43,7 +43,8 @@ class StudentController extends Controller
             'password' => ['required', 'string'],
             'from' => ['required', 'string', 'max:255'],
             'dob' => ['required', 'date', 'before:today'],
-            'id_number' => ['required', 'integer', 'digits_between:1,20'],
+            'id_number' => 'required|integer|unique:students,id_number,|max:999999',
+            // 'id_number' => ['required', 'integer', 'digits_between:1,20'],
             'academic_info' => ['required', 'in:School_Student,University_Student,Kankor_Student,Course_Student'],
             'phone' => ['required', 'integer'],
             'registration_date' => ['required', 'date'],
@@ -108,7 +109,7 @@ class StudentController extends Controller
             'password' => ['nullable', 'string'], // Password can be null
             'from' => ['required', 'string', 'max:255'],
             'dob' => ['required', 'date', 'before:today'],
-            'id_number' => ['required', 'integer', 'digits_between:1,20'],
+            'id_number' => 'required|integer|unique:students,id_number,|max:999999',
             'academic_info' => ['nullable', 'in:School_Student,University_Student,Kankor_Student,Course_Student'],
             'phone' => ['required', 'integer'],
             'registration_date' => ['required', 'date'],
