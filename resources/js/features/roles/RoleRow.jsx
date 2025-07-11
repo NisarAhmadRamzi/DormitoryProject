@@ -1,4 +1,3 @@
-
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import dayjs from 'dayjs'
 import 'dayjs/locale/en'
@@ -53,7 +52,7 @@ const EditButton = styled.button`
   padding: 0;
   display: flex;
   align-items: center;
-  color: var(--color-brand-600); /* Blue color for edit icon */
+  color: var(--color-brand-600);
 
   & svg {
     width: 1.8rem;
@@ -68,7 +67,7 @@ const DeleteButton = styled.button`
   padding: 0;
   display: flex;
   align-items: center;
-  color: #e53e3e; /* direct red color */
+  color: #e53e3e;
 
   & svg {
     width: 1.8rem;
@@ -90,7 +89,6 @@ export default function RoleRow({ role }) {
     },
   })
 
-  // Determine locale for dayjs: map 'ps' to 'fa', else use current or fallback to 'en'
   const supportedLocales = ['en', 'fa']
   const locale =
     i18n.language === 'ps'
@@ -104,11 +102,15 @@ export default function RoleRow({ role }) {
     <>
       <TableRow role="row">
         <div>{role.id}</div>
-        <div>{role.name}</div>
+        {/* ✅ Translate role name */}
+        <div>{t(`Roles.${role.name}`, role.name)}</div>
 
+        {/* ✅ Translate permission names */}
         <PermissionsCell>
           {Array.isArray(role.permissions) && role.permissions.length > 0 ? (
-            role.permissions.map((p) => <Badge key={p.id}>{p.name}</Badge>)
+            role.permissions.map((p) => (
+              <Badge key={p.id}>{t(`Permissions.${p.name}`, p.name)}</Badge>
+            ))
           ) : (
             <Badge>—</Badge>
           )}
@@ -131,7 +133,9 @@ export default function RoleRow({ role }) {
       </TableRow>
 
       <Modal.Window name={`edit-role-${role.id}`}>
-        <h2>{t('roleRow.editTitle', { name: role.name })}</h2>
+        <h2>
+          {t('roleRow.editTitle', { name: t(`Roles.${role.name}`, role.name) })}
+        </h2>
         <EditRoleForm role={role} onCloseModal={() => {}} />
       </Modal.Window>
 
@@ -139,7 +143,7 @@ export default function RoleRow({ role }) {
         <h2>{t('roleRow.deleteTitle')}</h2>
         <ConfirmDelete
           resourceName={t('roleRow.resourceName')}
-          itemLabel={role.name}
+          itemLabel={t(`Roles.${role.name}`, role.name)}
           onConfirm={() => deleteMut.mutate()}
         />
       </Modal.Window>
