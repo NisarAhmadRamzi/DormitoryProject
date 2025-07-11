@@ -697,6 +697,7 @@
     "error": "Error loading borrowed books!"
   },
   "createBorrowedBookForm": {
+    "selectOption" : "Select an option",
     "studentId": "Student ID (Optional)",
     "libraryStudentId": "Library Student ID (Optional)",
     "bookId": "Book ID",
@@ -704,6 +705,7 @@
     "borrowDate": "Borrow Date",
     "borrowDateRequired": "Borrow date is required",
     "returnDate": "Return Date (Optional)",
+    "returnDateValidation": "Return date cannot be before borrow date",
     "status": "Status",
     "statusRequired": "Status is required",
     "selectStatus": "Select status",
@@ -1066,6 +1068,7 @@
     }
   },
   "libraryStudentDashboard": {
+    "selectOption" : "Select an option",
     "title": "Library Student Dashboard",
     "studentInfo": "Student Info",
     "name": "Name",

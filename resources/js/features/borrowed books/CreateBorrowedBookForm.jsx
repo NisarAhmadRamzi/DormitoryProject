@@ -1,8 +1,11 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { getBooks } from '../../services/apiBooks'
 import {
   createBorrowedBook,
   editBorrowedBook,
 } from '../../services/apiBorrowedBooks'
+import { getAllLibraryStudents } from '../../services/apiLibraryStudents'
+import { getStudents } from '../../services/apiStudents'
 
 import React from 'react'
 import { useForm } from 'react-hook-form'
@@ -20,6 +23,14 @@ const FormRow = styled.div`
   grid-template-columns: 24rem 1fr 1.2fr;
   gap: 2.4rem;
   padding: 1.2rem 0;
+
+  input,
+  select {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
   &:first-child {
     padding-top: 0;
   }
@@ -52,6 +63,7 @@ function CreateBorrowedBookForm({ borrowedBookToEdit = {}, onCloseModal }) {
   const {
     register,
     handleSubmit,
+    watch,
     reset,
     formState: { errors },
   } = useForm({
@@ -59,6 +71,17 @@ function CreateBorrowedBookForm({ borrowedBookToEdit = {}, onCloseModal }) {
   })
 
   const queryClient = useQueryClient()
+  const { data: studentsResponse } = useQuery(['students'], getStudents)
+  const { data: libraryStudentsResponse } = useQuery(
+    ['library-students'],
+    getAllLibraryStudents
+  )
+  const { data: booksResponse } = useQuery(['books'], getBooks)
+
+  const students = studentsResponse?.data || []
+  const libraryStudents = libraryStudentsResponse?.data || []
+  const books = booksResponse?.data || []
+  const availableBooks = books.filter((b) => b.status === 'Available')
 
   const { mutate, isLoading } = useMutation({
     mutationFn: (data) =>
@@ -76,14 +99,16 @@ function CreateBorrowedBookForm({ borrowedBookToEdit = {}, onCloseModal }) {
       onCloseModal?.()
     },
     onError: (err) => {
-      const message = err.response?.data?.errors
+      const message = err?.response?.data?.errors
         ? Object.values(err.response.data.errors).flat().join(', ')
-        : err.response?.data?.message || t('createBorrowedBookForm.error')
+        : err?.response?.data?.message || t('createBorrowedBookForm.error')
       toast.error(message)
     },
   })
 
-  const onSubmit = (data) => mutate(data)
+  const onSubmit = (data) => {
+    mutate(data)
+  }
 
   React.useEffect(() => {
     if (isEditSession && borrowedBookToEdit) {
@@ -97,7 +122,14 @@ function CreateBorrowedBookForm({ borrowedBookToEdit = {}, onCloseModal }) {
         <Label htmlFor="student_id">
           {t('createBorrowedBookForm.studentId')}
         </Label>
-        <Input type="number" id="student_id" {...register('student_id')} />
+        <Select id="student_id" {...register('student_id')}>
+          <option value="">{t('createBorrowedBookForm.selectOption')}</option>
+          {students.map((s) => (
+            <option key={s.id} value={s.id}>
+              {s.id} - {s.name}
+            </option>
+          ))}
+        </Select>
         {errors?.student_id && <Error>{errors.student_id.message}</Error>}
       </FormRow>
 
@@ -105,11 +137,19 @@ function CreateBorrowedBookForm({ borrowedBookToEdit = {}, onCloseModal }) {
         <Label htmlFor="library_student_id">
           {t('createBorrowedBookForm.libraryStudentId')}
         </Label>
-        <Input
-          type="number"
+        <Select
           id="library_student_id"
-          {...register('library_student_id')}
-        />
+          {...register('library_student_id', {
+            required: t('createBorrowedBookForm.libraryStudentId'),
+          })}
+        >
+          <option value="">{t('createBorrowedBookForm.selectOption')}</option>
+          {libraryStudents.map((ls) => (
+            <option key={ls.id} value={ls.id}>
+              {ls.id} - {ls.name} {ls.last_name}
+            </option>
+          ))}
+        </Select>
         {errors?.library_student_id && (
           <Error>{errors.library_student_id.message}</Error>
         )}
@@ -117,13 +157,20 @@ function CreateBorrowedBookForm({ borrowedBookToEdit = {}, onCloseModal }) {
 
       <FormRow>
         <Label htmlFor="book_id">{t('createBorrowedBookForm.bookId')}</Label>
-        <Input
-          type="number"
+        <Select
           id="book_id"
           {...register('book_id', {
             required: t('createBorrowedBookForm.bookIdRequired'),
           })}
-        />
+        >
+          <option value="">{t('createBorrowedBookForm.selectOption')}</option>
+          {availableBooks.map((b) => (
+            <option key={b.id} value={b.id}>
+              {b.id} - {b.title.slice(0, 30)}
+              {b.title.length > 30 ? '...' : ''}
+            </option>
+          ))}
+        </Select>
         {errors?.book_id && <Error>{errors.book_id.message}</Error>}
       </FormRow>
 
@@ -145,7 +192,21 @@ function CreateBorrowedBookForm({ borrowedBookToEdit = {}, onCloseModal }) {
         <Label htmlFor="return_date">
           {t('createBorrowedBookForm.returnDate')}
         </Label>
-        <Input type="date" id="return_date" {...register('return_date')} />
+        <Input
+          type="date"
+          id="return_date"
+          {...register('return_date', {
+            validate: (value) => {
+              const borrowDate = new Date(watch('borrow_date'))
+              const returnDate = new Date(value)
+              if (value && returnDate < borrowDate) {
+                return t('createBorrowedBookForm.returnDateValidation')
+              }
+              return true
+            },
+          })}
+        />
+        {errors?.return_date && <Error>{errors.return_date.message}</Error>}
       </FormRow>
 
       <FormRow>
