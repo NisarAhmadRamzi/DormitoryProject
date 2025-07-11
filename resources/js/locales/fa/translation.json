@@ -301,6 +301,11 @@
     "errorLoading": "خطا در بارگذاری اتاق‌ها."
   },
   "roomForm": {
+    "priceIntegerOnly": "قیمت باید یک عدد صحیح باشد",
+    "occupancyHardLimit": "تعداد ساکنین نمی‌تواند بیشتر از ۸ باشد.",
+    "occupancyMax": "تعداد ساکنین نمی‌تواند بیشتر از ظرفیت اتاق باشد.",
+    "invalidFloorThird": "شماره اتاق بین ۳۱۴-۳۰۱ نمی‌تواند در طبقه چهارم باشد.",
+    "invalidFloorFourth": "شماره اتاق بین ۴۱۴-۴۰۱ نمی‌تواند در طبقه سوم باشد.",
     "selectRoomNumber": "شماره اتاق را انتخاب کنید",
     "roomNumber": "شماره اتاق",
     "roomNumberMin": "شماره اتاق باید حداقل ۳۰۱ باشد",
@@ -1324,6 +1329,7 @@
     "second_admin": "معاون مدیر",
     "student": "محصل",
     "library_admin": "مدیر کتابخانه",
-    "library_student": "محصل کتابخانه"
-  }
+    "librarystudent": "محصل کتابخانه"
+  },
+  "priceIntegerOnly": "بیه باید یوه بشپړه شمېره وي"
 }

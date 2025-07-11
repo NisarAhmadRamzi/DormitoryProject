@@ -59,7 +59,6 @@ function CreateRoomForm({ roomToEdit = {}, onCloseModal }) {
   const isEditSession = Boolean(roomToEdit.id)
 
   const queryClient = useQueryClient()
-
   const { data: cabinData } = useQuery({
     queryKey: ['cabins'],
     queryFn: getCabins,
@@ -77,7 +76,9 @@ function CreateRoomForm({ roomToEdit = {}, onCloseModal }) {
     setValue,
     formState: { errors },
   } = useForm({
-    defaultValues: isEditSession ? editValues : {},
+    defaultValues: isEditSession
+      ? { ...editValues, room_number: Number(editValues.room_number) }
+      : { price: 1000 },
   })
 
   const { mutate, isLoading } = useMutation({
@@ -97,6 +98,8 @@ function CreateRoomForm({ roomToEdit = {}, onCloseModal }) {
   })
 
   const type = watch('type')
+  const roomNumber = Number(watch('room_number'))
+  const capacity = Number(watch('capacity'))
 
   useEffect(() => {
     if (type === '4 people') setValue('capacity', 4)
@@ -105,26 +108,33 @@ function CreateRoomForm({ roomToEdit = {}, onCloseModal }) {
   }, [type, setValue])
 
   const onSubmit = (data) => mutate(data)
-  const onError = (err) => console.log(err)
 
   const renderRoomOptions = () => {
     const range = (start, end) =>
       Array.from({ length: end - start + 1 }, (_, i) => start + i)
 
     const allRoomNumbers = [...range(301, 314), ...range(401, 414)]
+    let availableNumbers = allRoomNumbers.filter(
+      (num) => !existingRoomNumbers.includes(num)
+    )
 
-    return allRoomNumbers
-      .filter((num) => !existingRoomNumbers.includes(num))
-      .map((num) => (
-        <option key={num} value={num}>
-          {num}
-        </option>
-      ))
+    if (isEditSession && roomToEdit.room_number) {
+      const current = Number(roomToEdit.room_number)
+      if (!availableNumbers.includes(current)) {
+        availableNumbers = [current, ...availableNumbers].sort((a, b) => a - b)
+      }
+    }
+
+    return availableNumbers.map((num) => (
+      <option key={num} value={num}>
+        {num}
+      </option>
+    ))
   }
 
   return (
     <Form
-      onSubmit={handleSubmit(onSubmit, onError)}
+      onSubmit={handleSubmit(onSubmit)} // ✅ Removed onError here
       type={onCloseModal ? 'modal' : 'regular'}
     >
       {/* Room Number */}
@@ -166,9 +176,18 @@ function CreateRoomForm({ roomToEdit = {}, onCloseModal }) {
         <Input
           type="number"
           id="capacity"
+          disabled={['4 people', '6 people', '8 people'].includes(type)}
           {...register('capacity', {
-            required: t('form.required'),
-            validate: (value) => value >= 0 || t('roomForm.capacityMin'),
+            validate: (value) => {
+              const isAutoType = ['4 people', '6 people', '8 people'].includes(
+                type
+              )
+              const parsed = Number(value)
+              if (isAutoType) return true
+              if (!value) return t('form.required')
+              if (parsed <= 0) return t('roomForm.capacityMin')
+              return true
+            },
           })}
         />
         {errors?.capacity && <Error>{errors.capacity.message}</Error>}
@@ -183,7 +202,13 @@ function CreateRoomForm({ roomToEdit = {}, onCloseModal }) {
           defaultValue={0}
           {...register('current_occupancy', {
             required: t('form.required'),
-            validate: (value) => value >= 0 || t('roomForm.occupancyMin'),
+            validate: (value) => {
+              const val = Number(value)
+              if (val > 8) return t('roomForm.occupancyHardLimit')
+              if (val > capacity) return t('roomForm.occupancyMax')
+              if (val < 0) return t('roomForm.occupancyMin')
+              return true
+            },
           })}
         />
         {errors?.current_occupancy && (
@@ -196,11 +221,18 @@ function CreateRoomForm({ roomToEdit = {}, onCloseModal }) {
         <Label htmlFor="price">{t('roomForm.price')}</Label>
         <Input
           type="number"
+          step="1"
           id="price"
-          defaultValue={0}
           {...register('price', {
             required: t('form.required'),
-            validate: (value) => value >= 0 || t('roomForm.priceMin'),
+            validate: (value) => {
+              const parsed = Number(value)
+              if (isNaN(parsed)) return t('roomForm.priceInvalid')
+              if (!Number.isInteger(parsed))
+                return t('roomForm.priceIntegerOnly')
+              if (parsed < 0) return t('roomForm.priceMin')
+              return true
+            },
           })}
         />
         {errors?.price && <Error>{errors.price.message}</Error>}
@@ -225,7 +257,26 @@ function CreateRoomForm({ roomToEdit = {}, onCloseModal }) {
         <Label htmlFor="floor">{t('roomForm.floor')}</Label>
         <StyledSelect
           id="floor"
-          {...register('floor', { required: t('form.required') })}
+          {...register('floor', {
+            required: t('form.required'),
+            validate: (value) => {
+              if (
+                roomNumber >= 301 &&
+                roomNumber <= 314 &&
+                value === 'Fourth Floor'
+              ) {
+                return t('roomForm.invalidFloorThird')
+              }
+              if (
+                roomNumber >= 401 &&
+                roomNumber <= 414 &&
+                value === 'Third Floor'
+              ) {
+                return t('roomForm.invalidFloorFourth')
+              }
+              return true
+            },
+          })}
         >
           <option value="">{t('roomForm.selectFloor')}</option>
           <option value="Third Floor">{t('roomForm.third')}</option>

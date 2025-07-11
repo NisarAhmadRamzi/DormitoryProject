@@ -301,6 +301,11 @@
     "errorLoading": "Error loading rooms."
   },
   "roomForm": {
+    "priceIntegerOnly": "Price must be an integer",
+    "occupancyHardLimit": "Occupancy cannot be greater than 8.",
+    "occupancyMax": "Occupancy cannot exceed room capacity.",
+    "invalidFloorThird": "Room number between 301-314 cannot be on the Fourth Floor.",
+    "invalidFloorFourth": "Room number between 401-414 cannot be on the Third Floor.",
     "selectRoomNumber": "Choose room number",
     "roomNumber": "Room Number",
     "roomNumberMin": "Room Number should be at least 301",

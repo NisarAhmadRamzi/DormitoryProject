@@ -54,7 +54,7 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
 
-Route::middleware('auth:sanctum')->group(function () {
+// Route::middleware('auth:sanctum')->group(function () {
 Route::apiResource('rooms', RoomController::class);
 
 // user routes
@@ -112,4 +112,4 @@ Route::get('/dashboard/second-admin', [DashboardController::class, 'stats']);
 Route::get('/dashboard/student', [DashboardController::class, 'studentDashboard']);
 Route::get('/dashboard/library-admin', [DashboardController::class, 'libraryAdminDashboard']);
 Route::get('/dashboard/library-student', [DashboardController::class, 'libraryStudentDashboard']);
-});
+// });
