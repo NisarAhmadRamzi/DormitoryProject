@@ -10,15 +10,15 @@ use Illuminate\Support\Facades\Artisan;
 
 class RoomController extends Controller
 {
-    public function __construct()
-    {
-        Artisan::call('permission:cache-reset');
-        $this->middleware('permission:all rooms')->only(['index']);
-        $this->middleware('permission:view room')->only(['show']);
-        $this->middleware('permission:create room')->only(['store']);
-        $this->middleware('permission:edit room')->only(['update']);
-        $this->middleware('permission:delete room')->only(['destroy']);
-    }
+    // public function __construct()
+    // {
+    //     Artisan::call('permission:cache-reset');
+    //     $this->middleware('permission:all rooms')->only(['index']);
+    //     $this->middleware('permission:view room')->only(['show']);
+    //     $this->middleware('permission:create room')->only(['store']);
+    //     $this->middleware('permission:edit room')->only(['update']);
+    //     $this->middleware('permission:delete room')->only(['destroy']);
+    // }
     /**
      * Display a listing of the rooms.
      */
@@ -79,11 +79,12 @@ class RoomController extends Controller
     public function update(Request $request, Room $room)
     {
         $validated = $request->validate([
-            'room_number' => 'required|integer|unique:rooms,room_number|in:301,302,303,304,305,306,307,308,309,310,311,312,313,314,401,402,403,404,405,406,407,408,409,410,411,412,413,414',
+            'room_number' => 'required|integer|in:301,302,303,304,305,306,307,308,309,310,311,312,313,314,401,402,403,404,405,406,407,408,409,410,411,412,413,414'
+                . '|unique:rooms,room_number,' . $room->id,
             'type' => 'required|in:4 people,6 people,8 people',
-            'capacity' => 'required|integer|in:4,6,8',
-            'current_occupancy' => 'nullable|integer',
-            'price' => 'required|integer|min:0', // Optional
+            'capacity' => 'required|in:4,6,8',
+            'current_occupancy' => 'nullable|integer|between:0,8',
+            'price' => 'required|integer|min:0',
             'status' => 'required|in:Available,Occupied',
             'floor' => 'required|in:Third Floor,Fourth Floor',
         ]);
