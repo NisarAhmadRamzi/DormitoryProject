@@ -629,24 +629,23 @@
     "pageInfo": "Page {{currentPage}} of {{totalPages}}",
     "rowsPerPage": "Rows per page:"
   },
-  "BookError": "Error loading books!",
   "bookTable": {
-    "noData": "د کتاب معلومات شتون نلري",
+    "noData": "No book data available.",
     "details": {
-      "title": "د کتاب تفصيل",
-      "totalCopies": "ټول نسخې",
-      "totalBorrowed": "ټول پورته شوي کتابونه",
-      "libraryId": "د کتابتون شمېره",
-      "createdAt": "جوړ شوی وخت",
-      "updatedAt": "تازه شوی وخت",
+      "title": "Book Details",
+      "totalCopies": "Total Copies",
+      "totalBorrowed": "Total of Borrowed Books",
+      "libraryId": "Library ID",
+      "createdAt": "Created At",
+      "updatedAt": "Updated At",
       "na": "N/A"
     },
     "headers": {
-      "id": "شناخت",
-      "title": "سرلیک",
-      "author": "لیکوال",
-      "year": "کال",
-      "status": "حالت"
+      "id": "ID",
+      "title": "Title",
+      "author": "Author",
+      "year": "Publication Year",
+      "status": "Status"
     }
   },
   "borrowedBook": {

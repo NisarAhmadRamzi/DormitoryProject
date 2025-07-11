@@ -630,22 +630,22 @@
   },
   "BookError": "خطا در بارگذاری کتاب‌ها!",
   "bookTable": {
-    "noData": "No book data available.",
+    "noData": "هیچ اطلاعاتی از کتاب موجود نیست.",
     "details": {
-      "title": "Book Details",
-      "totalCopies": "Total Copies",
-      "totalBorrowed": "Total of Borrowed Books",
-      "libraryId": "Library ID",
-      "createdAt": "Created At",
-      "updatedAt": "Updated At",
-      "na": "N/A"
+      "title": "جزئیات کتاب",
+      "totalCopies": "تعداد کل نسخه‌ها",
+      "totalBorrowed": "تعداد کل کتاب‌های قرض گرفته‌شده",
+      "libraryId": "شناسه کتابخانه",
+      "createdAt": "تاریخ ایجاد",
+      "updatedAt": "تاریخ به‌روزرسانی",
+      "na": "ناموجود"
     },
     "headers": {
-      "id": "ID",
-      "title": "Title",
-      "author": "Author",
-      "year": "Publication Year",
-      "status": "Status"
+      "id": "شماره",
+      "title": "عنوان",
+      "author": "نویسنده",
+      "year": "سال نشر",
+      "status": "وضعیت"
     }
   },
   "borrowedBook": {
