@@ -61,6 +61,7 @@
     "thisResource": "this {{resource}}"
   },
   "userForm": {
+    "emailExists": "This email is already taken",
     "name": "Name",
     "email": "Email",
     "password": "Password",

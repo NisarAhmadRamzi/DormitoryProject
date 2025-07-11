@@ -52,6 +52,15 @@
 //   const isEditSession = Boolean(studentToEdit?.id)
 //   const queryClient = useQueryClient()
 
+//   // Calculate the max date for DOB (today minus 10 years)
+//   const today = new Date()
+//   const tenYearsAgo = new Date(
+//     today.getFullYear() - 10,
+//     today.getMonth(),
+//     today.getDate()
+//   )
+//   const tenYearsAgoISO = tenYearsAgo.toISOString().split('T')[0]
+
 //   const {
 //     register,
 //     handleSubmit,
@@ -201,14 +210,14 @@
 //           <Input
 //             id="dob"
 //             type="date"
+//             max={tenYearsAgoISO} // Max date to ensure at least 10 years old
 //             {...register('dob', {
 //               required: t('studentForm.errors.dob'),
 //               validate: (value) => {
 //                 const selectedDate = new Date(value)
-//                 const today = new Date()
-//                 return selectedDate <= today
+//                 return selectedDate <= tenYearsAgo
 //                   ? true
-//                   : t('studentForm.errors.dobFuture')
+//                   : t('studentForm.errors.dobTooYoung')
 //               },
 //             })}
 //           />
@@ -250,10 +259,19 @@
 //             })}
 //           >
 //             <option value="">{t('studentForm.errors.selectOption')}</option>
-//             <option value="School_Student">School_Student</option>
-//             <option value="University_Student">University_Student</option>
-//             <option value="Kankor_Student">Kankor_Student</option>
-//             <option value="Course_Student">Course_Student</option>
+//             <option value="School_Student">
+//               {t('studentForm.errors.school_student')}
+//             </option>
+//             <option value="University_Student">
+//               {t('studentForm.errors.university_student')}
+//             </option>
+//             <option value="Kankor_Student">
+//               {t('studentForm.errors.kankor_student')}
+//             </option>
+//             <option value="Course_Student">
+//               {t('studentForm.errors.course_student')}
+//             </option>
+//             <option value="Others">{t('studentForm.errors.other')}</option>
 //           </SelectInput>
 //           {errors.academic_info && (
 //             <Error>{errors.academic_info.message}</Error>
@@ -276,13 +294,15 @@
 //             <Error>{errors.registration_date.message}</Error>
 //           )}
 //         </FormRow>
+
+//         {/* Phone */}
 //         <FormRow>
 //           <Label htmlFor="phone">{t('studentForm.phone')}</Label>
 //           <Input
 //             type="text"
 //             id="phone"
 //             placeholder="+93xxxxxxxxx"
-//             defaultValue="+93" // <-- This pre-fills the input with "+93"
+//             defaultValue="+93"
 //             {...register('phone', {
 //               required: t('studentForm.errors.phone'),
 //               pattern: {
@@ -367,7 +387,11 @@ import { useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
-import { createStudent, editStudent } from '../../services/apiStudents'
+import {
+  createStudent,
+  editStudent,
+  getStudents, // <-- make sure this is imported
+} from '../../services/apiStudents'
 import Button from '../../ui/Button'
 import Form from '../../ui/Form'
 import Input from '../../ui/Input'
@@ -415,7 +439,6 @@ function CreateStudentForm({ studentToEdit = {}, onCloseModal }) {
   const isEditSession = Boolean(studentToEdit?.id)
   const queryClient = useQueryClient()
 
-  // Calculate the max date for DOB (today minus 10 years)
   const today = new Date()
   const tenYearsAgo = new Date(
     today.getFullYear() - 10,
@@ -429,8 +452,9 @@ function CreateStudentForm({ studentToEdit = {}, onCloseModal }) {
     handleSubmit,
     reset,
     watch,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm({
+    mode: 'onBlur', // validate on blur for async validation
     defaultValues: isEditSession
       ? {
           ...studentToEdit,
@@ -453,6 +477,27 @@ function CreateStudentForm({ studentToEdit = {}, onCloseModal }) {
       })
     }
   }, [studentToEdit, reset])
+
+  // Async validator for ID Number to check duplicates live
+  const validateIdNumber = async (value) => {
+    if (!value) return t('studentForm.errors.idNumber')
+
+    if (!/^\d+$/.test(value)) return t('studentForm.errors.idNumberInvalid')
+
+    try {
+      const students = await getStudents()
+      const found = students.find(
+        (s) => s.id_number === value && s.id !== studentToEdit?.id
+      )
+      if (found) {
+        return t('studentForm.errors.idNumberTaken') || 'ID has taken already'
+      }
+    } catch (error) {
+      // Ignore API errors in validation, allow submission
+    }
+
+    return true
+  }
 
   const { mutate, isLoading } = useMutation({
     mutationFn: isEditSession
@@ -480,7 +525,7 @@ function CreateStudentForm({ studentToEdit = {}, onCloseModal }) {
     },
   })
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     if (!isEditSession && !data.password) {
       toast.error(t('studentForm.errors.password'))
       return
@@ -573,7 +618,7 @@ function CreateStudentForm({ studentToEdit = {}, onCloseModal }) {
           <Input
             id="dob"
             type="date"
-            max={tenYearsAgoISO} // Max date to ensure at least 10 years old
+            max={tenYearsAgoISO}
             {...register('dob', {
               required: t('studentForm.errors.dob'),
               validate: (value) => {
@@ -595,10 +640,6 @@ function CreateStudentForm({ studentToEdit = {}, onCloseModal }) {
             type="text"
             {...register('id_number', {
               required: t('studentForm.errors.idNumber'),
-              pattern: {
-                value: /^\d+$/,
-                message: t('studentForm.errors.idNumberInvalid'),
-              },
               minLength: {
                 value: 1,
                 message: t('studentForm.errors.idNumberLength'),
@@ -607,6 +648,7 @@ function CreateStudentForm({ studentToEdit = {}, onCloseModal }) {
                 value: 20,
                 message: t('studentForm.errors.idNumberLength'),
               },
+              validate: validateIdNumber,
             })}
           />
           {errors.id_number && <Error>{errors.id_number.message}</Error>}
@@ -734,7 +776,7 @@ function CreateStudentForm({ studentToEdit = {}, onCloseModal }) {
         <Button type="reset" variation="secondary" onClick={() => reset()}>
           {t('studentForm.reset')}
         </Button>
-        <Button disabled={isLoading}>
+        <Button disabled={isLoading || isSubmitting}>
           {isEditSession ? t('studentForm.update') : t('studentForm.add')}
         </Button>
       </div>

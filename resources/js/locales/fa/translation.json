@@ -61,6 +61,7 @@
     "thisResource": "این {{resource}}"
   },
   "userForm": {
+    "emailExists": "این ایمیل قبلاً ثبت شده است",
     "name": "نام",
     "email": "ایمیل",
     "password": "رمز عبور",

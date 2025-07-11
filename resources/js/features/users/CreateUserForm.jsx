@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
-import { createUser, editUser } from '../../services/apiUser'
+import { createUser, editUser, getUsers } from '../../services/apiUser'
 import Button from '../../ui/Button'
 import Form from '../../ui/Form'
 import Input from '../../ui/Input'
@@ -81,7 +81,8 @@ function CreateUserForm({ userToEdit = {}, onCloseModal }) {
         name: userToEdit.name || '',
         email: userToEdit.email || '',
       })
-      const normalizedRole = userToEdit.role?.user_role || userToEdit.role_name || 'student'
+      const normalizedRole =
+        userToEdit.role?.user_role || userToEdit.role_name || 'student'
       setValue('role', normalizedRole)
     }
   }, [isEdit, userToEdit, reset, setValue])
@@ -124,8 +125,22 @@ function CreateUserForm({ userToEdit = {}, onCloseModal }) {
         <Label>{t('userForm.email')}</Label>
         <Input
           type="email"
-          {...register('email', { required: t('userForm.errors.email') })}
+          {...register('email', {
+            required: t('userForm.errors.email'),
+            validate: async (value) => {
+              try {
+                const users = await getUsers()
+                const emailExists = users?.data?.some(
+                  (user) => user.email === value && user.id !== userToEdit?.id
+                )
+                return !emailExists || t('userForm.emailExists')
+              } catch (error) {
+                return t('userForm.errors.emailCheckFailed')
+              }
+            },
+          })}
         />
+
         {errors.email && <Error>{errors.email.message}</Error>}
       </FormRow>
 
@@ -157,7 +172,11 @@ function CreateUserForm({ userToEdit = {}, onCloseModal }) {
 
       <FormRow>
         <Label>{t('userForm.role')}</Label>
-        <SelectInput {...register('role')} value={selectedRole} onChange={(e) => setValue('role', e.target.value)}>
+        <SelectInput
+          {...register('role')}
+          value={selectedRole}
+          onChange={(e) => setValue('role', e.target.value)}
+        >
           <option value="admin">{t('roles.admin')}</option>
           <option value="second_admin">{t('roles.second_admin')}</option>
           <option value="student">{t('roles.student')}</option>

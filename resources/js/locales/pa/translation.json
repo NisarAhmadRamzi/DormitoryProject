@@ -61,6 +61,7 @@
     "thisResource": "دا {{resource}}"
   },
   "userForm": {
+    "emailExists": "دا بریښنالیک مخکې ثبت شوی دی",
     "name": "نوم",
     "email": "بریښنالیک",
     "password": "پټنوم",
@@ -302,7 +303,7 @@
   },
   "roomForm": {
     "roomForm": {
-    "priceIntegerOnly": "بیه باید یوه بشپړه شمېره وي",
+      "priceIntegerOnly": "بیه باید یوه بشپړه شمېره وي",
       "occupancyHardLimit": "د اوسېدونکو شمېر نشي کولی له ۸ څخه ډېر وي.",
       "occupancyMax": "د اوسېدونکو شمېر نشي کولی د خونې له ظرفیت څخه ډېر وي.",
       "invalidFloorThird": "د ۳۰۱ څخه تر ۳۱۴ خونو شمېر باید په څلورم منزل کې نه وي.",
