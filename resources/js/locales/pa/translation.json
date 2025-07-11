@@ -1207,5 +1207,40 @@
       }
     },
     "imageAlt": "د لیلیې په اړه"
+  },
+  "permission": {
+    "id": "شمېره",
+    "name": "نوم",
+    "createdAt": "جوړ شو په",
+    "updatedAt": "تازه شو په",
+    "actions": "عملیات",
+    "notFound": "هیڅ اجازه د لټون سره برابره نه ده موندل شوې."
+  },
+  "errors": {
+    "loading": "د معلوماتو په ترلاسه کولو کې ستونزه"
+  },
+  "permissions2": {
+    "resourceName": "اجازه",
+    "deleteBtn": "اجازه ړنګ کړئ",
+    "deletedSuccess": "اجازه په بریالیتوب سره ړنګ شوه",
+    "deleteError": "د اجازې ړنګول ناکامه شوه"
+  },
+  "permissions3": {
+    "addNew": "نوې اجازه اضافه کړئ"
+  },
+  "permissions4": {
+    "resourceName": "اجازه",
+    "deleteBtn": "اجازه ړنګ کړئ",
+    "deletedSuccess": "اجازه په بریالیتوب سره ړنګ شوه",
+    "deleteError": "د اجازې ړنګول ناکامه شوه"
+  },
+  "permissions5": {
+    "nameLabel": "د اجازې نوم",
+    "nameRequired": "د اجازې نوم باید ورکړل شي",
+    "addBtn": "نوې اجازه اضافه کړئ",
+    "updateBtn": "اجازه تازه کړئ",
+    "createSuccess": "اجازه په بریالیتوب سره اضافه شوه",
+    "updateSuccess": "اجازه په بریالیتوب سره تازه شوه",
+    "submitError": "یو څه ستونزه پېښه شوه"
   }
 }

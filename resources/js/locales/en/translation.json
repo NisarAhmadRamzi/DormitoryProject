@@ -697,7 +697,7 @@
     "error": "Error loading borrowed books!"
   },
   "createBorrowedBookForm": {
-    "selectOption" : "Select an option",
+    "selectOption": "Select an option",
     "studentId": "Student ID (Optional)",
     "libraryStudentId": "Library Student ID (Optional)",
     "bookId": "Book ID",
@@ -1068,7 +1068,7 @@
     }
   },
   "libraryStudentDashboard": {
-    "selectOption" : "Select an option",
+    "selectOption": "Select an option",
     "title": "Library Student Dashboard",
     "studentInfo": "Student Info",
     "name": "Name",
@@ -1198,5 +1198,40 @@
       }
     },
     "imageAlt": "About Dormitory"
+  },
+  "permission": {
+    "id": "ID",
+    "name": "Name",
+    "createdAt": "Created At",
+    "updatedAt": "Updated At",
+    "actions": "Actions",
+    "notFound": "No matching permissions found."
+  },
+  "errors": {
+    "loading": "Error loading data"
+  },
+  "permissions2": {
+    "resourceName": "permission",
+    "deleteBtn": "Delete permission",
+    "deletedSuccess": "Permission deleted successfully",
+    "deleteError": "Failed to delete permission"
+  },
+  "permissions3": {
+    "addNew": "Add new Permission"
+  },
+  "permissions4": {
+    "resourceName": "permission",
+    "deleteBtn": "Delete permission",
+    "deletedSuccess": "Permission deleted successfully",
+    "deleteError": "Failed to delete permission"
+  },
+  "permissions5": {
+    "nameLabel": "Permission Name",
+    "nameRequired": "Permission name is required",
+    "addBtn": "Add Permission",
+    "updateBtn": "Update Permission",
+    "createSuccess": "Permission created successfully",
+    "updateSuccess": "Permission updated successfully",
+    "submitError": "Something went wrong"
   }
 }

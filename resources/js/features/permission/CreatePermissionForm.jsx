@@ -1,10 +1,11 @@
-import { createPermission, editPermission } from '../../services/apiPermission'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { createPermission, editPermission } from '../../services/apiPermission'
 
-import Button from '../../ui/Button'
-import styled from 'styled-components'
-import toast from 'react-hot-toast'
 import { useForm } from 'react-hook-form'
+import toast from 'react-hot-toast'
+import { useTranslation } from 'react-i18next'
+import styled from 'styled-components'
+import Button from '../../ui/Button'
 
 const Form = styled.form`
   display: flex;
@@ -36,8 +37,10 @@ const Input = styled.input`
 `
 
 function CreatePermissionForm({ permissionToEdit = {}, onCloseModal }) {
+  const { t } = useTranslation()
   const isEditSession = Boolean(permissionToEdit?.id)
   const queryClient = useQueryClient()
+
   const { register, handleSubmit, reset } = useForm({
     defaultValues: isEditSession ? { name: permissionToEdit.name } : {},
   })
@@ -53,10 +56,10 @@ function CreatePermissionForm({ permissionToEdit = {}, onCloseModal }) {
     },
     onSuccess: () => {
       toast.success(
-        `Permission ${isEditSession ? 'updated' : 'created'} successfully`
+        t(`permissions5.${isEditSession ? 'updateSuccess' : 'createSuccess'}`)
       )
     },
-    onError: (err) => toast.error(err.message || 'Something went wrong'),
+    onError: (err) => toast.error(err.message || t('permissions5.submitError')),
   })
 
   const onSubmit = (data) => {
@@ -65,13 +68,15 @@ function CreatePermissionForm({ permissionToEdit = {}, onCloseModal }) {
 
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
-      <Label htmlFor="name">Permission Name</Label>
+      <Label htmlFor="name">{t('permissions5.nameLabel')}</Label>
       <Input
         id="name"
-        {...register('name', { required: 'Permission name is required' })}
+        {...register('name', {
+          required: t('permissions5.nameRequired'),
+        })}
       />
       <Button type="submit" disabled={isLoading}>
-        {isEditSession ? 'Update Permission' : 'Add Permission'}
+        {isEditSession ? t('permissions5.updateBtn') : t('permissions5.addBtn')}
       </Button>
     </Form>
   )

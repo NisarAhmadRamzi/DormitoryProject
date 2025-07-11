@@ -1204,5 +1204,40 @@
       }
     },
     "imageAlt": "درباره خوابگاه"
+  },
+  "permission": {
+    "id": "شماره",
+    "name": "نام",
+    "createdAt": "ایجاد شده در",
+    "updatedAt": "به‌روزرسانی شده در",
+    "actions": "عملیات",
+    "notFound": "هیچ اجازه‌ای مطابق با جستجو یافت نشد."
+  },
+  "errors": {
+    "loading": "خطا در بارگیری داده‌ها"
+  },
+  "permissions2": {
+    "resourceName": "اجازه",
+    "deleteBtn": "حذف اجازه",
+    "deletedSuccess": "اجازه موفقانه حذف شد",
+    "deleteError": "حذف اجازه ناکام شد"
+  },
+  "permissions3": {
+    "addNew": "اجازه جدید اضافه کنید"
+  },
+  "permissions4": {
+    "resourceName": "اجازه",
+    "deleteBtn": "حذف اجازه",
+    "deletedSuccess": "اجازه موفقانه حذف شد",
+    "deleteError": "حذف اجازه ناکام شد"
+  },
+  "permissions5": {
+    "nameLabel": "نام اجازه",
+    "nameRequired": "وارد کردن نام اجازه ضروری است",
+    "addBtn": "اجازه جدید اضافه کنید",
+    "updateBtn": "ویرایش اجازه",
+    "createSuccess": "اجازه با موفقیت اضافه شد",
+    "updateSuccess": "اجازه با موفقیت ویرایش شد",
+    "submitError": "مشکلی پیش آمده است"
   }
 }
