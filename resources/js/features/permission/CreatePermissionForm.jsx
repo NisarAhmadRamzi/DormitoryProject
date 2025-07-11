@@ -41,14 +41,23 @@ function CreatePermissionForm({ permissionToEdit = {}, onCloseModal }) {
   const isEditSession = Boolean(permissionToEdit?.id)
   const queryClient = useQueryClient()
 
-  const { register, handleSubmit, reset } = useForm({
-    defaultValues: isEditSession ? { name: permissionToEdit.name } : {},
+  // Initialize form with translated permission name (editable)
+  const { register, handleSubmit, reset, setValue } = useForm({
+    defaultValues: isEditSession
+      ? {
+          name: t(
+            `Permissions.${permissionToEdit.name}`,
+            permissionToEdit.name
+          ),
+        }
+      : {},
   })
 
   const { mutate, isLoading } = useMutation({
-    mutationFn: isEditSession
-      ? (data) => editPermission(permissionToEdit.id, data)
-      : createPermission,
+    mutationFn: (data) =>
+      isEditSession
+        ? editPermission(permissionToEdit.id, data)
+        : createPermission(data),
     onSettled: () => {
       queryClient.invalidateQueries(['permissions'])
       onCloseModal?.()
@@ -59,22 +68,28 @@ function CreatePermissionForm({ permissionToEdit = {}, onCloseModal }) {
         t(`permissions5.${isEditSession ? 'updateSuccess' : 'createSuccess'}`)
       )
     },
-    onError: (err) => toast.error(err.message || t('permissions5.submitError')),
+    onError: (err) => {
+      toast.error(err.message || t('permissions5.submitError'))
+    },
   })
 
   const onSubmit = (data) => {
+    // data.name contains whatever user typed, translated or not
     mutate(data)
   }
 
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
       <Label htmlFor="name">{t('permissions5.nameLabel')}</Label>
+
       <Input
         id="name"
         {...register('name', {
           required: t('permissions5.nameRequired'),
         })}
+        autoComplete="off"
       />
+
       <Button type="submit" disabled={isLoading}>
         {isEditSession ? t('permissions5.updateBtn') : t('permissions5.addBtn')}
       </Button>

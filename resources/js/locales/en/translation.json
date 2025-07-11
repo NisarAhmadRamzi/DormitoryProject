@@ -1318,6 +1318,6 @@
     "second_admin": "Assistant Admin",
     "student": "Student",
     "library_admin": "Library Admin",
-    "library student": "Library Student"
+    "library_student": "Library Student"
   }
 }
