@@ -521,6 +521,9 @@
     "updateSuccess": "دانشجو \"{{name}} {{lastName}}\" با موفقیت ویرایش شد",
     "genericError": "مشکلی رخ داده است",
     "validation": {
+      "idNumberNonNegative": "شمارهٔ تثبیت هویت باید یک عدد غیر منفی باشد.",
+      "idNumberTaken": "این شمارهٔ شناسایی قبلاً استفاده شده است.",
+      "emailTaken": "این ایمیل قبلاً ثبت شده است.",
       "nameRequired": "نام الزامی است",
       "lastNameRequired": "نام خانوادگی الزامی است",
       "emailRequired": "ایمیل الزامی است",

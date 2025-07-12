@@ -170,7 +170,7 @@
     "updatedSuccess": "Student updated successfully",
     "error": "Something went wrong",
     "errors": {
-      "idNumberTaken" : "This email has already been taken",
+      "idNumberTaken": "This email has already been taken",
       "idCheckFailed": "Failed to validate ID number. Please try again.",
       "idExist": "This id has already exist",
       "name": "Name is required",
@@ -522,6 +522,9 @@
     "updateSuccess": "Student \"{{name}} {{lastName}}\" updated successfully",
     "genericError": "Something went wrong",
     "validation": {
+      "idNumberNonNegative": "ID number must be a non-negative number.",
+      "idNumberTaken": "ID number has already been used.",
+      "emailTaken": "Email is already registered.",
       "nameRequired": "First name is required",
       "lastNameRequired": "Last name is required",
       "emailRequired": "Email is required",
@@ -1378,8 +1381,9 @@
   "lastNamePlaceholder": "Doe",
   "emailPlaceholder": "Johndoe@example.com",
   "messagePlaceholder": "This is looking great and nice.",
- "footerDescription": "Fanos Dormitory is a welcoming and secure environment where students thrive academically and socially. We are committed to providing comfort, safety, and a sense of community.",  "privacy": "Privacy",
+  "footerDescription": "Fanos Dormitory is a welcoming and secure environment where students thrive academically and socially. We are committed to providing comfort, safety, and a sense of community.",
+  "privacy": "Privacy",
   "terms": "Terms",
   "disclaimer": "Disclaimer",
-  "dormName" : "Fanos Dormitory"
+  "dormName": "Fanos Dormitory"
 }

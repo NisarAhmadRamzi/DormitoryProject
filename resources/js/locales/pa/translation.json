@@ -525,6 +525,9 @@
       "updateSuccess": "زده کوونکی \"{{name}} {{lastName}}\" بریالی سم شو",
       "genericError": "یوه ستونزه پېښه شوې",
       "validation": {
+        "idNumberNonNegative": "د پېژند شمېره باید منفي نه وي.",
+        "idNumberTaken": "دغه پېژند شمېره له مخکې کارول شوې ده.",
+        "emailTaken": "دا برېښنالیک له مخکې ثبت شوی دی.",
         "nameRequired": "نوم اړین دی",
         "lastNameRequired": "تخلص اړین دی",
         "emailRequired": "بریښنالیک اړین دی",

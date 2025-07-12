@@ -1,7 +1,8 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import {
   createLibraryStudent,
   editLibraryStudent,
+  getAllLibraryStudents,
 } from '../../services/apiLibraryStudents'
 
 import React from 'react'
@@ -82,8 +83,12 @@ function CreateLibraryStudentForm({ studentToEdit = {}, onCloseModal }) {
   })
 
   const registrationDate = watch('registration_date')
-
   const queryClient = useQueryClient()
+
+  const { data: allStudentsData } = useQuery({
+    queryKey: ['library-students'],
+    queryFn: getAllLibraryStudents,
+  })
 
   const { mutate, isLoading } = useMutation({
     mutationFn: (data) => {
@@ -169,6 +174,15 @@ function CreateLibraryStudentForm({ studentToEdit = {}, onCloseModal }) {
             id="email"
             {...register('email', {
               required: t('libraryStudentForm.validation.emailRequired'),
+              validate: (value) => {
+                const exists = allStudentsData?.data?.some(
+                  (student) =>
+                    student.email === value && student.id !== studentToEdit?.id
+                )
+                return exists
+                  ? t('libraryStudentForm.validation.emailTaken')
+                  : true
+              },
             })}
           />
           {errors?.email && <Error>{errors.email.message}</Error>}
@@ -210,18 +224,26 @@ function CreateLibraryStudentForm({ studentToEdit = {}, onCloseModal }) {
             type="number"
             id="id_number"
             {...register('id_number', {
-              required: t('libraryStudentForm.idNumberRequired'),
+              required: t('libraryStudentForm.validation.idNumberRequired'),
               min: {
                 value: 0,
-                message: t('libraryStudentForm.idNumberNonNegative'),
+                message: t('libraryStudentForm.validation.idNumberNonNegative'),
               },
-              validate: (value) =>
-                !isNaN(value) && Number(value) >= 0
-                  ? true
-                  : t('libraryStudentForm.idNumberNonNegative'),
+              validate: (value) => {
+                if (isNaN(value) || Number(value) < 0)
+                  return t('libraryStudentForm.validation.idNumberNonNegative')
+
+                const exists = allStudentsData?.data?.some(
+                  (student) =>
+                    student.id_number === Number(value) &&
+                    student.id !== studentToEdit?.id
+                )
+                return exists
+                  ? t('libraryStudentForm.validation.idNumberTaken')
+                  : true
+              },
             })}
           />
-
           {errors?.id_number && <Error>{errors.id_number.message}</Error>}
         </FormRow>
 
@@ -332,9 +354,6 @@ function CreateLibraryStudentForm({ studentToEdit = {}, onCloseModal }) {
             <option value="Female">
               {t('libraryStudentForm.genderOptions.female')}
             </option>
-            {/* <option value="Other">
-              {t('libraryStudentForm.genderOptions.other')}
-            </option> */}
             <option value="Other">
               {t('libraryStudentForm.genderOptions.other')}
             </option>
@@ -342,30 +361,8 @@ function CreateLibraryStudentForm({ studentToEdit = {}, onCloseModal }) {
           {errors?.gender && <Error>{errors.gender.message}</Error>}
         </FormRow>
 
-        {/* <FormRow>
-          <Label htmlFor="membership_status">
-            {t('libraryStudentForm.membershipStatus')}
-          </Label>
-          <StyledSelect
-            id="membership_status"
-            {...register('membership_status')}
-          >
-            <option value="">{t('libraryStudentForm.selectStatus')}</option>
-            <option value="Active">
-              {t('libraryStudentForm.statusOptions.active')}
-            </option>
-            <option value="Expired">
-              {t('libraryStudentForm.statusOptions.expired')}
-            </option>
-          </StyledSelect>
-        </FormRow> */}
-
         <ButtonRow>
-          <Button
-            variation="secondary"
-            type="reset"
-            onClick={() => onCloseModal?.()}
-          >
+          <Button variation="secondary" type="reset" onClick={onCloseModal}>
             {t('libraryStudentForm.cancel')}
           </Button>
           <Button type="submit" disabled={isLoading}>

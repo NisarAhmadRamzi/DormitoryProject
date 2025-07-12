@@ -170,7 +170,7 @@ export default function LibraryStudentsTable() {
     queryKey: ['library-students'],
     queryFn: getAllLibraryStudents,
   })
-
+  console.log(data)
   if (isLoading) return <Spinner />
   if (error) return <p>{t('libraryStudentsTable.error')}</p>
 
