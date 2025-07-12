@@ -10,15 +10,15 @@ use Illuminate\Support\Facades\Artisan;
 
 class SupportController extends Controller
 {
-    public function __construct()
-    {
-        Artisan::call('permission:cache-reset');
-        $this->middleware('permission:all supports')->only(['index']);
-        $this->middleware('permission:view support')->only(['show']);
-        $this->middleware('permission:create support')->only(['store']);
-        $this->middleware('permission:edit support')->only(['update']);
-        $this->middleware('permission:delete support')->only(['destroy']);
-    }
+    // public function __construct()
+    // {
+    //     Artisan::call('permission:cache-reset');
+    //     $this->middleware('permission:all supports')->only(['index']);
+    //     $this->middleware('permission:view support')->only(['show']);
+    //     $this->middleware('permission:create support')->only(['store']);
+    //     $this->middleware('permission:edit support')->only(['update']);
+    //     $this->middleware('permission:delete support')->only(['destroy']);
+    // }
     // List all supports
     public function index()
     {
@@ -29,10 +29,22 @@ class SupportController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'type' => 'required|string',
+            'type' => 'required|string|in:cash,goods,both',
             'details' => 'required|string',
-            'goods_quantity' => 'nullable|integer|min:0',
-            'cash_quantity' => 'nullable|integer|min:0',
+            'goods_quantity' => [
+                'nullable',
+                'integer',
+                'min:0',
+                'required_if:type,goods,both',
+                'prohibited_if:type,cash',
+            ],
+            'cash_quantity' => [
+                'nullable',
+                'integer',
+                'min:0',
+                'required_if:type,cash,both',
+                'prohibited_if:type,goods',
+            ],
             'helper_fullname' => 'required|string',
             'helper_number' => 'required|integer',
             'helper_email' => 'nullable|string|email',
@@ -53,10 +65,22 @@ class SupportController extends Controller
     public function update(Request $request, Support $support)
     {
         $validated = $request->validate([
-            'type' => 'required|string',
+            'type' => 'required|string|in:cash,goods,both',
             'details' => 'required|string',
-            'goods_quantity' => 'nullable|integer|min:0',
-            'cash_quantity' => 'nullable|integer|min:0',
+            'goods_quantity' => [
+                'nullable',
+                'integer',
+                'min:0',
+                'required_if:type,goods,both',
+                'prohibited_if:type,cash',
+            ],
+            'cash_quantity' => [
+                'nullable',
+                'integer',
+                'min:0',
+                'required_if:type,cash,both',
+                'prohibited_if:type,goods',
+            ],
             'helper_fullname' => 'required|string',
             'helper_number' => 'required|integer',
             'helper_email' => 'nullable|string|email',

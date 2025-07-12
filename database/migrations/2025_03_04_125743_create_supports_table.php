@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('supports', function (Blueprint $table) {
             $table->id();
-            $table->enum('type', ['cash' , 'goods' , 'others'])->default('cash'); // Type of support, can be cash, goods, or others
+            $table->enum('type', ['cash', 'goods', 'both'])->default('cash'); // Type of support, can be cash, goods, or others
             // $table->string('type'); // Can be cash, food, furniture, etc.
             $table->text('details'); // Holds complete information about the support
             $table->integer('goods_quantity')->default(0)->nullable(); // Goods quantity (e.g., food packs)
