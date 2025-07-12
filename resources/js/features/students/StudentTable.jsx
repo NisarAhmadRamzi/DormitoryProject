@@ -169,7 +169,7 @@ export default function StudentTable() {
     ['students'],
     getStudents
   )
-
+  console.log('Students data:', data)
   if (isLoading) return <Spinner />
   if (isError)
     return (

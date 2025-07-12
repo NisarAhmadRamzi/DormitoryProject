@@ -170,6 +170,7 @@
     "updatedSuccess": "Student updated successfully",
     "error": "Something went wrong",
     "errors": {
+      "idNumberTaken" : "This email has already been taken",
       "idCheckFailed": "Failed to validate ID number. Please try again.",
       "idExist": "This id has already exist",
       "name": "Name is required",
