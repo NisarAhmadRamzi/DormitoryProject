@@ -599,6 +599,7 @@
     "statusInvalid": "وضعیت نامعتبر",
     "available": "دسترس",
     "borrowed": "قرض‌گرفته‌شده",
+    "notAvailable": "در دسترس نیست",
     "selectStatus": "انتخاب وضعیت",
     "totalCopies": "مجموع نسخه‌ها",
     "totalCopiesRequired": "تعداد نسخه‌ها ضروری است",
@@ -795,6 +796,7 @@
       "paidDateOptional": "تاریخ پرداخت (اختیاری)"
     },
     "errors": {
+      "paidDateBeforeRegistration": "تاریخ پرداخت نمی‌تواند قبل از تاریخ ثبت‌نام باشد.",
       "studentIdRequired": "شماره دانشجو الزامی است",
       "officePayRequired": "پرداخت اداره الزامی است",
       "officePaidRequired": "پرداخت شده اداره الزامی است",

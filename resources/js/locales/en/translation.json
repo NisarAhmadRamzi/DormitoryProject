@@ -599,6 +599,7 @@
     "statusRequired": "Status is required",
     "statusInvalid": "Invalid status",
     "available": "Available",
+    "notAvailable": "Not Available",
     "borrowed": "Borrowed",
     "selectStatus": "Select Status",
     "totalCopies": "Total Copies",
@@ -796,6 +797,7 @@
     },
     "errors": {
       "studentIdRequired": "Student ID is required",
+      "paidDateBeforeRegistration": "Paid date cannot be before registration date.",
       "officePayRequired": "Office pay is required",
       "officePaidRequired": "Office paid is required",
       "warrantyPayRequired": "Warranty pay is required",

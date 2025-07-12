@@ -261,10 +261,22 @@ function CreateFeeForm({ feeToEdit = {}, onCloseModal }) {
         />
         {errors?.due_date && <Error>{errors.due_date.message}</Error>}
       </FormRow>
-
       <FormRow>
         <Label htmlFor="paid_date">{t('Fees.fields.paidDateOptional')}</Label>
-        <Input type="date" id="paid_date" {...register('paid_date')} />
+        <Input
+          type="date"
+          id="paid_date"
+          {...register('paid_date', {
+            validate: (paid) => {
+              if (!paid || !registrationDate) return true
+              return (
+                paid >= registrationDate ||
+                t('Fees.errors.paidDateBeforeRegistration')
+              )
+            },
+          })}
+        />
+        {errors?.paid_date && <Error>{errors.paid_date.message}</Error>}
       </FormRow>
 
       <FormRow>

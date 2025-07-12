@@ -603,6 +603,7 @@
       "statusInvalid": "ناسم حالت",
       "available": "شتون لري",
       "borrowed": "پور شوی",
+      "notAvailable": "نه دی شتون لري",
       "selectStatus": "حالت وټاکئ",
       "totalCopies": "ټول کاپي‌ګانې",
       "totalCopiesRequired": "ټول شمېر کاپي‌ګانې لازمي دي",
@@ -799,6 +800,7 @@
         "paidDateOptional": "د پیسو نیټه (اختیاري)"
       },
       "errors": {
+        "paidDateBeforeRegistration": "د تادیې نېټه نشي کېدای د ثبت نېټې نه مخکې وي.",
         "studentIdRequired": "د زده کوونکي شمېره اړینه ده",
         "officePayRequired": "د دفتر پیسې اړینې دي",
         "officePaidRequired": "د دفتر ورکړل شوې پیسې اړینې دي",
