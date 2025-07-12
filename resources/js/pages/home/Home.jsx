@@ -1,5 +1,5 @@
-import './Home.css'
-
+import CountUp from 'react-countup'
+import { useTranslation } from 'react-i18next'
 import {
   FaBed,
   FaDumbbell,
@@ -8,20 +8,21 @@ import {
   FaUtensils,
   FaWifi,
 } from 'react-icons/fa'
-
-import CountUp from 'react-countup'
-import { FaXTwitter } from 'react-icons/fa6'
 import { useInView } from 'react-intersection-observer'
 import hero from '../../../../public/hero7.webp'
 import Footer from '../../components/Footer'
 import MyNavbar from '../../components/MyNavbar'
+import './Home.css'
 
 function Home() {
+  const { t } = useTranslation()
   const { ref, inView } = useInView({ triggerOnce: true })
+
   return (
     <>
       <div>
         <MyNavbar />
+
         {/* HERO SECTION */}
         <section
           id="home"
@@ -41,64 +42,49 @@ function Home() {
             <div className="row"></div>
           </div>
         </section>
-        {/* About */}
+
+        {/* About Section */}
         <section id="about">
-          <h1 style={{ color: 'black', textAlign: 'center' }}>
-            About our dormitory
-          </h1>
+          <h1 style={{ color: 'black', textAlign: 'center' }}>{t('title')}</h1>
           <div className="container">
             <div className="row justify-content-center align-items-center">
-              {/* Left Content */}
               <div className="col-lg-5 py-5">
-                <div className="row">
+                <div className="row g-4">
                   <div className="col-12">
-                    <div className="info-box">
+                    <div className="info-box d-flex align-items-start gap-3">
                       <FaWifi
                         style={{ width: '50px', height: '50px', color: 'blue' }}
                       />
-                      <div className="ms-4">
-                        <h5>High-Speed Wi-Fi</h5>
-                        <p>
-                          Reliable internet throughout the dormitory for all
-                          residents.
-                        </p>
+                      <div>
+                        <h5>{t('wifiTitle')}</h5>
+                        <p>{t('wifiDesc')}</p>
                       </div>
                     </div>
                   </div>
-
-                  <div className="col-12 mt-4">
-                    <div className="info-box">
+                  <div className="col-12">
+                    <div className="info-box d-flex align-items-start gap-3">
                       <FaUtensils
                         style={{ width: '50px', height: '50px', color: 'blue' }}
                       />
-                      <div className="ms-4">
-                        <h5>Meal Services</h5>
-                        <p>
-                          Nutritious daily meals prepared with student health in
-                          mind.
-                        </p>
+                      <div>
+                        <h5>{t('mealsTitle')}</h5>
+                        <p>{t('mealsDesc')}</p>
                       </div>
                     </div>
                   </div>
-
-                  <div className="col-12 mt-4">
-                    <div className="info-box">
+                  <div className="col-12">
+                    <div className="info-box d-flex align-items-start gap-3">
                       <FaBed
                         style={{ width: '50px', height: '50px', color: 'blue' }}
                       />
-                      <div className="ms-4">
-                        <h5>Comfortable Rooms</h5>
-                        <p>
-                          Furnished rooms with essential amenities for studying
-                          and resting.
-                        </p>
+                      <div>
+                        <h5>{t('bedTitle')}</h5>
+                        <p>{t('bedDesc')}</p>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-
-              {/* Right Image */}
               <div className="col-lg-5">
                 <img
                   src="img/about.png"
@@ -109,7 +95,8 @@ function Home() {
             </div>
           </div>
         </section>
-        {/* MILESTONE */}
+
+        {/* Milestones */}
         <section id="milestone" ref={ref}>
           <div className="container">
             <div className="row text-center justify-content-center gy-4">
@@ -117,7 +104,7 @@ function Home() {
                 <h1 className="display-4">
                   {inView && <CountUp end={900} duration={2} separator="," />}+
                 </h1>
-                <p className="mb-0">Current Residents</p>
+                <p className="mb-0">{t('milestone1')}</p>
               </div>
               <div className="col-lg-2 col-sm-6">
                 <h1 className="display-4">
@@ -125,53 +112,44 @@ function Home() {
                     <CountUp end={4500} duration={2.5} separator="," />
                   )}
                 </h1>
-                <p className="mb-0">Total Nights Booked</p>
+                <p className="mb-0">{t('milestone2')}</p>
               </div>
               <div className="col-lg-2 col-sm-6">
                 <h1 className="display-4">
                   {inView && <CountUp end={190} duration={1.5} />}
                 </h1>
-                <p className="mb-0">Rooms Available</p>
+                <p className="mb-0">{t('milestone3')}</p>
               </div>
               <div className="col-lg-2 col-sm-6">
                 <h1 className="display-4">
                   {inView && <CountUp end={3800} duration={2} separator="," />}
                 </h1>
-                <p className="mb-0">Guests Hosted</p>
+                <p className="mb-0">{t('milestone4')}</p>
               </div>
             </div>
           </div>
         </section>
+
+        {/* Facilities */}
         <div className="row g-4" id="facilities">
           <div className="intro">
-            <h1>Our Facilities</h1>
-            <p className="mx-auto text-dark">
-              Contrary to popular belief, Lorem Ipsum is not simply random text.
-              It has roots in a piece of classical Latin literature from 45 BC,
-              making it over 2000 years old
-            </p>
+            <h1>{t('facilitiesTitle')}</h1>
+            <p className="mx-auto text-dark">{t('facilitiesDesc')}</p>
           </div>
           <div className="col-lg-4 col-md-6">
             <div className="service text-center">
               <FaBed size={48} className="mb-3" style={{ color: 'blue' }} />
-              <h5>Comfortable Rooms</h5>
-              <p>
-                Spacious, well-furnished rooms designed for a relaxing stay.
-              </p>
+              <h5>{t('bedTitle')}</h5>
+              <p>{t('bedDesc')}</p>
             </div>
           </div>
-
           <div className="col-lg-4 col-md-6">
             <div className="service text-center">
               <FaWifi size={48} className="mb-3" style={{ color: 'blue' }} />
-              <h5>High-Speed Wi-Fi</h5>
-              <p>
-                Reliable internet access throughout the dormitory to keep you
-                connected.
-              </p>
+              <h5>{t('wifiTitle')}</h5>
+              <p>{t('wifiDesc')}</p>
             </div>
           </div>
-
           <div className="col-lg-4 col-md-6">
             <div className="service text-center">
               <FaDumbbell
@@ -179,13 +157,10 @@ function Home() {
                 className="mb-3"
                 style={{ color: 'blue' }}
               />
-              <h5>Fitness Center</h5>
-              <p>
-                Fully equipped gym to maintain your fitness routine on campus.
-              </p>
+              <h5>{t('fitness')}</h5>
+              <p>{t('fitnessDesc')}</p>
             </div>
           </div>
-
           <div className="col-lg-4 col-md-6">
             <div className="service text-center">
               <FaUtensils
@@ -193,22 +168,17 @@ function Home() {
                 className="mb-3"
                 style={{ color: 'blue' }}
               />
-              <h5>Dining Hall</h5>
-              <p>Healthy and delicious meals served daily for all residents.</p>
+              <h5>{t('dining')}</h5>
+              <p>{t('diningDesc')}</p>
             </div>
           </div>
-
           <div className="col-lg-4 col-md-6">
             <div className="service text-center">
               <FaUsers size={48} className="mb-3" style={{ color: 'blue' }} />
-              <h5>Community Events</h5>
-              <p>
-                Regular social activities to build friendships and a vibrant
-                community.
-              </p>
+              <h5>{t('events')}</h5>
+              <p>{t('eventsDesc')}</p>
             </div>
           </div>
-
           <div className="col-lg-4 col-md-6">
             <div className="service text-center">
               <FaShieldAlt
@@ -216,181 +186,13 @@ function Home() {
                 className="mb-3"
                 style={{ color: 'blue' }}
               />
-              <h5>24/7 Security</h5>
-              <p>Round-the-clock safety measures to ensure peace of mind.</p>
+              <h5>{t('security')}</h5>
+              <p>{t('securityDesc')}</p>
             </div>
           </div>
         </div>
-        <section id="rooms">
-          <div className="container">
-            <div className="row">
-              <div className="col-12">
-                <div className="intro">
-                  <h1>Available Dormitory Rooms</h1>
-                  <p className="mx-auto text-dark">
-                    Choose from our range of comfortable rooms equipped with all
-                    the essentials for a pleasant stay.
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="row">
-              <div className="col-md-4">
-                <article className="room-card my-3">
-                  <img src="img/project5.jpg" alt="Dorm Room 1" />
-                  <div className="content">
-                    <h5 className="text-dark">Single Room</h5>
-                    <p className="text-dark">
-                      Cozy single room with private bathroom, desk, and
-                      wardrobe.
-                    </p>
-                    <ul>
-                      <li>Price: $350/month</li>
-                      <li>Wi-Fi included</li>
-                      <li>24/7 Security</li>
-                    </ul>
-                    <a href="#" className="btn btn-primary mx-4 my-3">
-                      Book Now
-                    </a>
-                  </div>
-                </article>
-              </div>
-              <div className="col-md-4">
-                <article className="room-card my-3">
-                  <img src="img/project4.jpg" alt="Dorm Room 2" />
-                  <div className="content">
-                    <h5 className="text-dark">Double Room</h5>
-                    <p className="text-dark">
-                      Spacious double room suitable for two residents, shared
-                      bathroom.
-                    </p>
-                    <ul>
-                      <li>Price: $600/month</li>
-                      <li>Wi-Fi included</li>
-                      <li>Common lounge access</li>
-                    </ul>
-                    <a href="#" className="btn btn-primary mx-4 my-3">
-                      Book Now
-                    </a>
-                  </div>
-                </article>
-              </div>
-              <div className="col-md-4">
-                <article className="room-card my-3">
-                  <img src="img/project2.jpg" alt="Dorm Room 3" />
-                  <div className="content">
-                    <h5 className="text-dark">Suite Room</h5>
-                    <p className="text-dark">
-                      Luxury suite with private bathroom, kitchenette, and study
-                      area.
-                    </p>
-                    <ul>
-                      <li>Price: $900/month</li>
-                      <li>Wi-Fi included</li>
-                      <li>Private balcony</li>
-                    </ul>
-                    <a href="#" className="btn btn-primary mx-4 my-3">
-                      Book Now
-                    </a>
-                  </div>
-                </article>
-              </div>
-            </div>
-          </div>
-        </section>
-        {/* staff */}
-        <section id="staff">
-          <div className="container">
-            <div className="row">
-              <div className="col-12">
-                <div className="intro">
-                  <h1>Dormitory staff</h1>
-                  <p className="mx-auto text-dark">
-                    Contrary to popular belief, Lorem Ipsum is not simply random
-                    text. It has roots in a piece of classical Latin literature
-                    from 45 BC, making it over 2000 years old
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="row justify-content-center">
-              <div className="col-lg-4 col-md-8">
-                <div className="team-member">
-                  <div className="image">
-                    <img src="img/team_1.jpg" alt />
-                    <div className="social-icons">
-                      <a href="#">
-                        <i className="bx bxl-facebook" />
-                      </a>
-                      <a href="#">
-                        <FaXTwitter />
-                      </a>
-                      <a href="#">
-                        <i className="bx bxl-instagram" />
-                      </a>
-                      <a href="#">
-                        <i className="bx bxl-pinterest" />
-                      </a>
-                    </div>
-                    <div className="overlay" />
-                  </div>
-                  <h5 className="text-dark">Allama</h5>
-                  <p className="text-dark">Fanos administrator</p>
-                </div>
-              </div>
-              <div className="col-lg-4 col-md-8">
-                <div className="team-member">
-                  <div className="image">
-                    <img src="img/team_2.jpg" alt />
-                    <div className="social-icons">
-                      <a href="#">
-                        <i className="bx bxl-facebook" />
-                      </a>
-                      <a href="#">
-                        <FaXTwitter />
-                      </a>
-                      <a href="#">
-                        <i className="bx bxl-instagram" />
-                      </a>
-                      <a href="#">
-                        <i className="bx bxl-pinterest" />
-                      </a>
-                    </div>
-                    <div className="overlay" />
-                  </div>
-                  <h5 className="text-dark">Ali Karimi</h5>
-                  <p className="text-dark">Financial Officer</p>
-                </div>
-              </div>
-              <div className="col-lg-4 col-md-8">
-                <div className="team-member">
-                  <div className="image">
-                    <img src="img/team_3.jpg" alt />
-                    <div className="social-icons">
-                      <a href="#">
-                        <i className="bx bxl-facebook" />
-                      </a>
-                      <a href="#">
-                        <FaXTwitter />
-                      </a>
-                      <a href="#">
-                        <i className="bx bxl-instagram" />
-                      </a>
-                      <a href="#">
-                        <i className="bx bxl-pinterest" />
-                      </a>
-                    </div>
-                    <div className="overlay" />
-                  </div>
-                  <h5 className="text-dark">Dawood Rahimi</h5>
-                  <p className="text-dark">Reporter</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-        <Footer />
-        {/* Modal */}
+
+        {/* Contact Modal */}
         <div
           className="modal fade"
           id="exampleModal"
@@ -415,67 +217,57 @@ function Home() {
                     <div className="col-lg-8">
                       <form className="p-lg-5 col-12 row g-3">
                         <div>
-                          <h1>Get in touch</h1>
-                          <p>
-                            Fell free to contact us and we will get back to you
-                            as soon as possible
-                          </p>
+                          <h1>{t('contactTitle')}</h1>
+                          <p>{t('contactSub')}</p>
                         </div>
                         <div className="col-lg-6">
                           <label htmlFor="userName" className="form-label">
-                            First name
+                            {t('firstName')}
                           </label>
                           <input
                             type="text"
                             className="form-control"
-                            placeholder="Jon"
+                            placeholder={t('firstNamePlaceholder')}
                             id="userName"
-                            aria-describedby="emailHelp"
                           />
                         </div>
                         <div className="col-lg-6">
                           <label htmlFor="userName" className="form-label">
-                            Last name
+                            {t('lastName')}
                           </label>
                           <input
                             type="text"
                             className="form-control"
-                            placeholder="Doe"
+                            placeholder={t('lastNamePlaceholder')}
                             id="userName"
-                            aria-describedby="emailHelp"
                           />
                         </div>
                         <div className="col-12">
-                          <label htmlFor="userName" className="form-label">
-                            Email address
+                          <label htmlFor="email" className="form-label">
+                            {t('email')}
                           </label>
                           <input
                             type="email"
                             className="form-control"
-                            placeholder="Johndoe@example.com"
-                            id="userName"
-                            aria-describedby="emailHelp"
+                            placeholder={t('emailPlaceholder')}
+                            id="email"
                           />
                         </div>
                         <div className="col-12">
-                          <label
-                            htmlFor="exampleInputEmail1"
-                            className="form-label"
-                          >
-                            Enter Message
+                          <label htmlFor="message" className="form-label">
+                            {t('message')}
                           </label>
+
                           <textarea
-                            name
-                            placeholder="This is looking great and nice."
+                            placeholder={t('messagePlaceholder')}
                             className="form-control"
-                            id
+                            id="message"
                             rows={4}
-                            defaultValue={''}
                           />
                         </div>
                         <div className="col-12">
                           <button type="submit" className="btn btn-brand">
-                            Send Message
+                            {t('sendMessage')}
                           </button>
                         </div>
                       </form>
@@ -486,6 +278,8 @@ function Home() {
             </div>
           </div>
         </div>
+
+        <Footer />
       </div>
     </>
   )
