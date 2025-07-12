@@ -390,7 +390,7 @@ import styled from 'styled-components'
 import {
   createStudent,
   editStudent,
-  getStudents, // <-- make sure this is imported
+  getStudents,
 } from '../../services/apiStudents'
 import Button from '../../ui/Button'
 import Form from '../../ui/Form'
@@ -454,7 +454,7 @@ function CreateStudentForm({ studentToEdit = {}, onCloseModal }) {
     watch,
     formState: { errors, isSubmitting },
   } = useForm({
-    mode: 'onBlur', // validate on blur for async validation
+    mode: 'onChange', // validate on blur for async validation
     defaultValues: isEditSession
       ? {
           ...studentToEdit,
@@ -635,11 +635,12 @@ function CreateStudentForm({ studentToEdit = {}, onCloseModal }) {
         {/* ID Number */}
         <FormRow>
           <Label htmlFor="id_number">{t('studentForm.idNumber')}</Label>
-          <Input
+          {/* <Input
             id="id_number"
             type="text"
             {...register('id_number', {
               required: t('studentForm.errors.idNumber'),
+
               minLength: {
                 value: 1,
                 message: t('studentForm.errors.idNumberLength'),
@@ -649,6 +650,25 @@ function CreateStudentForm({ studentToEdit = {}, onCloseModal }) {
                 message: t('studentForm.errors.idNumberLength'),
               },
               validate: validateIdNumber,
+            })}
+          /> */}
+          <Input
+            id="id_number"
+            type="id_number"
+            {...register('id_number', {
+              required: t('studentForm.errors.idNumber'),
+              validate: async (value) => {
+                try {
+                  const students = await getStudents()
+                  console.lo
+                  const idExists = students?.data?.some(
+                    (student) => student.id === value && user.id !== userToEdit?.id
+                  )
+                  return !emailExists || t('userForm.emailExists')
+                } catch (error) {
+                  return t('userForm.errors.emailCheckFailed')
+                }
+              },
             })}
           />
           {errors.id_number && <Error>{errors.id_number.message}</Error>}
