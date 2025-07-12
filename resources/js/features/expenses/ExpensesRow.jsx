@@ -39,6 +39,15 @@ const Cell = styled.div`
   text-align: ${({ align }) => align || 'left'};
 `
 
+// ✅ New: Truncated description cell with ellipsis and tooltip
+const TruncatedCell = styled(Cell)`
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+  cursor: help;
+`
+
 const DropdownWrapper = styled.div`
   position: relative;
   display: inline-block;
@@ -151,7 +160,9 @@ function ExpenseRow({ expense }) {
     <TableRow role="row">
       <Cell>{expense.type}</Cell>
       <Cell align="center">{expense.expense_cash}</Cell>
-      <Cell>{expense.description || '—'}</Cell>
+      <TruncatedCell title={expense.description || '—'}>
+        {expense.description || '—'}
+      </TruncatedCell>
       <Cell>{expense.expense_date}</Cell>
       <DropdownWrapper ref={dropdownRef}>
         <IconButton onClick={toggleDropdown}>

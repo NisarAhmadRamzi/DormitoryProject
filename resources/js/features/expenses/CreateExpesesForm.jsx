@@ -8,6 +8,25 @@ import { createExpense, editExpense } from '../../services/apiExpenses'
 import Button from '../../ui/Button'
 import Form from '../../ui/Form'
 import Input from '../../ui/Input'
+const TextArea = styled.textarea`
+  border: 1px solid
+    ${(props) => (props.error ? 'red' : 'var(--color-grey-300)')};
+  background-color: var(--color-grey-0);
+  border-radius: var(--border-radius-sm);
+  padding: 0.8rem 1.2rem;
+  box-shadow: var(--shadow-sm);
+  width: 100%;
+  min-height: 10rem;
+  font-family: inherit;
+  font-size: 1.6rem;
+  resize: vertical;
+  transition: border-color 0.2s;
+
+  &:focus {
+    border-color: var(--color-blue-500);
+    outline: none;
+  }
+`
 
 const Select = styled.select`
   padding: 0.8rem 1.2rem;
@@ -140,12 +159,12 @@ function CreateExpensesForm({ expenseToEdit = {}, onCloseModal }) {
 
       <FormRow>
         <Label htmlFor="description">{t('ExpensesForm.description')}</Label>
-        <Input
-          type="text"
+        <TextArea
           id="description"
           {...register('description', {
             required: t('ExpensesForm.requiredDescription'),
           })}
+          error={errors?.description}
         />
         {errors?.description && <Error>{errors.description.message}</Error>}
       </FormRow>
