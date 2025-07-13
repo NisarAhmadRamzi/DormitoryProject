@@ -224,7 +224,6 @@ class PermissionSeeder extends Seeder
 
             'all complaints',
             'view complaint',
-            'create complaint',
             'edit complaint',
             'delete complaint',
 

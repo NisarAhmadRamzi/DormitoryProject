@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('title');
             $table->string('author');
             $table->string('publication_year');
-            $table->enum('status', ['Available', 'Not Available!!! all books loaned', '100Af fine for delay']);
+            $table->enum('status', ['Available', 'Not Available!!! all books loaned']);
 
             $table->integer('books_total_count')->default(1);
             $table->unsignedInteger('borrowed_books_total_count')->default(0);
