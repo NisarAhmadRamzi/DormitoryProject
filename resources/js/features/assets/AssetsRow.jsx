@@ -1,9 +1,8 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useEffect, useRef, useState } from 'react'
-import { HiEllipsisVertical, HiEye, HiPencil, HiTrash } from 'react-icons/hi2'
-
 import toast from 'react-hot-toast'
 import { useTranslation } from 'react-i18next'
+import { HiEllipsisVertical, HiEye, HiPencil, HiTrash } from 'react-icons/hi2'
 import styled from 'styled-components'
 import { deleteAsset } from '../../services/apiAssets'
 import ConfirmDelete from '../../ui/ConfirmDelete'
@@ -13,34 +12,17 @@ import CreateAssetsForm from './CreateAssetsForm'
 
 const TableRow = styled.div`
   display: grid;
-  grid-template-columns: 0.6fr 2fr 2.5fr 2.5fr 0.5fr;
+  grid-template-columns: 0.6fr 2fr 2fr 2fr 2fr 0.5fr;
   column-gap: 0.5rem;
   align-items: center;
   padding: 1.6rem 2.4rem;
-  position: relative;
-
-  &:not(:last-child) {
-    border-bottom: 1px solid var(--color-grey-100);
-  }
-
-  transition: background-color 0.2s;
-
-  &:hover {
-    background-color: var(--color-grey-200);
-    cursor: pointer;
-
-    @media (prefers-color-scheme: dark) {
-      background-color: var(--color-grey-700);
-      cursor: pointer;
-    }
-  }
+  border-bottom: 1px solid var(--color-grey-100);
 `
 
 const Id = styled.div`
   font-size: 1.6rem;
   font-weight: 600;
   color: var(--color-grey-600);
-  font-family: 'Sono';
 `
 
 const Cell = styled.div`
@@ -50,21 +32,12 @@ const Cell = styled.div`
 
 const DropdownWrapper = styled.div`
   position: relative;
-  display: inline-block;
 `
 
 const IconButton = styled.button`
   background: none;
   border: none;
   cursor: pointer;
-  padding: 0.4rem;
-  border-radius: var(--border-radius-sm);
-  transform: translateX(0.8rem);
-  transition: all 0.2s;
-
-  &:hover {
-    background-color: var(--color-grey-100);
-  }
 
   & svg {
     width: 2.4rem;
@@ -84,10 +57,6 @@ const DropdownMenu = styled.ul`
   top: ${({ position }) => position?.y}px;
   display: ${({ show }) => (show ? 'block' : 'none')};
   min-width: 180px;
-
-  @media (prefers-color-scheme: dark) {
-    background-color: var(--color-grey-800);
-  }
 `
 
 const DropdownItem = styled.button`
@@ -102,7 +71,6 @@ const DropdownItem = styled.button`
   gap: 1.6rem;
   color: var(--color-grey-700);
   cursor: pointer;
-  transition: background-color 0.2s;
 
   &:hover {
     background-color: var(--color-grey-50);
@@ -123,7 +91,6 @@ function AssetsRow({ asset }) {
       toast.success(t('assetsAlert.deletedSuccess'))
     },
     onError: (err) => {
-      console.error('Error during deletion:', err)
       toast.error(err.message || t('assetsAlert.deleteFailed'))
     },
   })
@@ -165,9 +132,10 @@ function AssetsRow({ asset }) {
   return (
     <TableRow role="row">
       <Id>{asset.id}</Id>
-      <Cell>{asset.quantity}</Cell>
-      <Cell>{asset.description || '—'}</Cell>
       <Cell>{asset.total_quantity}</Cell>
+      <Cell>{asset.total_amount_of_donations}</Cell>
+      <Cell>{asset.total_amount_of_cash_before_expense}</Cell>
+      <Cell>{asset.total_amount_of_cash_after_expense}</Cell>
 
       <DropdownWrapper ref={dropdownRef}>
         <IconButton onClick={toggleDropdown}>
@@ -207,7 +175,7 @@ function AssetsRow({ asset }) {
         <ConfirmDelete
           onConfirm={handleDeleteConfirm}
           resourceName={t('assetsAlert.asset')}
-          itemLabel={asset.name}
+          itemLabel={`Asset #${asset.id}`}
         />
       </Modal.Window>
     </TableRow>

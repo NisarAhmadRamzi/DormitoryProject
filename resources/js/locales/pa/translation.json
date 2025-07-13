@@ -1147,16 +1147,19 @@
     "asset": {
       "quantity": "مقدار",
       "description": "تفصیل",
-      "totalQuantity": "ټول مقدار",
-      "page": "مخ",
+      "totalQuantity": "ټوله اندازه",
+      "totalDonation": "ټول مرسته",
+      "cashBefore": "نغدي مخکې له مصرفه",
+      "cashAfter": "نغدي وروسته له مصرفه",
+      "page": "پاڼه",
       "of": "د",
-      "rowsPerPage": "قطارونه په هر مخ کې",
-      "noMatch": "هیڅ شتمني ونه موندل شوه.",
-      "searchPlaceholder": "شتمني ولټوئ...",
-      "errorLoading": "شتمني لوستل کې تېروتنه!"
+      "rowsPerPage": "قطارونه په هره پاڼه کې",
+      "noMatch": "هیڅ مناسب شتمنۍ ونه موندل شوه.",
+      "searchPlaceholder": "د شتمنیو لټون...",
+      "errorLoading": "د شتمنیو په بارولو کې تېروتنه!"
     },
     "Action": {
-      "action": "عمل"
+      "action": "عملیات"
     },
     "assetsForm": {
       "quantity": "مقدار",

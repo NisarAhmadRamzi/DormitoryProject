@@ -4,11 +4,12 @@ import { useTranslation } from 'react-i18next'
 import { FiSearch } from 'react-icons/fi'
 import { RxCaretLeft, RxCaretRight } from 'react-icons/rx'
 import { useSearchParams } from 'react-router-dom'
-
 import styled from 'styled-components'
+
 import { getAssets } from '../../services/apiAssets'
 import Spinner from '../../ui/Spinner'
 import AssetsRow from './AssetsRow'
+
 const Table = styled.div`
   border: 1px solid var(--color-grey-200);
   font-size: 1.4rem;
@@ -19,13 +20,12 @@ const Table = styled.div`
 
 const TableHeader = styled.header`
   display: grid;
-  grid-template-columns: 0.6fr 2fr 2.5fr 2.5fr 0.5fr;
+  grid-template-columns: 0.6fr 2fr 2fr 2fr 2fr 0.5fr;
   column-gap: 0.5rem;
   align-items: center;
   background-color: var(--color-grey-50);
   border-bottom: 1px solid var(--color-grey-100);
   text-transform: uppercase;
-  letter-spacing: 0.4px;
   font-weight: 600;
   color: var(--color-grey-600);
   padding: 1.6rem 2.4rem;
@@ -36,7 +36,6 @@ const SortableHeader = styled.div`
   align-items: center;
   gap: 0.4rem;
   cursor: pointer;
-  user-select: none;
 
   .icon {
     font-size: 1.2rem;
@@ -80,12 +79,6 @@ const SearchInputContainer = styled.div`
     width: 100%;
     background-color: var(--color-grey-0);
     color: var(--color-grey-900);
-
-    &:focus {
-      border-color: var(--color-blue-700);
-      outline: none;
-      box-shadow: 0 0 0 3px var(--backdrop-color);
-    }
   }
 `
 
@@ -116,11 +109,6 @@ const RowsPerPage = styled.div`
     border-radius: var(--border-radius-sm);
     background-color: var(--color-grey-0);
     color: var(--color-grey-900);
-
-    &:disabled {
-      background-color: var(--color-grey-200);
-      color: var(--color-grey-500);
-    }
   }
 `
 
@@ -137,20 +125,8 @@ const NavButtons = styled.div`
     border-radius: var(--border-radius-sm);
     color: var(--color-grey-900);
     cursor: pointer;
-    transition: background-color 0.2s, border-color 0.2s;
-
-    &:hover:not(:disabled) {
-      background-color: var(--color-grey-50);
-      border-color: var(--color-grey-400);
-    }
-
-    &:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
   }
 `
-// (not repeated here for brevity)
 
 export default function AssetsTable() {
   const { t } = useTranslation()
@@ -175,10 +151,11 @@ export default function AssetsTable() {
     const lower = searchText.toLowerCase()
     assets = assets.filter((asset) => {
       const searchStr = `
-        ${asset.id || ''}
-        ${asset.quantity || ''}
-        ${asset.description || ''}
-        ${asset.total_quantity || ''}
+        ${asset.id}
+        ${asset.total_quantity}
+        ${asset.total_amount_of_donations}
+        ${asset.total_amount_of_cash_before_expense}
+        ${asset.total_amount_of_cash_after_expense}
       `.toLowerCase()
       return searchStr.includes(lower)
     })
@@ -188,11 +165,7 @@ export default function AssetsTable() {
     assets = [...assets].sort((a, b) => {
       let aVal = a[sortBy]
       let bVal = b[sortBy]
-      if (typeof aVal === 'string') aVal = aVal.toLowerCase()
-      if (typeof bVal === 'string') bVal = bVal.toLowerCase()
-      if (aVal > bVal) return sortOrder === 'asc' ? 1 : -1
-      if (aVal < bVal) return sortOrder === 'asc' ? -1 : 1
-      return 0
+      return sortOrder === 'asc' ? aVal - bVal : bVal - aVal
     })
   }
 
@@ -202,9 +175,9 @@ export default function AssetsTable() {
   const paginatedAssets = assets.slice(start, start + rowsPerPage)
 
   const handleSort = (column) => {
-    if (sortBy === column)
+    if (sortBy === column) {
       setSortOrder((prev) => (prev === 'asc' ? 'desc' : 'asc'))
-    else {
+    } else {
       setSortBy(column)
       setSortOrder('asc')
     }
@@ -236,27 +209,34 @@ export default function AssetsTable() {
 
       <Table role="table">
         <TableHeader role="row">
-          <div></div>
-          <SortableHeader
-            onClick={() => handleSort('quantity')}
-            className={sortBy === 'quantity' ? 'active' : ''}
-          >
-            {t('asset.quantity')}{' '}
-            <span className="icon">{renderSortIcon('quantity')}</span>
-          </SortableHeader>
-          <SortableHeader
-            onClick={() => handleSort('description')}
-            className={sortBy === 'description' ? 'active' : ''}
-          >
-            {t('asset.description')}{' '}
-            <span className="icon">{renderSortIcon('description')}</span>
-          </SortableHeader>
-          <SortableHeader
-            onClick={() => handleSort('total_quantity')}
-            className={sortBy === 'total_quantity' ? 'active' : ''}
-          >
+          <div>ID</div>
+          <SortableHeader onClick={() => handleSort('total_quantity')}>
             {t('asset.totalQuantity')}{' '}
             <span className="icon">{renderSortIcon('total_quantity')}</span>
+          </SortableHeader>
+          <SortableHeader
+            onClick={() => handleSort('total_amount_of_donations')}
+          >
+            {t('asset.totalDonation')}{' '}
+            <span className="icon">
+              {renderSortIcon('total_amount_of_donations')}
+            </span>
+          </SortableHeader>
+          <SortableHeader
+            onClick={() => handleSort('total_amount_of_cash_before_expense')}
+          >
+            {t('asset.cashBefore')}{' '}
+            <span className="icon">
+              {renderSortIcon('total_amount_of_cash_before_expense')}
+            </span>
+          </SortableHeader>
+          <SortableHeader
+            onClick={() => handleSort('total_amount_of_cash_after_expense')}
+          >
+            {t('asset.cashAfter')}{' '}
+            <span className="icon">
+              {renderSortIcon('total_amount_of_cash_after_expense')}
+            </span>
           </SortableHeader>
           <div>{t('Action.action')}</div>
         </TableHeader>

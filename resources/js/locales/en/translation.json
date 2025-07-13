@@ -1144,6 +1144,9 @@
     "quantity": "Quantity",
     "description": "Description",
     "totalQuantity": "Total Quantity",
+    "totalDonation": "Total Donation",
+    "cashBefore": "Cash Before Expense",
+    "cashAfter": "Cash After Expense",
     "page": "Page",
     "of": "of",
     "rowsPerPage": "Rows per page",
@@ -1152,7 +1155,7 @@
     "errorLoading": "Error loading assets!"
   },
   "Action": {
-    "action": "Action"
+    "action": "Actions"
   },
   "assetsForm": {
     "quantity": "Quantity",

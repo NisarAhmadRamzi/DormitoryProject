@@ -1143,11 +1143,14 @@
   "asset": {
     "quantity": "مقدار",
     "description": "توضیحات",
-    "totalQuantity": "مقدار کل",
+    "totalQuantity": "مجموع مقدار",
+    "totalDonation": "مجموع کمک‌ها",
+    "cashBefore": "پول قبل از مصارف",
+    "cashAfter": "پول بعد از مصارف",
     "page": "صفحه",
     "of": "از",
-    "rowsPerPage": "ردیف در هر صفحه",
-    "noMatch": "هیچ دارایی یافت نشد.",
+    "rowsPerPage": "ردیف‌ها در هر صفحه",
+    "noMatch": "دارایی مطابق یافت نشد.",
     "searchPlaceholder": "جستجوی دارایی‌ها...",
     "errorLoading": "خطا در بارگذاری دارایی‌ها!"
   },
