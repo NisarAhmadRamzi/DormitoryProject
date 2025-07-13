@@ -41,13 +41,14 @@ class BookController extends Controller
             'title' => 'required|string|max:255|regex:/[a-zA-Z]/',
             'author' => 'required|string|max:255|regex:/[a-zA-Z]/',
             'publication_year' => 'required|date_format:Y',
-            'status' => 'required|in:Available,Borrowed',
+            'status' => 'required|in:Available,Not Available!!! all books loaned,100Af fine for delay',
             'books_total_count' => 'required|integer|min:1',
         ]);
 
         $book = Book::create($request->all());
         return new BookResource($book);
     }
+
 
     // Update an existing book
     public function update(Request $request, Book $book)
@@ -57,7 +58,7 @@ class BookController extends Controller
             'title' => 'required|string|max:255|regex:/[a-zA-Z]/',
             'author' => 'required|string|max:255|regex:/[a-zA-Z]/',
             'publication_year' => 'required|date_format:Y',
-            'status' => 'required|in:Available,Borrowed',
+            'status' => 'required|in:Available,Not Available!!! all books loaned,100Af fine for delay',
             'books_total_count' => 'required|integer|min:1',
         ]);
 
