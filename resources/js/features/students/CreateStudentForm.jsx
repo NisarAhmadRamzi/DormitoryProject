@@ -1,9 +1,11 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useEffect } from 'react'
-import { useForm } from 'react-hook-form'
+import DateObject from 'react-date-object'
+import { Controller, useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
+import ShamsiDatePicker from '../../components/ShamsiDatePicker'
 import {
   createStudent,
   editStudent,
@@ -56,29 +58,23 @@ function CreateStudentForm({ studentToEdit = {}, onCloseModal }) {
   const isEditSession = Boolean(studentToEdit?.id)
   const queryClient = useQueryClient()
 
-  const today = new Date()
-  const tenYearsAgo = new Date(
-    today.getFullYear() - 10,
-    today.getMonth(),
-    today.getDate()
-  )
-  const tenYearsAgoISO = tenYearsAgo.toISOString().split('T')[0]
-
   const {
     register,
     handleSubmit,
     reset,
+    control,
     watch,
     formState: { errors, isSubmitting },
   } = useForm({
-    mode: 'onChange', // validate on blur for async validation
+    mode: 'onChange',
     defaultValues: isEditSession
       ? {
           ...studentToEdit,
-          registration_date: studentToEdit?.registration_date?.split('T')[0],
-          registration_deadline:
-            studentToEdit?.registration_deadline?.split('T')[0],
-          dob: studentToEdit?.dob?.split('T')[0],
+          dob: new DateObject(studentToEdit?.dob),
+          registration_date: new DateObject(studentToEdit?.registration_date),
+          registration_deadline: new DateObject(
+            studentToEdit?.registration_deadline
+          ),
         }
       : {},
   })
@@ -87,33 +83,44 @@ function CreateStudentForm({ studentToEdit = {}, onCloseModal }) {
     if (isEditSession) {
       reset({
         ...studentToEdit,
-        registration_date: studentToEdit?.registration_date?.split('T')[0],
-        registration_deadline:
-          studentToEdit?.registration_deadline?.split('T')[0],
-        dob: studentToEdit?.dob?.split('T')[0],
+        dob: new DateObject(studentToEdit?.dob),
+        registration_date: new DateObject(studentToEdit?.registration_date),
+        registration_deadline: new DateObject(
+          studentToEdit?.registration_deadline
+        ),
       })
     }
   }, [studentToEdit, reset])
 
-  // Async validator for ID Number to check duplicates live
+  const toISO = (d) => d?.toDate?.().toISOString().split('T')[0]
+
+  const validateEmail = async (value) => {
+    if (!value) return t('userForm.errors.email')
+    try {
+      const { data: students } = await getStudents()
+      const emailExists = students.some(
+        (student) => student.email === value && student.id !== studentToEdit?.id
+      )
+      return !emailExists || t('userForm.emailExists')
+    } catch {
+      return t('userForm.errors.emailCheckFailed')
+    }
+  }
+
   const validateIdNumber = async (value) => {
     if (!value) return t('studentForm.errors.idNumber')
-
     if (!/^\d+$/.test(value)) return t('studentForm.errors.idNumberInvalid')
-
     try {
-      const students = await getStudents()
-      const found = students.find(
-        (s) => s.id_number === value && s.id !== studentToEdit?.id
+      const { data: students } = await getStudents()
+      const idExists = students.some(
+        (student) =>
+          String(student.id_number) === String(value) &&
+          student.id !== studentToEdit?.id
       )
-      if (found) {
-        return t('studentForm.errors.idNumberTaken') || 'ID has taken already'
-      }
-    } catch (error) {
-      // Ignore API errors in validation, allow submission
+      return !idExists || t('studentForm.errors.idNumberTaken')
+    } catch {
+      return t('studentForm.errors.idCheckFailed')
     }
-
-    return true
   }
 
   const { mutate, isLoading } = useMutation({
@@ -142,7 +149,7 @@ function CreateStudentForm({ studentToEdit = {}, onCloseModal }) {
     },
   })
 
-  const onSubmit = async (data) => {
+  const onSubmit = (data) => {
     if (!isEditSession && !data.password) {
       toast.error(t('studentForm.errors.password'))
       return
@@ -151,6 +158,9 @@ function CreateStudentForm({ studentToEdit = {}, onCloseModal }) {
       toast.error(t('studentForm.errors.gender'))
       return
     }
+    data.dob = toISO(data.dob)
+    data.registration_date = toISO(data.registration_date)
+    data.registration_deadline = toISO(data.registration_deadline)
     mutate(data)
   }
 
@@ -190,6 +200,8 @@ function CreateStudentForm({ studentToEdit = {}, onCloseModal }) {
           />
           {errors.last_name && <Error>{errors.last_name.message}</Error>}
         </FormRow>
+
+        {/* Email */}
         <FormRow>
           <Label htmlFor="email">{t('studentForm.email')}</Label>
           <Input
@@ -197,25 +209,13 @@ function CreateStudentForm({ studentToEdit = {}, onCloseModal }) {
             type="email"
             {...register('email', {
               required: t('userForm.errors.email'),
-              validate: async (value) => {
-                try {
-                  const { data: students } = await getStudents()
-                  const emailExists = students.some(
-                    (student) =>
-                      student.email === value &&
-                      student.id !== studentToEdit?.id
-                  )
-                  return !emailExists || t('userForm.emailExists')
-                } catch (error) {
-                  return t('userForm.errors.emailCheckFailed')
-                }
-              },
+              validate: validateEmail,
             })}
           />
           {errors.email && <Error>{errors.email.message}</Error>}
         </FormRow>
 
-        {/* Password */}
+        {/* Password (only create) */}
         {!isEditSession && (
           <FormRow>
             <Label htmlFor="password">{t('studentForm.password')}</Label>
@@ -243,22 +243,31 @@ function CreateStudentForm({ studentToEdit = {}, onCloseModal }) {
         {/* DOB */}
         <FormRow>
           <Label htmlFor="dob">{t('studentForm.dob')}</Label>
-          <Input
-            id="dob"
-            type="date"
-            max={tenYearsAgoISO}
-            {...register('dob', {
+          <Controller
+            inputClass="calendar-input"
+            name="dob"
+            control={control}
+            rules={{
               required: t('studentForm.errors.dob'),
-              validate: (value) => {
-                const selectedDate = new Date(value)
-                return selectedDate <= tenYearsAgo
+              validate: (value) =>
+                value?.toDate?.() <=
+                new Date(new Date().setFullYear(new Date().getFullYear() - 10))
                   ? true
-                  : t('studentForm.errors.dobTooYoung')
-              },
-            })}
+                  : t('studentForm.errors.dobTooYoung'),
+            }}
+            render={({ field: { value, onChange }, fieldState: { error } }) => (
+              <>
+                <ShamsiDatePicker
+                  value={value}
+                  onChange={onChange}
+                  error={error?.message}
+                />
+              </>
+            )}
           />
-          {errors.dob && <Error>{errors.dob.message}</Error>}
         </FormRow>
+
+        {/* ID Number */}
         <FormRow>
           <Label htmlFor="id_number">{t('studentForm.idNumber')}</Label>
           <Input
@@ -266,22 +275,7 @@ function CreateStudentForm({ studentToEdit = {}, onCloseModal }) {
             type="text"
             {...register('id_number', {
               required: t('studentForm.errors.idNumber'),
-              validate: async (value) => {
-                if (!/^\d+$/.test(value))
-                  return t('studentForm.errors.idNumberInvalid')
-
-                try {
-                  const { data: students } = await getStudents()
-                  const idExists = students.some(
-                    (student) =>
-                      String(student.id_number) === String(value) &&
-                      student.id !== studentToEdit?.id
-                  )
-                  return !idExists || t('studentForm.errors.idNumberTaken')
-                } catch (error) {
-                  return t('studentForm.errors.idCheckFailed')
-                }
-              },
+              validate: validateIdNumber,
             })}
           />
           {errors.id_number && <Error>{errors.id_number.message}</Error>}
@@ -321,16 +315,20 @@ function CreateStudentForm({ studentToEdit = {}, onCloseModal }) {
           <Label htmlFor="registration_date">
             {t('studentForm.registrationDate')}
           </Label>
-          <Input
-            id="registration_date"
-            type="date"
-            {...register('registration_date', {
-              required: t('studentForm.errors.registrationDate'),
-            })}
+          <Controller
+            name="registration_date"
+            control={control}
+            rules={{ required: t('studentForm.errors.registrationDate') }}
+            render={({ field: { value, onChange }, fieldState: { error } }) => (
+              <>
+                <ShamsiDatePicker
+                  value={value}
+                  onChange={onChange}
+                  error={error?.message}
+                />
+              </>
+            )}
           />
-          {errors.registration_date && (
-            <Error>{errors.registration_date.message}</Error>
-          )}
         </FormRow>
 
         {/* Phone */}
@@ -361,23 +359,29 @@ function CreateStudentForm({ studentToEdit = {}, onCloseModal }) {
           <Label htmlFor="registration_deadline">
             {t('studentForm.registrationDeadline')}
           </Label>
-          <Input
-            id="registration_deadline"
-            type="date"
-            {...register('registration_deadline', {
+          <Controller
+            name="registration_deadline"
+            control={control}
+            rules={{
               required: t('studentForm.errors.registrationDeadline'),
               validate: (value) => {
-                const deadline = new Date(value)
-                const regDate = new Date(watch('registration_date'))
+                const deadline = value?.toDate?.()
+                const regDate = watch('registration_date')?.toDate?.()
                 return deadline >= regDate
                   ? true
                   : t('studentForm.errors.deadlineBeforeRegDate')
               },
-            })}
+            }}
+            render={({ field: { value, onChange }, fieldState: { error } }) => (
+              <>
+                <ShamsiDatePicker
+                  value={value}
+                  onChange={onChange}
+                  error={error?.message}
+                />
+              </>
+            )}
           />
-          {errors.registration_deadline && (
-            <Error>{errors.registration_deadline.message}</Error>
-          )}
         </FormRow>
 
         {/* Gender */}
