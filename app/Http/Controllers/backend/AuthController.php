@@ -36,12 +36,27 @@ class AuthController extends Controller
 
         // Check if the role is one of the expected roles
         if (in_array($role, ['admin', 'second_admin', 'library_admin', 'library_student', 'student'])) {
+            // return response()->json([
+            //     'message' => ucfirst($role) . ' logged in successfully',
+            //     'user' => $user,
+            //     'token' => $token
+            // ]);
             return response()->json([
                 'message' => ucfirst($role) . ' logged in successfully',
-                'user' => $user,
-                'token' => $token
+                'user' => [
+                    'id' => $user->id,
+                    'name' => $user->name,
+                    'email' => $user->email,
+                    'image' => asset('uploads/' . $user->profile), // or asset('storage/'.$user->image) if needed
+                    'role' => $user->getRoleNames()->first(),
+                    'role_id' => $user->role,
+                    'permissions' => $user->getAllPermissions()->pluck('name')->toArray(),
+                    'permissions_id' => $user->getAllPermissions()->pluck('id')->toArray(),
+                ],
+                'token' => $token,
             ]);
         }
+
 
         // Unknown or unauthorized role
         return response()->json(['message' => 'Unauthorized user role'], 403);
