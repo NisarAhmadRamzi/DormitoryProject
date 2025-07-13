@@ -595,6 +595,7 @@
     "authorMaxLength": "Author must be under 255 characters",
     "publicationYear": "Publication Year",
     "publicationYearRequired": "Publication year is required",
+    "fineForDelay": "100Af fine for delay",
     "publicationYearInvalid": "Must be a 4-digit year (YYYY)",
     "status": "Status",
     "statusRequired": "Status is required",
