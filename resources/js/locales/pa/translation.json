@@ -916,9 +916,11 @@
         "helperEmail": "د مرستې کوونکي بریښنالیک",
         "helpDate": "د مرستې نیټه",
         "editSupport": "مرسته سمول",
-        "createSupport": "نوې مرسته جوړول"
+        "createSupport": "نوې مرسته جوړول",
+        "helpDateFuture": "د مرستې نېټه نشي کولی چې د راتلونکي وي."
       },
       "validation": {
+        "both": "دواړه",
         "typeRequired": "د مرستې ډول اړین دی",
         "typeMaxLength": "ډول باید تر ۲۵۵ حروفو کم وي",
         "detailsRequired": "جزئیات اړین دي",
@@ -928,7 +930,7 @@
         "cashQuantityMin": "نغدي پیسې منفي نشي کېدلای",
         "helperFullnameRequired": "د مرستندوی بشپړ نوم اړین دی",
         "helperNumberRequired": "د مرستندوی شمېره اړینه ده",
-        "helperNumberInvalid": "شمیری باید د +93 سره پیل شي او تر ۱۳ عددو زیات نه وي",
+        "helperNumberInvalid": "د تلیفون شمېره باید له ۷ څخه تر ۱۳ عدده پورې وي او یواځې شمیرې وي",
         "helperNumberMax": "شمېره باید تر ۱۳ عددو زیات نه وي",
         "helperEmailRequired": "برېښنالیک اړین دی",
         "helperEmailInvalid": "ناسم برېښنالیک",

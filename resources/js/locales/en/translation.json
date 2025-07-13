@@ -912,9 +912,11 @@
       "helperEmail": "Helper Email",
       "helpDate": "Help Date",
       "editSupport": "Edit Support",
-      "createSupport": "Create New Support"
+      "createSupport": "Create New Support",
+      "helpDateFuture": "Help date cannot be in the future."
     },
     "validation": {
+      "both": "Both",
       "typeRequired": "Support type is required",
       "typeMaxLength": "Type must be under 255 characters",
       "detailsRequired": "Details are required",
@@ -924,7 +926,7 @@
       "cashQuantityMin": "Cash quantity cannot be negative",
       "helperFullnameRequired": "Helper fullname is required",
       "helperNumberRequired": "Helper number is required",
-      "helperNumberInvalid": "Phone number must start with +93 and be up to 13 digits",
+      "helperNumberInvalid": "Phone number must be 7 to 13 digits long and must be only number",
       "helperNumberMax": "Phone number must not exceed 13 digits",
       "helperEmailRequired": "Helper email is required",
       "helperEmailInvalid": "Invalid email address",

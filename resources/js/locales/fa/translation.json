@@ -912,9 +912,11 @@
       "helperEmail": "ایمیل کمک‌کننده",
       "helpDate": "تاریخ کمک",
       "editSupport": "ویرایش حمایت",
-      "createSupport": "ایجاد حمایت جدید"
+      "createSupport": "ایجاد حمایت جدید",
+      "helpDateFuture": "تاریخ کمک نمی‌تواند در آینده باشد."
     },
     "validation": {
+      "both": "هر دو",
       "typeRequired": "نوع حمایت ضروری است",
       "typeMaxLength": "نوع باید کمتر از ۲۵۵ حرف باشد",
       "detailsRequired": "جزئیات ضروری است",
@@ -924,7 +926,7 @@
       "cashQuantityMin": "وجه نقد نمی‌تواند منفی باشد",
       "helperFullnameRequired": "نام کامل کمک‌کننده ضروری است",
       "helperNumberRequired": "شماره تماس کمک‌کننده ضروری است",
-      "helperNumberInvalid": "شماره باید با +۹۳ شروع شود و حداکثر ۱۳ رقم داشته باشد",
+      "helperNumberInvalid": "شماره تلفن باید بین ۷ تا ۱۳ رقم باشد و تنها شامل ارقام باشد",
       "helperNumberMax": "شماره نمی‌تواند بیش از ۱۳ رقم باشد",
       "helperEmailRequired": "ایمیل کمک‌کننده ضروری است",
       "helperEmailInvalid": "آدرس ایمیل نامعتبر است",
