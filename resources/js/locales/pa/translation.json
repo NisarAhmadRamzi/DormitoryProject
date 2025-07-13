@@ -126,6 +126,7 @@
     "updateTitle": "خپل حساب تازه کړئ"
   },
   "accountForm": {
+    "goToDashboard": "ډشبورډ ته لاړ شه",
     "loadError": "د حساب معلوماتو په ترلاسه کولو کې تېروتنه",
     "fullName": "بشپړ نوم",
     "email": "بریښنالیک",

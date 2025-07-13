@@ -126,6 +126,7 @@
     "updateTitle": "حساب خود را به‌روزرسانی کنید"
   },
   "accountForm": {
+    "goToDashboard": "رفتن به داشبورد",
     "loadError": "خطا در بارگذاری اطلاعات حساب",
     "fullName": "نام کامل",
     "email": "ایمیل",

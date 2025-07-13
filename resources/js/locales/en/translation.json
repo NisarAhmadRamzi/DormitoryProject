@@ -126,6 +126,7 @@
     "updateTitle": "Update your account"
   },
   "accountForm": {
+    "goToDashboard": "Go to Dashboard",
     "loadError": "Error loading account data",
     "fullName": "Full name",
     "email": "Email",
