@@ -7,6 +7,7 @@ import styled from 'styled-components'
 import { getBorrowedBooks } from '../../services/apiBorrowedBooks'
 import Spinner from '../../ui/Spinner'
 import BorrowedBooksRow from './BorrowedBooksRow'
+import AddBorrowedBook from './AddBorrowedBook'
 
 const Table = styled.div`
   border: 1px solid var(--color-grey-200);
@@ -284,6 +285,7 @@ export default function BorrowedBooksTable() {
             />
           </SearchInputContainer>
         </SearchWrapper>
+        <AddBorrowedBook/>
       </TopBarWrapper>
 
       <Table role="table">

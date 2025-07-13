@@ -9,6 +9,7 @@ import styled from 'styled-components'
 import { getAssets } from '../../services/apiAssets'
 import Spinner from '../../ui/Spinner'
 import AssetsRow from './AssetsRow'
+import AddAssets from './AddAssets'
 
 const Table = styled.div`
   border: 1px solid var(--color-grey-200);
@@ -205,6 +206,7 @@ export default function AssetsTable() {
             onChange={(e) => setSearchText(e.target.value)}
           />
         </SearchInputContainer>
+        <AddAssets/>
       </TopBarWrapper>
 
       <Table role="table">

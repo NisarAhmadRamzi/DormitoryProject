@@ -4,10 +4,18 @@ import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { getPermission } from '../../services/apiPermission'
 import Spinner from '../../ui/Spinner'
+import AddPermission from './AddPermission'
 import PermissionRow from './PermissionRow'
 
 const PAGE_SIZE_OPTIONS = [5, 10, 25, 50]
-
+const TopBarWrapper = styled.div`
+  display: flex;
+  justify-content: flex-end; /* Left align */
+  align-items: center;
+  padding: 1.6rem 2.4rem 0;
+  gap: 2rem;
+  flex-wrap: wrap;
+`
 const Table = styled.div`
   border: 1px solid var(--color-grey-200);
   font-size: 1.4rem;
@@ -132,6 +140,9 @@ function PermissionTable({ search = '' }) {
 
   return (
     <>
+      <TopBarWrapper>
+        <AddPermission />
+      </TopBarWrapper>
       <Table role="table">
         <TableHeader role="row">
           <div>{t('permission.id')}</div>
@@ -144,43 +155,42 @@ function PermissionTable({ search = '' }) {
         {paginatedPermissions.map((permission) => (
           <PermissionRow key={permission.id} permission={permission} />
         ))}
+        <PaginationWrapper>
+          <PageInfo>
+            {t('page')} {currentPage} {t('of')} {totalPages || 1}
+          </PageInfo>
+
+          <RowsPerPage>
+            {t('rowsPerPage')}
+            <select value={rowsPerPage} onChange={handleRowsPerPageChange}>
+              {PAGE_SIZE_OPTIONS.map((size) => (
+                <option key={size} value={size}>
+                  {size}
+                </option>
+              ))}
+            </select>
+          </RowsPerPage>
+
+          <NavButtons>
+            <button
+              onClick={() => handlePageChange(Math.max(1, currentPage - 1))}
+              disabled={currentPage === 1}
+              aria-label={t('previousPage')}
+            >
+              &lt;
+            </button>
+            <button
+              onClick={() =>
+                handlePageChange(Math.min(totalPages, currentPage + 1))
+              }
+              disabled={currentPage === totalPages || totalPages === 0}
+              aria-label={t('nextPage')}
+            >
+              &gt;
+            </button>
+          </NavButtons>
+        </PaginationWrapper>
       </Table>
-
-      <PaginationWrapper>
-        <PageInfo>
-          {t('page')} {currentPage} {t('of')} {totalPages || 1}
-        </PageInfo>
-
-        <RowsPerPage>
-          {t('rowsPerPage')}
-          <select value={rowsPerPage} onChange={handleRowsPerPageChange}>
-            {PAGE_SIZE_OPTIONS.map((size) => (
-              <option key={size} value={size}>
-                {size}
-              </option>
-            ))}
-          </select>
-        </RowsPerPage>
-
-        <NavButtons>
-          <button
-            onClick={() => handlePageChange(Math.max(1, currentPage - 1))}
-            disabled={currentPage === 1}
-            aria-label={t('previousPage')}
-          >
-            &lt;
-          </button>
-          <button
-            onClick={() =>
-              handlePageChange(Math.min(totalPages, currentPage + 1))
-            }
-            disabled={currentPage === totalPages || totalPages === 0}
-            aria-label={t('nextPage')}
-          >
-            &gt;
-          </button>
-        </NavButtons>
-      </PaginationWrapper>
     </>
   )
 }

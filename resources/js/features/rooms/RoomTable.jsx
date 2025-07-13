@@ -1,4 +1,3 @@
-
 import { useQuery } from '@tanstack/react-query'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -8,6 +7,7 @@ import { useSearchParams } from 'react-router-dom'
 import styled from 'styled-components'
 import { getCabins } from '../../services/apiCabins'
 import Spinner from '../../ui/Spinner'
+import AddRoom from './AddRoom'
 import RoomRow from './RoomRow'
 
 // Styled components
@@ -233,6 +233,7 @@ export default function RoomsTable() {
             onChange={(e) => setSearchText(e.target.value)}
           />
         </SearchInputContainer>
+        <AddRoom />
       </TopBarWrapper>
 
       <Table role="table" dir={dir}>

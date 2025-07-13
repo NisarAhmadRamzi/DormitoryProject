@@ -1,6 +1,5 @@
 import { useTranslation } from 'react-i18next'
 
-import AddAssets from '../features/assets/AddAssets'
 import AssetsTable from '../features/assets/AssetsTable'
 import Heading from '../ui/Heading'
 import Row from '../ui/Row'
@@ -15,7 +14,6 @@ function Assets() {
           {t('assets')}
         </Heading>
         <AssetsTable />
-        <AddAssets />
       </Row>
     </>
   )

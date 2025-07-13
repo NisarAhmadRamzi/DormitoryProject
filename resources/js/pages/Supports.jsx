@@ -1,5 +1,4 @@
 import { useTranslation } from 'react-i18next'
-import AddSupports from '../features/supports/AddSupports'
 import SupportTable from '../features/supports/SupportTable'
 import Heading from '../ui/Heading'
 import Row from '../ui/Row'
@@ -14,7 +13,6 @@ function Supports() {
           {t('supports')}
         </Heading>
         <SupportTable />
-        <AddSupports />
       </Row>
     </>
   )

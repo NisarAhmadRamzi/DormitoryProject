@@ -1,6 +1,5 @@
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
-import AddComplaints from '../features/complaints/AddComplaints'
 import ComplaintsTable from '../features/complaints/ComplaintsTable'
 import Heading from '../ui/Heading'
 import Row from '../ui/Row'
@@ -32,7 +31,6 @@ function Complaints() {
         {t('complaints')}
       </Heading>
       <ComplaintsTable />
-      <AddComplaints />
     </Row>
   )
 }

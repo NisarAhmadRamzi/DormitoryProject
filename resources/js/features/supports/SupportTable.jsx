@@ -7,6 +7,7 @@ import styled from 'styled-components'
 import { getSupports } from '../../services/apiSupports'
 import Spinner from '../../ui/Spinner'
 import SupportRow from './SupportRow'
+import AddSupports from './AddSupports'
 
 const PAGE_SIZE_OPTIONS = [5, 10, 25, 50]
 
@@ -244,6 +245,7 @@ export default function SupportTable() {
             />
           </SearchInputContainer>
         </SearchWrapper>
+        <AddSupports/>
       </TopBarWrapper>
 
       <Table role="table">

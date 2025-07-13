@@ -7,6 +7,7 @@ import styled from 'styled-components'
 import { getExpenses } from '../../services/apiExpenses'
 import Spinner from '../../ui/Spinner'
 import ExpenseRow from './ExpensesRow'
+import AddExpenses from './AddExpenses'
 
 const PAGE_SIZE_OPTIONS = [5, 10, 25, 50]
 
@@ -238,6 +239,7 @@ export default function ExpenseTable() {
             />
           </SearchInputContainer>
         </SearchWrapper>
+        <AddExpenses/>
       </TopBarWrapper>
 
       <Table role="table">

@@ -6,6 +6,7 @@ import { useSearchParams } from 'react-router-dom'
 import styled from 'styled-components'
 import { getComplaints } from '../../services/apiComplaints'
 import Spinner from '../../ui/Spinner'
+import AddComplaints from './AddComplaints'
 import ComplaintsRow from './ComplaintsRow'
 
 const Table = styled.div`
@@ -255,6 +256,7 @@ export default function ComplaintsTable() {
             onChange={(e) => setSearch(e.target.value)}
           />
         </SearchInputContainer>
+        <AddComplaints />
       </TopBarWrapper>
 
       <Table role="table">

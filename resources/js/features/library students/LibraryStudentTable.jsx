@@ -6,6 +6,7 @@ import { useSearchParams } from 'react-router-dom'
 import styled from 'styled-components'
 import { getAllLibraryStudents } from '../../services/apiLibraryStudents'
 import Spinner from '../../ui/Spinner'
+import AddLibraryStudent from './AddLibraryStudent'
 import LibraryStudentRow from './LibraryStudentRow'
 const PAGE_SIZE_OPTIONS = [5, 10, 25, 50]
 
@@ -232,6 +233,7 @@ export default function LibraryStudentsTable() {
             onChange={(e) => setSearch(e.target.value)}
           />
         </SearchInputContainer>
+        <AddLibraryStudent />
       </TopBarWrapper>
 
       <Table>

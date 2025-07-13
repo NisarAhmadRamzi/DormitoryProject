@@ -6,6 +6,7 @@ import { useSearchParams } from 'react-router-dom'
 import styled from 'styled-components'
 import { getBooks } from '../../services/apiBooks'
 import Spinner from '../../ui/Spinner'
+import AddBook from './AddBook'
 import BooksRow from './BooksRow'
 
 const Table = styled.div`
@@ -231,6 +232,7 @@ export default function BooksTable() {
             />
           </SearchInputContainer>
         </SearchWrapper>
+        <AddBook />
       </TopBarWrapper>
 
       <Table role="table">

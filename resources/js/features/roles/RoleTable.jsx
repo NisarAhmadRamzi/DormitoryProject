@@ -1,10 +1,18 @@
-import React from 'react'
 import { useQuery } from '@tanstack/react-query'
+import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { getRoles } from '../../services/apiRoles'
 import Spinner from '../../ui/Spinner'
+import AddRole from './AddRole'
 import RoleRow from './RoleRow'
-import { useTranslation } from 'react-i18next'
+const TopBarWrapper = styled.div`
+  display: flex;
+  justify-content: flex-end; /* Left align */
+  align-items: center;
+  padding: 1.6rem 2.4rem 0;
+  gap: 2rem;
+  flex-wrap: wrap;
+`
 
 const Table = styled.div`
   border: 1px solid var(--color-grey-200);
@@ -38,19 +46,24 @@ export default function RoleTable() {
   if (roles.length === 0) return <p>{t('roleTable.noMatch')}</p>
 
   return (
-    <Table role="table">
-      <TableHeader role="row">
-        <div>{t('roleTable.id')}</div>
-        <div>{t('roleTable.name')}</div>
-        <div>{t('roleTable.permissions')}</div>
-        <div>{t('roleTable.createdAt')}</div>
-        <div>{t('roleTable.updatedAt')}</div>
-        <div>{t('roleTable.actions')}</div>
-      </TableHeader>
+    <>
+      <TopBarWrapper>
+        <AddRole />
+      </TopBarWrapper>
+      <Table role="table">
+        <TableHeader role="row">
+          <div>{t('roleTable.id')}</div>
+          <div>{t('roleTable.name')}</div>
+          <div>{t('roleTable.permissions')}</div>
+          <div>{t('roleTable.createdAt')}</div>
+          <div>{t('roleTable.updatedAt')}</div>
+          <div>{t('roleTable.actions')}</div>
+        </TableHeader>
 
-      {roles.map((role) => (
-        <RoleRow key={role.id} role={role} />
-      ))}
-    </Table>
+        {roles.map((role) => (
+          <RoleRow key={role.id} role={role} />
+        ))}
+      </Table>
+    </>
   )
 }

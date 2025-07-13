@@ -14,7 +14,6 @@ function Fees() {
           {t('fees')}
         </Heading>
         <FeesTable />
-        <AddFees />
       </Row>
     </>
   )

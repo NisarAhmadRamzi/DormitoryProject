@@ -7,6 +7,7 @@ import styled from 'styled-components'
 
 import { getLibraries } from '../../services/apiLibraries'
 import Spinner from '../../ui/Spinner'
+import AddLibrary from './AddLibrary'
 import LibraryRow from './LibraryRow'
 
 const PAGE_SIZE_OPTIONS = [5, 10, 25, 50]
@@ -239,6 +240,7 @@ export default function LibraryTable() {
             />
           </SearchInputContainer>
         </SearchWrapper>
+        <AddLibrary />
       </TopBarWrapper>
       <Table role="table">
         <TableHeader role="row">

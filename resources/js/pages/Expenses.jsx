@@ -1,5 +1,4 @@
 import { useTranslation } from 'react-i18next'
-import AddExpenses from '../features/expenses/AddExpenses'
 import ExpenseTable from '../features/expenses/ExpensesTable'
 import Heading from '../ui/Heading'
 import Row from '../ui/Row'
@@ -13,7 +12,6 @@ function Expenses() {
         {t('expenses')}
       </Heading>
       <ExpenseTable />
-      <AddExpenses />
     </Row>
   )
 }

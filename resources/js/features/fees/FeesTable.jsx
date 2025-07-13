@@ -6,6 +6,7 @@ import { useSearchParams } from 'react-router-dom'
 import styled from 'styled-components'
 import { getFees } from '../../services/apiFees'
 import Spinner from '../../ui/Spinner'
+import AddFees from './AddFee'
 import FeesRow from './FeesRow'
 const PAGE_SIZE_OPTIONS = [5, 10, 25, 50]
 const Table = styled.div`
@@ -241,6 +242,7 @@ export default function FeesTable() {
             />
           </SearchInputContainer>
         </SearchWrapper>
+        <AddFees />
       </TopBarWrapper>
 
       <Table role="table">

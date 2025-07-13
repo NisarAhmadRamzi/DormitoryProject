@@ -7,6 +7,7 @@ import { useSearchParams } from 'react-router-dom'
 import styled from 'styled-components'
 import { getStudents } from '../../services/apiStudents'
 import Spinner from '../../ui/Spinner'
+import AddStudent from './AddStudent'
 import StudentRow from './StudentRow'
 
 const Table = styled.div`
@@ -169,7 +170,6 @@ export default function StudentTable() {
     ['students'],
     getStudents
   )
-  console.log('Students data:', data)
   if (isLoading) return <Spinner />
   if (isError)
     return (
@@ -247,6 +247,7 @@ export default function StudentTable() {
             />
           </SearchInputContainer>
         </SearchWrapper>
+        <AddStudent />
       </TopBarWrapper>
 
       <Table role="table">

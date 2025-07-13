@@ -8,6 +8,7 @@ import styled from 'styled-components'
 
 import { getUsers } from '../../services/apiUser'
 import Spinner from '../../ui/Spinner'
+import AddUser from './AddUser'
 import UsersRow from './UsersRow'
 
 // 🔻 Styled components
@@ -259,6 +260,7 @@ export default function UsersTable() {
             />
           </SearchInputContainer>
         </SearchWrapper>
+          <AddUser />
       </TopBarWrapper>
 
       <Table role="table">
