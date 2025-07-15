@@ -1,64 +1,28 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import React from 'react'
-import { useForm } from 'react-hook-form'
+import { useEffect } from 'react'
+import { Controller, useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
+import ShamsiDatePicker from '../../components/ShamsiDatePicker'
 import { createExpense, editExpense } from '../../services/apiExpenses'
 import Button from '../../ui/Button'
 import Form from '../../ui/Form'
 import Input from '../../ui/Input'
-const TextArea = styled.textarea`
-  border: 1px solid
-    ${(props) => (props.error ? 'red' : 'var(--color-grey-300)')};
-  background-color: var(--color-grey-0);
-  border-radius: var(--border-radius-sm);
-  padding: 0.8rem 1.2rem;
-  box-shadow: var(--shadow-sm);
-  width: 100%;
-  min-height: 10rem;
-  font-family: inherit;
-  font-size: 1.6rem;
-  resize: vertical;
-  transition: border-color 0.2s;
 
-  &:focus {
-    border-color: var(--color-blue-500);
-    outline: none;
-  }
-`
-
-const Select = styled.select`
-  padding: 0.8rem 1.2rem;
-  font-size: 1.6rem;
-  border: 1px solid var(--color-grey-300);
-  border-radius: 4px;
-  background-color: var(--color-grey-0);
-  width: 100%;
-  font-family: inherit;
-  color: inherit;
+const FormGrid = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2.4rem;
+  max-height: 70vh;
+  overflow-y: auto;
+  padding-right: 1rem;
 `
 
 const FormRow = styled.div`
-  display: grid;
-  align-items: center;
-  grid-template-columns: 24rem 1fr 1.2fr;
-  gap: 2.4rem;
-  padding: 1.2rem 0;
-  &:first-child {
-    padding-top: 0;
-  }
-  &:last-child {
-    padding-bottom: 0;
-  }
-  &:not(:last-child) {
-    border-bottom: 1px solid var(--color-grey-100);
-  }
-  &:has(button) {
-    display: flex;
-    justify-content: flex-end;
-    gap: 1.2rem;
-  }
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
 `
 
 const Label = styled.label`
@@ -66,8 +30,24 @@ const Label = styled.label`
 `
 
 const Error = styled.span`
-  font-size: 1.4rem;
+  font-size: 1.2rem;
   color: var(--color-red-700);
+`
+
+const TextArea = styled.textarea`
+  font-size: 1.4rem;
+  padding: 1.2rem;
+  border-radius: var(--border-radius-sm);
+  border: 1px solid var(--color-grey-300);
+  width: 100%;
+  color: var(--color-grey-700);
+  background-color: var(--color-grey-0);
+  min-height: 10rem;
+  resize: vertical;
+  &:focus {
+    border-color: var(--color-primary);
+    outline: none;
+  }
 `
 
 function CreateExpensesForm({ expenseToEdit = {}, onCloseModal }) {
@@ -91,6 +71,7 @@ function CreateExpensesForm({ expenseToEdit = {}, onCloseModal }) {
   const {
     register,
     handleSubmit,
+    control,
     reset,
     formState: { errors },
   } = useForm({
@@ -100,8 +81,15 @@ function CreateExpensesForm({ expenseToEdit = {}, onCloseModal }) {
   const queryClient = useQueryClient()
 
   const { mutate, isLoading } = useMutation({
-    mutationFn: (data) =>
-      isEditSession ? editExpense(expenseToEdit.id, data) : createExpense(data),
+    mutationFn: (data) => {
+      data.expense_date = data.expense_date
+        ?.toDate?.()
+        .toISOString()
+        .split('T')[0]
+      return isEditSession
+        ? editExpense(expenseToEdit.id, data)
+        : createExpense(data)
+    },
     onSuccess: () => {
       toast.success(
         isEditSession
@@ -113,86 +101,100 @@ function CreateExpensesForm({ expenseToEdit = {}, onCloseModal }) {
       onCloseModal?.()
     },
     onError: (err) => {
-      toast.error(err.message || t('ExpensesForm.error'))
+      toast.error(err?.response?.data?.message || t('ExpensesForm.error'))
     },
   })
 
-  const onSubmit = (data) => mutate(data)
-
-  React.useEffect(() => {
+  useEffect(() => {
     if (isEditSession && expenseToEdit) {
       reset(processedExpenseToEdit)
     }
   }, [isEditSession, expenseToEdit, reset])
 
+  const onSubmit = (data) => mutate(data)
+
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
-      <FormRow>
-        <Label htmlFor="type">{t('ExpensesForm.type')}</Label>
-        <Input
-          type="text"
-          id="cash"
-          value="cash"
-          {...register('type', {
-            required: t('ExpensesForm.requiredType'),
-          })}
-        />
-        {errors?.type && <Error>{errors.type.message}</Error>}
-      </FormRow>
-      <FormRow>
-        <Label htmlFor="expense_cash">{t('ExpensesForm.expenseCash')}</Label>
-        <Input
-          type="number"
-          id="expense_cash"
-          {...register('expense_cash', {
-            required: t('ExpensesForm.requiredExpenseCash'),
-            min: {
-              value: 0,
-              message:
-                t('ExpensesForm.minExpenseCash') ||
-                'Value must be 0 or greater',
-            },
-          })}
-        />
-        {errors?.expense_cash && <Error>{errors.expense_cash.message}</Error>}
-      </FormRow>
+      <FormGrid>
+        <FormRow>
+          <Label htmlFor="type">{t('ExpensesForm.type')}</Label>
+          <Input
+            type="text"
+            id="cash"
+            value="cash"
+            {...register('type', {
+              required: t('ExpensesForm.requiredType'),
+            })}
+          />
+          {errors?.type && <Error>{errors.type.message}</Error>}
+        </FormRow>
 
-      <FormRow>
-        <Label htmlFor="description">{t('ExpensesForm.description')}</Label>
-        <TextArea
-          id="description"
-          {...register('description', {
-            required: t('ExpensesForm.requiredDescription'),
-          })}
-          error={errors?.description}
-        />
-        {errors?.description && <Error>{errors.description.message}</Error>}
-      </FormRow>
+        <FormRow>
+          <Label htmlFor="expense_cash">{t('ExpensesForm.expenseCash')}</Label>
+          <Input
+            type="number"
+            id="expense_cash"
+            {...register('expense_cash', {
+              required: t('ExpensesForm.requiredExpenseCash'),
+              min: {
+                value: 0,
+                message: t('ExpensesForm.minExpenseCash'),
+              },
+            })}
+          />
+          {errors?.expense_cash && <Error>{errors.expense_cash.message}</Error>}
+        </FormRow>
 
-      <FormRow>
-        <Label htmlFor="expense_date">{t('ExpensesForm.expenseDate')}</Label>
-        <Input
-          type="date"
-          id="expense_date"
-          {...register('expense_date', {
-            required: t('ExpensesForm.requiredExpenseDate'),
-          })}
-        />
-        {errors?.expense_date && <Error>{errors.expense_date.message}</Error>}
-      </FormRow>
+        <FormRow style={{ gridColumn: '1 / -1' }}>
+          <Label htmlFor="description">{t('ExpensesForm.description')}</Label>
+          <TextArea
+            id="description"
+            {...register('description', {
+              required: t('ExpensesForm.requiredDescription'),
+            })}
+            error={errors?.description}
+          />
+          {errors?.description && <Error>{errors.description.message}</Error>}
+        </FormRow>
 
-      <FormRow>
-        <Button
-          variation="secondary"
-          type="reset"
-          onClick={() => onCloseModal?.()}
+        <FormRow>
+          <Label>{t('ExpensesForm.expenseDate')}</Label>
+          <Controller
+            name="expense_date"
+            control={control}
+            rules={{
+              required: t('ExpensesForm.requiredExpenseDate'),
+            }}
+            render={({ field: { value, onChange }, fieldState: { error } }) => (
+              <ShamsiDatePicker
+                value={value}
+                onChange={onChange}
+                error={error?.message}
+              />
+            )}
+          />
+        </FormRow>
+
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'flex-end',
+            gap: '1.2rem',
+            marginTop: '1.6rem',
+          }}
         >
-          {t('cancel.cancel')}
-        </Button>
-        <Button type="submit" disabled={isLoading}>
-          {isEditSession ? t('ExpensesForm.edit') : t('ExpensesForm.create')}
-        </Button>
-      </FormRow>
+          <Button
+            variation="secondary"
+            type="reset"
+            onClick={() => onCloseModal?.()}
+          >
+            {t('cancel.cancel')}
+          </Button>
+          <Button type="submit" disabled={isLoading}>
+            {isEditSession ? t('ExpensesForm.edit') : t('ExpensesForm.create')}
+          </Button>
+        </div>
+      </FormGrid>
     </Form>
   )
 }
