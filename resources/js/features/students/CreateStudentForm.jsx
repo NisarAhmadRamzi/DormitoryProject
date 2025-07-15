@@ -332,6 +332,7 @@ function CreateStudentForm({ studentToEdit = {}, onCloseModal }) {
         </FormRow>
 
         {/* Phone */}
+        {/* Phone */}
         <FormRow>
           <Label htmlFor="phone">{t('studentForm.phone')}</Label>
           <Input
@@ -339,6 +340,7 @@ function CreateStudentForm({ studentToEdit = {}, onCloseModal }) {
             id="phone"
             placeholder="+93xxxxxxxxx"
             defaultValue="+93"
+            style={{ direction: 'ltr', textAlign: 'left' }} // ✅ این خط را اضافه کن
             {...register('phone', {
               required: t('studentForm.errors.phone'),
               pattern: {
@@ -353,7 +355,6 @@ function CreateStudentForm({ studentToEdit = {}, onCloseModal }) {
           />
           {errors?.phone && <Error>{errors.phone.message}</Error>}
         </FormRow>
-
         {/* Registration Deadline */}
         <FormRow>
           <Label htmlFor="registration_deadline">
