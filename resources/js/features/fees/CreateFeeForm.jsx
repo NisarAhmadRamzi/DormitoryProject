@@ -1,39 +1,29 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import React from 'react'
-import { useForm } from 'react-hook-form'
+import { useEffect } from 'react'
+import { Controller, useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
+import ShamsiDatePicker from '../../components/ShamsiDatePicker'
 import { createFee, editFee } from '../../services/apiFees'
 import { getStudents } from '../../services/apiStudents'
 import Button from '../../ui/Button'
 import Form from '../../ui/Form'
 import Input from '../../ui/Input'
 
-const FormRow = styled.div`
+const FormGrid = styled.div`
   display: grid;
-  align-items: center;
-  grid-template-columns: 24rem 1fr 1.2fr;
+  grid-template-columns: 1fr 1fr;
   gap: 2.4rem;
-  padding: 1.2rem 0;
+  max-height: 70vh;
+  overflow-y: auto;
+  padding-right: 1rem;
+`
 
-  &:first-child {
-    padding-top: 0;
-  }
-
-  &:last-child {
-    padding-bottom: 0;
-  }
-
-  &:not(:last-child) {
-    border-bottom: 1px solid var(--color-grey-100);
-  }
-
-  &:has(button) {
-    display: flex;
-    justify-content: flex-end;
-    gap: 1.2rem;
-  }
+const FormRow = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
 `
 
 const Label = styled.label`
@@ -41,36 +31,28 @@ const Label = styled.label`
 `
 
 const Error = styled.span`
-  font-size: 1.4rem;
+  font-size: 1.2rem;
   color: var(--color-red-700);
 `
 
-const Select = styled.select`
-  font-size: 1.6rem;
-  padding: 0.8rem 1.2rem;
+const SelectInput = styled.select`
+  font-size: 1.4rem;
+  padding: 1.2rem;
   border-radius: var(--border-radius-sm);
   border: 1px solid var(--color-grey-300);
   width: 100%;
-  box-sizing: border-box;
-
   color: var(--color-grey-700);
   background-color: var(--color-grey-0);
-
   &:focus {
-    border-color: var(--color-brand-600);
+    border-color: var(--color-primary);
     outline: none;
-    box-shadow: 0 0 0 2px var(--color-blue-100);
-  }
-
-  &:disabled {
-    background-color: var(--color-grey-200);
-    color: var(--color-grey-500);
   }
 `
 
 function CreateFeeForm({ feeToEdit = {}, onCloseModal }) {
   const isEditSession = Boolean(feeToEdit.id)
   const { t } = useTranslation()
+  const queryClient = useQueryClient()
 
   const { data: studentsData, isLoading: isLoadingStudents } = useQuery({
     queryKey: ['students', { page: 1, limit: 1000 }],
@@ -81,22 +63,34 @@ function CreateFeeForm({ feeToEdit = {}, onCloseModal }) {
     register,
     handleSubmit,
     reset,
+    control,
     watch,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm({
-    defaultValues: {
-      ...feeToEdit,
-      office_pay: feeToEdit.office_pay ?? 1000,
-      warranty_pay: feeToEdit.warranty_pay ?? 1000,
-    },
+    mode: 'onChange',
+    defaultValues: isEditSession
+      ? {
+          ...feeToEdit,
+        }
+      : {
+          office_pay: 1000,
+          warranty_pay: 1000,
+        },
   })
 
-  // Watch values for cross validations
   const officePay = watch('office_pay')
   const warrantyPay = watch('warranty_pay')
   const registrationDate = watch('registration_date')
 
-  const queryClient = useQueryClient()
+  useEffect(() => {
+    if (isEditSession && feeToEdit) {
+      reset({
+        ...feeToEdit,
+      })
+    }
+  }, [feeToEdit, isEditSession, reset])
+
+  const toISO = (d) => d?.toDate?.().toISOString().split('T')[0]
 
   const { mutate, isLoading } = useMutation({
     mutationFn: (data) =>
@@ -112,187 +106,196 @@ function CreateFeeForm({ feeToEdit = {}, onCloseModal }) {
       onCloseModal?.()
     },
     onError: (err) => {
-      toast.error(err.message || t('Fees.messages.error'))
+      toast.error(err?.response?.data?.message || t('Fees.messages.error'))
     },
   })
 
-  const onSubmit = (data) => mutate(data)
+  const onSubmit = (data) => {
+    data.registration_date = toISO(data.registration_date)
+    data.due_date = toISO(data.due_date)
+    if (data.paid_date) data.paid_date = toISO(data.paid_date)
 
-  React.useEffect(() => {
-    if (isEditSession && feeToEdit) {
-      reset({
-        ...feeToEdit,
-        office_pay: feeToEdit.office_pay ?? 1000,
-        warranty_pay: feeToEdit.warranty_pay ?? 1000,
-      })
-    }
-  }, [isEditSession, feeToEdit, reset])
+    mutate(data)
+  }
 
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
-      <FormRow>
-        <Label htmlFor="student_id">{t('Fees.fields.studentId')}</Label>
-        <Select
-          id="student_id"
-          disabled={isLoadingStudents}
-          {...register('student_id', {
-            required: t('Fees.errors.studentIdRequired'),
-          })}
-        >
-          <option value="">{t('selectStudent')}</option>
-          {studentsData?.data?.map((student) => (
-            <option key={student.id} value={student.id}>
-              {student.id} — {student.name} {student.last_name}
-            </option>
-          ))}
-        </Select>
-        {errors?.student_id && <Error>{errors.student_id.message}</Error>}
-      </FormRow>
+      <FormGrid>
+        <FormRow>
+          <Label htmlFor="student_id">{t('Fees.fields.studentId')}</Label>
+          <SelectInput
+            id="student_id"
+            disabled={isLoadingStudents}
+            {...register('student_id', {
+              required: t('Fees.errors.studentIdRequired'),
+            })}
+          >
+            <option value="">{t('selectStudent')}</option>
+            {studentsData?.data?.map((student) => (
+              <option key={student.id} value={student.id}>
+                {student.id} — {student.name} {student.last_name}
+              </option>
+            ))}
+          </SelectInput>
+          {errors?.student_id && <Error>{errors.student_id.message}</Error>}
+        </FormRow>
 
-      <FormRow>
-        <Label htmlFor="office_pay">{t('Fees.fields.officePay')}</Label>
-        <Input
-          type="number"
-          id="office_pay"
-          step="0.01"
-          {...register('office_pay', {
-            required: t('Fees.errors.officePayRequired'),
-            valueAsNumber: true,
-            min: {
-              value: 0,
-              message: t('Fees.errors.officePayMinZero'),
-            },
-          })}
-        />
-        {errors?.office_pay && <Error>{errors.office_pay.message}</Error>}
-      </FormRow>
+        <FormRow>
+          <Label htmlFor="office_pay">{t('Fees.fields.officePay')}</Label>
+          <Input
+            type="number"
+            id="office_pay"
+            step="0.01"
+            {...register('office_pay', {
+              required: t('Fees.errors.officePayRequired'),
+              valueAsNumber: true,
+              min: { value: 0, message: t('Fees.errors.officePayMinZero') },
+            })}
+          />
+          {errors?.office_pay && <Error>{errors.office_pay.message}</Error>}
+        </FormRow>
 
-      <FormRow>
-        <Label htmlFor="office_paid">{t('Fees.fields.officePaid')}</Label>
-        <Input
-          type="number"
-          id="office_paid"
-          step="0.01"
-          {...register('office_paid', {
-            required: t('Fees.errors.officePaidRequired'),
-            valueAsNumber: true,
-            min: {
-              value: 0,
-              message: t('Fees.errors.officePaidMinZero'),
-            },
-            validate: (val) =>
-              parseFloat(val) <= parseFloat(officePay || 0) ||
-              t('Fees.errors.officePaidTooMuch'),
-          })}
-        />
-        {errors?.office_paid && <Error>{errors.office_paid.message}</Error>}
-      </FormRow>
+        <FormRow>
+          <Label htmlFor="office_paid">{t('Fees.fields.officePaid')}</Label>
+          <Input
+            type="number"
+            id="office_paid"
+            step="0.01"
+            {...register('office_paid', {
+              required: t('Fees.errors.officePaidRequired'),
+              valueAsNumber: true,
+              min: { value: 0, message: t('Fees.errors.officePaidMinZero') },
+              validate: (val) =>
+                parseFloat(val) <= parseFloat(officePay || 0) ||
+                t('Fees.errors.officePaidTooMuch'),
+            })}
+          />
+          {errors?.office_paid && <Error>{errors.office_paid.message}</Error>}
+        </FormRow>
 
-      <FormRow>
-        <Label htmlFor="warranty_pay">{t('Fees.fields.warrantyPay')}</Label>
-        <Input
-          type="number"
-          id="warranty_pay"
-          step="0.01"
-          {...register('warranty_pay', {
-            required: t('Fees.errors.warrantyPayRequired'),
-            valueAsNumber: true,
-            min: {
-              value: 0,
-              message: t('Fees.errors.warrantyPayMinZero'),
-            },
-          })}
-        />
-        {errors?.warranty_pay && <Error>{errors.warranty_pay.message}</Error>}
-      </FormRow>
+        <FormRow>
+          <Label htmlFor="warranty_pay">{t('Fees.fields.warrantyPay')}</Label>
+          <Input
+            type="number"
+            id="warranty_pay"
+            step="0.01"
+            {...register('warranty_pay', {
+              required: t('Fees.errors.warrantyPayRequired'),
+              valueAsNumber: true,
+              min: { value: 0, message: t('Fees.errors.warrantyPayMinZero') },
+            })}
+          />
+          {errors?.warranty_pay && <Error>{errors.warranty_pay.message}</Error>}
+        </FormRow>
 
-      <FormRow>
-        <Label htmlFor="warranty_paid">{t('Fees.fields.warrantyPaid')}</Label>
-        <Input
-          type="number"
-          id="warranty_paid"
-          step="0.01"
-          {...register('warranty_paid', {
-            required: t('Fees.errors.warrantyPaidRequired'),
-            valueAsNumber: true,
-            min: {
-              value: 0,
-              message: t('Fees.errors.warrantyPaidMinZero'),
-            },
-            validate: (val) =>
-              parseFloat(val) <= parseFloat(warrantyPay || 0) ||
-              t('Fees.errors.warrantyPaidTooMuch'),
-          })}
-        />
-        {errors?.warranty_paid && <Error>{errors.warranty_paid.message}</Error>}
-      </FormRow>
+        <FormRow>
+          <Label htmlFor="warranty_paid">{t('Fees.fields.warrantyPaid')}</Label>
+          <Input
+            type="number"
+            id="warranty_paid"
+            step="0.01"
+            {...register('warranty_paid', {
+              required: t('Fees.errors.warrantyPaidRequired'),
+              valueAsNumber: true,
+              min: { value: 0, message: t('Fees.errors.warrantyPaidMinZero') },
+              validate: (val) =>
+                parseFloat(val) <= parseFloat(warrantyPay || 0) ||
+                t('Fees.errors.warrantyPaidTooMuch'),
+            })}
+          />
+          {errors?.warranty_paid && (
+            <Error>{errors.warranty_paid.message}</Error>
+          )}
+        </FormRow>
 
-      <FormRow>
-        <Label htmlFor="registration_date">
-          {t('Fees.fields.registrationDate')}
-        </Label>
-        <Input
-          type="date"
-          id="registration_date"
-          {...register('registration_date', {
-            required: t('Fees.errors.registrationDateRequired'),
-          })}
-        />
-        {errors?.registration_date && (
-          <Error>{errors.registration_date.message}</Error>
-        )}
-      </FormRow>
+        <FormRow>
+          <Label>{t('Fees.fields.registrationDate')}</Label>
+          <Controller
+            name="registration_date"
+            control={control}
+            rules={{
+              required: t('Fees.errors.registrationDateRequired'),
+            }}
+            render={({ field: { value, onChange }, fieldState: { error } }) => (
+              <ShamsiDatePicker
+                value={value}
+                onChange={onChange}
+                error={error?.message}
+              />
+            )}
+          />
+        </FormRow>
 
-      <FormRow>
-        <Label htmlFor="due_date">{t('Fees.fields.dueDate')}</Label>
-        <Input
-          type="date"
-          id="due_date"
-          {...register('due_date', {
-            required: t('Fees.errors.dueDateRequired'),
-            validate: (due) => {
-              if (!registrationDate) return true
-              return (
-                due >= registrationDate ||
-                t('Fees.errors.dueDateBeforeRegistration')
-              )
-            },
-          })}
-        />
-        {errors?.due_date && <Error>{errors.due_date.message}</Error>}
-      </FormRow>
-      <FormRow>
-        <Label htmlFor="paid_date">{t('Fees.fields.paidDateOptional')}</Label>
-        <Input
-          type="date"
-          id="paid_date"
-          {...register('paid_date', {
-            validate: (paid) => {
-              if (!paid || !registrationDate) return true
-              return (
-                paid >= registrationDate ||
-                t('Fees.errors.paidDateBeforeRegistration')
-              )
-            },
-          })}
-        />
-        {errors?.paid_date && <Error>{errors.paid_date.message}</Error>}
-      </FormRow>
+        <FormRow>
+          <Label>{t('Fees.fields.dueDate')}</Label>
+          <Controller
+            name="due_date"
+            control={control}
+            rules={{
+              required: t('Fees.errors.dueDateRequired'),
+              validate: (due) => {
+                const reg = watch('registration_date')?.toDate?.()
+                const d = due?.toDate?.()
+                return (
+                  !reg || d >= reg || t('Fees.errors.dueDateBeforeRegistration')
+                )
+              },
+            }}
+            render={({ field: { value, onChange }, fieldState: { error } }) => (
+              <ShamsiDatePicker
+                value={value}
+                onChange={onChange}
+                error={error?.message}
+              />
+            )}
+          />
+        </FormRow>
 
-      <FormRow>
-        <Button
-          variation="secondary"
-          type="reset"
-          onClick={() => onCloseModal?.()}
-        >
+        <FormRow>
+          <Label>{t('Fees.fields.paidDateOptional')}</Label>
+          <Controller
+            name="paid_date"
+            control={control}
+            rules={{
+              validate: (paid) => {
+                const reg = watch('registration_date')?.toDate?.()
+                const d = paid?.toDate?.()
+                return (
+                  !d ||
+                  !reg ||
+                  d >= reg ||
+                  t('Fees.errors.paidDateBeforeRegistration')
+                )
+              },
+            }}
+            render={({ field: { value, onChange }, fieldState: { error } }) => (
+              <ShamsiDatePicker
+                value={value}
+                onChange={onChange}
+                error={error?.message}
+              />
+            )}
+          />
+        </FormRow>
+      </FormGrid>
+
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'flex-end',
+          gap: '1.2rem',
+          marginTop: '1.6rem',
+        }}
+      >
+        <Button type="reset" variation="secondary" onClick={() => reset()}>
           {t('CommonFees.cancel')}
         </Button>
-        <Button type="submit" disabled={isLoading}>
+        <Button type="submit" disabled={isLoading || isSubmitting}>
           {isEditSession
             ? t('Fees.buttons.editFee')
             : t('Fees.buttons.createFee')}
         </Button>
-      </FormRow>
+      </div>
     </Form>
   )
 }
