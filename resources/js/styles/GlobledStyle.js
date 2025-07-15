@@ -842,6 +842,39 @@ img {
   padding: 0.4rem 0.2rem;
 }
 
+/* 🌙 Dark mode styles for DatePicker */
+.dark-mode .rmdp-wrapper,
+.dark-mode .rmdp-calendar {
+  background-color: var(--color-grey-100) !important;
+  color: var(--color-grey-700) !important;
+  box-shadow: var(--shadow-md);
+}
+
+.dark-mode .rmdp-day,
+.dark-mode .rmdp-week-day {
+  color: var(--color-grey-700) !important;
+  background-color: transparent;
+}
+
+.dark-mode .rmdp-day.rmdp-selected,
+.dark-mode .rmdp-day:hover,
+.dark-mode .rmdp-day:focus {
+  background-color: var(--color-blue-700) !important;
+  color: white !important;
+}
+
+.dark-mode .rmdp-header,
+.dark-mode .rmdp-header div,
+.dark-mode .rmdp-arrow-container {
+  color: var(--color-grey-700) !important;
+  background-color: var(--color-grey-100) !important;
+}
+
+.dark-mode .rmdp-arrow {
+  border-color: var(--color-grey-700) !important;
+}
+
+
 `
 
 export default GlobalStyles
