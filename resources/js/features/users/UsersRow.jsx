@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useEffect, useRef, useState } from 'react'
-import { useTranslation } from 'react-i18next' // <-- import i18n hook
+import { useTranslation } from 'react-i18next'
 import { HiEllipsisVertical, HiEye, HiPencil, HiTrash } from 'react-icons/hi2'
 
 import toast from 'react-hot-toast'
@@ -11,6 +11,10 @@ import Modal from '../../ui/Modal'
 import CreateUserForm from './CreateUserForm'
 import UserDetails from './UserDetails'
 
+import { hasPermission } from '../../components/permissions'
+import { useUser } from '../../context/UserContext'
+
+// Styled components
 const TableRow = styled.div`
   display: grid;
   grid-template-columns: 0.6fr 2fr 2.5fr 2fr 2fr 0.5fr;
@@ -112,11 +116,13 @@ const DropdownItem = styled.button`
 `
 
 function UsersRow({ user }) {
-  const { t } = useTranslation() // <-- initialize t for translations
+  const { t } = useTranslation()
   const queryClient = useQueryClient()
   const [isOpen, setIsOpen] = useState(false)
   const [dropdownPosition, setDropdownPosition] = useState(null)
   const dropdownRef = useRef()
+
+  const { user: currentUser } = useUser() // ✅ Get logged-in user
 
   const { isLoading: isDeleting, mutate } = useMutation({
     mutationFn: deleteUser,
@@ -163,6 +169,11 @@ function UsersRow({ user }) {
     }
   }, [isOpen])
 
+  const canView = hasPermission(currentUser, 'view user')
+  const canEdit = hasPermission(currentUser, 'edit user')
+  const canDelete = hasPermission(currentUser, 'delete user')
+  const hasAnyPermission = canView || canEdit || canDelete
+
   return (
     <TableRow role="row">
       <Id>{user.id}</Id>
@@ -203,42 +214,56 @@ function UsersRow({ user }) {
         )}
       </Cell>
 
-      <DropdownWrapper ref={dropdownRef}>
-        <IconButton onClick={toggleDropdown}>
-          <HiEllipsisVertical />
-        </IconButton>
-        <DropdownMenu show={isOpen} position={dropdownPosition}>
-          <Modal.Open opensWindowName={`view-${user.id}`}>
-            <DropdownItem onClick={closeDropdown}>
-              <HiEye /> {t('actions.view')}
-            </DropdownItem>
-          </Modal.Open>
-          <Modal.Open opensWindowName={`edit-${user.id}`}>
-            <DropdownItem onClick={closeDropdown}>
-              <HiPencil /> {t('actions.edit')}
-            </DropdownItem>
-          </Modal.Open>
-          <Modal.Open opensWindowName={`delete-${user.id}`}>
-            <DropdownItem onClick={closeDropdown} disabled={isDeleting}>
-              <HiTrash /> {t('actions.delete')}
-            </DropdownItem>
-          </Modal.Open>
-        </DropdownMenu>
-      </DropdownWrapper>
+      {hasAnyPermission && (
+        <DropdownWrapper ref={dropdownRef}>
+          <IconButton onClick={toggleDropdown}>
+            <HiEllipsisVertical />
+          </IconButton>
+          <DropdownMenu show={isOpen} position={dropdownPosition}>
+            {canView && (
+              <Modal.Open opensWindowName={`view-${user.id}`}>
+                <DropdownItem onClick={closeDropdown}>
+                  <HiEye /> {t('actions.view')}
+                </DropdownItem>
+              </Modal.Open>
+            )}
+            {canEdit && (
+              <Modal.Open opensWindowName={`edit-${user.id}`}>
+                <DropdownItem onClick={closeDropdown}>
+                  <HiPencil /> {t('actions.edit')}
+                </DropdownItem>
+              </Modal.Open>
+            )}
+            {canDelete && (
+              <Modal.Open opensWindowName={`delete-${user.id}`}>
+                <DropdownItem onClick={closeDropdown} disabled={isDeleting}>
+                  <HiTrash /> {t('actions.delete')}
+                </DropdownItem>
+              </Modal.Open>
+            )}
+          </DropdownMenu>
+        </DropdownWrapper>
+      )}
 
-      <Modal.Window name={`view-${user.id}`}>
-        <UserDetails user={user} />
-      </Modal.Window>
-      <Modal.Window name={`edit-${user.id}`}>
-        <CreateUserForm userToEdit={user} />
-      </Modal.Window>
-      <Modal.Window name={`delete-${user.id}`}>
-        <ConfirmDelete
-          onConfirm={handleDeleteConfirm}
-          resourceName={t('user')}
-          itemLabel={user.name}
-        />
-      </Modal.Window>
+      {canView && (
+        <Modal.Window name={`view-${user.id}`}>
+          <UserDetails user={user} />
+        </Modal.Window>
+      )}
+      {canEdit && (
+        <Modal.Window name={`edit-${user.id}`}>
+          <CreateUserForm userToEdit={user} />
+        </Modal.Window>
+      )}
+      {canDelete && (
+        <Modal.Window name={`delete-${user.id}`}>
+          <ConfirmDelete
+            onConfirm={handleDeleteConfirm}
+            resourceName={t('user')}
+            itemLabel={user.name}
+          />
+        </Modal.Window>
+      )}
     </TableRow>
   )
 }
