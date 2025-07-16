@@ -1,17 +1,16 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useEffect, useRef, useState } from 'react'
+import toast from 'react-hot-toast'
 import { useTranslation } from 'react-i18next'
 import { HiEllipsisVertical, HiEye, HiPencil, HiTrash } from 'react-icons/hi2'
-
-import toast from 'react-hot-toast'
 import styled from 'styled-components'
+import { hasPermission } from '../../components/permissions'
 import { useUser } from '../../context/UserContext'
 import { deleteStudent } from '../../services/apiStudents'
 import ConfirmDelete from '../../ui/ConfirmDelete'
 import Modal from '../../ui/Modal'
 import CreateStudentForm from './CreateStudentForm'
 import StudentDetails from './StudentDetails'
-
 const TableRow = styled.div`
   display: grid;
   grid-template-columns: 0.6fr 2fr 2.5fr 2.5fr 2.5fr 0.5fr;
@@ -108,8 +107,7 @@ function StudentRow({ student }) {
   const [isOpen, setIsOpen] = useState(false)
   const [dropdownPosition, setDropdownPosition] = useState(null)
   const dropdownRef = useRef()
-  const { user } = useUser()
-  const role = user?.role
+  const { user } = useUser() // ✅ logged-in user
 
   const { isLoading: isDeleting, mutate } = useMutation({
     mutationFn: deleteStudent,
@@ -165,54 +163,66 @@ function StudentRow({ student }) {
       <Cell>{student.id_number}</Cell>
       <Cell>{student.phone}</Cell>
 
-      <DropdownWrapper ref={dropdownRef}>
-        <IconButton
-          onClick={toggleDropdown}
-          aria-label={t('studentRow.actions')}
-        >
-          <HiEllipsisVertical />
-        </IconButton>
+      {(hasPermission(user, 'view student') ||
+        hasPermission(user, 'edit student') ||
+        hasPermission(user, 'delete student')) && (
+        <DropdownWrapper ref={dropdownRef}>
+          <IconButton
+            onClick={toggleDropdown}
+            aria-label={t('studentRow.actions')}
+          >
+            <HiEllipsisVertical />
+          </IconButton>
 
-        <DropdownMenu show={isOpen} position={dropdownPosition}>
-          <Modal.Open opensWindowName={`view-${student.id}`}>
-            <DropdownItem onClick={closeDropdown}>
-              <HiEye /> {t('studentRow.view')}
-            </DropdownItem>
-          </Modal.Open>
+          <DropdownMenu show={isOpen} position={dropdownPosition}>
+            {hasPermission(user, 'view student') && (
+              <Modal.Open opensWindowName={`view-${student.id}`}>
+                <DropdownItem onClick={closeDropdown}>
+                  <HiEye /> {t('studentRow.view')}
+                </DropdownItem>
+              </Modal.Open>
+            )}
 
-          {role !== 'student' && (
-            <>
+            {hasPermission(user, 'edit student') && (
               <Modal.Open opensWindowName={`edit-${student.id}`}>
                 <DropdownItem onClick={closeDropdown}>
                   <HiPencil /> {t('studentRow.edit')}
                 </DropdownItem>
               </Modal.Open>
+            )}
 
+            {hasPermission(user, 'delete student') && (
               <Modal.Open opensWindowName={`delete-${student.id}`}>
                 <DropdownItem onClick={closeDropdown} disabled={isDeleting}>
                   <HiTrash /> {t('studentRow.delete')}
                 </DropdownItem>
               </Modal.Open>
-            </>
-          )}
-        </DropdownMenu>
-      </DropdownWrapper>
+            )}
+          </DropdownMenu>
+        </DropdownWrapper>
+      )}
 
-      <Modal.Window name={`view-${student.id}`}>
-        <StudentDetails student={student} />
-      </Modal.Window>
+      {hasPermission(user, 'view student') && (
+        <Modal.Window name={`view-${student.id}`}>
+          <StudentDetails student={student} />
+        </Modal.Window>
+      )}
 
-      <Modal.Window name={`edit-${student.id}`}>
-        <CreateStudentForm studentToEdit={student} />
-      </Modal.Window>
+      {hasPermission(user, 'edit student') && (
+        <Modal.Window name={`edit-${student.id}`}>
+          <CreateStudentForm studentToEdit={student} />
+        </Modal.Window>
+      )}
 
-      <Modal.Window name={`delete-${student.id}`}>
-        <ConfirmDelete
-          onConfirm={handleDeleteConfirm}
-          resourceName={t('studentRow.student')}
-          itemLabel={student.name}
-        />
-      </Modal.Window>
+      {hasPermission(user, 'delete student') && (
+        <Modal.Window name={`delete-${student.id}`}>
+          <ConfirmDelete
+            onConfirm={handleDeleteConfirm}
+            resourceName={t('studentRow.student')}
+            itemLabel={student.name}
+          />
+        </Modal.Window>
+      )}
     </TableRow>
   )
 }

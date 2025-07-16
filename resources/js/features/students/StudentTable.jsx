@@ -5,11 +5,12 @@ import { FiSearch } from 'react-icons/fi'
 import { RxCaretLeft, RxCaretRight } from 'react-icons/rx'
 import { useSearchParams } from 'react-router-dom'
 import styled from 'styled-components'
+import { hasPermission } from '../../components/permissions'
+import { useUser } from '../../context/UserContext'
 import { getStudents } from '../../services/apiStudents'
 import Spinner from '../../ui/Spinner'
 import AddStudent from './AddStudent'
 import StudentRow from './StudentRow'
-
 const Table = styled.div`
   border: 1px solid var(--color-grey-200);
   font-size: 1.4rem;
@@ -156,6 +157,7 @@ const NavButtons = styled.div`
 `
 
 export default function StudentTable() {
+  const { user } = useUser()
   const { t, i18n } = useTranslation()
   const dir = i18n.dir() // 'ltr' or 'rtl'
 
@@ -247,7 +249,7 @@ export default function StudentTable() {
             />
           </SearchInputContainer>
         </SearchWrapper>
-        <AddStudent />
+        {hasPermission(user, 'create student') && <AddStudent />}
       </TopBarWrapper>
 
       <Table role="table">

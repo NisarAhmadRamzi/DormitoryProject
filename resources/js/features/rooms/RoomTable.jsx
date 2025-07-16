@@ -5,13 +5,12 @@ import { FiSearch } from 'react-icons/fi'
 import { RxCaretLeft, RxCaretRight } from 'react-icons/rx'
 import { useSearchParams } from 'react-router-dom'
 import styled from 'styled-components'
+import { hasPermission } from '../../components/permissions'
+import { useUser } from '../../context/UserContext'
 import { getCabins } from '../../services/apiCabins'
 import Spinner from '../../ui/Spinner'
 import AddRoom from './AddRoom'
 import RoomRow from './RoomRow'
-
-// Styled components
-// [unchanged – same as before]
 
 const Table = styled.div`
   border: 1px solid var(--color-grey-200);
@@ -154,6 +153,7 @@ const NavButtons = styled.div`
 `
 
 export default function RoomsTable() {
+  const { user } = useUser()
   const { t, i18n } = useTranslation()
   const dir = i18n.dir()
   const isRtl = dir === 'rtl'
@@ -233,7 +233,7 @@ export default function RoomsTable() {
             onChange={(e) => setSearchText(e.target.value)}
           />
         </SearchInputContainer>
-        <AddRoom />
+        {hasPermission(user, 'create user') && <AddRoom />}
       </TopBarWrapper>
 
       <Table role="table" dir={dir}>

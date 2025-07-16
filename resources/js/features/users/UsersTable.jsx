@@ -262,7 +262,6 @@ export default function UsersTable() {
             />
           </SearchInputContainer>
         </SearchWrapper>
-        {/* <AddUser /> */}
         {hasPermission(user, 'create user') && <AddUser />}
       </TopBarWrapper>
 
