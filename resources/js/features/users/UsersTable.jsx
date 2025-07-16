@@ -5,12 +5,12 @@ import { FiSearch } from 'react-icons/fi'
 import { RxCaretLeft, RxCaretRight } from 'react-icons/rx'
 import { useSearchParams } from 'react-router-dom'
 import styled from 'styled-components'
-
+import { hasPermission } from '../../components/permissions'
+import { useUser } from '../../context/UserContext'
 import { getUsers } from '../../services/apiUser'
 import Spinner from '../../ui/Spinner'
 import AddUser from './AddUser'
 import UsersRow from './UsersRow'
-
 // 🔻 Styled components
 const Table = styled.div`
   border: 1px solid var(--color-grey-200);
@@ -163,6 +163,8 @@ const NavButtons = styled.div`
 
 // 🔻 Component
 export default function UsersTable() {
+  const { user } = useUser()
+
   const { t, i18n } = useTranslation()
   const dir = i18n.dir() // 'ltr' or 'rtl'
 
@@ -260,7 +262,8 @@ export default function UsersTable() {
             />
           </SearchInputContainer>
         </SearchWrapper>
-          <AddUser />
+        {/* <AddUser /> */}
+        {hasPermission(user, 'create user') && <AddUser />}
       </TopBarWrapper>
 
       <Table role="table">
