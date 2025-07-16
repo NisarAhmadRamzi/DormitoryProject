@@ -208,14 +208,12 @@ function MainNav() {
           </CategoryHeader>
           <SubMenu open={openCategory === 'users'}>
             {/* Hide user management for students */}
-            {role !== 'student' && (
-              <li>
-                <StyledNavlink to="/users">
-                  <LuUsers />
-                  <span>{t('users')}</span>
-                </StyledNavlink>
-              </li>
-            )}
+            <li>
+              <StyledNavlink to="/users">
+                <LuUsers />
+                <span>{t('users')}</span>
+              </StyledNavlink>
+            </li>
           </SubMenu>
         </Category>
 
@@ -226,36 +224,33 @@ function MainNav() {
             <ArrowIcon open={openCategory === 'dormitory'} dir={dir} />
           </CategoryHeader>
           <SubMenu open={openCategory === 'dormitory'}>
-            {role !== 'student' && (
-              <li>
-                <StyledNavlink to="/students">
-                  <PiGraduationCapLight />
-                  <span>{t('students')}</span>
-                </StyledNavlink>
-              </li>
-            )}
+            <li>
+              <StyledNavlink to="/students">
+                <PiGraduationCapLight />
+                <span>{t('students')}</span>
+              </StyledNavlink>
+            </li>
+
             <li>
               <StyledNavlink to="/rooms">
                 <IoBedOutline />
                 <span>{t('rooms')}</span>
               </StyledNavlink>
             </li>
-            {role !== 'student' && (
-              <li>
-                <StyledNavlink to="/assets">
-                  <TbDatabaseDollar />
-                  <span>{t('assets')}</span>
-                </StyledNavlink>
-              </li>
-            )}
-            {role !== 'student' && (
-              <li>
-                <StyledNavlink to="/complaints">
-                  <PiWarningLight />
-                  <span>{t('complaints')}</span>
-                </StyledNavlink>
-              </li>
-            )}
+
+            <li>
+              <StyledNavlink to="/assets">
+                <TbDatabaseDollar />
+                <span>{t('assets')}</span>
+              </StyledNavlink>
+            </li>
+
+            <li>
+              <StyledNavlink to="/complaints">
+                <PiWarningLight />
+                <span>{t('complaints')}</span>
+              </StyledNavlink>
+            </li>
           </SubMenu>
         </Category>
 
@@ -266,22 +261,21 @@ function MainNav() {
             <ArrowIcon open={openCategory === 'library'} dir={dir} />
           </CategoryHeader>
           <SubMenu open={openCategory === 'library'}>
-            {role !== 'student' && (
-              <>
-                <li>
-                  <StyledNavlink to="/libraries">
-                    <HiOutlineHomeModern />
-                    <span>{t('library')}</span>
-                  </StyledNavlink>
-                </li>
-                <li>
-                  <StyledNavlink to="/library-students">
-                    <PiGraduationCapDuotone />
-                    <span>{t('libraryStudents')}</span>
-                  </StyledNavlink>
-                </li>
-              </>
-            )}
+            <>
+              <li>
+                <StyledNavlink to="/libraries">
+                  <HiOutlineHomeModern />
+                  <span>{t('library')}</span>
+                </StyledNavlink>
+              </li>
+              <li>
+                <StyledNavlink to="/library-students">
+                  <PiGraduationCapDuotone />
+                  <span>{t('libraryStudents')}</span>
+                </StyledNavlink>
+              </li>
+            </>
+
             <li>
               <StyledNavlink to="/books">
                 <MdOutlineLibraryBooks />
@@ -298,65 +292,58 @@ function MainNav() {
         </Category>
 
         {/* Finance */}
-        {role !== 'student' && (
-          <Category>
-            <CategoryHeader onClick={() => toggleCategory('finance')} dir={dir}>
-              {t('finance')}
-              <ArrowIcon open={openCategory === 'finance'} dir={dir} />
-            </CategoryHeader>
-            <SubMenu open={openCategory === 'finance'}>
-              <li>
-                <StyledNavlink to="/fees">
-                  <BsCurrencyDollar />
-                  <span>{t('fees')}</span>
-                </StyledNavlink>
-              </li>
-              <li>
-                <StyledNavlink to="/expenses">
-                  <PiCurrencyDollarSimpleBold />
-                  <span>{t('expenses')}</span>
-                </StyledNavlink>
-              </li>
-              <li>
-                <StyledNavlink to="/supports">
-                  <TfiSupport />
-                  <span>{t('supports')}</span>
-                </StyledNavlink>
-              </li>
-            </SubMenu>
-          </Category>
-        )}
+
+        <Category>
+          <CategoryHeader onClick={() => toggleCategory('finance')} dir={dir}>
+            {t('finance')}
+            <ArrowIcon open={openCategory === 'finance'} dir={dir} />
+          </CategoryHeader>
+          <SubMenu open={openCategory === 'finance'}>
+            <li>
+              <StyledNavlink to="/fees">
+                <BsCurrencyDollar />
+                <span>{t('fees')}</span>
+              </StyledNavlink>
+            </li>
+            <li>
+              <StyledNavlink to="/expenses">
+                <PiCurrencyDollarSimpleBold />
+                <span>{t('expenses')}</span>
+              </StyledNavlink>
+            </li>
+            <li>
+              <StyledNavlink to="/supports">
+                <TfiSupport />
+                <span>{t('supports')}</span>
+              </StyledNavlink>
+            </li>
+          </SubMenu>
+        </Category>
 
         {/* Settings */}
-        {role !== 'student' && (
-          <Category>
-            <CategoryHeader
-              onClick={() => toggleCategory('settings')}
-              dir={dir}
-            >
-              {t('settings')}
-              <ArrowIcon open={openCategory === 'settings'} dir={dir} />
-            </CategoryHeader>
-            <SubMenu open={openCategory === 'settings'}>
-              {role !== 'student' && (
-                <>
-                  <li>
-                    <StyledNavlink to="/roles">
-                      <LuBadgeCheck />
-                      <span>{t('rolesTitle')}</span>
-                    </StyledNavlink>
-                  </li>
-                  <li>
-                    <StyledNavlink to="/permissions">
-                      <IoKeyOutline />
-                      <span>{t('permissions')}</span>
-                    </StyledNavlink>
-                  </li>
-                </>
-              )}
-            </SubMenu>
-          </Category>
-        )}
+
+        <Category>
+          <CategoryHeader onClick={() => toggleCategory('settings')} dir={dir}>
+            {t('settings')}
+            <ArrowIcon open={openCategory === 'settings'} dir={dir} />
+          </CategoryHeader>
+          <SubMenu open={openCategory === 'settings'}>
+            <>
+              <li>
+                <StyledNavlink to="/roles">
+                  <LuBadgeCheck />
+                  <span>{t('rolesTitle')}</span>
+                </StyledNavlink>
+              </li>
+              <li>
+                <StyledNavlink to="/permissions">
+                  <IoKeyOutline />
+                  <span>{t('permissions')}</span>
+                </StyledNavlink>
+              </li>
+            </>
+          </SubMenu>
+        </Category>
       </NavList>
     </nav>
   )
