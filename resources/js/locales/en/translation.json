@@ -1336,7 +1336,7 @@
   },
   "Roles": {
     "admin": "Admin",
-    "second_admin": "Assistant Admin",
+    "second_admin": "Second Admin",
     "student": "Student",
     "library_admin": "Library Admin",
     "library_student": "Library Student"

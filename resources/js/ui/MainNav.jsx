@@ -6,6 +6,7 @@ import {
   PiGraduationCapLight,
   PiWarningLight,
 } from 'react-icons/pi'
+import { hasPermission } from '../components/permissions'
 
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -201,21 +202,22 @@ function MainNav() {
         </Category>
 
         {/* User Management */}
-        <Category>
-          <CategoryHeader onClick={() => toggleCategory('users')} dir={dir}>
-            {t('userManagement')}
-            <ArrowIcon open={openCategory === 'users'} dir={dir} />
-          </CategoryHeader>
-          <SubMenu open={openCategory === 'users'}>
-            {/* Hide user management for students */}
-            <li>
-              <StyledNavlink to="/users">
-                <LuUsers />
-                <span>{t('users')}</span>
-              </StyledNavlink>
-            </li>
-          </SubMenu>
-        </Category>
+        {hasPermission(user, 'view user') && (
+          <Category>
+            <CategoryHeader onClick={() => toggleCategory('users')} dir={dir}>
+              {t('userManagement')}
+              <ArrowIcon open={openCategory === 'users'} dir={dir} />
+            </CategoryHeader>
+            <SubMenu open={openCategory === 'users'}>
+              <li>
+                <StyledNavlink to="/users">
+                  <LuUsers />
+                  <span>{t('users')}</span>
+                </StyledNavlink>
+              </li>
+            </SubMenu>
+          </Category>
+        )}
 
         {/* Dormitory Management */}
         <Category>
