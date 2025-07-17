@@ -1,6 +1,8 @@
 import { useQuery } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
+import { hasPermission } from '../../components/permissions'
+import { useUser } from '../../context/UserContext'
 import { getRoles } from '../../services/apiRoles'
 import Spinner from '../../ui/Spinner'
 import AddRole from './AddRole'
@@ -34,6 +36,7 @@ const TableHeader = styled.header`
 `
 
 export default function RoleTable() {
+  const { user } = useUser()
   const { t } = useTranslation()
   const { data, isLoading, isError, error } = useQuery(['roles'], getRoles)
 
@@ -48,7 +51,8 @@ export default function RoleTable() {
   return (
     <>
       <TopBarWrapper>
-        <AddRole />
+        {/* <AddRole /> */}
+        {hasPermission(user, 'create role') && <AddRole />}
       </TopBarWrapper>
       <Table role="table">
         <TableHeader role="row">

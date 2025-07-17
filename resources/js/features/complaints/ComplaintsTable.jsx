@@ -4,11 +4,12 @@ import { useTranslation } from 'react-i18next'
 import { FiSearch } from 'react-icons/fi'
 import { useSearchParams } from 'react-router-dom'
 import styled from 'styled-components'
+import { hasPermission } from '../../components/permissions'
+import { useUser } from '../../context/UserContext'
 import { getComplaints } from '../../services/apiComplaints'
 import Spinner from '../../ui/Spinner'
 import AddComplaints from './AddComplaints'
 import ComplaintsRow from './ComplaintsRow'
-
 const Table = styled.div`
   border: 1px solid var(--color-grey-200);
   font-size: 1.4rem;
@@ -152,6 +153,7 @@ const NavButtons = styled.div`
 `
 
 export default function ComplaintsTable() {
+  const { user } = useUser()
   const { t } = useTranslation()
   const [searchParams, setSearchParams] = useSearchParams()
   const currentPage = Number(searchParams.get('page')) || 1
@@ -256,7 +258,8 @@ export default function ComplaintsTable() {
             onChange={(e) => setSearch(e.target.value)}
           />
         </SearchInputContainer>
-        <AddComplaints />
+        {/* <AddComplaints /> */}
+        {hasPermission(user, 'create complaint') && <AddComplaints />}
       </TopBarWrapper>
 
       <Table role="table">

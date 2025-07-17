@@ -157,8 +157,6 @@ function SupportRow({ support }) {
       document.removeEventListener('mousedown', handleClickOutside)
     }
   }, [isOpen])
-
-  console.log(support)
   return (
     <TableRow role="row">
       <Id>{support.type}</Id>

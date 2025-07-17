@@ -4,6 +4,8 @@ import { useTranslation } from 'react-i18next'
 import { FiSearch } from 'react-icons/fi'
 import { useSearchParams } from 'react-router-dom'
 import styled from 'styled-components'
+import { hasPermission } from '../../components/permissions'
+import { useUser } from '../../context/UserContext'
 import { getFees } from '../../services/apiFees'
 import Spinner from '../../ui/Spinner'
 import AddFees from './AddFee'
@@ -155,6 +157,7 @@ const NavButtons = styled.div`
 `
 
 export default function FeesTable() {
+  const { user } = useUser()
   const { t } = useTranslation()
   const [searchParams, setSearchParams] = useSearchParams()
   const currentPage = Number(searchParams.get('page')) || 1
@@ -242,7 +245,8 @@ export default function FeesTable() {
             />
           </SearchInputContainer>
         </SearchWrapper>
-        <AddFees />
+        {/* <AddFees /> */}
+        {hasPermission(user, 'create fee') && <AddFees />}
       </TopBarWrapper>
 
       <Table role="table">

@@ -4,6 +4,8 @@ import { useTranslation } from 'react-i18next'
 import { FiSearch } from 'react-icons/fi'
 import { useSearchParams } from 'react-router-dom'
 import styled from 'styled-components'
+import { hasPermission } from '../../components/permissions'
+import { useUser } from '../../context/UserContext'
 import { getAllLibraryStudents } from '../../services/apiLibraryStudents'
 import Spinner from '../../ui/Spinner'
 import AddLibraryStudent from './AddLibraryStudent'
@@ -158,6 +160,7 @@ const NavButtons = styled.div`
 `
 
 export default function LibraryStudentsTable() {
+  const { user } = useUser()
   const [searchParams, setSearchParams] = useSearchParams()
   const currentPage = Number(searchParams.get('page')) || 1
   const [sortBy, setSortBy] = useState(null)
@@ -233,7 +236,8 @@ export default function LibraryStudentsTable() {
             onChange={(e) => setSearch(e.target.value)}
           />
         </SearchInputContainer>
-        <AddLibraryStudent />
+        {/* <AddLibraryStudent /> */}
+        {hasPermission(user, 'create library student') && <AddLibraryStudent />}
       </TopBarWrapper>
 
       <Table>

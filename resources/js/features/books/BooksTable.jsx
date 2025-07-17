@@ -4,11 +4,12 @@ import { useTranslation } from 'react-i18next'
 import { FiSearch } from 'react-icons/fi'
 import { useSearchParams } from 'react-router-dom'
 import styled from 'styled-components'
+import { hasPermission } from '../../components/permissions'
+import { useUser } from '../../context/UserContext'
 import { getBooks } from '../../services/apiBooks'
 import Spinner from '../../ui/Spinner'
 import AddBook from './AddBook'
 import BooksRow from './BooksRow'
-
 const Table = styled.div`
   border: 1px solid var(--color-grey-200);
   font-size: 1.4rem;
@@ -154,6 +155,7 @@ const NavButtons = styled.div`
   }
 `
 export default function BooksTable() {
+  const { user } = useUser()
   const { t } = useTranslation()
   const [searchParams, setSearchParams] = useSearchParams()
   const currentPage = Number(searchParams.get('page')) || 1
@@ -232,7 +234,8 @@ export default function BooksTable() {
             />
           </SearchInputContainer>
         </SearchWrapper>
-        <AddBook />
+        {/* <AddBook /> */}
+        {hasPermission(user, 'create book') && <AddBook />}
       </TopBarWrapper>
 
       <Table role="table">

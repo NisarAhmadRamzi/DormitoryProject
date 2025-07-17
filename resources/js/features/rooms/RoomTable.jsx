@@ -233,7 +233,7 @@ export default function RoomsTable() {
             onChange={(e) => setSearchText(e.target.value)}
           />
         </SearchInputContainer>
-        {hasPermission(user, 'create user') && <AddRoom />}
+        {hasPermission(user, 'create room') && <AddRoom />}
       </TopBarWrapper>
 
       <Table role="table" dir={dir}>

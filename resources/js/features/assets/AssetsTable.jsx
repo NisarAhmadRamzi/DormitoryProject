@@ -5,11 +5,12 @@ import { FiSearch } from 'react-icons/fi'
 import { RxCaretLeft, RxCaretRight } from 'react-icons/rx'
 import { useSearchParams } from 'react-router-dom'
 import styled from 'styled-components'
-
+import { hasPermission } from '../../components/permissions'
+import { useUser } from '../../context/UserContext'
 import { getAssets } from '../../services/apiAssets'
 import Spinner from '../../ui/Spinner'
-import AssetsRow from './AssetsRow'
 import AddAssets from './AddAssets'
+import AssetsRow from './AssetsRow'
 
 const Table = styled.div`
   border: 1px solid var(--color-grey-200);
@@ -130,6 +131,7 @@ const NavButtons = styled.div`
 `
 
 export default function AssetsTable() {
+  const { user } = useUser()
   const { t } = useTranslation()
   const [searchParams, setSearchParams] = useSearchParams()
   const currentPage = Number(searchParams.get('page')) || 1
@@ -206,7 +208,8 @@ export default function AssetsTable() {
             onChange={(e) => setSearchText(e.target.value)}
           />
         </SearchInputContainer>
-        <AddAssets/>
+        {/* <AddAssets/> */}
+        {hasPermission(user, 'create asset') && <AddAssets />}
       </TopBarWrapper>
 
       <Table role="table">

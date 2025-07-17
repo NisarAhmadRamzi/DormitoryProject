@@ -4,11 +4,12 @@ import { useTranslation } from 'react-i18next'
 import { FiSearch } from 'react-icons/fi'
 import { useSearchParams } from 'react-router-dom'
 import styled from 'styled-components'
+import { hasPermission } from '../../components/permissions'
+import { useUser } from '../../context/UserContext'
 import { getExpenses } from '../../services/apiExpenses'
 import Spinner from '../../ui/Spinner'
-import ExpenseRow from './ExpensesRow'
 import AddExpenses from './AddExpenses'
-
+import ExpenseRow from './ExpensesRow'
 const PAGE_SIZE_OPTIONS = [5, 10, 25, 50]
 
 const Table = styled.div`
@@ -156,6 +157,7 @@ const NavButtons = styled.div`
 `
 
 export default function ExpenseTable() {
+  const { user } = useUser()
   const { t } = useTranslation()
   const [searchParams, setSearchParams] = useSearchParams()
   const currentPage = Number(searchParams.get('page')) || 1
@@ -239,7 +241,8 @@ export default function ExpenseTable() {
             />
           </SearchInputContainer>
         </SearchWrapper>
-        <AddExpenses/>
+        {/* <AddExpenses/> */}
+        {hasPermission(user, 'create expense') && <AddExpenses />}
       </TopBarWrapper>
 
       <Table role="table">

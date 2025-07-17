@@ -2,11 +2,12 @@ import { useQuery } from '@tanstack/react-query'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
+import { hasPermission } from '../../components/permissions'
+import { useUser } from '../../context/UserContext'
 import { getPermission } from '../../services/apiPermission'
 import Spinner from '../../ui/Spinner'
 import AddPermission from './AddPermission'
 import PermissionRow from './PermissionRow'
-
 const PAGE_SIZE_OPTIONS = [5, 10, 25, 50]
 const TopBarWrapper = styled.div`
   display: flex;
@@ -91,6 +92,7 @@ const NavButtons = styled.div`
 `
 
 function PermissionTable({ search = '' }) {
+  const { user } = useUser()
   const { t } = useTranslation()
 
   const [currentPage, setCurrentPage] = useState(1)
@@ -141,7 +143,8 @@ function PermissionTable({ search = '' }) {
   return (
     <>
       <TopBarWrapper>
-        <AddPermission />
+        {/* <AddPermission /> */}
+        {hasPermission(user, 'create permission') && <AddPermission />}
       </TopBarWrapper>
       <Table role="table">
         <TableHeader role="row">

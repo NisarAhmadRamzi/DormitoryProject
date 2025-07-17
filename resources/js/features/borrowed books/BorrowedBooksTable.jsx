@@ -4,10 +4,12 @@ import { useTranslation } from 'react-i18next'
 import { FiSearch } from 'react-icons/fi'
 import { useSearchParams } from 'react-router-dom'
 import styled from 'styled-components'
+import { hasPermission } from '../../components/permissions'
+import { useUser } from '../../context/UserContext'
 import { getBorrowedBooks } from '../../services/apiBorrowedBooks'
 import Spinner from '../../ui/Spinner'
-import BorrowedBooksRow from './BorrowedBooksRow'
 import AddBorrowedBook from './AddBorrowedBook'
+import BorrowedBooksRow from './BorrowedBooksRow'
 
 const Table = styled.div`
   border: 1px solid var(--color-grey-200);
@@ -154,6 +156,7 @@ const NavButtons = styled.div`
 `
 
 export default function BorrowedBooksTable() {
+  const { user } = useUser()
   const { t } = useTranslation()
   const [searchParams, setSearchParams] = useSearchParams()
   const currentPage = Number(searchParams.get('page')) || 1
@@ -285,7 +288,8 @@ export default function BorrowedBooksTable() {
             />
           </SearchInputContainer>
         </SearchWrapper>
-        <AddBorrowedBook/>
+        {/* <AddBorrowedBook/> */}
+        {hasPermission(user, 'create borrowed book') && <AddBorrowedBook />}
       </TopBarWrapper>
 
       <Table role="table">

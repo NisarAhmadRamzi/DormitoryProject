@@ -4,7 +4,8 @@ import { useTranslation } from 'react-i18next'
 import { FiSearch } from 'react-icons/fi'
 import { useSearchParams } from 'react-router-dom'
 import styled from 'styled-components'
-
+import { hasPermission } from '../../components/permissions'
+import { useUser } from '../../context/UserContext'
 import { getLibraries } from '../../services/apiLibraries'
 import Spinner from '../../ui/Spinner'
 import AddLibrary from './AddLibrary'
@@ -158,6 +159,7 @@ const NavButtons = styled.div`
 `
 
 export default function LibraryTable() {
+  const { user } = useUser()
   const { t } = useTranslation()
   const [searchParams, setSearchParams] = useSearchParams()
   const currentPage = Number(searchParams.get('page')) || 1
@@ -240,7 +242,8 @@ export default function LibraryTable() {
             />
           </SearchInputContainer>
         </SearchWrapper>
-        <AddLibrary />
+        {/* <AddLibrary /> */}
+        {hasPermission(user, 'create library') && <AddLibrary />}
       </TopBarWrapper>
       <Table role="table">
         <TableHeader role="row">
