@@ -4,6 +4,9 @@ import toast from 'react-hot-toast'
 import { useTranslation } from 'react-i18next'
 import { HiEllipsisVertical, HiEye, HiPencil, HiTrash } from 'react-icons/hi2'
 import styled from 'styled-components'
+
+import { hasPermission } from '../../components/permissions'
+import { useUser } from '../../context/UserContext'
 import { deleteExpense } from '../../services/apiExpenses'
 import ConfirmDelete from '../../ui/ConfirmDelete'
 import Modal from '../../ui/Modal'
@@ -39,7 +42,6 @@ const Cell = styled.div`
   text-align: ${({ align }) => align || 'left'};
 `
 
-// ✅ New: Truncated description cell with ellipsis and tooltip
 const TruncatedCell = styled(Cell)`
   white-space: nowrap;
   overflow: hidden;
@@ -105,10 +107,17 @@ const DropdownItem = styled.button`
 
 function ExpenseRow({ expense }) {
   const { t } = useTranslation()
+  const { user } = useUser()
   const queryClient = useQueryClient()
   const [isOpen, setIsOpen] = useState(false)
   const [dropdownPosition, setDropdownPosition] = useState(null)
   const dropdownRef = useRef()
+
+  // Permission checks
+  const canView = hasPermission(user, 'view expense')
+  const canEdit = hasPermission(user, 'edit expense')
+  const canDelete = hasPermission(user, 'delete expense')
+  const hasAnyPermission = canView || canEdit || canDelete
 
   const { isLoading: isDeleting, mutate } = useMutation({
     mutationFn: deleteExpense,
@@ -164,47 +173,62 @@ function ExpenseRow({ expense }) {
         {expense.description || '—'}
       </TruncatedCell>
       <Cell>{expense.expense_date}</Cell>
-      <DropdownWrapper ref={dropdownRef}>
-        <IconButton onClick={toggleDropdown}>
-          <HiEllipsisVertical />
-        </IconButton>
 
-        <DropdownMenu show={isOpen} position={dropdownPosition}>
-          <Modal.Open opensWindowName={`view-${expense.id}`}>
-            <DropdownItem onClick={closeDropdown}>
-              <HiEye /> {t('actions.view')}
-            </DropdownItem>
-          </Modal.Open>
+      {hasAnyPermission && (
+        <DropdownWrapper ref={dropdownRef}>
+          <IconButton onClick={toggleDropdown}>
+            <HiEllipsisVertical />
+          </IconButton>
 
-          <Modal.Open opensWindowName={`edit-${expense.id}`}>
-            <DropdownItem onClick={closeDropdown}>
-              <HiPencil /> {t('actions.edit')}
-            </DropdownItem>
-          </Modal.Open>
+          <DropdownMenu show={isOpen} position={dropdownPosition}>
+            {canView && (
+              <Modal.Open opensWindowName={`view-${expense.id}`}>
+                <DropdownItem onClick={closeDropdown}>
+                  <HiEye /> {t('actions.view')}
+                </DropdownItem>
+              </Modal.Open>
+            )}
 
-          <Modal.Open opensWindowName={`delete-${expense.id}`}>
-            <DropdownItem onClick={closeDropdown} disabled={isDeleting}>
-              <HiTrash /> {t('actions.delete')}
-            </DropdownItem>
-          </Modal.Open>
-        </DropdownMenu>
-      </DropdownWrapper>
+            {canEdit && (
+              <Modal.Open opensWindowName={`edit-${expense.id}`}>
+                <DropdownItem onClick={closeDropdown}>
+                  <HiPencil /> {t('actions.edit')}
+                </DropdownItem>
+              </Modal.Open>
+            )}
 
-      <Modal.Window name={`view-${expense.id}`}>
-        <ExpensesDetails expense={expense} />
-      </Modal.Window>
+            {canDelete && (
+              <Modal.Open opensWindowName={`delete-${expense.id}`}>
+                <DropdownItem onClick={closeDropdown} disabled={isDeleting}>
+                  <HiTrash /> {t('actions.delete')}
+                </DropdownItem>
+              </Modal.Open>
+            )}
+          </DropdownMenu>
+        </DropdownWrapper>
+      )}
 
-      <Modal.Window name={`edit-${expense.id}`}>
-        <CreateExpensesForm expenseToEdit={expense} />
-      </Modal.Window>
+      {canView && (
+        <Modal.Window name={`view-${expense.id}`}>
+          <ExpensesDetails expense={expense} />
+        </Modal.Window>
+      )}
 
-      <Modal.Window name={`delete-${expense.id}`}>
-        <ConfirmDelete
-          onConfirm={handleDeleteConfirm}
-          resourceName={t('resource.expense')}
-          itemLabel={expense.name}
-        />
-      </Modal.Window>
+      {canEdit && (
+        <Modal.Window name={`edit-${expense.id}`}>
+          <CreateExpensesForm expenseToEdit={expense} />
+        </Modal.Window>
+      )}
+
+      {canDelete && (
+        <Modal.Window name={`delete-${expense.id}`}>
+          <ConfirmDelete
+            onConfirm={handleDeleteConfirm}
+            resourceName={t('resource.expense')}
+            itemLabel={expense.name}
+          />
+        </Modal.Window>
+      )}
     </TableRow>
   )
 }

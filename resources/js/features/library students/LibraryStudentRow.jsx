@@ -10,6 +10,8 @@ import ConfirmDelete from '../../ui/ConfirmDelete'
 import Modal from '../../ui/Modal'
 import CreateLibraryStudentForm from './CreateLibraryStudentForm'
 import LibraryStudentDetails from './LibraryStudentDetails'
+import { hasPermission } from '../../components/permissions'
+import { useUser } from '../../context/UserContext'
 
 const TableRow = styled.div`
   display: grid;
@@ -31,7 +33,6 @@ const TableRow = styled.div`
 
     @media (prefers-color-scheme: dark) {
       background-color: var(--color-grey-700);
-      cursor: pointer;
     }
   }
 `
@@ -104,6 +105,7 @@ function LibraryStudentRow({ student }) {
   const [dropdownPosition, setDropdownPosition] = useState(null)
   const dropdownRef = useRef()
   const { t } = useTranslation()
+  const { user } = useUser() // ✅ get current user
 
   const { isLoading: isDeleting, mutate } = useMutation({
     mutationFn: () => deleteLibraryStudent(student.id),
@@ -115,6 +117,11 @@ function LibraryStudentRow({ student }) {
       toast.error(t('libraryStudentRow.deleteError'))
     },
   })
+
+  const canView = hasPermission(user, 'view library student')
+  const canEdit = hasPermission(user, 'edit library student')
+  const canDelete = hasPermission(user, 'delete library student')
+  const hasAnyPermission = canView || canEdit || canDelete
 
   function toggleDropdown(e) {
     e.stopPropagation()
@@ -160,47 +167,61 @@ function LibraryStudentRow({ student }) {
       <Cell>{student.phone}</Cell>
       <Cell>{student.address}</Cell>
 
-      <DropdownWrapper ref={dropdownRef}>
-        <IconButton onClick={toggleDropdown}>
-          <HiEllipsisVertical />
-        </IconButton>
+      {hasAnyPermission && (
+        <DropdownWrapper ref={dropdownRef}>
+          <IconButton onClick={toggleDropdown}>
+            <HiEllipsisVertical />
+          </IconButton>
 
-        <DropdownMenu show={isOpen} position={dropdownPosition}>
-          <Modal.Open opensWindowName={`view-${student.id}`}>
-            <DropdownItem onClick={closeDropdown}>
-              <HiEye /> {t('libraryStudentRow.view')}
-            </DropdownItem>
-          </Modal.Open>
+          <DropdownMenu show={isOpen} position={dropdownPosition}>
+            {canView && (
+              <Modal.Open opensWindowName={`view-${student.id}`}>
+                <DropdownItem onClick={closeDropdown}>
+                  <HiEye /> {t('libraryStudentRow.view')}
+                </DropdownItem>
+              </Modal.Open>
+            )}
 
-          <Modal.Open opensWindowName={`edit-${student.id}`}>
-            <DropdownItem onClick={closeDropdown}>
-              <HiPencil /> {t('libraryStudentRow.edit')}
-            </DropdownItem>
-          </Modal.Open>
+            {canEdit && (
+              <Modal.Open opensWindowName={`edit-${student.id}`}>
+                <DropdownItem onClick={closeDropdown}>
+                  <HiPencil /> {t('libraryStudentRow.edit')}
+                </DropdownItem>
+              </Modal.Open>
+            )}
 
-          <Modal.Open opensWindowName={`delete-${student.id}`}>
-            <DropdownItem onClick={closeDropdown} disabled={isDeleting}>
-              <HiTrash /> {t('libraryStudentRow.delete')}
-            </DropdownItem>
-          </Modal.Open>
-        </DropdownMenu>
-      </DropdownWrapper>
+            {canDelete && (
+              <Modal.Open opensWindowName={`delete-${student.id}`}>
+                <DropdownItem onClick={closeDropdown} disabled={isDeleting}>
+                  <HiTrash /> {t('libraryStudentRow.delete')}
+                </DropdownItem>
+              </Modal.Open>
+            )}
+          </DropdownMenu>
+        </DropdownWrapper>
+      )}
 
-      <Modal.Window name={`view-${student.id}`}>
-        <LibraryStudentDetails student={student} />
-      </Modal.Window>
+      {canView && (
+        <Modal.Window name={`view-${student.id}`}>
+          <LibraryStudentDetails student={student} />
+        </Modal.Window>
+      )}
 
-      <Modal.Window name={`edit-${student.id}`}>
-        <CreateLibraryStudentForm studentToEdit={student} />
-      </Modal.Window>
+      {canEdit && (
+        <Modal.Window name={`edit-${student.id}`}>
+          <CreateLibraryStudentForm studentToEdit={student} />
+        </Modal.Window>
+      )}
 
-      <Modal.Window name={`delete-${student.id}`}>
-        <ConfirmDelete
-          onConfirm={handleDeleteConfirm}
-          resourceName={t('libraryStudentRow.resourceName')}
-          itemLabel={student.name}
-        />
-      </Modal.Window>
+      {canDelete && (
+        <Modal.Window name={`delete-${student.id}`}>
+          <ConfirmDelete
+            onConfirm={handleDeleteConfirm}
+            resourceName={t('libraryStudentRow.resourceName')}
+            itemLabel={student.name}
+          />
+        </Modal.Window>
+      )}
     </TableRow>
   )
 }

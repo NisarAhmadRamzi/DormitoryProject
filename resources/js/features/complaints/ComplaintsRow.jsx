@@ -5,6 +5,8 @@ import { HiEllipsisVertical, HiEye, HiPencil, HiTrash } from 'react-icons/hi2'
 import toast from 'react-hot-toast'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
+import { hasPermission } from '../../components/permissions' // ✅ New
+import { useUser } from '../../context/UserContext' // ✅ New
 import { deleteComplaint } from '../../services/apiComplaints'
 import ConfirmDelete from '../../ui/ConfirmDelete'
 import Modal from '../../ui/Modal'
@@ -13,24 +15,20 @@ import CreateComplaintForm from './CreateComplaintForm'
 
 const TableRow = styled.div`
   display: grid;
-  grid-template-columns: 0.6fr 2fr 3fr 1.5fr 2fr 0.5fr; /* Match header */
+  grid-template-columns: 0.6fr 2fr 3fr 1.5fr 2fr 0.5fr;
   column-gap: 0.5rem;
   align-items: center;
   padding: 1.4rem 1rem;
   position: relative;
-
   &:not(:last-child) {
     border-bottom: 1px solid var(--color-grey-100);
   }
-
-  transition: background-color 0.2s; /* Smooth transition */
-
+  transition: background-color 0.2s;
   &:hover {
-    background-color: var(--color-grey-200); /* Light mode hover */
+    background-color: var(--color-grey-200);
     cursor: pointer;
-
     @media (prefers-color-scheme: dark) {
-      background-color: var(--color-grey-700); /* Dark mode hover */
+      background-color: var(--color-grey-700);
       cursor: pointer;
     }
   }
@@ -46,7 +44,7 @@ const Id = styled.div`
 const Cell = styled.div`
   font-size: 1.4rem;
   color: var(--color-grey-700);
-  padding: 0.5rem 0; /* Adjusted padding for better spacing */
+  padding: 0.5rem 0;
 `
 
 const DropdownWrapper = styled.div`
@@ -61,11 +59,9 @@ const IconButton = styled.button`
   padding: 0.4rem;
   border-radius: var(--border-radius-sm);
   transition: background-color 0.2s;
-
   &:hover {
     background-color: var(--color-grey-100);
   }
-
   & svg {
     width: 2.4rem;
     height: 2.4rem;
@@ -110,6 +106,13 @@ function ComplaintsRow({ complaint }) {
   const [isOpen, setIsOpen] = useState(false)
   const [dropdownPosition, setDropdownPosition] = useState(null)
   const dropdownRef = useRef()
+
+  const { user } = useUser() // ✅
+
+  const canView = hasPermission(user, 'view complaint')
+  const canEdit = hasPermission(user, 'edit complaint')
+  const canDelete = hasPermission(user, 'delete complaint')
+  const canDoAnything = canView || canEdit || canDelete
 
   const { mutate, isLoading: isDeleting } = useMutation({
     mutationFn: deleteComplaint,
@@ -163,50 +166,64 @@ function ComplaintsRow({ complaint }) {
       <Cell>{complaint.status}</Cell>
       <Cell>{complaint.created_at}</Cell>
 
-      <DropdownWrapper ref={dropdownRef}>
-        <IconButton onClick={toggleDropdown}>
-          <HiEllipsisVertical />
-        </IconButton>
+      {canDoAnything && (
+        <DropdownWrapper ref={dropdownRef}>
+          <IconButton onClick={toggleDropdown}>
+            <HiEllipsisVertical />
+          </IconButton>
 
-        <DropdownMenu show={isOpen} position={dropdownPosition}>
-          <Modal.Open opensWindowName={`view-${complaint.id}`}>
-            <DropdownItem onClick={closeDropdown}>
-              <HiEye /> {t('complaintsRow.view')}
-            </DropdownItem>
-          </Modal.Open>
+          <DropdownMenu show={isOpen} position={dropdownPosition}>
+            {canView && (
+              <Modal.Open opensWindowName={`view-${complaint.id}`}>
+                <DropdownItem onClick={closeDropdown}>
+                  <HiEye /> {t('complaintsRow.view')}
+                </DropdownItem>
+              </Modal.Open>
+            )}
 
-          <Modal.Open opensWindowName={`edit-${complaint.id}`}>
-            <DropdownItem onClick={closeDropdown}>
-              <HiPencil /> {t('complaintsRow.edit')}
-            </DropdownItem>
-          </Modal.Open>
+            {canEdit && (
+              <Modal.Open opensWindowName={`edit-${complaint.id}`}>
+                <DropdownItem onClick={closeDropdown}>
+                  <HiPencil /> {t('complaintsRow.edit')}
+                </DropdownItem>
+              </Modal.Open>
+            )}
 
-          <Modal.Open opensWindowName={`delete-${complaint.id}`}>
-            <DropdownItem onClick={closeDropdown} disabled={isDeleting}>
-              <HiTrash /> {t('complaintsRow.delete')}
-            </DropdownItem>
-          </Modal.Open>
-        </DropdownMenu>
-      </DropdownWrapper>
+            {canDelete && (
+              <Modal.Open opensWindowName={`delete-${complaint.id}`}>
+                <DropdownItem onClick={closeDropdown} disabled={isDeleting}>
+                  <HiTrash /> {t('complaintsRow.delete')}
+                </DropdownItem>
+              </Modal.Open>
+            )}
+          </DropdownMenu>
+        </DropdownWrapper>
+      )}
 
-      <Modal.Window name={`view-${complaint.id}`}>
-        <ComplaintDetails complaint={complaint} />
-      </Modal.Window>
+      {canView && (
+        <Modal.Window name={`view-${complaint.id}`}>
+          <ComplaintDetails complaint={complaint} />
+        </Modal.Window>
+      )}
 
-      <Modal.Window name={`edit-${complaint.id}`}>
-        <CreateComplaintForm
-          complaintToEdit={complaint}
-          onCloseModal={closeDropdown}
-        />
-      </Modal.Window>
+      {canEdit && (
+        <Modal.Window name={`edit-${complaint.id}`}>
+          <CreateComplaintForm
+            complaintToEdit={complaint}
+            onCloseModal={closeDropdown}
+          />
+        </Modal.Window>
+      )}
 
-      <Modal.Window name={`delete-${complaint.id}`}>
-        <ConfirmDelete
-          onConfirm={handleDeleteConfirm}
-          resourceName={t('complaintsRow.resourceName')}
-          itemLabel={complaint.title}
-        />
-      </Modal.Window>
+      {canDelete && (
+        <Modal.Window name={`delete-${complaint.id}`}>
+          <ConfirmDelete
+            onConfirm={handleDeleteConfirm}
+            resourceName={t('complaintsRow.resourceName')}
+            itemLabel={complaint.title}
+          />
+        </Modal.Window>
+      )}
     </TableRow>
   )
 }

@@ -5,6 +5,7 @@ import { HiEllipsisVertical, HiEye, HiPencil, HiTrash } from 'react-icons/hi2'
 
 import toast from 'react-hot-toast'
 import styled from 'styled-components'
+import { hasPermission } from '../../components/permissions'
 import { useUser } from '../../context/UserContext'
 import { deleteBorrowedBook } from '../../services/apiBorrowedBooks'
 import ConfirmDelete from '../../ui/ConfirmDelete'
@@ -98,11 +99,16 @@ const DropdownItem = styled.button`
 function BorrowedBookRow({ borrowedBook }) {
   const { t } = useTranslation()
   const { user } = useUser()
-  const role = user?.role
   const queryClient = useQueryClient()
   const [isOpen, setIsOpen] = useState(false)
   const [dropdownPosition, setDropdownPosition] = useState(null)
   const dropdownRef = useRef()
+
+  // Permissions based on your permission list:
+  const canView = hasPermission(user, 'view borrowed book')
+  const canEdit = hasPermission(user, 'edit borrowed book')
+  const canDelete = hasPermission(user, 'delete borrowed book')
+  const hasAnyPermission = canView || canEdit || canDelete
 
   const { isLoading: isDeleting, mutate } = useMutation({
     mutationFn: deleteBorrowedBook,
@@ -158,51 +164,61 @@ function BorrowedBookRow({ borrowedBook }) {
       <Cell>{borrowedBook.return_date}</Cell>
       <Cell>{borrowedBook.borrowed_books_total_count}</Cell>
 
-      <DropdownWrapper ref={dropdownRef}>
-        <IconButton onClick={toggleDropdown}>
-          <HiEllipsisVertical />
-        </IconButton>
+      {hasAnyPermission && (
+        <DropdownWrapper ref={dropdownRef}>
+          <IconButton onClick={toggleDropdown}>
+            <HiEllipsisVertical />
+          </IconButton>
 
-        <DropdownMenu show={isOpen} position={dropdownPosition}>
-          <Modal.Open opensWindowName={`view-${borrowedBook.id}`}>
-            <DropdownItem onClick={closeDropdown}>
-              <HiEye /> {t('commons.view')}
-            </DropdownItem>
-          </Modal.Open>
+          <DropdownMenu show={isOpen} position={dropdownPosition}>
+            {canView && (
+              <Modal.Open opensWindowName={`view-${borrowedBook.id}`}>
+                <DropdownItem onClick={closeDropdown}>
+                  <HiEye /> {t('commons.view')}
+                </DropdownItem>
+              </Modal.Open>
+            )}
 
-          {role !== 'student' && (
-            <Modal.Open opensWindowName={`edit-${borrowedBook.id}`}>
-              <DropdownItem onClick={closeDropdown}>
-                <HiPencil /> {t('commons.edit')}
-              </DropdownItem>
-            </Modal.Open>
-          )}
+            {canEdit && (
+              <Modal.Open opensWindowName={`edit-${borrowedBook.id}`}>
+                <DropdownItem onClick={closeDropdown}>
+                  <HiPencil /> {t('commons.edit')}
+                </DropdownItem>
+              </Modal.Open>
+            )}
 
-          {role !== 'student' && (
-            <Modal.Open opensWindowName={`delete-${borrowedBook.id}`}>
-              <DropdownItem onClick={closeDropdown} disabled={isDeleting}>
-                <HiTrash /> {t('common.delete')}
-              </DropdownItem>
-            </Modal.Open>
-          )}
-        </DropdownMenu>
-      </DropdownWrapper>
+            {canDelete && (
+              <Modal.Open opensWindowName={`delete-${borrowedBook.id}`}>
+                <DropdownItem onClick={closeDropdown} disabled={isDeleting}>
+                  <HiTrash /> {t('common.delete')}
+                </DropdownItem>
+              </Modal.Open>
+            )}
+          </DropdownMenu>
+        </DropdownWrapper>
+      )}
 
-      <Modal.Window name={`view-${borrowedBook.id}`}>
-        <BorrowedBookDetails borrowedBook={borrowedBook} />
-      </Modal.Window>
+      {canView && (
+        <Modal.Window name={`view-${borrowedBook.id}`}>
+          <BorrowedBookDetails borrowedBook={borrowedBook} />
+        </Modal.Window>
+      )}
 
-      <Modal.Window name={`edit-${borrowedBook.id}`}>
-        <CreateBorrowedBookForm borrowedBookToEdit={borrowedBook} />
-      </Modal.Window>
+      {canEdit && (
+        <Modal.Window name={`edit-${borrowedBook.id}`}>
+          <CreateBorrowedBookForm borrowedBookToEdit={borrowedBook} />
+        </Modal.Window>
+      )}
 
-      <Modal.Window name={`delete-${borrowedBook.id}`}>
-        <ConfirmDelete
-          onConfirm={handleDeleteConfirm}
-          resourceName={t('borrowedBookss')}
-          itemLabel={borrowedBook.book?.title}
-        />
-      </Modal.Window>
+      {canDelete && (
+        <Modal.Window name={`delete-${borrowedBook.id}`}>
+          <ConfirmDelete
+            onConfirm={handleDeleteConfirm}
+            resourceName={t('borrowedBookss')}
+            itemLabel={borrowedBook.book?.title}
+          />
+        </Modal.Window>
+      )}
     </TableRow>
   )
 }

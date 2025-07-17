@@ -4,6 +4,8 @@ import toast from 'react-hot-toast'
 import { useTranslation } from 'react-i18next'
 import { HiEllipsisVertical, HiEye, HiPencil, HiTrash } from 'react-icons/hi2'
 import styled from 'styled-components'
+import { hasPermission } from '../../components/permissions' // ✅ Add this
+import { useUser } from '../../context/UserContext' // ✅ Add this
 import { deleteAsset } from '../../services/apiAssets'
 import ConfirmDelete from '../../ui/ConfirmDelete'
 import Modal from '../../ui/Modal'
@@ -84,6 +86,8 @@ function AssetsRow({ asset }) {
   const [dropdownPosition, setDropdownPosition] = useState(null)
   const dropdownRef = useRef()
 
+  const { user } = useUser() // ✅ Use current user for permission checks
+
   const { isLoading: isDeleting, mutate } = useMutation({
     mutationFn: deleteAsset,
     onSuccess: () => {
@@ -129,6 +133,11 @@ function AssetsRow({ asset }) {
     }
   }, [isOpen])
 
+  const canView = hasPermission(user, 'view asset')
+  const canEdit = hasPermission(user, 'edit asset')
+  const canDelete = hasPermission(user, 'delete asset')
+  const canDoAnything = canView || canEdit || canDelete
+
   return (
     <TableRow role="row">
       <Id>{asset.id}</Id>
@@ -137,47 +146,61 @@ function AssetsRow({ asset }) {
       <Cell>{asset.total_amount_of_cash_before_expense}</Cell>
       <Cell>{asset.total_amount_of_cash_after_expense}</Cell>
 
-      <DropdownWrapper ref={dropdownRef}>
-        <IconButton onClick={toggleDropdown}>
-          <HiEllipsisVertical />
-        </IconButton>
+      {canDoAnything && (
+        <DropdownWrapper ref={dropdownRef}>
+          <IconButton onClick={toggleDropdown}>
+            <HiEllipsisVertical />
+          </IconButton>
 
-        <DropdownMenu show={isOpen} position={dropdownPosition}>
-          <Modal.Open opensWindowName={`view-${asset.id}`}>
-            <DropdownItem onClick={closeDropdown}>
-              <HiEye /> {t('actions.view')}
-            </DropdownItem>
-          </Modal.Open>
+          <DropdownMenu show={isOpen} position={dropdownPosition}>
+            {canView && (
+              <Modal.Open opensWindowName={`view-${asset.id}`}>
+                <DropdownItem onClick={closeDropdown}>
+                  <HiEye /> {t('actions.view')}
+                </DropdownItem>
+              </Modal.Open>
+            )}
 
-          <Modal.Open opensWindowName={`edit-${asset.id}`}>
-            <DropdownItem onClick={closeDropdown}>
-              <HiPencil /> {t('actions.edit')}
-            </DropdownItem>
-          </Modal.Open>
+            {canEdit && (
+              <Modal.Open opensWindowName={`edit-${asset.id}`}>
+                <DropdownItem onClick={closeDropdown}>
+                  <HiPencil /> {t('actions.edit')}
+                </DropdownItem>
+              </Modal.Open>
+            )}
 
-          <Modal.Open opensWindowName={`delete-${asset.id}`}>
-            <DropdownItem onClick={closeDropdown} disabled={isDeleting}>
-              <HiTrash /> {t('actions.delete')}
-            </DropdownItem>
-          </Modal.Open>
-        </DropdownMenu>
-      </DropdownWrapper>
+            {canDelete && (
+              <Modal.Open opensWindowName={`delete-${asset.id}`}>
+                <DropdownItem onClick={closeDropdown} disabled={isDeleting}>
+                  <HiTrash /> {t('actions.delete')}
+                </DropdownItem>
+              </Modal.Open>
+            )}
+          </DropdownMenu>
+        </DropdownWrapper>
+      )}
 
-      <Modal.Window name={`view-${asset.id}`}>
-        <AssetsDetails asset={asset} />
-      </Modal.Window>
+      {canView && (
+        <Modal.Window name={`view-${asset.id}`}>
+          <AssetsDetails asset={asset} />
+        </Modal.Window>
+      )}
 
-      <Modal.Window name={`edit-${asset.id}`}>
-        <CreateAssetsForm assetToEdit={asset} />
-      </Modal.Window>
+      {canEdit && (
+        <Modal.Window name={`edit-${asset.id}`}>
+          <CreateAssetsForm assetToEdit={asset} />
+        </Modal.Window>
+      )}
 
-      <Modal.Window name={`delete-${asset.id}`}>
-        <ConfirmDelete
-          onConfirm={handleDeleteConfirm}
-          resourceName={t('assetsAlert.asset')}
-          itemLabel={`Asset #${asset.id}`}
-        />
-      </Modal.Window>
+      {canDelete && (
+        <Modal.Window name={`delete-${asset.id}`}>
+          <ConfirmDelete
+            onConfirm={handleDeleteConfirm}
+            resourceName={t('assetsAlert.asset')}
+            itemLabel={`Asset #${asset.id}`}
+          />
+        </Modal.Window>
+      )}
     </TableRow>
   )
 }

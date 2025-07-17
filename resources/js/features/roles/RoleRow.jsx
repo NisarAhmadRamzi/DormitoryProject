@@ -8,6 +8,10 @@ import { useTranslation } from 'react-i18next'
 import { FaTrash } from 'react-icons/fa'
 import { FiEdit } from 'react-icons/fi'
 import styled from 'styled-components'
+
+import { useUser } from '../../context/UserContext'
+import { hasPermission } from '../../components/permissions'
+
 import { deleteRole } from '../../services/apiRoles'
 import ConfirmDelete from '../../ui/ConfirmDelete'
 import Modal from '../../ui/Modal'
@@ -78,6 +82,10 @@ const DeleteButton = styled.button`
 export default function RoleRow({ role }) {
   const { t, i18n } = useTranslation()
   const qc = useQueryClient()
+  const { user } = useUser()
+
+  const canEdit = hasPermission(user, 'edit role')
+  const canDelete = hasPermission(user, 'delete role')
 
   const deleteMut = useMutation(() => deleteRole(role.id), {
     onSuccess: () => {
@@ -102,10 +110,10 @@ export default function RoleRow({ role }) {
     <>
       <TableRow role="row">
         <div>{role.id}</div>
-        {/* ✅ Translate role name */}
+        {/* Translate role name */}
         <div>{t(`Roles.${role.name}`, role.name)}</div>
 
-        {/* ✅ Translate permission names */}
+        {/* Translate permission names */}
         <PermissionsCell>
           {Array.isArray(role.permissions) && role.permissions.length > 0 ? (
             role.permissions.map((p) => (
@@ -118,35 +126,47 @@ export default function RoleRow({ role }) {
 
         <div>{dayjs(role.created_at).fromNow()}</div>
         <div>{dayjs(role.updated_at).fromNow()}</div>
+
         <ActionGroup>
-          <Modal.Open opensWindowName={`edit-role-${role.id}`}>
-            <EditButton aria-label={t('actions.edit')}>
-              <FiEdit />
-            </EditButton>
-          </Modal.Open>
-          <Modal.Open opensWindowName={`delete-role-${role.id}`}>
-            <DeleteButton aria-label={t('actions.delete')}>
-              <FaTrash />
-            </DeleteButton>
-          </Modal.Open>
+          {canEdit && (
+            <Modal.Open opensWindowName={`edit-role-${role.id}`}>
+              <EditButton aria-label={t('actions.edit')}>
+                <FiEdit />
+              </EditButton>
+            </Modal.Open>
+          )}
+
+          {canDelete && (
+            <Modal.Open opensWindowName={`delete-role-${role.id}`}>
+              <DeleteButton aria-label={t('actions.delete')}>
+                <FaTrash />
+              </DeleteButton>
+            </Modal.Open>
+          )}
         </ActionGroup>
       </TableRow>
 
-      <Modal.Window name={`edit-role-${role.id}`}>
-        <h2>
-          {t('roleRow.editTitle', { name: t(`Roles.${role.name}`, role.name) })}
-        </h2>
-        <EditRoleForm role={role} onCloseModal={() => {}} />
-      </Modal.Window>
+      {canEdit && (
+        <Modal.Window name={`edit-role-${role.id}`}>
+          <h2>
+            {t('roleRow.editTitle', {
+              name: t(`Roles.${role.name}`, role.name),
+            })}
+          </h2>
+          <EditRoleForm role={role} onCloseModal={() => {}} />
+        </Modal.Window>
+      )}
 
-      <Modal.Window name={`delete-role-${role.id}`}>
-        <h2>{t('roleRow.deleteTitle')}</h2>
-        <ConfirmDelete
-          resourceName={t('roleRow.resourceName')}
-          itemLabel={t(`Roles.${role.name}`, role.name)}
-          onConfirm={() => deleteMut.mutate()}
-        />
-      </Modal.Window>
+      {canDelete && (
+        <Modal.Window name={`delete-role-${role.id}`}>
+          <h2>{t('roleRow.deleteTitle')}</h2>
+          <ConfirmDelete
+            resourceName={t('roleRow.resourceName')}
+            itemLabel={t(`Roles.${role.name}`, role.name)}
+            onConfirm={() => deleteMut.mutate()}
+          />
+        </Modal.Window>
+      )}
     </>
   )
 }

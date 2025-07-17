@@ -1,10 +1,10 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { createPermission, editPermission } from '../../services/apiPermission'
-
 import { useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
+import { useUser } from '../../context/UserContext'
+import { createPermission, editPermission } from '../../services/apiPermission'
 import Button from '../../ui/Button'
 
 const Form = styled.form`
@@ -38,11 +38,13 @@ const Input = styled.input`
 
 function CreatePermissionForm({ permissionToEdit = {}, onCloseModal }) {
   const { t } = useTranslation()
+  const { user } = useUser()
   const isEditSession = Boolean(permissionToEdit?.id)
+  const canEdit = user?.permissions?.includes('edit permission')
+  const canCreate = user?.permissions?.includes('create permission')
   const queryClient = useQueryClient()
 
-  // Initialize form with translated permission name (editable)
-  const { register, handleSubmit, reset, setValue } = useForm({
+  const { register, handleSubmit, reset } = useForm({
     defaultValues: isEditSession
       ? {
           name: t(
@@ -74,9 +76,12 @@ function CreatePermissionForm({ permissionToEdit = {}, onCloseModal }) {
   })
 
   const onSubmit = (data) => {
-    // data.name contains whatever user typed, translated or not
-    mutate(data)
+    if ((isEditSession && canEdit) || (!isEditSession && canCreate)) {
+      mutate(data)
+    }
   }
+
+  const canSubmit = (isEditSession && canEdit) || (!isEditSession && canCreate)
 
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
@@ -88,11 +93,16 @@ function CreatePermissionForm({ permissionToEdit = {}, onCloseModal }) {
           required: t('permissions5.nameRequired'),
         })}
         autoComplete="off"
+        disabled={isEditSession && !canEdit}
       />
 
-      <Button type="submit" disabled={isLoading}>
-        {isEditSession ? t('permissions5.updateBtn') : t('permissions5.addBtn')}
-      </Button>
+      {canSubmit && (
+        <Button type="submit" disabled={isLoading}>
+          {isEditSession
+            ? t('permissions5.updateBtn')
+            : t('permissions5.addBtn')}
+        </Button>
+      )}
     </Form>
   )
 }

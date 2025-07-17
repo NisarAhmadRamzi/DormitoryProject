@@ -2,6 +2,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import toast from 'react-hot-toast'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
+import { useUser } from '../../context/UserContext'
 import { deletePermission } from '../../services/apiPermission'
 import ConfirmDelete from '../../ui/ConfirmDelete'
 import Modal from '../../ui/Modal'
@@ -35,6 +36,8 @@ const DeleteButton = styled.button`
 function PermissionRow({ permission }) {
   const queryClient = useQueryClient()
   const { t } = useTranslation()
+  const { user } = useUser()
+  const canDelete = user?.permissions?.includes('delete permission')
 
   const { mutate: deleteMutate, isLoading: isDeleting } = useMutation({
     mutationFn: deletePermission,
@@ -59,19 +62,23 @@ function PermissionRow({ permission }) {
       <div>{permission.updated_at}</div>
 
       <div>
-        <Modal.Open opensWindowName={`delete-permission-${permission.id}`}>
-          <DeleteButton disabled={isDeleting}>
-            {t('permissions4.deleteBtn')}
-          </DeleteButton>
-        </Modal.Open>
+        {canDelete && (
+          <>
+            <Modal.Open opensWindowName={`delete-permission-${permission.id}`}>
+              <DeleteButton disabled={isDeleting}>
+                {t('permissions4.deleteBtn')}
+              </DeleteButton>
+            </Modal.Open>
 
-        <Modal.Window name={`delete-permission-${permission.id}`}>
-          <ConfirmDelete
-            onConfirm={handleDeleteConfirm}
-            resourceName={t('permissions4.resourceName')}
-            itemLabel={permission.name}
-          />
-        </Modal.Window>
+            <Modal.Window name={`delete-permission-${permission.id}`}>
+              <ConfirmDelete
+                onConfirm={handleDeleteConfirm}
+                resourceName={t('permissions4.resourceName')}
+                itemLabel={permission.name}
+              />
+            </Modal.Window>
+          </>
+        )}
       </div>
 
       <CreatePermissionForm permissionToEdit={permission} />

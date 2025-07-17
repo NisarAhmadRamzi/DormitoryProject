@@ -5,6 +5,10 @@ import { HiEllipsisVertical, HiEye, HiPencil, HiTrash } from 'react-icons/hi2'
 import toast from 'react-hot-toast'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
+
+import { hasPermission } from '../../components/permissions'
+import { useUser } from '../../context/UserContext'
+
 import { deleteSupport } from '../../services/apiSupports'
 import ConfirmDelete from '../../ui/ConfirmDelete'
 import Modal from '../../ui/Modal'
@@ -107,10 +111,16 @@ const DropdownItem = styled.button`
 
 function SupportRow({ support }) {
   const { t } = useTranslation()
+  const { user } = useUser()
   const queryClient = useQueryClient()
   const [isOpen, setIsOpen] = useState(false)
   const [dropdownPosition, setDropdownPosition] = useState(null)
   const dropdownRef = useRef()
+
+  const canView = hasPermission(user, 'view support')
+  const canEdit = hasPermission(user, 'edit support')
+  const canDelete = hasPermission(user, 'delete support')
+  const hasAnyPermission = canView || canEdit || canDelete
 
   const { isLoading: isDeleting, mutate } = useMutation({
     mutationFn: deleteSupport,
@@ -157,6 +167,7 @@ function SupportRow({ support }) {
       document.removeEventListener('mousedown', handleClickOutside)
     }
   }, [isOpen])
+
   return (
     <TableRow role="row">
       <Id>{support.type}</Id>
@@ -165,51 +176,68 @@ function SupportRow({ support }) {
       <Cell>{support.helper_number}</Cell>
       <Cell>{support.helper_email || '—'}</Cell>
 
-      <DropdownWrapper ref={dropdownRef}>
-        <IconButton onClick={toggleDropdown} aria-label={t('actions.actions')}>
-          <HiEllipsisVertical />
-        </IconButton>
+      {hasAnyPermission && (
+        <DropdownWrapper ref={dropdownRef}>
+          <IconButton
+            onClick={toggleDropdown}
+            aria-label={t('actions.actions')}
+          >
+            <HiEllipsisVertical />
+          </IconButton>
 
-        <DropdownMenu show={isOpen} position={dropdownPosition} role="menu">
-          <Modal.Open opensWindowName={`view-${support.id}`}>
-            <DropdownItem onClick={closeDropdown} role="menuitem">
-              <HiEye /> {t('actions.view')}
-            </DropdownItem>
-          </Modal.Open>
+          <DropdownMenu show={isOpen} position={dropdownPosition} role="menu">
+            {canView && (
+              <Modal.Open opensWindowName={`view-${support.id}`}>
+                <DropdownItem onClick={closeDropdown} role="menuitem">
+                  <HiEye /> {t('actions.view')}
+                </DropdownItem>
+              </Modal.Open>
+            )}
 
-          <Modal.Open opensWindowName={`edit-${support.id}`}>
-            <DropdownItem onClick={closeDropdown} role="menuitem">
-              <HiPencil /> {t('actions.edit')}
-            </DropdownItem>
-          </Modal.Open>
+            {canEdit && (
+              <Modal.Open opensWindowName={`edit-${support.id}`}>
+                <DropdownItem onClick={closeDropdown} role="menuitem">
+                  <HiPencil /> {t('actions.edit')}
+                </DropdownItem>
+              </Modal.Open>
+            )}
 
-          <Modal.Open opensWindowName={`delete-${support.id}`}>
-            <DropdownItem
-              onClick={closeDropdown}
-              disabled={isDeleting}
-              role="menuitem"
-            >
-              <HiTrash /> {t('actions.delete')}
-            </DropdownItem>
-          </Modal.Open>
-        </DropdownMenu>
-      </DropdownWrapper>
+            {canDelete && (
+              <Modal.Open opensWindowName={`delete-${support.id}`}>
+                <DropdownItem
+                  onClick={closeDropdown}
+                  disabled={isDeleting}
+                  role="menuitem"
+                >
+                  <HiTrash /> {t('actions.delete')}
+                </DropdownItem>
+              </Modal.Open>
+            )}
+          </DropdownMenu>
+        </DropdownWrapper>
+      )}
 
-      <Modal.Window name={`view-${support.id}`}>
-        <SupportDetails support={support} />
-      </Modal.Window>
+      {canView && (
+        <Modal.Window name={`view-${support.id}`}>
+          <SupportDetails support={support} />
+        </Modal.Window>
+      )}
 
-      <Modal.Window name={`edit-${support.id}`}>
-        <CreateSupportForm supportToEdit={support} />
-      </Modal.Window>
+      {canEdit && (
+        <Modal.Window name={`edit-${support.id}`}>
+          <CreateSupportForm supportToEdit={support} />
+        </Modal.Window>
+      )}
 
-      <Modal.Window name={`delete-${support.id}`}>
-        <ConfirmDelete
-          onConfirm={handleDeleteConfirm}
-          resourceName={t('AlertSupports.resource')}
-          itemLabel={support.type}
-        />
-      </Modal.Window>
+      {canDelete && (
+        <Modal.Window name={`delete-${support.id}`}>
+          <ConfirmDelete
+            onConfirm={handleDeleteConfirm}
+            resourceName={t('AlertSupports.resource')}
+            itemLabel={support.type}
+          />
+        </Modal.Window>
+      )}
     </TableRow>
   )
 }

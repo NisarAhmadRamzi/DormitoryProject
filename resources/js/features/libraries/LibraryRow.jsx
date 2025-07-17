@@ -4,7 +4,8 @@ import toast from 'react-hot-toast'
 import { useTranslation } from 'react-i18next'
 import { HiEllipsisVertical, HiEye, HiPencil, HiTrash } from 'react-icons/hi2'
 import styled from 'styled-components'
-
+import { hasPermission } from '../../components/permissions'
+import { useUser } from '../../context/UserContext'
 import { deleteLibrary } from '../../services/apiLibraries'
 import ConfirmDelete from '../../ui/ConfirmDelete'
 import Modal from '../../ui/Modal'
@@ -109,6 +110,13 @@ function LibraryRow({ library }) {
   const [dropdownPosition, setDropdownPosition] = useState(null)
   const dropdownRef = useRef()
 
+  const { user } = useUser()
+
+  const canView = hasPermission(user, 'view library')
+  const canEdit = hasPermission(user, 'edit library')
+  const canDelete = hasPermission(user, 'delete library')
+  const hasAnyPermission = canView || canEdit || canDelete
+
   const { isLoading: isDeleting, mutate } = useMutation({
     mutationFn: deleteLibrary,
     onSuccess: () => {
@@ -156,46 +164,62 @@ function LibraryRow({ library }) {
       <Cell>{library.location}</Cell>
       <Cell>{library.contact_info || '—'}</Cell>
 
-      <DropdownWrapper ref={dropdownRef}>
-        <IconButton onClick={toggleDropdown}>
-          <HiEllipsisVertical />
-        </IconButton>
+      {hasAnyPermission && (
+        <DropdownWrapper ref={dropdownRef}>
+          <IconButton onClick={toggleDropdown}>
+            <HiEllipsisVertical />
+          </IconButton>
 
-        <DropdownMenu show={isOpen} position={dropdownPosition}>
-          <Modal.Open opensWindowName={`view-${library.id}`}>
-            <DropdownItem onClick={closeDropdown}>
-              <HiEye /> {t('libraryRow.view')}
-            </DropdownItem>
-          </Modal.Open>
+          <DropdownMenu show={isOpen} position={dropdownPosition}>
+            {canView && (
+              <Modal.Open opensWindowName={`view-${library.id}`}>
+                <DropdownItem onClick={closeDropdown}>
+                  <HiEye /> {t('libraryRow.view')}
+                </DropdownItem>
+              </Modal.Open>
+            )}
 
-          <Modal.Open opensWindowName={`edit-${library.id}`}>
-            <DropdownItem onClick={closeDropdown}>
-              <HiPencil /> {t('libraryRow.edit')}
-            </DropdownItem>
-          </Modal.Open>
+            {canEdit && (
+              <Modal.Open opensWindowName={`edit-${library.id}`}>
+                <DropdownItem onClick={closeDropdown}>
+                  <HiPencil /> {t('libraryRow.edit')}
+                </DropdownItem>
+              </Modal.Open>
+            )}
 
-          <Modal.Open opensWindowName={`delete-${library.id}`}>
-            <DropdownItem onClick={closeDropdown} disabled={isDeleting}>
-              <HiTrash /> {t('libraryRow.delete')}
-            </DropdownItem>
-          </Modal.Open>
-        </DropdownMenu>
-      </DropdownWrapper>
+            {canDelete && (
+              <Modal.Open opensWindowName={`delete-${library.id}`}>
+                <DropdownItem onClick={closeDropdown} disabled={isDeleting}>
+                  <HiTrash /> {t('libraryRow.delete')}
+                </DropdownItem>
+              </Modal.Open>
+            )}
+          </DropdownMenu>
+        </DropdownWrapper>
+      )}
 
-      <Modal.Window name={`view-${library.id}`}>
-        <LibraryDetails library={library} />
-      </Modal.Window>
+      {/* Modal windows */}
+      {canView && (
+        <Modal.Window name={`view-${library.id}`}>
+          <LibraryDetails library={library} />
+        </Modal.Window>
+      )}
 
-      <Modal.Window name={`edit-${library.id}`}>
-        <CreateLibraryForm libraryToEdit={library} />
-      </Modal.Window>
-      <Modal.Window name={`delete-${library.id}`}>
-        <ConfirmDelete
-          onConfirm={handleDeleteConfirm}
-          resourceName={t('libraryRow.resource')}
-          itemLabel={library.name}
-        />
-      </Modal.Window>
+      {canEdit && (
+        <Modal.Window name={`edit-${library.id}`}>
+          <CreateLibraryForm libraryToEdit={library} />
+        </Modal.Window>
+      )}
+
+      {canDelete && (
+        <Modal.Window name={`delete-${library.id}`}>
+          <ConfirmDelete
+            onConfirm={handleDeleteConfirm}
+            resourceName={t('libraryRow.resource')}
+            itemLabel={library.name}
+          />
+        </Modal.Window>
+      )}
     </TableRow>
   )
 }

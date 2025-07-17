@@ -5,6 +5,8 @@ import { useTranslation } from 'react-i18next'
 import { HiEllipsisVertical, HiEye, HiPencil, HiTrash } from 'react-icons/hi2'
 import styled from 'styled-components'
 
+import { hasPermission } from '../../components/permissions'
+import { useUser } from '../../context/UserContext'
 import { deleteFee } from '../../services/apiFees'
 import ConfirmDelete from '../../ui/ConfirmDelete'
 import Modal from '../../ui/Modal'
@@ -92,10 +94,17 @@ const DropdownItem = styled.button`
 
 function FeesRow({ fee }) {
   const { t } = useTranslation()
+  const { user } = useUser()
   const queryClient = useQueryClient()
   const [isOpen, setIsOpen] = useState(false)
   const [dropdownPosition, setDropdownPosition] = useState(null)
   const dropdownRef = useRef()
+
+  // Check permissions based on your list:
+  const canView = hasPermission(user, 'view fee')
+  const canEdit = hasPermission(user, 'edit fee')
+  const canDelete = hasPermission(user, 'delete fee')
+  const hasAnyPermission = canView || canEdit || canDelete
 
   const { isLoading: isDeleting, mutate } = useMutation({
     mutationFn: deleteFee,
@@ -149,46 +158,60 @@ function FeesRow({ fee }) {
       <Cell>{fee.warranty_pay}</Cell>
       <Cell>{fee.total_fee}</Cell>
 
-      <DropdownWrapper ref={dropdownRef}>
-        <IconButton onClick={toggleDropdown}>
-          <HiEllipsisVertical />
-        </IconButton>
-        <DropdownMenu show={isOpen} position={dropdownPosition}>
-          <Modal.Open opensWindowName={`view-fee-${fee.id}`}>
-            <DropdownItem onClick={closeDropdown}>
-              <HiEye /> {t('actions.view')}
-            </DropdownItem>
-          </Modal.Open>
+      {hasAnyPermission && (
+        <DropdownWrapper ref={dropdownRef}>
+          <IconButton onClick={toggleDropdown}>
+            <HiEllipsisVertical />
+          </IconButton>
+          <DropdownMenu show={isOpen} position={dropdownPosition}>
+            {canView && (
+              <Modal.Open opensWindowName={`view-fee-${fee.id}`}>
+                <DropdownItem onClick={closeDropdown}>
+                  <HiEye /> {t('actions.view')}
+                </DropdownItem>
+              </Modal.Open>
+            )}
 
-          <Modal.Open opensWindowName={`edit-fee-${fee.id}`}>
-            <DropdownItem onClick={closeDropdown}>
-              <HiPencil /> {t('actions.edit')}
-            </DropdownItem>
-          </Modal.Open>
+            {canEdit && (
+              <Modal.Open opensWindowName={`edit-fee-${fee.id}`}>
+                <DropdownItem onClick={closeDropdown}>
+                  <HiPencil /> {t('actions.edit')}
+                </DropdownItem>
+              </Modal.Open>
+            )}
 
-          <Modal.Open opensWindowName={`delete-${fee.id}`}>
-            <DropdownItem onClick={closeDropdown} disabled={isDeleting}>
-              <HiTrash /> {t('actions.delete')}
-            </DropdownItem>
-          </Modal.Open>
-        </DropdownMenu>
-      </DropdownWrapper>
+            {canDelete && (
+              <Modal.Open opensWindowName={`delete-${fee.id}`}>
+                <DropdownItem onClick={closeDropdown} disabled={isDeleting}>
+                  <HiTrash /> {t('actions.delete')}
+                </DropdownItem>
+              </Modal.Open>
+            )}
+          </DropdownMenu>
+        </DropdownWrapper>
+      )}
 
-      <Modal.Window name={`view-fee-${fee.id}`}>
-        <FeeDetails fee={fee} />
-      </Modal.Window>
+      {canView && (
+        <Modal.Window name={`view-fee-${fee.id}`}>
+          <FeeDetails fee={fee} />
+        </Modal.Window>
+      )}
 
-      <Modal.Window name={`edit-fee-${fee.id}`}>
-        <CreateFeeForm feeToEdit={fee} />
-      </Modal.Window>
+      {canEdit && (
+        <Modal.Window name={`edit-fee-${fee.id}`}>
+          <CreateFeeForm feeToEdit={fee} />
+        </Modal.Window>
+      )}
 
-      <Modal.Window name={`delete-${fee.id}`}>
-        <ConfirmDelete
-          onConfirm={handleDeleteConfirm}
-          resourceName={t('AlertFees.resource')}
-          itemLabel={`${fee.student?.name} ${fee.student?.last_name}`}
-        />
-      </Modal.Window>
+      {canDelete && (
+        <Modal.Window name={`delete-${fee.id}`}>
+          <ConfirmDelete
+            onConfirm={handleDeleteConfirm}
+            resourceName={t('AlertFees.resource')}
+            itemLabel={`${fee.student?.name} ${fee.student?.last_name}`}
+          />
+        </Modal.Window>
+      )}
     </TableRow>
   )
 }

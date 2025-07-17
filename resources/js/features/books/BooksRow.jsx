@@ -4,6 +4,7 @@ import toast from 'react-hot-toast'
 import { useTranslation } from 'react-i18next'
 import { HiEllipsisVertical, HiEye, HiPencil, HiTrash } from 'react-icons/hi2'
 import styled from 'styled-components'
+import { hasPermission } from '../../components/permissions'
 import { useUser } from '../../context/UserContext'
 import { deleteBook } from '../../services/apiBooks'
 import ConfirmDelete from '../../ui/ConfirmDelete'
@@ -99,11 +100,16 @@ const DropdownItem = styled.button`
 function BooksRow({ book }) {
   const { t } = useTranslation()
   const { user } = useUser()
-  const role = user?.role
   const queryClient = useQueryClient()
   const [isOpen, setIsOpen] = useState(false)
   const [dropdownPosition, setDropdownPosition] = useState(null)
   const dropdownRef = useRef()
+
+  // Use exact permission names from your list
+  const canView = hasPermission(user, 'view book')
+  const canEdit = hasPermission(user, 'edit book')
+  const canDelete = hasPermission(user, 'delete book')
+  const hasAnyPermission = canView || canEdit || canDelete
 
   const { isLoading: isDeleting, mutate } = useMutation({
     mutationFn: deleteBook,
@@ -157,52 +163,63 @@ function BooksRow({ book }) {
       <Cell>{book.author}</Cell>
       <Cell>{book.publication_year}</Cell>
       <Cell>{t(`status.${book.status?.toLowerCase()}`)}</Cell>
+
       <Cell>
-        <DropdownWrapper ref={dropdownRef}>
-          <IconButton onClick={toggleDropdown}>
-            <HiEllipsisVertical />
-          </IconButton>
+        {hasAnyPermission && (
+          <DropdownWrapper ref={dropdownRef}>
+            <IconButton onClick={toggleDropdown}>
+              <HiEllipsisVertical />
+            </IconButton>
 
-          <DropdownMenu show={isOpen} position={dropdownPosition}>
-            <Modal.Open opensWindowName={`view-${book.id}`}>
-              <DropdownItem onClick={closeDropdown}>
-                <HiEye /> {t('common.view')}
-              </DropdownItem>
-            </Modal.Open>
+            <DropdownMenu show={isOpen} position={dropdownPosition}>
+              {canView && (
+                <Modal.Open opensWindowName={`view-${book.id}`}>
+                  <DropdownItem onClick={closeDropdown}>
+                    <HiEye /> {t('common.view')}
+                  </DropdownItem>
+                </Modal.Open>
+              )}
 
-            {role !== 'student' && (
-              <Modal.Open opensWindowName={`edit-${book.id}`}>
-                <DropdownItem onClick={closeDropdown}>
-                  <HiPencil /> {t('common.edit')}
-                </DropdownItem>
-              </Modal.Open>
-            )}
+              {canEdit && (
+                <Modal.Open opensWindowName={`edit-${book.id}`}>
+                  <DropdownItem onClick={closeDropdown}>
+                    <HiPencil /> {t('common.edit')}
+                  </DropdownItem>
+                </Modal.Open>
+              )}
 
-            {role !== 'student' && (
-              <Modal.Open opensWindowName={`delete-${book.id}`}>
-                <DropdownItem onClick={closeDropdown} disabled={isDeleting}>
-                  <HiTrash /> {t('common.delete')}
-                </DropdownItem>
-              </Modal.Open>
-            )}
-          </DropdownMenu>
-        </DropdownWrapper>
+              {canDelete && (
+                <Modal.Open opensWindowName={`delete-${book.id}`}>
+                  <DropdownItem onClick={closeDropdown} disabled={isDeleting}>
+                    <HiTrash /> {t('common.delete')}
+                  </DropdownItem>
+                </Modal.Open>
+              )}
+            </DropdownMenu>
+          </DropdownWrapper>
+        )}
       </Cell>
       <Cell></Cell>
 
-      <Modal.Window name={`view-${book.id}`}>
-        <BookDetails book={book} />
-      </Modal.Window>
-      <Modal.Window name={`edit-${book.id}`}>
-        <CreateBookForm bookToEdit={book} />
-      </Modal.Window>
-      <Modal.Window name={`delete-${book.id}`}>
-        <ConfirmDelete
-          onConfirm={handleDeleteConfirm}
-          resourceName={t('books')}
-          itemLabel={book.title}
-        />
-      </Modal.Window>
+      {canView && (
+        <Modal.Window name={`view-${book.id}`}>
+          <BookDetails book={book} />
+        </Modal.Window>
+      )}
+      {canEdit && (
+        <Modal.Window name={`edit-${book.id}`}>
+          <CreateBookForm bookToEdit={book} />
+        </Modal.Window>
+      )}
+      {canDelete && (
+        <Modal.Window name={`delete-${book.id}`}>
+          <ConfirmDelete
+            onConfirm={handleDeleteConfirm}
+            resourceName={t('books')}
+            itemLabel={book.title}
+          />
+        </Modal.Window>
+      )}
     </TableRow>
   )
 }
