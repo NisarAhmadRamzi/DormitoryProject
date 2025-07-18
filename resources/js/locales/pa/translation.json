@@ -1,4 +1,122 @@
 {
+  "asset": {
+    "quantity": "مقدار",
+    "description": "تشریح",
+    "totalQuantity": "ټول مقدار",
+    "totalDonation": "ټولې مرستې",
+    "cashBefore": "لگښت څخه مخکې نغدې پیسې",
+    "cashAfter": "لگښت څخه وروسته نغدې پیسې",
+    "page": "پاڼه",
+    "of": "د",
+    "rowsPerPage": "قطارونه په هره پاڼه کې",
+    "noMatch": "هیڅ مناسب شتم ونه موندل شو.",
+    "searchPlaceholder": "شتم ولټوئ...",
+    "errorLoading": "د شتمنیو په پورته کولو کې ستونزه!"
+  },
+  "Action": {
+    "action": "عملیات"
+  },
+  "assetsForm": {
+    "quantity": "مقدار",
+    "description": "تشریح",
+    "quantityRequired": "مقدار لازمي دی",
+    "quantityMin": "مقدار باید لږ تر لږه 1 وي",
+    "descriptionRequired": "تشریح لازمي ده",
+    "descriptionMax": "تشریح باید تر ۵۰۰ تورو کمه وي",
+    "editAsset": "شتم سمول",
+    "createAsset": "نوی شتم جوړول",
+    "assetCreated": "نوی شتم په بریالیتوب سره جوړ شو",
+    "assetUpdated": "شتم په بریالیتوب سره سم شو",
+    "assetError": "یوه ستونزه پېښه شوه"
+  },
+  "assetD": {
+    "noData": "د شتم کوم معلومات نشته.",
+    "assetDetails": "د شتم تفصیلات",
+    "id": "شمېره",
+    "quantity": "مقدار",
+    "description": "تشریح",
+    "totalQuantity": "ټول مقدار",
+    "totalDonations": "ټولې مرستې",
+    "totalCashBeforeExpense": "ټولې نغدې پیسې د لګښت څخه مخکې",
+    "totalCashAfterExpense": "ټولې نغدې پیسې د لګښت څخه وروسته",
+    "createdAt": "د جوړېدو نېټه",
+    "updatedAt": "د تازه کېدو نېټه"
+  },
+  "Dashboard": {
+    "errorLoading": "د بارولو تېروتنه!",
+    "allUsers": "ټول کاروونکي",
+    "allStudents": "ټول زده‌کوونکي",
+    "allLibraryStudents": "کتابتون زده‌کوونکي",
+    "totalAssets": "ټول شتمني",
+    "roomOverview": "د خونې کتنه",
+    "complaintsOverview": "د شکایتونو کتنه",
+    "donationsOverview": "د مرستو کتنه",
+    "expensesOverview": "د لګښتونو کتنه",
+    "booksOverview": "د کتابونو کتنه",
+    "feesOverview": "د فیسونو کتنه",
+    "keys": {
+      "total": "ټول",
+      "available": "شته",
+      "occupied": "اشغال شوی",
+      "utilization_rate_percent": "د استعمال کچه (%)",
+      "pending": "منتظر",
+      "in_progress": "په جریان کې",
+      "resolved": "حل شوی",
+      "total_cash_donated": "ټول نغدي مرسته",
+      "total_goods_quantity": "ټول توکي",
+      "total_cash_donated_cumulative": "ټولیز نغدي مرسته",
+      "latest_donation_date": "وروستۍ د مرستې نیټه",
+      "latest_expense_date": "وروستۍ د لګښت نیټه",
+      "total_office_paid": "اداري فیس تادیه شوی",
+      "total_warranty_paid": "د ضمانت فیس تادیه شوی",
+      "borrowed": "پور اخیستل شوی",
+      "overdue": "ناوخته"
+    }
+  },
+  "dashboard1": {
+    "title": "ډاشبورډ",
+    "loginSuccess": "بریالی ننوت!"
+  },
+  "today": {
+    "title": "نن",
+    "studentsCheckedIn": "۴ محصلین داخل شول",
+    "roomsCheckedIn": "خونې ۳۰۱، ۳۰۲، ۳۰۳، ۳۰۵",
+    "newComplaints": "۲ نوې شکایتونه",
+    "complaintDetail": "په ۲۰۱ خونې کې نل خراب دی",
+    "feesPaid": "۳ فیسونه ورکړل شول",
+    "totalPaid": "ټول: $۴۵۰",
+    "supportResolved": "۱ مرسته حل شوه",
+    "supportDetail": "دروازه په دریم منزل کې ترمیم شوه",
+    "studentsCheckedOut": "۲ محصلین خارج شول",
+    "roomsCheckedOut": "خونه ۳۰۱ او ۳۰۸",
+    "complaintClosed": "۱ شکایت بند شو",
+    "complaintResolvedDetail": "د اوبو ستونزه په لومړي منزل کې حل شوه"
+  },
+  "stats": {
+    "allUsers": "ټول کارونکي",
+    "allStudents": "ټول زده‌کوونکي",
+    "allLibraryStudents": "ټول د کتابتون زده‌کوونکي",
+    "totalAssets": "ټول شتمنۍ",
+    "roomOverview": "د خونې کتنه",
+    "complaintsOverview": "د شکایتونو کتنه",
+    "donationsOverview": "د مرستو کتنه",
+    "expensesOverview": "د لګښتونو کتنه",
+    "booksOverview": "د کتابونو کتنه",
+    "feesOverview": "د فیسونو کتنه",
+    "errorLoading": "په بار کې تېروتنه!"
+  },
+  "statsGroup": {
+    "labels": {
+      "open": "خلاص",
+      "closed": "بند",
+      "pending": "منتظر",
+      "approved": "منظور شوی",
+      "rejected": "رد شوی"
+    }
+  },
+  "AddComplaints": {
+    "addNew": "نوې شکایت اضافه کړئ"
+  },
   "userProfile": "د کارونکي پروفایل",
   "id": "شناخت",
   "name": "نوم",
@@ -305,68 +423,379 @@
     "noMatch": "هیڅ خونه ونه موندل شوه.",
     "errorLoading": "د خونو د پورته کولو تېروتنه."
   },
-  "roomForm": {
-    "roomForm": {
-      "priceIntegerOnly": "بیه باید یوه بشپړه شمېره وي",
-      "occupancyHardLimit": "د اوسېدونکو شمېر نشي کولی له ۸ څخه ډېر وي.",
-      "occupancyMax": "د اوسېدونکو شمېر نشي کولی د خونې له ظرفیت څخه ډېر وي.",
-      "invalidFloorThird": "د ۳۰۱ څخه تر ۳۱۴ خونو شمېر باید په څلورم منزل کې نه وي.",
-      "invalidFloorFourth": "د ۴۰۱ څخه تر ۴۱۴ خونو شمېر باید په دریم منزل کې نه وي.",
-      "selectRoomNumber": "د خونې شمېره وټاکئ",
-      "roomNumber": "د خونې شمېره",
-      "roomNumberMin": "د خونې شمېره باید لږ تر لږه ۳۰۱ وي",
-      "roomNumberMax": "د خونې شمېره نشي کولی له ۳۱۰ زیاته وي",
-      "type": "د خونې ډول",
-      "selectType": "-- ډول انتخاب کړئ --",
-      "4people": "۴ کسیزه",
-      "6people": "۶ کسیزه",
-      "8people": "۸ کسیزه",
-      "capacity": "ظرفیت",
-      "capacityMin": "ظرفیت باید له ۰ څخه کم نه وي",
-      "occupancy": "اوسني اوسېدونکي",
-      "occupancyMin": "اوسېدونکي باید له ۰ څخه کم نه وي",
-      "price": "قیمت",
-      "priceMin": "قیمت باید له ۰ څخه کم نه وي",
-      "status": "وضعیت",
-      "selectStatus": "-- وضعیت انتخاب کړئ --",
-      "available": "شتون لري",
-      "occupied": "بوخت",
-      "floor": "منزل",
-      "selectFloor": "-- منزل انتخاب کړئ --",
-      "third": "دریمه منزله",
-      "fourth": "څلورمه منزله",
-      "create": "نوې خونه جوړه کړئ",
-      "edit": "خونه سمول",
-      "successCreated": "خونه په بریالیتوب سره جوړه شوه",
-      "successUpdated": "خونه په بریالیتوب سره سم شوه"
+  "AddAssets": {
+    "addNew": "نوې شتمني زیات کړئ"
+  },
+  "complaintsRow": {
+    "view": "کتنه",
+    "edit": "سمول",
+    "delete": "حذف",
+    "deleteSuccess": "شکایت په بریالیتوب سره حذف شو",
+    "deleteError": "د شکایت حذفول ناکام شو",
+    "resourceName": "شکایت"
+  },
+  "AddLibraries": {
+    "title": "کتابتونونه",
+    "addNew": "نوې کتابتون اضافه کړئ"
+  },
+  "libraries": {
+    "title": "کتابتونونه"
+  },
+  "libraryForm": {
+    "fields": {
+      "name": "د کتابتون نوم",
+      "location": "ځای",
+      "contact": "ایمیل آدرس"
     },
-    "form": {
-      "required": "دا برخه لازمي ده",
-      "cancel": "لغوه"
+    "validation": {
+      "nameRequired": "د کتابتون نوم اړین دی",
+      "nameMax": "نوم باید له ۲۵۵ تورو څخه زیات نه وي",
+      "namePattern": "د کتابتون نوم باید توري ولري",
+      "locationRequired": "ځای اړین دی",
+      "locationPattern": "ځای باید توري ولري",
+      "contactPattern": "د اړیکې معلومات باید توري ولري"
     },
-    "roomDetails": {
-      "title": "د خونې جزئیات",
-      "id": "شمېره",
-      "number": "د خونې شمېره",
-      "type": "ډول",
-      "capacity": "ظرفیت",
-      "occupancy": "اوسېدونکي",
+    "buttons": {
+      "create": "نوی کتابتون جوړ کړئ",
+      "edit": "بدلونونه ثبت کړئ"
+    },
+    "cancel": "لغوه کول",
+    "createSuccess": "نوی کتابتون \"{{name}}\" بریالی جوړ شو",
+    "editSuccess": "کتابتون \"{{name}}\" بریالی تازه شو",
+    "error": "یوه ستونزه رامنځته شوه"
+  },
+  "libraryRow": {
+    "view": "کتل",
+    "edit": "ایډیټ",
+    "delete": "ړنګول",
+    "deleteSuccess": "کتابتون په بریالیتوب سره ړنګ شو",
+    "deleteError": "کتابتون ړنګ نشو",
+    "resource": "کتابتون"
+  },
+  "libraryTable": {
+    "searchPlaceholder": "کتابتونونه ولټوئ...",
+    "name": "نوم",
+    "location": "ځای",
+    "contactInfo": "اړیکه",
+    "action": "عمل",
+    "noMatching": "هیڅ مناسب کتابتون ونه موندل شو.",
+    "errorLoading": "کتابتونونه نه شو بارولی!",
+    "pageInfo": "پاڼه {{currentPage}} د {{totalPages}} څخه",
+    "rowsPerPage": "قطارونه په هره پاڼه کې",
+    "previousPage": "تېر پاڼه",
+    "nextPage": "بل پاڼه"
+  },
+  "addLibraryStudent": {
+    "addButton": "په کتابتون کې نوی زده‌کوونکی اضافه کړئ"
+  },
+  "libraryStudentRow": {
+    "view": "کتل",
+    "edit": "سمول",
+    "delete": "ړنګول",
+    "resourceName": "زده کوونکی",
+    "deleteSuccess": "زده کوونکی ړنګ شو",
+    "deleteError": "زده کوونکی نه شو ړنګیدای"
+  },
+  "libraryStudentForm": {
+    "idNumberNonNegative": "د آی ډي نمبر باید منفي عدد نه وي",
+    "name": "نوم",
+    "lastName": "تخلص",
+    "email": "بریښنالیک",
+    "password": "پټ نوم",
+    "address": "پته",
+    "idNumber": "د پېژند شمېره",
+    "academicInfo": "تحصیلي معلومات",
+    "registrationDate": "د ثبت‌نام نیټه",
+    "registrationDeadline": "د ثبت‌نام وروستۍ نیټه",
+    "phone": "د اړیکې شمېره",
+    "gender": "جنس",
+    "membershipStatus": "د غړیتوب حالت",
+    "libraryIdFixed": "د کتابتون ID (ثابت)",
+    "selectGender": "-- جنس غوره کړئ --",
+    "selectStatus": "-- حالت غوره کړئ --",
+    "genderOptions": {
+      "male": "نارینه",
+      "female": "ښځینه",
+      "other": "نور"
+    },
+    "statusOptions": {
+      "active": "فعال",
+      "expired": "ختم شوی"
+    },
+    "addStudent": "زده کوونکی اضافه کړئ",
+    "editStudent": "زده کوونکی سمول",
+    "cancel": "لغو",
+    "createSuccess": "زده کوونکی \"{{name}} {{lastName}}\" بریالی اضافه شو",
+    "updateSuccess": "زده کوونکی \"{{name}} {{lastName}}\" بریالی سم شو",
+    "genericError": "یوه ستونزه پېښه شوې",
+    "validation": {
+      "idNumberNonNegative": "د پېژند شمېره باید منفي نه وي.",
+      "idNumberTaken": "دغه پېژند شمېره له مخکې کارول شوې ده.",
+      "emailTaken": "دا برېښنالیک له مخکې ثبت شوی دی.",
+      "nameRequired": "نوم اړین دی",
+      "lastNameRequired": "تخلص اړین دی",
+      "emailRequired": "بریښنالیک اړین دی",
+      "passwordRequired": "پټ نوم اړین دی",
+      "passwordMin": "لږ تر لږه ۸ توری",
+      "addressRequired": "پته اړینه ده",
+      "idNumberRequired": "د پېژند شمېره اړینه ده",
+      "registrationDateRequired": "د ثبت‌نام نیټه اړینه ده",
+      "phoneRequired": "د اړیکې شمېره اړینه ده",
+      "deadlineRequired": "وروستۍ نیټه اړینه ده",
+      "genderRequired": "جنس اړین دی",
+      "statusRequired": "د غړیتوب حالت اړین دی",
+      "maxLength": "تر ټولو زیات ۲۵۵ توری"
+    }
+  },
+  "libraryStudentsTable": {
+    "id": "شمېره",
+    "name": "نوم",
+    "email": "بریښنالیک",
+    "phone": "شمېره",
+    "address": "پته",
+    "actions": "عملیات",
+    "searchPlaceholder": "زده کوونکي ولټوئ...",
+    "pageInfo": "پاڼه {{currentPage}} له {{totalPages}} څخه",
+    "rowsPerPage": "په هره پاڼه کې لیکې:",
+    "error": "د زده کوونکو په اخیستو کې ستونزه"
+  },
+  "libraryStudentDetails": {
+    "title": "د کتابتون د زده‌کوونکي جزییات",
+    "id": "شمېره",
+    "libraryId": "د کتابتون شمېره",
+    "fullName": "بشپړ نوم",
+    "email": "بریښنالیک",
+    "phone": "تلیفون",
+    "idNumber": "د پېژند کارت شمېره",
+    "address": "پته",
+    "academicInfo": "تحصیلي معلومات",
+    "gender": "جنس",
+    "gender_Male": "نارینه",
+    "gender_Female": "ښځینه",
+    "gender_Other": "بل",
+    "status": "د غړیتوب حالت",
+    "status_Active": "فعال",
+    "status_Expired": "ختم شوی",
+    "registrationDate": "د ثبت نېټه",
+    "registrationDeadline": "د ثبت وروستۍ نېټه",
+    "createdAt": "د جوړېدو نېټه",
+    "updatedAt": "د تازه کېدو نېټه",
+    "noData": "د زده‌کوونکي معلومات موجود نه دي"
+  },
+  "AddBooks": {
+    "addBookButton": "نوی کتاب اضافه کړئ"
+  },
+  "common": {
+    "view": "کتل",
+    "edit": "سمول",
+    "delete": "ړنګول"
+  },
+  "AlertBooks": {
+    "deletedSuccess": "کتاب په بریالیتوب سره ړنګ شو",
+    "deleteFailed": "د کتاب ړنګول پاتې راغلل"
+  },
+  "status": {
+    "available": "شتون لري",
+    "borrowed": "پور شوی"
+  },
+  "booksTable": {
+    "searchPlaceholder": "کتابونه ولټوئ...",
+    "headers": {
+      "id": "ID",
+      "title": "سرلیک",
+      "author": "لیکوال",
+      "year": "کال",
       "status": "حالت",
-      "floor": "منزل",
-      "price": "قیمت",
-      "created": "ایجاد شوی",
-      "updated": "تازه شوی"
+      "action": "عمل"
     },
-    "AddComplaints": {
-      "addNew": "نوې شکایت اضافه کړئ"
+    "noMatch": "هیڅ یو برابر کتاب ونه موندل شو.",
+    "pageInfo": "پاڼه {{currentPage}} له {{totalPages}} څخه",
+    "rowsPerPage": "قطارونه په هره پاڼه کې:"
+  },
+  "bookTable": {
+    "noData": "د کتاب معلومات شتون نه لري.",
+    "details": {
+      "title": "د کتاب تفصیلات",
+      "totalCopies": "ټول کاپي کتابونه",
+      "totalBorrowed": "ټول پور شوي کتابونه",
+      "libraryId": "د کتابتون ID",
+      "createdAt": "د جوړېدو نېټه",
+      "updatedAt": "د نوي کېدو نېټه",
+      "na": "شته نه دي"
+    }
+  },
+  "borrowBooks": {
+    "addNew": "نوی پور شوی کتاب اضافه کړئ"
+  },
+  "createBookForm": {
+    "libraryId": "کتابتون آی‌دی",
+    "libraryIdRequired": "کتابتون آی‌دی لازمي ده",
+    "title": "سرلیک",
+    "titleRequired": "سرلیک لازمي ده",
+    "titleMaxLength": "سرلیک باید تر ۲۵۵ حروفو کم وي",
+    "author": "لیکوال",
+    "authorRequired": "لیکوال لازمي ده",
+    "authorMaxLength": "لیکوال باید تر ۲۵۵ حروفو کم وي",
+    "publicationYear": "د خپرېدو کال",
+    "publicationYearRequired": "د خپرېدو کال لازمي ده",
+    "publicationYearInvalid": "باید ۴ عدد لرونکی کال وي (YYYY)",
+    "status": "حالت",
+    "statusRequired": "حالت لازمي ده",
+    "statusInvalid": "ناسم حالت",
+    "available": "شتون لري",
+    "borrowed": "پور شوی",
+    "notAvailable": "نه دی شتون لري",
+    "selectStatus": "حالت وټاکئ",
+    "totalCopies": "ټول کاپي‌ګانې",
+    "totalCopiesRequired": "ټول شمېر کاپي‌ګانې لازمي دي",
+    "minCopies": "لږ تر لږه باید ۱ کاپي وي",
+    "cancel": "لغوه",
+    "editBook": "کتاب سمول",
+    "createBook": "نوی کتاب جوړ کړئ",
+    "updateSuccess": "کتاب «{{title}}» په بریالیتوب سره سم شو",
+    "createSuccess": "نوی کتاب «{{title}}» په بریالیتوب سره جوړ شو",
+    "error": "یو څه غلط شول"
+  },
+  "borrowedBookss": "پورته شوی کتاب",
+  "commons": {
+    "view": "کتل",
+    "edit": "سمول",
+    "delete": "ړنګول"
+  },
+  "AletBorrowedBooks": {
+    "table": {
+      "successDelete": "د پورته شوي کتاب معلومات په بریالیتوب سره ړنګ شول",
+      "errorDelete": "د پورته شوي کتاب معلومات ړنګول پاتې شول"
+    }
+  },
+  "borrowedBooksTable": {
+    "student": "محصل",
+    "book": "کتاب",
+    "borrowDate": "د پور اخیستنې نیټه",
+    "returnDate": "د بیرته ورکولو نیټه",
+    "booksCount": "د کتابونو شمېر",
+    "action": "عمل",
+    "searchPlaceholder": "پور شوي کتابونه وپلټئ...",
+    "noRecords": "هیڅ سمون لرونکی ریکارډ ونه موندل شو.",
+    "pageInfo": "مخ {{currentPage}} له {{totalPages}} څخه",
+    "rowsPerPage": "لیکې په هر مخ:",
+    "error": "د پور شوو کتابونو په ترلاسه کولو کې ستونزه!"
+  },
+  "createBorrowedBookForm": {
+    "selectOption": "یوه گزینه وټاکئ",
+    "studentId": "د زده کوونکي آی‌ډي (اختیاري)",
+    "libraryStudentId": "د کتابتون زده کوونکي آی‌ډي (اختیاري)",
+    "bookId": "د کتاب آی‌ډي",
+    "bookIdRequired": "د کتاب آی‌ډي اړین دی",
+    "borrowDate": "د پور نېټه",
+    "borrowDateRequired": "د پور نېټه اړینه ده",
+    "returnDate": "د بیرته ورکولو نېټه (اختیاري)",
+    "returnDateValidation": "د بیرته ورکولو نېټه باید د پور نېټې نه مخکې نه وي",
+    "status": "حالت",
+    "statusRequired": "حالت لازمي دی",
+    "selectStatus": "حالت انتخاب کړئ",
+    "borrowed": "پور شوی",
+    "returned": "بیرته شوی",
+    "overdue": "ناوخته شوی",
+    "cancel": "لغوه کول",
+    "createButton": "د پور شوی کتاب ثبت کړئ",
+    "editButton": "د پور شوی کتاب سم کړئ",
+    "successCreate": "نوی پور شوی کتاب بریالۍ سره ثبت شو",
+    "successEdit": "پور شوی کتاب بریالۍ سره سم شو",
+    "error": "یو څه ستونزه پېښه شوې"
+  },
+  "borrowedBook": {
+    "noData": "د پور شوو کتابونو معلومات نشته.",
+    "na": "شتون نلري",
+    "details": {
+      "title": "د پور شوي کتاب تفصیلات"
     },
-    "complaintsRow": {
-      "view": "کتنه",
-      "edit": "سمول",
-      "delete": "حذف",
-      "deleteSuccess": "شکایت په بریالیتوب سره حذف شو",
-      "deleteError": "د شکایت حذفول ناکام شو",
-      "resourceName": "شکایت"
+    "fields": {
+      "student": "محصل",
+      "id": "شناخت",
+      "bookTitle": "د کتاب سرلیک",
+      "borrowDate": "د پور نېټه",
+      "returnDate": "د بېرته سپارلو نېټه",
+      "status": "وضعیت",
+      "totalBefore": "د پور مخکې د موجود کتابونو ټول شمېر",
+      "totalAfter": "د پور وروسته د موجود کتابونو ټول شمېر",
+      "totalBorrowed": "ټول پور شوي کتابونه",
+      "createdAt": "د جوړېدو نېټه",
+      "updatedAt": "د نوي کېدو نېټه"
+    }
+  },
+  "AddFees": {
+    "addNew": "نوې فیسونه اضافه کړئ"
+  },
+  "CommonFees": {
+    "cancel": "لغوه کړئ"
+  },
+  "Fees": {
+    "fields": {
+      "studentId": "د زده کوونکي شمېره",
+      "officePay": "دفتر پیسې",
+      "officePaid": "دفتر ورکړل شوي",
+      "warrantyPay": "ضمانت پیسې",
+      "warrantyPaid": "ضمانت ورکړل شوي",
+      "registrationDate": "د ثبت نیټه",
+      "dueDate": "د نیټې نېټه",
+      "paidDateOptional": "د پیسو نیټه (اختیاري)"
+    },
+    "errors": {
+      "paidDateBeforeRegistration": "د تادیې نېټه نشي کېدای د ثبت نېټې نه مخکې وي.",
+      "studentIdRequired": "د زده کوونکي شمېره اړینه ده",
+      "officePayRequired": "د دفتر پیسې اړینې دي",
+      "officePaidRequired": "د دفتر ورکړل شوې پیسې اړینې دي",
+      "warrantyPayRequired": "د تضمین پیسې اړینې دي",
+      "warrantyPaidRequired": "د تضمین ورکړل شوې پیسې اړینې دي",
+      "registrationDateRequired": "د ثبت نیټه اړینه ده",
+      "dueDateRequired": "د تادیې نیټه اړینه ده",
+      "officePaidTooMuch": "د دفتر ورکړل شوې اندازه باید د دفتر پیسو سره مساوي یا کمه وي",
+      "warrantyPaidTooMuch": "د تضمین ورکړل شوې اندازه باید د تضمین پیسو سره مساوي یا کمه وي",
+      "dueDateBeforeRegistration": "د تادیې نیټه باید د ثبت نیټې مخکې نه وي",
+      "officePayMinZero": "د دفتر پیسې له صفر څخه کمې نه شي",
+      "officePaidMinZero": "د دفتر ورکړل شوې پیسې له صفر څخه کمې نه شي",
+      "warrantyPayMinZero": "د تضمین پیسې له صفر څخه کمې نه شي",
+      "warrantyPaidMinZero": "د تضمین ورکړل شوې پیسې له صفر څخه کمې نه شي"
+    },
+    "buttons": {
+      "editFee": "فیس سمول",
+      "createFee": "نوی فیس جوړول"
+    },
+    "messages": {
+      "updatedSuccess": "فیس په بریالیتوب سره تازه شو",
+      "createdSuccess": "نوی فیس په بریالیتوب سره جوړ شو",
+      "error": "څه غلط شول"
+    }
+  },
+  "AlertFees": {
+    "resource": "فیس",
+    "messages": {
+      "deletedSuccess": "فیس په بریالیتوب سره ړنګ شو",
+      "deleteError": "فیس نه شو ړنګیدلی"
+    }
+  },
+  "fee": {
+    "feeDetails": "د فیس تفصیلات",
+    "studentName": "د محصل نوم",
+    "studentId": "د محصل شمېره",
+    "officePay": "د دفتر فیس",
+    "officePaid": "ورکړل شوی دفتر فیس",
+    "warrantyPay": "د تضمین فیس",
+    "totalFee": "ټول فیس",
+    "createdAt": "جوړ شوی نېټه",
+    "updatedAt": "تازه شوی نېټه",
+    "noFeeData": "د فیس معلومات نشته."
+  },
+  "FeesHeaders": {
+    "columns": {
+      "id": "شمېره",
+      "student": "زدکوونکی",
+      "officePay": "اداري پیسې",
+      "officePaid": "اداري ورکړې پیسې",
+      "warrantyPay": "تضمیني پیسې",
+      "totalFee": "ټول فیس",
+      "actions": "عملیات"
     },
     "complaintsTable": {
       "searchPlaceholder": "شکایتونه لټون وکړئ...",
@@ -378,471 +807,233 @@
         "createdAt": "جوړ شوی نېټه",
         "action": "عمل"
       },
-      "noMatching": "هیڅ شکایتونه ونه موندل شول.",
+      "roomForm": {
+        "roomForm": {
+          "priceIntegerOnly": "بیه باید یوه بشپړه شمېره وي",
+          "occupancyHardLimit": "د اوسېدونکو شمېر نشي کولی له ۸ څخه ډېر وي.",
+          "occupancyMax": "د اوسېدونکو شمېر نشي کولی د خونې له ظرفیت څخه ډېر وي.",
+          "invalidFloorThird": "د ۳۰۱ څخه تر ۳۱۴ خونو شمېر باید په څلورم منزل کې نه وي.",
+          "invalidFloorFourth": "د ۴۰۱ څخه تر ۴۱۴ خونو شمېر باید په دریم منزل کې نه وي.",
+          "selectRoomNumber": "د خونې شمېره وټاکئ",
+          "roomNumber": "د خونې شمېره",
+          "roomNumberMin": "د خونې شمېره باید لږ تر لږه ۳۰۱ وي",
+          "roomNumberMax": "د خونې شمېره نشي کولی له ۳۱۰ زیاته وي",
+          "type": "د خونې ډول",
+          "selectType": "-- ډول انتخاب کړئ --",
+          "4people": "۴ کسیزه",
+          "6people": "۶ کسیزه",
+          "8people": "۸ کسیزه",
+          "capacity": "ظرفیت",
+          "capacityMin": "ظرفیت باید له ۰ څخه کم نه وي",
+          "occupancy": "اوسني اوسېدونکي",
+          "occupancyMin": "اوسېدونکي باید له ۰ څخه کم نه وي",
+          "price": "قیمت",
+          "priceMin": "قیمت باید له ۰ څخه کم نه وي",
+          "status": "وضعیت",
+          "selectStatus": "-- وضعیت انتخاب کړئ --",
+          "available": "شتون لري",
+          "occupied": "بوخت",
+          "floor": "منزل",
+          "selectFloor": "-- منزل انتخاب کړئ --",
+          "third": "دریمه منزله",
+          "fourth": "څلورمه منزله",
+          "create": "نوې خونه جوړه کړئ",
+          "edit": "خونه سمول",
+          "successCreated": "خونه په بریالیتوب سره جوړه شوه",
+          "successUpdated": "خونه په بریالیتوب سره سم شوه"
+        },
+        "form": {
+          "required": "دا برخه لازمي ده",
+          "cancel": "لغوه"
+        },
+        "noMatching": "هیڅ شکایتونه ونه موندل شول.",
+        "pagination": {
+          "pageInfo": "پاڼه {{current}} له {{total}} څخه",
+          "rowsPerPage": "په هر پاڼه کې قطارونه:"
+        }
+      },
       "pagination": {
-        "pageInfo": "پاڼه {{current}} له {{total}} څخه",
-        "rowsPerPage": "په هر پاڼه کې قطارونه:"
-      }
-    },
-    "pagination": {
-      "previousPage": "تېرې پاڼې ته لاړ شه",
-      "nextPage": "راتلونکې پاڼې ته لاړ شه"
-    },
-    "errorLoading": "د شکایتونو د بارولو کې تېروتنه!",
-    "complaintDetails": {
-      "heading": "د شکایت تفصیلات",
-      "noData": "د شکایت په اړه معلومات نشته.",
-      "id": "شناخت",
-      "title": "سرلیک",
-      "description": "تفصیل",
-      "status": "حالت",
-      "student": "محصل",
-      "unknown": "نامعلوم",
-      "createdAt": "د جوړېدو نېټه",
-      "updatedAt": "د تازه کولو نېټه",
-      "resolvedAt": "د حل کولو نېټه",
-      "na": "موجود نه دی"
-    },
-    "libraries": {
-      "title": "کتابتونونه"
-    },
-    "AddLibraries": {
-      "title": "کتابتونونه",
-      "addNew": "نوې کتابتون اضافه کړئ"
-    },
-    "libraryForm": {
-      "fields": {
-        "name": "د کتابتون نوم",
-        "location": "ځای",
-        "contact": "ایمیل آدرس"
+        "previousPage": "تېرې پاڼې ته لاړ شه",
+        "nextPage": "راتلونکې پاڼې ته لاړ شه"
       },
-      "validation": {
-        "nameRequired": "د کتابتون نوم اړین دی",
-        "nameMax": "نوم باید له ۲۵۵ تورو څخه زیات نه وي",
-        "namePattern": "د کتابتون نوم باید توري ولري",
-        "locationRequired": "ځای اړین دی",
-        "locationPattern": "ځای باید توري ولري",
-        "contactPattern": "د اړیکې معلومات باید توري ولري"
-      },
-      "buttons": {
-        "create": "نوی کتابتون جوړ کړئ",
-        "edit": "بدلونونه ثبت کړئ"
-      },
-      "cancel": "لغوه کول",
-      "createSuccess": "نوی کتابتون \"{{name}}\" بریالی جوړ شو",
-      "editSuccess": "کتابتون \"{{name}}\" بریالی تازه شو",
-      "error": "یوه ستونزه رامنځته شوه"
-    },
-    "libraryRow": {
-      "view": "کتنه",
-      "edit": "سمول",
-      "delete": "پاکول",
-      "deleteSuccess": "کتابتون په بریالیتوب سره حذف شو",
-      "deleteError": "د کتابتون حذف کول ناکام شول",
-      "resource": "کتابتون"
-    },
-    "libraryTable": {
-      "searchPlaceholder": "د کتابتونونو لټون...",
-      "name": "نوم",
-      "location": "ځای",
-      "contactInfo": "اړیکه",
-      "action": "عملیات",
-      "noMatching": "هیڅ کتابتون ونه موندل شو.",
-      "errorLoading": "د کتابتونونو د لوډ کولو ستونزه!",
-      "pageInfo": "مخ {{currentPage}} له {{totalPages}}",
-      "rowsPerPage": "کرښې په هر مخ",
-      "previousPage": "تېر مخ",
-      "nextPage": "راتلونکی مخ"
-    },
-    "createComplaintForm": {
-      "title": "سرلیک",
-      "description": "تفصیل",
-      "status": "حالت",
-      "resolvedAt": "حل شوی نېټه (اختیاري)",
-      "cancel": "لغوه کول",
-      "editComplaint": "شکایت سمول",
-      "submitComplaint": "شکایت وړاندې کول",
-      "selectStatus": "-- حالت وټاکئ --",
-      "statusOptions": {
-        "pending": "په تمه",
-        "resolved": "حل شوی",
-        "inProgress": "په پرمختګ کې"
-      },
-      "validation": {
-        "titleRequired": "سرلیک اړین دی",
-        "titleMaxLength": "سرلیک باید د ۲۵۵ کرکټرونو لاندې وي",
-        "descriptionRequired": "تفصیل اړین دی",
-        "descriptionMaxLength": "تفصیل باید د ۱۰۰۰ کرکټرونو لاندې وي",
-        "statusRequired": "حالت اړین دی"
-      },
-      "errorGeneric": "کومه ستونزه رامنځته شوه",
-      "submitSuccess": "شکایت \"{{title}}\" په بریالیتوب سره ثبت شو",
-      "editSuccess": "شکایت \"{{title}}\" په بریالیتوب سره تازه شو"
-    },
-    "libraryDetails": {
-      "heading": "د کتابتون جزیات",
-      "id": "شمېره",
-      "name": "نوم",
-      "location": "ځای",
-      "contactInfo": "د تماس معلومات",
-      "createdAt": "د جوړېدو نېټه",
-      "updatedAt": "وروستی تازه معلومات",
-      "notAvailable": "شته نه ده",
-      "noData": "د کتابتون معلومات نشته."
-    },
-    "addLibraryStudent": {
-      "addButton": "په کتابتون کې نوی زده‌کوونکی اضافه کړئ"
-    },
-    "libraryStudentForm": {
-      "idNumberNonNegative": "د آی ډي نمبر باید منفي عدد نه وي",
-      "name": "نوم",
-      "lastName": "تخلص",
-      "email": "بریښنالیک",
-      "password": "پټ نوم",
-      "address": "پته",
-      "idNumber": "د پېژند شمېره",
-      "academicInfo": "تحصیلي معلومات",
-      "registrationDate": "د ثبت‌نام نیټه",
-      "registrationDeadline": "د ثبت‌نام وروستۍ نیټه",
-      "phone": "د اړیکې شمېره",
-      "gender": "جنس",
-      "membershipStatus": "د غړیتوب حالت",
-      "libraryIdFixed": "د کتابتون ID (ثابت)",
-      "selectGender": "-- جنس غوره کړئ --",
-      "selectStatus": "-- حالت غوره کړئ --",
-      "genderOptions": {
-        "male": "نارینه",
-        "female": "ښځینه",
-        "other": "نور"
-      },
-      "statusOptions": {
-        "active": "فعال",
-        "expired": "ختم شوی"
-      },
-      "addStudent": "زده کوونکی اضافه کړئ",
-      "editStudent": "زده کوونکی سمول",
-      "cancel": "لغو",
-      "createSuccess": "زده کوونکی \"{{name}} {{lastName}}\" بریالی اضافه شو",
-      "updateSuccess": "زده کوونکی \"{{name}} {{lastName}}\" بریالی سم شو",
-      "genericError": "یوه ستونزه پېښه شوې",
-      "validation": {
-        "idNumberNonNegative": "د پېژند شمېره باید منفي نه وي.",
-        "idNumberTaken": "دغه پېژند شمېره له مخکې کارول شوې ده.",
-        "emailTaken": "دا برېښنالیک له مخکې ثبت شوی دی.",
-        "nameRequired": "نوم اړین دی",
-        "lastNameRequired": "تخلص اړین دی",
-        "emailRequired": "بریښنالیک اړین دی",
-        "passwordRequired": "پټ نوم اړین دی",
-        "passwordMin": "لږ تر لږه ۸ توری",
-        "addressRequired": "پته اړینه ده",
-        "idNumberRequired": "د پېژند شمېره اړینه ده",
-        "registrationDateRequired": "د ثبت‌نام نیټه اړینه ده",
-        "phoneRequired": "د اړیکې شمېره اړینه ده",
-        "deadlineRequired": "وروستۍ نیټه اړینه ده",
-        "genderRequired": "جنس اړین دی",
-        "statusRequired": "د غړیتوب حالت اړین دی",
-        "maxLength": "تر ټولو زیات ۲۵۵ توری"
-      }
-    },
-    "libraryStudentRow": {
-      "view": "کتل",
-      "edit": "سمول",
-      "delete": "ړنګول",
-      "resourceName": "زده کوونکی",
-      "deleteSuccess": "زده کوونکی ړنګ شو",
-      "deleteError": "زده کوونکی نه شو ړنګیدای"
-    },
-    "libraryStudentsTable": {
-      "id": "شمېره",
-      "name": "نوم",
-      "email": "بریښنالیک",
-      "phone": "شمېره",
-      "address": "پته",
-      "actions": "عملیات",
-      "searchPlaceholder": "زده کوونکي ولټوئ...",
-      "pageInfo": "پاڼه {{currentPage}} له {{totalPages}} څخه",
-      "rowsPerPage": "په هره پاڼه کې لیکې:",
-      "error": "د زده کوونکو په اخیستو کې ستونزه"
-    },
-    "libraryStudentDetails": {
-      "title": "د کتابتون زده کوونکي جزیات",
-      "id": "شمېره",
-      "libraryId": "د کتابتون شمېره",
-      "fullName": "بشپړ نوم",
-      "email": "بریښنالیک",
-      "phone": "تلیفون",
-      "idNumber": "د پیژند شمېر",
-      "address": "پته",
-      "academicInfo": "اکاډمیک معلومات",
-      "gender": "جنس",
-      "gender_Male": "نارینه",
-      "gender_Female": "ښځینه",
-      "gender_Other": "نور",
-      "status": "د غړیتوب حالت",
-      "status_Active": "فعال",
-      "status_Expired": "تېر شوی",
-      "registrationDate": "د ثبت‌نام نېټه",
-      "registrationDeadline": "د ثبت‌نام وروستۍ نېټه",
-      "createdAt": "جوړ شوی",
-      "updatedAt": "تازه شوی",
-      "noData": "د زده کوونکي معلومات نشته."
-    },
-    "createBookForm": {
-      "libraryId": "کتابتون آی‌دی",
-      "libraryIdRequired": "کتابتون آی‌دی لازمي ده",
-      "title": "سرلیک",
-      "titleRequired": "سرلیک لازمي ده",
-      "titleMaxLength": "سرلیک باید تر ۲۵۵ حروفو کم وي",
-      "author": "لیکوال",
-      "authorRequired": "لیکوال لازمي ده",
-      "authorMaxLength": "لیکوال باید تر ۲۵۵ حروفو کم وي",
-      "publicationYear": "د خپرېدو کال",
-      "publicationYearRequired": "د خپرېدو کال لازمي ده",
-      "publicationYearInvalid": "باید ۴ عدد لرونکی کال وي (YYYY)",
-      "status": "حالت",
-      "statusRequired": "حالت لازمي ده",
-      "statusInvalid": "ناسم حالت",
-      "available": "شتون لري",
-      "borrowed": "پور شوی",
-      "notAvailable": "نه دی شتون لري",
-      "selectStatus": "حالت وټاکئ",
-      "totalCopies": "ټول کاپي‌ګانې",
-      "totalCopiesRequired": "ټول شمېر کاپي‌ګانې لازمي دي",
-      "minCopies": "لږ تر لږه باید ۱ کاپي وي",
-      "cancel": "لغوه",
-      "editBook": "کتاب سمول",
-      "createBook": "نوی کتاب جوړ کړئ",
-      "updateSuccess": "کتاب «{{title}}» په بریالیتوب سره سم شو",
-      "createSuccess": "نوی کتاب «{{title}}» په بریالیتوب سره جوړ شو",
-      "error": "یو څه غلط شول"
-    },
-    "AddBooks": {
-      "addBookButton": "نوی کتاب اضافه کړئ"
-    },
-    "common": {
-      "view": "کتنه",
-      "edit": "سمون",
-      "delete": "ړنګول"
-    },
-    "AlertBooks": {
-      "deletedSuccess": "کتاب په بریالیتوب سره ړنګ شو",
-      "deleteFailed": "کتاب ړنګ نشو"
-    },
-    "status": {
-      "available": "شته",
-      "borrowed": "پور ورکړل شوی"
-    },
-    "booksTable": {
-      "searchPlaceholder": "د کتابونو لټون...",
-      "headers": {
+      "errorLoading": "د شکایتونو د بارولو کې تېروتنه!",
+      "complaintDetails": {
+        "heading": "د شکایت تفصیلات",
+        "noData": "د شکایت په اړه معلومات نشته.",
         "id": "شناخت",
         "title": "سرلیک",
-        "author": "لیکوال",
-        "year": "د خپرېدو کال",
+        "description": "تفصیل",
         "status": "حالت",
-        "action": "عمل"
-      },
-      "noMatch": "هیڅ مناسب کتاب ونه موندل شو.",
-      "pageInfo": "پاڼه {{currentPage}} له {{totalPages}}",
-      "rowsPerPage": "کتارونه په هره پاڼه کې:"
-    },
-    "BookError": "د کتابونو په راوړلو کې تېروتنه!",
-    "bookTable": {
-      "noData": "هیڅ د کتاب معلومات نشته.",
-      "details": {
-        "title": "د کتاب تفصیلات",
-        "totalCopies": "ټولې نسخې",
-        "totalBorrowed": "ټول پور شوي کتابونه",
-        "libraryId": "د کتابتون پېژند شمېر",
+        "student": "محصل",
+        "unknown": "نامعلوم",
         "createdAt": "د جوړېدو نېټه",
-        "updatedAt": "د نوي کولو نېټه",
-        "na": "شتون نه لري"
+        "updatedAt": "د تازه کولو نېټه",
+        "resolvedAt": "د حل کولو نېټه",
+        "na": "موجود نه دی"
       },
-      "headers": {
-        "id": "شمېره",
+      "libraries": {
+        "title": "کتابتونونه"
+      },
+      "libraryRow": {
+        "view": "کتنه",
+        "edit": "سمول",
+        "delete": "پاکول",
+        "deleteSuccess": "کتابتون په بریالیتوب سره حذف شو",
+        "deleteError": "د کتابتون حذف کول ناکام شول",
+        "resource": "کتابتون"
+      },
+      "libraryTable": {
+        "searchPlaceholder": "د کتابتونونو لټون...",
+        "name": "نوم",
+        "location": "ځای",
+        "contactInfo": "اړیکه",
+        "action": "عملیات",
+        "noMatching": "هیڅ کتابتون ونه موندل شو.",
+        "errorLoading": "د کتابتونونو د لوډ کولو ستونزه!",
+        "pageInfo": "مخ {{currentPage}} له {{totalPages}}",
+        "rowsPerPage": "کرښې په هر مخ",
+        "previousPage": "تېر مخ",
+        "nextPage": "راتلونکی مخ"
+      },
+      "createComplaintForm": {
         "title": "سرلیک",
-        "author": "لیکوال",
-        "year": "د خپرېدو کال",
-        "status": "وضعیت"
-      }
-    },
-    "borrowedBook": {
-      "noData": "د پور کتاب معلومات نشته.",
-      "na": "موجود نه دی",
-      "details": {
-        "title": "د پور کتاب تفصیلات"
-      },
-      "fields": {
-        "student": "شاګرد",
-        "id": "پیژند",
-        "bookTitle": "د کتاب سرلیک",
-        "borrowDate": "د پور نیټه",
-        "returnDate": "د راستنیدو نیټه",
+        "description": "تفصیل",
         "status": "حالت",
-        "totalBefore": "د پور اخیستو دمخه ټول کتابونه",
-        "totalAfter": "د پور اخیستو وروسته ټول کتابونه",
-        "totalBorrowed": "ټول پور شوي کتابونه",
-        "createdAt": "جوړ شوی نیټه",
-        "updatedAt": "تازه شوی نیټه"
-      }
-    },
-    "borrowBooks": {
-      "addNew": "نوی پور شوی کتاب اضافه کړئ"
-    },
-    "borrowedBookss": "پورته شوی کتاب",
-    "commons": {
-      "view": "کتل",
-      "edit": "سمول",
-      "delete": "ړنګول"
-    },
-    "AletBorrowedBooks": {
-      "table": {
-        "successDelete": "د پورته شوي کتاب معلومات په بریالیتوب سره ړنګ شول",
-        "errorDelete": "د پورته شوي کتاب معلومات ړنګول پاتې شول"
-      }
-    },
-    "borrowedBooksTable": {
-      "student": "محصل",
-      "book": "کتاب",
-      "borrowDate": "د پور اخیستنې نیټه",
-      "returnDate": "د بیرته ورکولو نیټه",
-      "booksCount": "د کتابونو شمېر",
-      "action": "عمل",
-      "searchPlaceholder": "پور شوي کتابونه وپلټئ...",
-      "noRecords": "هیڅ سمون لرونکی ریکارډ ونه موندل شو.",
-      "pageInfo": "مخ {{currentPage}} له {{totalPages}} څخه",
-      "rowsPerPage": "لیکې په هر مخ:",
-      "error": "د پور شوو کتابونو په ترلاسه کولو کې ستونزه!"
-    },
-    "createBorrowedBookForm": {
-      "selectOption": "یوه گزینه وټاکئ",
-      "studentId": "د زده کوونکي آی‌ډي (اختیاري)",
-      "libraryStudentId": "د کتابتون زده کوونکي آی‌ډي (اختیاري)",
-      "bookId": "د کتاب آی‌ډي",
-      "bookIdRequired": "د کتاب آی‌ډي اړین دی",
-      "borrowDate": "د پور نېټه",
-      "borrowDateRequired": "د پور نېټه اړینه ده",
-      "returnDate": "د بیرته ورکولو نېټه (اختیاري)",
-      "returnDateValidation": "د بیرته ورکولو نېټه باید د پور نېټې نه مخکې نه وي",
-      "status": "حالت",
-      "statusRequired": "حالت لازمي دی",
-      "selectStatus": "حالت انتخاب کړئ",
-      "borrowed": "پور شوی",
-      "returned": "بیرته شوی",
-      "overdue": "ناوخته شوی",
-      "cancel": "لغوه کول",
-      "createButton": "د پور شوی کتاب ثبت کړئ",
-      "editButton": "د پور شوی کتاب سم کړئ",
-      "successCreate": "نوی پور شوی کتاب بریالۍ سره ثبت شو",
-      "successEdit": "پور شوی کتاب بریالۍ سره سم شو",
-      "error": "یو څه ستونزه پېښه شوې"
-    },
-    "fee": {
-      "feeDetails": "د فیس تفصیلات",
-      "studentName": "د محصل نوم",
-      "studentId": "د محصل شمېره",
-      "officePay": "د دفتر فیس",
-      "officePaid": "ورکړل شوی دفتر فیس",
-      "warrantyPay": "د تضمین فیس",
-      "totalFee": "ټول فیس",
-      "createdAt": "جوړ شوی نېټه",
-      "updatedAt": "تازه شوی نېټه",
-      "noFeeData": "د فیس معلومات نشته."
-    },
-    "expense": {
-      "expenseDetails": "د مصرف جزئیات",
-      "noData": "د مصرف هیڅ معلومات شتون نلري.",
-      "id": "شمېره",
-      "type": "ډول",
-      "expenseCash": "نغدي مصرف",
-      "goodsQuantity": "د اجناسو اندازه",
-      "description": "تفصیل",
-      "expenseDate": "د مصرف نېټه",
-      "totalExpense": "ټولیز مصرف",
-      "totalQuantity": "ټوله اندازه",
-      "totalDonations": "ټولې مرستې",
-      "cashBeforeExpense": "نغدي مخکې له مصرفه",
-      "cashBeforeLastExpense": "نغدي مخکې له وروستي مصرفه",
-      "cashAfterLastExpense": "نغدي وروسته له وروستي مصرفه",
-      "createdAt": "جوړ شوی",
-      "updatedAt": "تازه شوی"
-    },
-    "support": {
-      "supportDetails": "د مرستې جزئیات",
-      "noData": "د مرستې هیڅ معلومات شتون نلري.",
-      "id": "شمېره",
-      "type": "ډول",
-      "details": "تفصیل",
-      "goodsQuantity": "د اجناسو اندازه",
-      "cashQuantity": "نغدي اندازه",
-      "helperFullname": "د مرسته کوونکي بشپړ نوم",
-      "helperNumber": "د مرسته کوونکي شمېره",
-      "helperEmail": "د مرسته کوونکي برېښنالیک",
-      "helperDate": "د مرستې نېټه",
-      "totalCashDonated": "ټوله ورکړل شوې نغدي مرسته",
-      "createdAt": "جوړ شوی",
-      "updatedAt": "تازه شوی"
-    },
-    "AddFees": {
-      "addNew": "نوی فیس اضافه کړئ"
-    },
-    "CommonFees": {
-      "cancel": "لغوه کړئ"
-    },
-    "Fees": {
-      "fields": {
-        "studentId": "د زده کوونکي شمېره",
-        "officePay": "دفتر پیسې",
-        "officePaid": "دفتر ورکړل شوي",
-        "warrantyPay": "ضمانت پیسې",
-        "warrantyPaid": "ضمانت ورکړل شوي",
-        "registrationDate": "د ثبت نیټه",
-        "dueDate": "د نیټې نېټه",
-        "paidDateOptional": "د پیسو نیټه (اختیاري)"
+        "resolvedAt": "حل شوی نېټه (اختیاري)",
+        "cancel": "لغوه کول",
+        "editComplaint": "شکایت سمول",
+        "submitComplaint": "شکایت وړاندې کول",
+        "selectStatus": "-- حالت وټاکئ --",
+        "statusOptions": {
+          "pending": "په تمه",
+          "resolved": "حل شوی",
+          "inProgress": "په پرمختګ کې"
+        },
+        "validation": {
+          "titleRequired": "سرلیک اړین دی",
+          "titleMaxLength": "سرلیک باید د ۲۵۵ کرکټرونو لاندې وي",
+          "descriptionRequired": "تفصیل اړین دی",
+          "descriptionMaxLength": "تفصیل باید د ۱۰۰۰ کرکټرونو لاندې وي",
+          "statusRequired": "حالت اړین دی"
+        },
+        "errorGeneric": "کومه ستونزه رامنځته شوه",
+        "submitSuccess": "شکایت \"{{title}}\" په بریالیتوب سره ثبت شو",
+        "editSuccess": "شکایت \"{{title}}\" په بریالیتوب سره تازه شو"
       },
-      "errors": {
-        "paidDateBeforeRegistration": "د تادیې نېټه نشي کېدای د ثبت نېټې نه مخکې وي.",
-        "studentIdRequired": "د زده کوونکي شمېره اړینه ده",
-        "officePayRequired": "د دفتر پیسې اړینې دي",
-        "officePaidRequired": "د دفتر ورکړل شوې پیسې اړینې دي",
-        "warrantyPayRequired": "د تضمین پیسې اړینې دي",
-        "warrantyPaidRequired": "د تضمین ورکړل شوې پیسې اړینې دي",
-        "registrationDateRequired": "د ثبت نیټه اړینه ده",
-        "dueDateRequired": "د تادیې نیټه اړینه ده",
-        "officePaidTooMuch": "د دفتر ورکړل شوې اندازه باید د دفتر پیسو سره مساوي یا کمه وي",
-        "warrantyPaidTooMuch": "د تضمین ورکړل شوې اندازه باید د تضمین پیسو سره مساوي یا کمه وي",
-        "dueDateBeforeRegistration": "د تادیې نیټه باید د ثبت نیټې مخکې نه وي",
-        "officePayMinZero": "د دفتر پیسې له صفر څخه کمې نه شي",
-        "officePaidMinZero": "د دفتر ورکړل شوې پیسې له صفر څخه کمې نه شي",
-        "warrantyPayMinZero": "د تضمین پیسې له صفر څخه کمې نه شي",
-        "warrantyPaidMinZero": "د تضمین ورکړل شوې پیسې له صفر څخه کمې نه شي"
-      },
-      "buttons": {
-        "editFee": "فیس سمول",
-        "createFee": "نوی فیس جوړول"
-      },
-      "messages": {
-        "updatedSuccess": "فیس په بریالیتوب سره تازه شو",
-        "createdSuccess": "نوی فیس په بریالیتوب سره جوړ شو",
-        "error": "څه غلط شول"
-      }
-    },
-    "AlertFees": {
-      "resource": "فیس",
-      "messages": {
-        "deletedSuccess": "فیس په بریالیتوب سره ړنګ شو",
-        "deleteError": "فیس نه شو ړنګیدلی"
-      }
-    },
-    "FeesHeaders": {
-      "columns": {
+      "libraryDetails": {
+        "heading": "د کتابتون جزیات",
         "id": "شمېره",
-        "student": "زدکوونکی",
-        "officePay": "اداري پیسې",
-        "officePaid": "اداري ورکړې پیسې",
-        "warrantyPay": "تضمیني پیسې",
-        "totalFee": "ټول فیس",
-        "actions": "عملیات"
+        "name": "نوم",
+        "location": "ځای",
+        "contactInfo": "د تماس معلومات",
+        "createdAt": "د جوړېدو نېټه",
+        "updatedAt": "وروستی تازه معلومات",
+        "notAvailable": "شته نه ده",
+        "noData": "د کتابتون معلومات نشته."
+      },
+      "common": {
+        "view": "کتنه",
+        "edit": "سمون",
+        "delete": "ړنګول"
+      },
+      "AlertBooks": {
+        "deletedSuccess": "کتاب په بریالیتوب سره ړنګ شو",
+        "deleteFailed": "کتاب ړنګ نشو"
+      },
+      "status": {
+        "available": "شته",
+        "borrowed": "پور ورکړل شوی"
+      },
+      "booksTable": {
+        "searchPlaceholder": "د کتابونو لټون...",
+        "headers": {
+          "id": "شناخت",
+          "title": "سرلیک",
+          "author": "لیکوال",
+          "year": "د خپرېدو کال",
+          "status": "حالت",
+          "action": "عمل"
+        },
+        "noMatch": "هیڅ مناسب کتاب ونه موندل شو.",
+        "pageInfo": "پاڼه {{currentPage}} له {{totalPages}}",
+        "rowsPerPage": "کتارونه په هره پاڼه کې:"
+      },
+      "BookError": "د کتابونو په راوړلو کې تېروتنه!",
+      "bookTable": {
+        "noData": "هیڅ د کتاب معلومات نشته.",
+        "details": {
+          "title": "د کتاب تفصیلات",
+          "totalCopies": "ټولې نسخې",
+          "totalBorrowed": "ټول پور شوي کتابونه",
+          "libraryId": "د کتابتون پېژند شمېر",
+          "createdAt": "د جوړېدو نېټه",
+          "updatedAt": "د نوي کولو نېټه",
+          "na": "شتون نه لري"
+        },
+        "headers": {
+          "id": "شمېره",
+          "title": "سرلیک",
+          "author": "لیکوال",
+          "year": "د خپرېدو کال",
+          "status": "وضعیت"
+        }
+      },
+      "borrowedBook": {
+        "noData": "د پور کتاب معلومات نشته.",
+        "na": "موجود نه دی",
+        "details": {
+          "title": "د پور کتاب تفصیلات"
+        },
+        "fields": {
+          "student": "شاګرد",
+          "id": "پیژند",
+          "bookTitle": "د کتاب سرلیک",
+          "borrowDate": "د پور نیټه",
+          "returnDate": "د راستنیدو نیټه",
+          "status": "حالت",
+          "totalBefore": "د پور اخیستو دمخه ټول کتابونه",
+          "totalAfter": "د پور اخیستو وروسته ټول کتابونه",
+          "totalBorrowed": "ټول پور شوي کتابونه",
+          "createdAt": "جوړ شوی نیټه",
+          "updatedAt": "تازه شوی نیټه"
+        }
+      },
+      "expense": {
+        "expenseDetails": "د مصرف جزئیات",
+        "noData": "د مصرف هیڅ معلومات شتون نلري.",
+        "id": "شمېره",
+        "type": "ډول",
+        "expenseCash": "نغدي مصرف",
+        "goodsQuantity": "د اجناسو اندازه",
+        "description": "تفصیل",
+        "expenseDate": "د مصرف نېټه",
+        "totalExpense": "ټولیز مصرف",
+        "totalQuantity": "ټوله اندازه",
+        "totalDonations": "ټولې مرستې",
+        "cashBeforeExpense": "نغدي مخکې له مصرفه",
+        "cashBeforeLastExpense": "نغدي مخکې له وروستي مصرفه",
+        "cashAfterLastExpense": "نغدي وروسته له وروستي مصرفه",
+        "createdAt": "جوړ شوی",
+        "updatedAt": "تازه شوی"
+      },
+      "support": {
+        "supportDetails": "د مرستې جزئیات",
+        "noData": "د مرستې هیڅ معلومات شتون نلري.",
+        "id": "شمېره",
+        "type": "ډول",
+        "details": "تفصیل",
+        "goodsQuantity": "د اجناسو اندازه",
+        "cashQuantity": "نغدي اندازه",
+        "helperFullname": "د مرسته کوونکي بشپړ نوم",
+        "helperNumber": "د مرسته کوونکي شمېره",
+        "helperEmail": "د مرسته کوونکي برېښنالیک",
+        "helperDate": "د مرستې نېټه",
+        "totalCashDonated": "ټوله ورکړل شوې نغدي مرسته",
+        "createdAt": "جوړ شوی",
+        "updatedAt": "تازه شوی"
+      },
+      "AddFees": {
+        "addNew": "نوی فیس اضافه کړئ"
       },
       "pagination": {
         "pageInfo": "مخ {{currentPage}} له {{totalPages}}",
@@ -853,29 +1044,6 @@
         "noMatch": "هیڅ فیس ونه موندل شو.",
         "loadError": "د فیسونو لوستل کې ستونزه!"
       }
-    },
-    "AddExpenses": {
-      "addNew": "نوی مصرف اضافه کړئ"
-    },
-    "ExpensesForm": {
-      "type": "ډول",
-      "cash": "نغدي",
-      "goods": "توکي",
-      "expenseCash": "د نغدو مصرف",
-      "goodsQuantity": "د توکو مقدار",
-      "description": "تفصیل",
-      "expenseDate": "د مصرف نېټه",
-      "create": "نوی مصرف جوړ کړئ",
-      "edit": "مصرف سم کړئ",
-      "successCreate": "نوی مصرف په بریالیتوب سره ثبت شو",
-      "successUpdate": "مصرف په بریالیتوب سره سم شو",
-      "error": "یو څه غلط شول",
-      "requiredType": "ډول اړین دی",
-      "requiredExpenseCash": "د نغدو مصرف اړین دی",
-      "minExpenseCash": "د لګښت نغدي ارزښت باید له صفر څخه کم نه وي.",
-      "requiredGoodsQuantity": "د توکو مقدار اړین دی",
-      "requiredDescription": "تفصیل اړین دی",
-      "requiredExpenseDate": "د مصرف نېټه اړینه ده"
     },
     "cancel": {
       "cancel": "لغوه"
@@ -904,7 +1072,7 @@
       "errorLoading": "د مصرفونو د لوستلو کې ستونزه!"
     },
     "AddSupports": {
-      "addNewSupport": "افزودن پشتیبانی جدید"
+      "addNewSupport": "نوې ملاتړ اضافه کړئ"
     },
     "SupportsForm": {
       "form": {
@@ -967,78 +1135,6 @@
     "page": "مخ",
     "of": "له",
     "rowsPerPage": "قطارونه په هر مخ کې",
-    "stats": {
-      "allUsers": "ټول کارونکي",
-      "allStudents": "ټول زده‌کوونکي",
-      "allLibraryStudents": "ټول د کتابتون زده‌کوونکي",
-      "totalAssets": "ټول شتمنۍ",
-      "roomOverview": "د خونې کتنه",
-      "complaintsOverview": "د شکایتونو کتنه",
-      "donationsOverview": "د مرستو کتنه",
-      "expensesOverview": "د لګښتونو کتنه",
-      "booksOverview": "د کتابونو کتنه",
-      "feesOverview": "د فیسونو کتنه",
-      "errorLoading": "په بار کې تېروتنه!"
-    },
-    "statsGroup": {
-      "labels": {
-        "open": "خلاص",
-        "closed": "بند",
-        "pending": "منتظر",
-        "approved": "منظور شوی",
-        "rejected": "رد شوی"
-      }
-    },
-    "Dashboard": {
-      "errorLoading": "د بارولو تېروتنه!",
-      "allUsers": "ټول کاروونکي",
-      "allStudents": "ټول زده‌کوونکي",
-      "allLibraryStudents": "کتابتون زده‌کوونکي",
-      "totalAssets": "ټول شتمني",
-      "roomOverview": "د خونې کتنه",
-      "complaintsOverview": "د شکایتونو کتنه",
-      "donationsOverview": "د مرستو کتنه",
-      "expensesOverview": "د لګښتونو کتنه",
-      "booksOverview": "د کتابونو کتنه",
-      "feesOverview": "د فیسونو کتنه",
-      "keys": {
-        "total": "ټول",
-        "available": "شته",
-        "occupied": "اشغال شوی",
-        "utilization_rate_percent": "د استعمال کچه (%)",
-        "pending": "منتظر",
-        "in_progress": "په جریان کې",
-        "resolved": "حل شوی",
-        "total_cash_donated": "ټول نغدي مرسته",
-        "total_goods_quantity": "ټول توکي",
-        "total_cash_donated_cumulative": "ټولیز نغدي مرسته",
-        "latest_donation_date": "وروستۍ د مرستې نیټه",
-        "latest_expense_date": "وروستۍ د لګښت نیټه",
-        "total_office_paid": "اداري فیس تادیه شوی",
-        "total_warranty_paid": "د ضمانت فیس تادیه شوی",
-        "borrowed": "پور اخیستل شوی",
-        "overdue": "ناوخته"
-      }
-    },
-    "dashboard1": {
-      "title": "ډاشبورډ",
-      "loginSuccess": "بریالی ننوت!"
-    },
-    "today": {
-      "title": "نن",
-      "studentsCheckedIn": "۴ محصلین داخل شول",
-      "roomsCheckedIn": "خونې ۳۰۱، ۳۰۲، ۳۰۳، ۳۰۵",
-      "newComplaints": "۲ نوې شکایتونه",
-      "complaintDetail": "په ۲۰۱ خونې کې نل خراب دی",
-      "feesPaid": "۳ فیسونه ورکړل شول",
-      "totalPaid": "ټول: $۴۵۰",
-      "supportResolved": "۱ مرسته حل شوه",
-      "supportDetail": "دروازه په دریم منزل کې ترمیم شوه",
-      "studentsCheckedOut": "۲ محصلین خارج شول",
-      "roomsCheckedOut": "خونه ۳۰۱ او ۳۰۸",
-      "complaintClosed": "۱ شکایت بند شو",
-      "complaintResolvedDetail": "د اوبو ستونزه په لومړي منزل کې حل شوه"
-    },
     "durationChart": {
       "title": "د پاتې کېدو موده خلاصه",
       "noData": "د پاتې کېدو د مودې کوم معلومات نشته.",
@@ -1136,9 +1232,6 @@
     "genders": {
       "male": "نارینه",
       "female": "ښځه"
-    },
-    "AddAssets": {
-      "addNew": "نوې شتمني زیات کړئ"
     },
     "assetsAlert": {
       "asset": "شتمني",
@@ -1350,6 +1443,29 @@
       "library_admin": "د کتابتون مدیر",
       "library_student": "د کتابتون محصل"
     }
+  },
+  "ExpensesForm": {
+    "type": "ډول",
+    "cash": "نغدي",
+    "goods": "توکي",
+    "expenseCash": "د نغدو مصرف",
+    "goodsQuantity": "د توکو مقدار",
+    "description": "تفصیل",
+    "expenseDate": "د مصرف نېټه",
+    "create": "نوی مصرف جوړ کړئ",
+    "edit": "مصرف سم کړئ",
+    "successCreate": "نوی مصرف په بریالیتوب سره ثبت شو",
+    "successUpdate": "مصرف په بریالیتوب سره سم شو",
+    "error": "یو څه غلط شول",
+    "requiredType": "ډول اړین دی",
+    "requiredExpenseCash": "د نغدو مصرف اړین دی",
+    "minExpenseCash": "د لګښت نغدي ارزښت باید له صفر څخه کم نه وي.",
+    "requiredGoodsQuantity": "د توکو مقدار اړین دی",
+    "requiredDescription": "تفصیل اړین دی",
+    "requiredExpenseDate": "د مصرف نېټه اړینه ده"
+  },
+  "AddExpenses": {
+    "addNew": "نوی مصرف اضافه کړئ"
   },
   "priceIntegerOnly": "قیمت باید یک عدد صحیح باشد",
   "title": "زموږ د لیلیې په اړه",

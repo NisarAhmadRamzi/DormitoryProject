@@ -1,4 +1,17 @@
 {
+  "roomDetails": {
+    "title": "جزئیات اتاق",
+    "id": "شناسه",
+    "number": "شماره اتاق",
+    "type": "نوع",
+    "capacity": "گنجایش",
+    "occupancy": "تعداد ساکنان",
+    "status": "وضعیت",
+    "floor": "طبقه",
+    "price": "قیمت",
+    "created": "ایجاد شده",
+    "updated": "به‌روزرسانی شده"
+  },
   "userProfile": "پروفایل کاربر",
   "id": "شناسه",
   "name": "نام",
@@ -343,19 +356,7 @@
     "required": "این فیلد الزامی است",
     "cancel": "لغو"
   },
-  "roomDetails": {
-    "title": "جزئیات اتاق",
-    "id": "شناسه",
-    "number": "شماره اتاق",
-    "type": "نوع",
-    "capacity": "گنجایش",
-    "occupancy": "تعداد ساکنان",
-    "status": "وضعیت",
-    "floor": "طبقه",
-    "price": "قیمت",
-    "created": "ایجاد شده",
-    "updated": "به‌روزرسانی شده"
-  },
+
   "AddComplaints": {
     "addNew": "شکایت جدید اضافه کنید"
   },
@@ -900,7 +901,7 @@
     "errorLoading": "خطا در بارگذاری مصرف‌ها!"
   },
   "AddSupports": {
-    "addNewSupport": "نوې ملاتړ اضافه کړئ"
+    "addNewSupport": "افزودن پشتیبانی جدید"
   },
   "SupportsForm": {
     "form": {

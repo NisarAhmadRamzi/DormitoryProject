@@ -26,7 +26,7 @@ function Dashboard() {
           width: '100%',
         }}
       >
-        <Heading as="h1">{t('dashboard1.title')}</Heading>
+        <Heading as="h1">{t('dashboard')}</Heading>
         {/* <DashboardFilter /> */}
       </Row>
       <Row>
