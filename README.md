@@ -21,7 +21,9 @@ It includes features such as user authentication, room management, library manag
 - **Frontend:** React with React Router, React Query, and other modern React libraries  
 - **Authentication:** Laravel Sanctum for API token authentication  
 - **Database:** MySQL (or your preferred relational database)  
-- **API:** RESTful API routes protected with middleware
+- **API:** RESTful API routes protected with middleware  
+
+*For API testing during development, Postman was used to verify backend endpoints.*
 
 ---
 
@@ -32,7 +34,6 @@ It includes features such as user authentication, room management, library manag
 - Manage rooms, students, users, books, library students, fees, complaints, expenses, and assets  
 - Dashboard with statistics for different user roles  
 - CRUD operations with React Query for efficient state and data management  
-- Responsive UI and modals for user-friendly interactions
 
 ---
 
